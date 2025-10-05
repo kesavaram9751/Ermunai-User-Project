@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout – Ermunai Organic Farm Foods</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9faf6;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media(max-width: 800px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-section,
+        .summary-section {
+            background: white;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .form-section h2,
+        .summary-section h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #2f6f31;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .summary-section .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-section .cart-item span {
+            font-size: 16px;
+        }
+
+        .summary-section .totals {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .totals .line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .totals .line.total {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .btn-pay {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #2f6f31;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn-pay:hover {
+            background: #244021;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Checkout</h1>
+    <div class="container">
+        <!-- Left: Billing / Shipping Details Form -->
+        <div class="form-section">
+            <h2>Your Details</h2>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label for="name">Full Name*</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number*</label>
+                    <input type="tel" id="phone" name="phone" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address*</label>
+                    <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="pin">Pin Code*</label>
+                    <input type="text" id="pin" name="pin" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City*</label>
+                    <input type="text" id="city" name="city" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="state">State / Province*</label>
+                    <input type="text" id="state" name="state" required />
+                </div>
+
+                <!-- you can add more fields as needed -->
+            </form>
+        </div>
+
+        <!-- Right: Order Summary and Payment -->
+        <div class="summary-section">
+            <h2>Order Summary</h2>
+            <div id="itemsList">
+                <!-- JS will populate cart items here -->
+            </div>
+
+            <div class="totals">
+                <div class="line">
+                    <span>Subtotal</span>
+                    <span id="subtotalAmt">₹0</span>
+                </div>
+                <div class="line">
+                    <span>Shipping</span>
+                    <span id="shippingAmt">₹0</span>
+                </div>
+                <div class="line total">
+                    <span>Total</span>
+                    <span id="totalAmt">₹0</span>
+                </div>
+            </div>
+
+            <button id="btnPay" class="btn-pay">Pay Now</button>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Load cart from localStorage
+        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const itemsDiv = document.getElementById("itemsList");
+        const subtotalEl = document.getElementById("subtotalAmt");
+        const shippingEl = document.getElementById("shippingAmt");
+        const totalEl = document.getElementById("totalAmt");
+        const btnPay = document.getElementById("btnPay");
+        const pinInput = document.getElementById("pin");
+        const form = document.getElementById("checkoutForm");
+
+        function renderCart() {
+            itemsDiv.innerHTML = "";
+            let subtotal = 0;
+            cart.forEach(item => {
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "cart-item";
+                const nameSpan = document.createElement("span");
+                nameSpan.textContent = item.name + " × " + item.qty;
+                const priceSpan = document.createElement("span");
+                priceSpan.textContent = "₹" + (item.price * item.qty).toFixed(2);
+                itemDiv.append(nameSpan, priceSpan);
+                itemsDiv.appendChild(itemDiv);
+                subtotal += (item.price * item.qty);
+            });
+            subtotalEl.textContent = "₹" + subtotal.toFixed(2);
+            return subtotal;
+        }
+
+        function computeShipping(pin) {
+            // Simple example: you can define shipping logic based on pin code
+            // e.g. if pin starts with certain digits, different rate
+            if (!pin) return 0;
+            pin = pin.trim();
+            // Example rules:
+            if (/^6/.test(pin)) {
+                return 50;  // e.g. pins starting with "6" cost ₹50
+            } else if (/^5/.test(pin)) {
+                return 70;
+            } else {
+                return 100; // default shipping
+            }
+        }
+
+        function computeTotal(subtotal, shipping) {
+            return subtotal + shipping;
+        }
+
+        // Initialize display
+        let subtotal = renderCart();
+        let shipping = 0;
+        shippingEl.textContent = "₹" + shipping.toFixed(2);
+        totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
+
+        // update shipping + total when pin code changes
+        pinInput.addEventListener("blur", () => {
+            const pin = pinInput.value;
+            shipping = computeShipping(pin);
+            shippingEl.textContent = "₹" + shipping.toFixed(2);
+            totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
+        });
+
+        btnPay.addEventListener("click", (e) => {
+            e.preventDefault();
+            // check form validity
+            if (!form.checkValidity()) {
+                alert("Please fill all required details.");
+                return;
+            }
+            // Gather form data
+            const formData = {
+                name: form.name.value,
+                phone: form.phone.value,
+                address: form.address.value,
+                pin: form.pin.value,
+                city: form.city.value,
+                state: form.state.value
+            };
+            // Order info
+            const order = {
+                items: cart,
+                subtotal: subtotal,
+                shipping: shipping,
+                total: computeTotal(subtotal, shipping),
+                customer: formData
+            };
+
+            // Save order somewhere (localstorage / send to backend) if needed
+            localStorage.setItem("checkoutOrder", JSON.stringify(order));
+
+            // Redirect to Razorpay or trigger Razorpay flow here
+            // Example: window.location.href = "payment.html";
+            // Or integrate Razorpay here
+
+            // For demonstration:
+            alert("Proceeding to payment with total ₹" + order.total.toFixed(2));
+            // TODO: integrate Razorpay payment API here
+
+
+            var options = {
+                "key": "rzp_test_1a2b3c4d5e6f7g", // Test or Live key
+                "amount": "50000", // 500 = ₹5.00
+                "currency": "INR",
+                "name": "Your Website Name",
+                "description": "Test Transaction",
+                "image": "https://yourlogo.com/logo.png",
+                "handler": function (response) {
+                    alert("Payment ID: " + response.razorpay_payment_id);
+                },
+                "prefill": {
+                    "name": "Customer Name",
+                    "email": "customer@email.com",
+                    "contact": "9999999999"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            document.getElementById('btnPay').onclick = function (e) {
+                rzp1.open();
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+
+</html>
