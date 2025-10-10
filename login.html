@@ -127,10 +127,6 @@
 
   <!-- Page logic -->
   <script type="module">
-    // // After successful login
-    // localStorage.setItem("user", "Kesavaram");
-    // window.location.href = "index.html";
-
     // Firebase v9 modular imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged }
@@ -151,13 +147,13 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // If already logged in, go to home
+    const form = document.getElementById('loginForm');
+    const msg = document.getElementById('msg');
+
+    // Redirect if already logged in
     onAuthStateChanged(auth, (user) => {
       if (user) window.location.href = "index.html";
     });
-
-    const form = document.getElementById('loginForm');
-    const msg = document.getElementById('msg');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -166,7 +162,9 @@
       const password = document.getElementById('password').value;
 
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        // Save user to localStorage
+        localStorage.setItem("user", userCredential.user.email);
         window.location.href = "index.html";
       } catch (err) {
         msg.textContent = err.message;
@@ -174,6 +172,7 @@
       }
     });
   </script>
+
 
 </body>
 

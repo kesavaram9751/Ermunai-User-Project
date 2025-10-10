@@ -221,38 +221,7 @@
       color: green;
     }
 
-    /* Buttons */
-    .btn-login,
-    .btn-signup {
-      padding: 8px 16px;
-      font-size: 14px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-    }
 
-    .btn-login {
-      background: transparent;
-      border: 2px solid green;
-      color: green;
-    }
-
-    .btn-login:hover {
-      background: green;
-      color: white;
-    }
-
-    .btn-signup {
-      background: green;
-      border: 2px solid green;
-      color: white;
-    }
-
-    .btn-signup:hover {
-      background: #244021;
-      border-color: #244021;
-    }
 
 
     /* ✅ Banner */
@@ -914,40 +883,49 @@
       nav.classList.remove("active");
     });
 
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-    // ✅ Check login status on page load
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+      projectId: "ermunai-e-commerce-project",
+      storageBucket: "ermunai-e-commerce-project.appspot.com",
+      messagingSenderId: "365240050790",
+      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
+      measurementId: "G-CZJZ4HLCMR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
     document.addEventListener("DOMContentLoaded", () => {
-      const user = localStorage.getItem("user"); // Example: "Kesavaram"
+      const user = localStorage.getItem("user"); // email string
       const loginBtn = document.querySelector(".btn-login");
       const signupBtn = document.querySelector(".btn-signup");
       const profile = document.querySelector(".profile");
       const username = document.querySelector(".username");
+      const logoutBtn = document.querySelector(".btn-logout");
 
       if (user) {
         // Hide login/signup, show profile
         loginBtn.style.display = "none";
         signupBtn.style.display = "none";
         profile.style.display = "flex";
-        username.textContent = user;
+        username.textContent = user; // or extract name if stored as object
       } else {
-        // Show login/signup, hide profile
         loginBtn.style.display = "inline-block";
         signupBtn.style.display = "inline-block";
         profile.style.display = "none";
       }
 
-      // Optional: Logout on profile click
-      const logoutBtn = document.querySelector(".btn-logout");
-
-      logoutBtn.addEventListener("click", () => {
+      logoutBtn.addEventListener("click", async () => {
         if (confirm("Do you want to log out?")) {
           localStorage.removeItem("user");
+          await signOut(auth); // Firebase sign out
           location.reload();
         }
       });
-
-
-
     });
 
 
