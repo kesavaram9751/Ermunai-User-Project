@@ -163,6 +163,35 @@
       }
     }
 
+    /* Hide username on mobile */
+    @media (max-width: 768px) {
+      .profile .username {
+        display: none;
+        position: absolute;
+        top: -30px;
+        /* adjust to hover position */
+        left: 50%;
+        transform: translateX(-50%);
+        background: green;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 14px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 2000;
+      }
+
+      /* Show username on hover */
+      .profile:hover .username {
+        display: block;
+        opacity: 1;
+      }
+    }
+
+
 
     /* ---------- Mobile Styles ---------- */
     @media (max-width: 900px) {
@@ -662,11 +691,12 @@
       <a href="signup.html" class="btn-signup">Sign Up</a>
 
       <!-- Profile (hidden initially) -->
-      <div class="profile" style="display: none;">
+      <div class="profile" style="display: none; position: relative;">
         <i class="fa-solid fa-user"></i>
         <span class="username"></span>
         <button class="btn-logout">Logout</button>
       </div>
+
 
 
       <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
@@ -868,7 +898,7 @@
 
 
   <!-- ✅ Script for Auto + Manual Slider -->
-  <script>
+  <script type="module">
 
     //responsive header
     const hamburger = document.querySelector(".hamburger");
@@ -884,7 +914,7 @@
     });
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
@@ -900,29 +930,33 @@
     const auth = getAuth(app);
 
     document.addEventListener("DOMContentLoaded", () => {
-      const user = localStorage.getItem("user"); // email string
       const loginBtn = document.querySelector(".btn-login");
       const signupBtn = document.querySelector(".btn-signup");
       const profile = document.querySelector(".profile");
       const username = document.querySelector(".username");
       const logoutBtn = document.querySelector(".btn-logout");
 
-      if (user) {
-        // Hide login/signup, show profile
-        loginBtn.style.display = "none";
-        signupBtn.style.display = "none";
-        profile.style.display = "flex";
-        username.textContent = user; // or extract name if stored as object
-      } else {
-        loginBtn.style.display = "inline-block";
-        signupBtn.style.display = "inline-block";
-        profile.style.display = "none";
-      }
+      // Listen to Firebase Auth state
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is logged in
+          loginBtn.style.display = "none";
+          signupBtn.style.display = "none";
+          profile.style.display = "flex";
+          username.textContent = user.email; // show email or displayName
+          localStorage.setItem("user", user.email); // optional
+        } else {
+          // No user is logged in
+          loginBtn.style.display = "inline-block";
+          signupBtn.style.display = "inline-block";
+          profile.style.display = "none";
+          localStorage.removeItem("user");
+        }
+      });
 
       logoutBtn.addEventListener("click", async () => {
         if (confirm("Do you want to log out?")) {
-          localStorage.removeItem("user");
-          await signOut(auth); // Firebase sign out
+          await signOut(auth);
           location.reload();
         }
       });

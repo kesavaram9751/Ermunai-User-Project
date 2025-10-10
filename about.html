@@ -156,6 +156,35 @@
       color: white;
     }
 
+    /* Hide username on mobile */
+    @media (max-width: 768px) {
+      .profile .username {
+        display: none;
+        position: absolute;
+        top: -30px;
+        /* adjust to hover position */
+        left: 50%;
+        transform: translateX(-50%);
+        background: green;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 14px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 2000;
+      }
+
+      /* Show username on hover */
+      .profile:hover .username {
+        display: block;
+        opacity: 1;
+      }
+    }
+
+
 
 
     @media (max-width: 900px) {
@@ -587,11 +616,12 @@
       <a href="signup.html" class="btn-signup">Sign Up</a>
 
       <!-- Profile (hidden initially) -->
-      <div class="profile" style="display: none;">
+      <div class="profile" style="display: none; position: relative;">
         <i class="fa-solid fa-user"></i>
         <span class="username"></span>
         <button class="btn-logout">Logout</button>
       </div>
+
 
 
       <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
@@ -776,12 +806,12 @@
       // Optional: Logout on profile click
       const logoutBtn = document.querySelector(".btn-logout");
 
-logoutBtn.addEventListener("click", () => {
-  if (confirm("Do you want to log out?")) {
-    localStorage.removeItem("user");
-    location.reload();
-  }
-});
+      logoutBtn.addEventListener("click", () => {
+        if (confirm("Do you want to log out?")) {
+          localStorage.removeItem("user");
+          location.reload();
+        }
+      });
 
     });
 
