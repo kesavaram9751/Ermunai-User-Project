@@ -2,25 +2,25 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Purchases</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Purchases</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
 
-        /* ---------- Header ---------- */
+    /* ---------- Header ---------- */
     header {
       display: flex;
       justify-content: space-between;
@@ -113,6 +113,54 @@
       color: green;
     }
 
+    .close-menu {
+      display: none;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: green;
+      cursor: pointer;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: green;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .profile i {
+      font-size: 20px;
+    }
+    .btn-logout {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: 2px solid crimson;
+  background: transparent;
+  color: crimson;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-logout:hover {
+  background: crimson;
+  color: white;
+}
+
+
+
+    @media (max-width: 900px) {
+      .close-menu {
+        display: block;
+      }
+    }
+
+
     /* ---------- Mobile Styles ---------- */
     @media (max-width: 900px) {
       header {
@@ -203,79 +251,80 @@
       border-color: #244021;
     }
 
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 20px;
-        }
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 20px;
+    }
 
-        h1 {
-            text-align: center;
-            color: green;
-            margin-bottom: 30px;
-        }
+    h1 {
+      text-align: center;
+      color: green;
+      margin-bottom: 30px;
+    }
 
-        .orders {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
+    .orders {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
 
-        .order-card {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            transition: 0.3s;
-        }
+    .order-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+    }
 
-        .order-card:hover {
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
+    .order-card:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
 
-        .order-card img {
-            width: 100%;
-            border-radius: 8px;
-        }
+    .order-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
 
-        .order-details {
-            margin-top: 15px;
-        }
+    .order-details {
+      margin-top: 15px;
+    }
 
-        .order-details h3 {
-            color: #333;
-            margin: 5px 0;
-        }
+    .order-details h3 {
+      color: #333;
+      margin: 5px 0;
+    }
 
-        .price {
-            color: green;
-            font-weight: bold;
-        }
+    .price {
+      color: green;
+      font-weight: bold;
+    }
 
-        .status {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-size: 14px;
-            margin-top: 5px;
-        }
+    .status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 14px;
+      margin-top: 5px;
+    }
 
-        .status.pending {
-            background: #fff3cd;
-            color: #856404;
-        }
+    .status.pending {
+      background: #fff3cd;
+      color: #856404;
+    }
 
-        .status.shipped {
-            background: #cce5ff;
-            color: #004085;
-        }
+    .status.shipped {
+      background: #cce5ff;
+      color: #004085;
+    }
 
-        .status.delivered {
-            background: #d4edda;
-            color: #155724;
-        }
-        /* ✅ Footer */
+    .status.delivered {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    /* ✅ Footer */
     footer {
       background: green;
       color: white;
@@ -337,7 +386,7 @@
       padding-top: 10px;
     }
 
-        
+
     /* Responsive */
     @media (max-width: 768px) {
       header nav ul {
@@ -351,19 +400,19 @@
     }
 
     @media (max-width: 480px) {
-      header {
-        flex-direction: column;
+      header .logo img {
+        margin-right: 0px;
       }
 
-      header .logo img {
-        height: 30px;
+      header .logo span {
+        display: none;
       }
     }
-    </style>
+  </style>
 </head>
 
 <body>
-        <!-- ✅ Header -->
+  <!-- ✅ Header -->
   <header>
     <div class="logo">
       <img src="./images/logo.jpg" alt="Logo">
@@ -372,32 +421,46 @@
 
     <!-- Navigation -->
     <nav>
+      <div class="close-menu"><i class="fa-solid fa-times"></i></div>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html" >Shop</a></li>
-        <li><a href="purchase.html" class="active">Purchases</a></li> <!-- ✅ New Item -->
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="purchase.html" class="active">Purchases</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
 
+
     <!-- Right side -->
     <div class="header-right">
       <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
+
+      <!-- Buttons (default) -->
       <a href="login.html" class="btn-login">Login</a>
       <a href="signup.html" class="btn-signup">Sign Up</a>
+
+      <!-- Profile (hidden initially) -->
+      <div class="profile" style="display: none;">
+  <i class="fa-solid fa-user"></i>
+  <span class="username"></span>
+  <button class="btn-logout">Logout</button>
+</div>
+
+
       <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
     </div>
+
   </header>
 
-    <div class="container">
-        <h1>My Recent Purchases</h1>
-        <div class="orders" id="ordersList">
-            <!-- Orders will load here -->
-        </div>
+  <div class="container">
+    <h1>My Recent Purchases</h1>
+    <div class="orders" id="ordersList">
+      <!-- Orders will load here -->
     </div>
+  </div>
 
-     <!-- ✅ Footer -->
+  <!-- ✅ Footer -->
   <footer>
     <div class="footer-container">
       <div class="footer-section about">
@@ -456,48 +519,96 @@
     </div>
   </footer>
 
-    <script>
-        // 🔹 Replace this URL with your real API endpoint later
-        const API_URL = '/api/orders?userId=123'; // example: backend returns JSON
+  <script>
+    //header
+    const hamburger = document.querySelector(".hamburger");
+    const nav = document.querySelector("header nav");
+    const closeMenu = document.querySelector(".close-menu");
 
-        async function loadOrders() {
-            try {
-                // Example demo data (remove when connected to backend)
-                const demoData = [
-                    {
-                        id: "ORD1234",
-                        product: "Saamai Pongal Mix",
-                        image: "images/pongal.jpg",
-                        price: 135,
-                        quantity: 2,
-                        status: "pending",
-                        date: "2025-09-14"
-                    },
-                    {
-                        id: "ORD5678",
-                        product: "Red Chola Rava Dosai Mix",
-                        image: "images/dosai.jpg",
-                        price: 120,
-                        quantity: 1,
-                        status: "delivered",
-                        date: "2025-09-12"
-                    }
-                ];
+    hamburger.addEventListener("click", () => {
+      nav.classList.add("active");
+    });
 
-                // Uncomment when API is ready:
-                // const res = await fetch(API_URL);
-                // const demoData = await res.json();
+    closeMenu.addEventListener("click", () => {
+      nav.classList.remove("active");
+    });
 
-                const container = document.getElementById("ordersList");
-                if (demoData.length === 0) {
-                    container.innerHTML = "<p>No purchases found.</p>";
-                    return;
-                }
 
-                demoData.forEach(order => {
-                    const card = document.createElement("div");
-                    card.className = "order-card";
-                    card.innerHTML = `
+    // ✅ Check login status on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = localStorage.getItem("user"); // Example: "Kesavaram"
+      const loginBtn = document.querySelector(".btn-login");
+      const signupBtn = document.querySelector(".btn-signup");
+      const profile = document.querySelector(".profile");
+      const username = document.querySelector(".username");
+
+      if (user) {
+        // Hide login/signup, show profile
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        profile.style.display = "flex";
+        username.textContent = user;
+      } else {
+        // Show login/signup, hide profile
+        loginBtn.style.display = "inline-block";
+        signupBtn.style.display = "inline-block";
+        profile.style.display = "none";
+      }
+
+      // Optional: Logout on profile click
+      const logoutBtn = document.querySelector(".btn-logout");
+
+logoutBtn.addEventListener("click", () => {
+  if (confirm("Do you want to log out?")) {
+    localStorage.removeItem("user");
+    location.reload();
+  }
+});
+
+    });
+
+
+    // 🔹 Replace this URL with your real API endpoint later
+    const API_URL = '/api/orders?userId=123'; // example: backend returns JSON
+
+    async function loadOrders() {
+      try {
+        // Example demo data (remove when connected to backend)
+        const demoData = [
+          {
+            id: "ORD1234",
+            product: "Saamai Pongal Mix",
+            image: "images/pongal.jpg",
+            price: 135,
+            quantity: 2,
+            status: "pending",
+            date: "2025-09-14"
+          },
+          {
+            id: "ORD5678",
+            product: "Red Chola Rava Dosai Mix",
+            image: "images/dosai.jpg",
+            price: 120,
+            quantity: 1,
+            status: "delivered",
+            date: "2025-09-12"
+          }
+        ];
+
+        // Uncomment when API is ready:
+        // const res = await fetch(API_URL);
+        // const demoData = await res.json();
+
+        const container = document.getElementById("ordersList");
+        if (demoData.length === 0) {
+          container.innerHTML = "<p>No purchases found.</p>";
+          return;
+        }
+
+        demoData.forEach(order => {
+          const card = document.createElement("div");
+          card.className = "order-card";
+          card.innerHTML = `
             <img src="${order.image}" alt="${order.product}">
             <div class="order-details">
               <h3>${order.product}</h3>
@@ -508,15 +619,15 @@
               <span class="status ${order.status}">${order.status}</span>
             </div>
           `;
-                    container.appendChild(card);
-                });
-            } catch (error) {
-                console.error("Error loading orders", error);
-            }
-        }
+          container.appendChild(card);
+        });
+      } catch (error) {
+        console.error("Error loading orders", error);
+      }
+    }
 
-        loadOrders();
-    </script>
+    loadOrders();
+  </script>
 </body>
 
 </html>

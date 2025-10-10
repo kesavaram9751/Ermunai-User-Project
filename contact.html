@@ -114,6 +114,54 @@
       color: green;
     }
 
+    .close-menu {
+      display: none;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: green;
+      cursor: pointer;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: green;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .profile i {
+      font-size: 20px;
+    }
+    .btn-logout {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: 2px solid crimson;
+  background: transparent;
+  color: crimson;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-logout:hover {
+  background: crimson;
+  color: white;
+}
+
+
+
+    @media (max-width: 900px) {
+      .close-menu {
+        display: block;
+      }
+    }
+
+
     /* ---------- Mobile Styles ---------- */
     @media (max-width: 900px) {
       header {
@@ -340,7 +388,7 @@
     }
 
 
-     /* ✅ Footer */
+    /* ✅ Footer */
     footer {
       background: green;
       color: white;
@@ -405,8 +453,28 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+      header nav ul {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      header nav ul li {
+        margin: 10px 0;
+      }
+
       .contact-container {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+
+      header .logo img {
+        margin-right: 0px;
+      }
+
+      header .logo span {
+        display: none;
       }
     }
   </style>
@@ -423,22 +491,36 @@
 
     <!-- Navigation -->
     <nav>
+      <div class="close-menu"><i class="fa-solid fa-times"></i></div>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html" >Shop</a></li>
-        <li><a href="purchase.html">Purchases</a></li> <!-- ✅ New Item -->
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="purchase.html">Purchases</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html" class="active">Contact</a></li>
       </ul>
     </nav>
 
+
     <!-- Right side -->
     <div class="header-right">
       <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
+
+      <!-- Buttons (default) -->
       <a href="login.html" class="btn-login">Login</a>
       <a href="signup.html" class="btn-signup">Sign Up</a>
+
+      <!-- Profile (hidden initially) -->
+      <div class="profile" style="display: none;">
+  <i class="fa-solid fa-user"></i>
+  <span class="username"></span>
+  <button class="btn-logout">Logout</button>
+</div>
+
+
       <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
     </div>
+
   </header>
 
   <!-- Hero Section -->
@@ -494,7 +576,8 @@
         </div>
         <div class="form-group"><input type="text" placeholder="Subject"></div>
         <div class="form-group"><textarea placeholder="Message"></textarea></div>
-        <button onclick="window.open('https:/wa.me/919841231996', '_blank')" type="submit" class="send-btn">Send Message</button>
+        <button onclick="window.open('https:/wa.me/919841231996', '_blank')" type="submit" class="send-btn">Send
+          Message</button>
       </form>
       <p class="note">We’ll get back to you within 24 hours!</p>
     </div>
@@ -558,6 +641,55 @@
       <p>© 2024 Ermunai Organic Farm Foods. All rights reserved.</p>
     </div>
   </footer>
+  <script>
+    //header
+    const hamburger = document.querySelector(".hamburger");
+    const nav = document.querySelector("header nav");
+    const closeMenu = document.querySelector(".close-menu");
+
+    hamburger.addEventListener("click", () => {
+      nav.classList.add("active");
+    });
+
+    closeMenu.addEventListener("click", () => {
+      nav.classList.remove("active");
+    });
+
+    // ✅ Check login status on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = localStorage.getItem("user"); // Example: "Kesavaram"
+      const loginBtn = document.querySelector(".btn-login");
+      const signupBtn = document.querySelector(".btn-signup");
+      const profile = document.querySelector(".profile");
+      const username = document.querySelector(".username");
+
+      if (user) {
+        // Hide login/signup, show profile
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        profile.style.display = "flex";
+        username.textContent = user;
+      } else {
+        // Show login/signup, hide profile
+        loginBtn.style.display = "inline-block";
+        signupBtn.style.display = "inline-block";
+        profile.style.display = "none";
+      }
+
+      // Optional: Logout on profile click
+      const logoutBtn = document.querySelector(".btn-logout");
+
+logoutBtn.addEventListener("click", () => {
+  if (confirm("Do you want to log out?")) {
+    localStorage.removeItem("user");
+    location.reload();
+  }
+});
+
+    });
+
+
+  </script>
 
 </body>
 

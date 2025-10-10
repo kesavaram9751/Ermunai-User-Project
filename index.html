@@ -115,6 +115,55 @@
       color: green;
     }
 
+    .close-menu {
+      display: none;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: green;
+      cursor: pointer;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: green;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .profile i {
+      font-size: 20px;
+    }
+
+    .btn-logout {
+      margin-left: 10px;
+      padding: 6px 12px;
+      border: 2px solid crimson;
+      background: transparent;
+      color: crimson;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-logout:hover {
+      background: crimson;
+      color: white;
+    }
+
+
+
+    @media (max-width: 900px) {
+      .close-menu {
+        display: block;
+      }
+    }
+
+
     /* ---------- Mobile Styles ---------- */
     @media (max-width: 900px) {
       header {
@@ -267,6 +316,7 @@
       left: 50%;
       transform: translateX(-50%);
       display: flex;
+      justify-content: center;
       gap: 15px;
     }
 
@@ -280,6 +330,7 @@
       position: relative;
       overflow: hidden;
     }
+
     .banner-buttons .btn a {
       text-decoration: none;
     }
@@ -287,7 +338,8 @@
     .banner-buttons .shop {
       background: green;
     }
-    .banner-buttons .shop a{
+
+    .banner-buttons .shop a {
       color: white;
 
     }
@@ -296,6 +348,7 @@
       background: white;
       border: 2px solid green;
     }
+
     .banner-buttons .learn a {
       color: green;
 
@@ -492,7 +545,7 @@
       margin-top: 8px;
     }
 
-     /* ✅ Footer */
+    /* ✅ Footer */
     footer {
       background: green;
       color: white;
@@ -566,22 +619,39 @@
         margin: 10px 0;
       }
 
+      .banner {
+        height: 300px;
+      }
+
+      .slider {
+        height: 300px;
+      }
+
       .slide img {
-        height: 250px;
+        object-fit: cover;
       }
     }
 
     @media (max-width: 480px) {
-      header {
-        flex-direction: column;
+      .banner {
+        height: 250px;
       }
 
-      header .logo img {
-        height: 30px;
+      .slider {
+        height: 250px;
       }
 
       .slide img {
-        height: 200px;
+        object-fit: cover;
+
+      }
+
+      header .logo img {
+        margin-right: 0px;
+      }
+
+      header .logo span {
+        display: none;
       }
 
       .banner-buttons .btn {
@@ -603,23 +673,38 @@
 
     <!-- Navigation -->
     <nav>
+      <div class="close-menu"><i class="fa-solid fa-times"></i></div>
       <ul>
         <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="shop.html" >Shop</a></li>
-        <li><a href="purchase.html">Purchases</a></li> <!-- ✅ New Item -->
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="purchase.html">Purchases</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
 
+
     <!-- Right side -->
     <div class="header-right">
       <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
+
+      <!-- Buttons (default) -->
       <a href="login.html" class="btn-login">Login</a>
       <a href="signup.html" class="btn-signup">Sign Up</a>
+
+      <!-- Profile (hidden initially) -->
+      <div class="profile" style="display: none;">
+        <i class="fa-solid fa-user"></i>
+        <span class="username"></span>
+        <button class="btn-logout">Logout</button>
+      </div>
+
+
       <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
     </div>
+
   </header>
+
 
 
   <!-- ✅ Banner Section -->
@@ -819,10 +904,53 @@
     //responsive header
     const hamburger = document.querySelector(".hamburger");
     const nav = document.querySelector("header nav");
+    const closeMenu = document.querySelector(".close-menu");
 
     hamburger.addEventListener("click", () => {
-      nav.classList.toggle("active");
+      nav.classList.add("active");
     });
+
+    closeMenu.addEventListener("click", () => {
+      nav.classList.remove("active");
+    });
+
+
+    // ✅ Check login status on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = localStorage.getItem("user"); // Example: "Kesavaram"
+      const loginBtn = document.querySelector(".btn-login");
+      const signupBtn = document.querySelector(".btn-signup");
+      const profile = document.querySelector(".profile");
+      const username = document.querySelector(".username");
+
+      if (user) {
+        // Hide login/signup, show profile
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        profile.style.display = "flex";
+        username.textContent = user;
+      } else {
+        // Show login/signup, hide profile
+        loginBtn.style.display = "inline-block";
+        signupBtn.style.display = "inline-block";
+        profile.style.display = "none";
+      }
+
+      // Optional: Logout on profile click
+      const logoutBtn = document.querySelector(".btn-logout");
+
+      logoutBtn.addEventListener("click", () => {
+        if (confirm("Do you want to log out?")) {
+          localStorage.removeItem("user");
+          location.reload();
+        }
+      });
+
+
+
+    });
+
+
 
 
     let index = 0;
@@ -864,25 +992,25 @@
 
 
     // FAQ toggle functionality
-  const faqItems = document.querySelectorAll(".faq-item");
+    const faqItems = document.querySelectorAll(".faq-item");
 
-  faqItems.forEach(item => {
-    const question = item.querySelector(".faq-question");
+    faqItems.forEach(item => {
+      const question = item.querySelector(".faq-question");
 
-    question.addEventListener("click", () => {
-      item.classList.toggle("active");
+      question.addEventListener("click", () => {
+        item.classList.toggle("active");
 
-      // Toggle icon between plus and minus
-      const icon = question.querySelector("i");
-      if (item.classList.contains("active")) {
-        icon.classList.remove("fa-plus");
-        icon.classList.add("fa-minus");
-      } else {
-        icon.classList.remove("fa-minus");
-        icon.classList.add("fa-plus");
-      }
+        // Toggle icon between plus and minus
+        const icon = question.querySelector("i");
+        if (item.classList.contains("active")) {
+          icon.classList.remove("fa-plus");
+          icon.classList.add("fa-minus");
+        } else {
+          icon.classList.remove("fa-minus");
+          icon.classList.add("fa-plus");
+        }
+      });
     });
-  });
   </script>
 </body>
 

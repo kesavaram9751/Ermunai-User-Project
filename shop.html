@@ -72,6 +72,17 @@
       gap: 15px;
     }
 
+    /* Cart icon */
+    .cart {
+      font-size: 22px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .cart i {
+      color: green;
+    }
+
     .hamburger {
       display: none;
       font-size: 24px;
@@ -110,6 +121,54 @@
       background: #244021;
       border-color: #244021;
     }
+
+    .close-menu {
+      display: none;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: green;
+      cursor: pointer;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: green;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .profile i {
+      font-size: 20px;
+    }
+    .btn-logout {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: 2px solid crimson;
+  background: transparent;
+  color: crimson;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-logout:hover {
+  background: crimson;
+  color: white;
+}
+
+
+
+    @media (max-width: 900px) {
+      .close-menu {
+        display: block;
+      }
+    }
+
 
     /* Mobile nav */
     @media (max-width:900px) {
@@ -154,16 +213,7 @@
       }
     }
 
-    /* Cart icon */
-    .cart {
-      font-size: 22px;
-      color: #333;
-      cursor: pointer;
-    }
 
-    .cart i {
-      color: green;
-    }
 
     /* Filter bar */
     .filter-bar {
@@ -534,6 +584,17 @@
       border-top: 1px solid white;
       padding-top: 10px;
     }
+
+    @media (max-width: 480px) {
+
+      header .logo img {
+        margin-right: 0px;
+      }
+
+      header .logo span {
+        display: none;
+      }
+    }
   </style>
 </head>
 
@@ -541,11 +602,13 @@
 
   <header>
     <div class="logo">
-      <img src="./images/logo.jpg" alt="Logo" />
+      <img src="./images/logo.jpg" alt="Logo">
       <span>Ermunai Organic Farm Foods</span>
     </div>
 
+    <!-- Navigation -->
     <nav>
+      <div class="close-menu"><i class="fa-solid fa-times"></i></div>
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html" class="active">Shop</a></li>
@@ -555,12 +618,26 @@
       </ul>
     </nav>
 
+
+    <!-- Right side -->
     <div class="header-right">
       <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
+
+      <!-- Buttons (default) -->
       <a href="login.html" class="btn-login">Login</a>
       <a href="signup.html" class="btn-signup">Sign Up</a>
+
+      <!-- Profile (hidden initially) -->
+      <div class="profile" style="display: none;">
+  <i class="fa-solid fa-user"></i>
+  <span class="username"></span>
+  <button class="btn-logout">Logout</button>
+</div>
+
+
       <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
     </div>
+
   </header>
 
   <section class="hero" style="text-align:center;padding:40px 20px;">
@@ -665,6 +742,54 @@
   </footer>
 
   <script type="module">
+    //header
+
+    const hamburger = document.querySelector(".hamburger");
+    const nav = document.querySelector("header nav");
+    const closeMenu = document.querySelector(".close-menu");
+
+    hamburger.addEventListener("click", () => {
+      nav.classList.add("active");
+    });
+
+    closeMenu.addEventListener("click", () => {
+      nav.classList.remove("active");
+    });
+
+    // ✅ Check login status on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = localStorage.getItem("user"); // Example: "Kesavaram"
+      const loginBtn = document.querySelector(".btn-login");
+      const signupBtn = document.querySelector(".btn-signup");
+      const profile = document.querySelector(".profile");
+      const username = document.querySelector(".username");
+
+      if (user) {
+        // Hide login/signup, show profile
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        profile.style.display = "flex";
+        username.textContent = user;
+      } else {
+        // Show login/signup, hide profile
+        loginBtn.style.display = "inline-block";
+        signupBtn.style.display = "inline-block";
+        profile.style.display = "none";
+      }
+
+      // Optional: Logout on profile click
+      const logoutBtn = document.querySelector(".btn-logout");
+
+logoutBtn.addEventListener("click", () => {
+  if (confirm("Do you want to log out?")) {
+    localStorage.removeItem("user");
+    location.reload();
+  }
+});
+
+    });
+
+
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
