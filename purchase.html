@@ -453,7 +453,7 @@
     <nav>
       <div class="close-menu"><i class="fa-solid fa-times"></i></div>
       <ul>
-        <li><a href="index.html" >Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="purchase.html" class="active">Purchases</a></li>
         <li><a href="about.html">About Us</a></li>
@@ -512,6 +512,7 @@
           <li><a href="about.html">About Us</a></li>
           <li><a href="feedback.html">Certification & Feedback</a></li>
           <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
         </ul>
       </div>
 
@@ -552,7 +553,7 @@
     </div>
   </footer>
 
-  <script>
+  <script type="module">
     //header
     const hamburger = document.querySelector(".hamburger");
     const nav = document.querySelector("header nav");
@@ -601,65 +602,124 @@
     });
 
 
-    // 🔹 Replace this URL with your real API endpoint later
-    const API_URL = '/api/orders?userId=123'; // example: backend returns JSON
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    // NOTE: You don't need getAuth here, as you're using localStorage for the user ID. 
+    // If you plan to use Firebase Auth, you'd use that instead of localStorage.
 
-    async function loadOrders() {
-      try {
-        // Example demo data (remove when connected to backend)
-        const demoData = [
-          {
-            id: "ORD1234",
-            product: "Saamai Pongal Mix",
-            image: "images/pongal.jpg",
-            price: 135,
-            quantity: 2,
-            status: "pending",
-            date: "2025-09-14"
-          },
-          {
-            id: "ORD5678",
-            product: "Red Chola Rava Dosai Mix",
-            image: "images/dosai.jpg",
-            price: 120,
-            quantity: 1,
-            status: "delivered",
-            date: "2025-09-12"
-          }
-        ];
+    // 🔑 Firebase Config (Ensure this matches the config in your admin page)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+      projectId: "ermunai-e-commerce-project",
+      storageBucket: "ermunai-e-commerce-project.appspot.com",
+      messagingSenderId: "365240050790",
+      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
+      measurementId: "G-CZJZ4HLCMR"
+    };
 
-        // Uncomment when API is ready:
-        // const res = await fetch(API_URL);
-        // const demoData = await res.json();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const ordersListContainer = document.getElementById("ordersList");
 
-        const container = document.getElementById("ordersList");
-        if (demoData.length === 0) {
-          container.innerHTML = "<p>No purchases found.</p>";
-          return;
-        }
-
-        demoData.forEach(order => {
-          const card = document.createElement("div");
-          card.className = "order-card";
-          card.innerHTML = `
-            <img src="${order.image}" alt="${order.product}">
-            <div class="order-details">
-              <h3>${order.product}</h3>
-              <p>Order ID: ${order.id}</p>
-              <p>Date: ${order.date}</p>
-              <p>Qty: ${order.quantity}</p>
-              <p class="price">₹${order.price}</p>
-              <span class="status ${order.status}">${order.status}</span>
-            </div>
-          `;
-          container.appendChild(card);
-        });
-      } catch (error) {
-        console.error("Error loading orders", error);
+    // ⚙️ Helper to get CSS class for status
+    function getStatusClass(status) {
+      switch (status.toLowerCase()) {
+        case "pending":
+          return "pending";
+        case "shipped":
+          return "shipped";
+        case "delivered":
+          return "delivered";
+        default:
+          return ""; // For 'cancelled' or others
       }
     }
 
-    loadOrders();
+    // 🔹 Function to check login status and load orders
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = localStorage.getItem("user"); // Assumes 'user' stores a unique ID (e.g., Firebase Auth UID or a placeholder like "Kesavaram")
+      const loginBtn = document.querySelector(".btn-login");
+      const signupBtn = document.querySelector(".btn-signup");
+      const profile = document.querySelector(".profile");
+      const usernameSpan = document.querySelector(".username");
+
+      if (user) {
+        // Hide login/signup, show profile
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        profile.style.display = "flex";
+        usernameSpan.textContent = user;
+
+        // ✅ Load orders for the logged-in user
+        loadOrders(user);
+      } else {
+        // Show login/signup, hide profile
+        loginBtn.style.display = "inline-block";
+        signupBtn.style.display = "inline-block";
+        profile.style.display = "none";
+
+        ordersListContainer.innerHTML = "<p style='text-align: center; color: red;'>Please log in to see your purchases.</p>";
+      }
+
+      // Optional: Logout on profile click
+      const logoutBtn = document.querySelector(".btn-logout");
+      logoutBtn.addEventListener("click", () => {
+        if (confirm("Do you want to log out?")) {
+          localStorage.removeItem("user");
+          location.reload();
+        }
+      });
+    });
+
+
+    // 🚀 Fetch orders from Firestore for the specific user
+    async function loadOrders(userId) {
+      ordersListContainer.innerHTML = "<p style='text-align: center;'>Loading purchases...</p>";
+
+      try {
+        // NOTE: You must have a field named 'userId' in your 'orders' collection
+        // that stores the unique ID of the user (e.g., "Kesavaram")
+        const ordersRef = collection(db, "orders");
+        const q = query(ordersRef, where("userId", "==", userId)); // Filter orders by userId
+
+        const querySnapshot = await getDocs(q);
+        ordersListContainer.innerHTML = ""; // Clear loading message
+
+        if (querySnapshot.empty) {
+          ordersListContainer.innerHTML = "<p style='text-align: center;'>You haven't placed any orders yet.</p>";
+          return;
+        }
+
+        querySnapshot.forEach(docSnap => {
+          const order = docSnap.data();
+
+          // Construct product list for display (assuming 'items' is an array of {name, quantity})
+          const firstItem = order.items && order.items.length > 0 ? order.items[0] : { name: "Product Details Unavailable", quantity: 1 };
+          const totalItems = order.items ? order.items.reduce((sum, item) => sum + item.quantity, 0) : firstItem.quantity;
+          const totalAmount = order.amount || 'N/A'; // Assumes you store the total amount
+
+          const card = document.createElement("div");
+          card.className = "order-card";
+          card.innerHTML = `
+                    <img src="${firstItem.image || 'images/default-product.jpg'}" alt="${firstItem.name}">
+                    <div class="order-details">
+                        <h3>Order ID: ${docSnap.id}</h3>
+                        <p>Product: ${firstItem.name} ${order.items && order.items.length > 1 ? `(+${order.items.length - 1} more)` : ''}</p>
+                        <p>Date: ${order.date || new Date().toLocaleDateString()}</p>
+                        <p>Total Qty: ${totalItems}</p>
+                        <p class="price">₹${totalAmount}</p>
+                        <span class="status ${getStatusClass(order.status)}">${order.status || 'Status Unknown'}</span>
+                    </div>
+                `;
+          ordersListContainer.appendChild(card);
+        });
+
+      } catch (error) {
+        console.error("❌ Error loading purchases:", error);
+        ordersListContainer.innerHTML = `<p style='text-align: center; color: red;'>⚠️ Failed to load your purchases. Please try again.</p>`;
+      }
+    }
   </script>
 </body>
 
