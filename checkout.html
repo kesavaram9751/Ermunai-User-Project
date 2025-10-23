@@ -186,132 +186,163 @@
         </div>
     </div>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script>
-        // Load cart from localStorage
-        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        const itemsDiv = document.getElementById("itemsList");
-        const subtotalEl = document.getElementById("subtotalAmt");
-        const shippingEl = document.getElementById("shippingAmt");
-        const totalEl = document.getElementById("totalAmt");
-        const btnPay = document.getElementById("btnPay");
-        const pinInput = document.getElementById("pin");
-        const form = document.getElementById("checkoutForm");
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  // ---------- Load cart from localStorage ----------
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const itemsDiv = document.getElementById("itemsList");
+  const subtotalEl = document.getElementById("subtotalAmt");
+  const shippingEl = document.getElementById("shippingAmt");
+  const totalEl = document.getElementById("totalAmt");
+  const btnPay = document.getElementById("btnPay");
+  const pinInput = document.getElementById("pin");
+  const form = document.getElementById("checkoutForm");
 
-        function renderCart() {
-            itemsDiv.innerHTML = "";
-            let subtotal = 0;
-            cart.forEach(item => {
-                const itemDiv = document.createElement("div");
-                itemDiv.className = "cart-item";
-                const nameSpan = document.createElement("span");
-                nameSpan.textContent = item.name + " × " + item.qty;
-                const priceSpan = document.createElement("span");
-                priceSpan.textContent = "₹" + (item.price * item.qty).toFixed(2);
-                itemDiv.append(nameSpan, priceSpan);
-                itemsDiv.appendChild(itemDiv);
-                subtotal += (item.price * item.qty);
+  function renderCart() {
+    itemsDiv.innerHTML = "";
+    let subtotal = 0;
+    cart.forEach(item => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cart-item";
+      const nameSpan = document.createElement("span");
+      nameSpan.textContent = item.name + " × " + item.qty;
+      const priceSpan = document.createElement("span");
+      priceSpan.textContent = "₹" + (item.price * item.qty).toFixed(2);
+      itemDiv.append(nameSpan, priceSpan);
+      itemsDiv.appendChild(itemDiv);
+      subtotal += item.price * item.qty;
+    });
+    subtotalEl.textContent = "₹" + subtotal.toFixed(2);
+    return subtotal;
+  }
+
+  function computeShipping(pin) {
+    if (!pin) return 0;
+    pin = pin.trim();
+    if (/^6/.test(pin)) return 50;
+    if (/^5/.test(pin)) return 70;
+    return 100;
+  }
+
+  function computeTotal(subtotal, shipping) {
+    return subtotal + shipping;
+  }
+
+  // ---------- Initialize ----------
+  let subtotal = renderCart();
+  let shipping = 0;
+  shippingEl.textContent = "₹" + shipping.toFixed(2);
+  totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
+
+  pinInput.addEventListener("blur", () => {
+    const pin = pinInput.value;
+    shipping = computeShipping(pin);
+    shippingEl.textContent = "₹" + shipping.toFixed(2);
+    totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
+  });
+
+  // ---------- Pay Now Button ----------
+  btnPay.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    if (!form.checkValidity()) {
+      alert("Please fill all required details.");
+      return;
+    }
+
+    const formData = {
+      name: form.name.value,
+      phone: form.phone.value,
+      address: form.address.value,
+      pin: form.pin.value,
+      city: form.city.value,
+      state: form.state.value
+    };
+
+    const order = {
+      items: cart,
+      subtotal: subtotal,
+      shipping: shipping,
+      total: computeTotal(subtotal, shipping),
+      customer: formData
+    };
+
+    try {
+      // Step 1: Create Razorpay Order
+      const response = await fetch("http://localhost:5000/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: order.total })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Server error:", errorText);
+        alert("Failed to create Razorpay order.");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Razorpay Order Created:", data);
+
+      // Step 2: Open Razorpay payment popup
+      const options = {
+        key: "rzp_test_RWsNjENImz7rr4", // replace with your real key_id
+        amount: order.total * 100,
+        currency: "INR",
+        name: "Erumunai Organic Farm Foods",
+        description: "Order Payment",
+        order_id: data.id,
+        handler: async function (response) {
+          // Step 3: Save order to Firebase after payment success
+          const paymentData = {
+            ...order,
+            payment_id: response.razorpay_payment_id,
+            order_id: response.razorpay_order_id,
+            signature: response.razorpay_signature,
+            status: "Paid",
+            date: new Date().toISOString()
+          };
+
+          try {
+            const saveResponse = await fetch("http://localhost:5000/save-order", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ orderData: paymentData })
             });
-            subtotalEl.textContent = "₹" + subtotal.toFixed(2);
-            return subtotal;
-        }
 
-        function computeShipping(pin) {
-            // Simple example: you can define shipping logic based on pin code
-            // e.g. if pin starts with certain digits, different rate
-            if (!pin) return 0;
-            pin = pin.trim();
-            // Example rules:
-            if (/^6/.test(pin)) {
-                return 50;  // e.g. pins starting with "6" cost ₹50
-            } else if (/^5/.test(pin)) {
-                return 70;
-            } else {
-                return 100; // default shipping
+            if (!saveResponse.ok) {
+              const errorText = await saveResponse.text();
+              console.error("Save Order Error:", errorText);
+              alert("Payment succeeded but order not saved!");
+              return;
             }
-        }
 
-        function computeTotal(subtotal, shipping) {
-            return subtotal + shipping;
-        }
+            alert("Payment Successful! Your order has been placed.");
+            localStorage.removeItem("cart");
+            window.location.href = "thankyou.html";
+          } catch (saveErr) {
+            console.error("Error saving order:", saveErr);
+            alert("Error saving order details.");
+          }
+        },
+        prefill: {
+          name: formData.name,
+          contact: formData.phone
+        },
+        theme: { color: "#2f6f31" }
+      };
 
-        // Initialize display
-        let subtotal = renderCart();
-        let shipping = 0;
-        shippingEl.textContent = "₹" + shipping.toFixed(2);
-        totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
+      const rzp = new Razorpay(options);
+      rzp.open();
 
-        // update shipping + total when pin code changes
-        pinInput.addEventListener("blur", () => {
-            const pin = pinInput.value;
-            shipping = computeShipping(pin);
-            shippingEl.textContent = "₹" + shipping.toFixed(2);
-            totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
-        });
+    } catch (err) {
+      console.error("Payment initiation error:", err);
+      alert("Something went wrong. Please try again.");
+    }
+  });
+</script>
 
-        btnPay.addEventListener("click", (e) => {
-            e.preventDefault();
-            // check form validity
-            if (!form.checkValidity()) {
-                alert("Please fill all required details.");
-                return;
-            }
-            // Gather form data
-            const formData = {
-                name: form.name.value,
-                phone: form.phone.value,
-                address: form.address.value,
-                pin: form.pin.value,
-                city: form.city.value,
-                state: form.state.value
-            };
-            // Order info
-            const order = {
-                items: cart,
-                subtotal: subtotal,
-                shipping: shipping,
-                total: computeTotal(subtotal, shipping),
-                customer: formData
-            };
-
-            // Save order somewhere (localstorage / send to backend) if needed
-            localStorage.setItem("checkoutOrder", JSON.stringify(order));
-
-            // Redirect to Razorpay or trigger Razorpay flow here
-            // Example: window.location.href = "payment.html";
-            // Or integrate Razorpay here
-
-            // For demonstration:
-            alert("Proceeding to payment with total ₹" + order.total.toFixed(2));
-            // TODO: integrate Razorpay payment API here
-
-
-            var options = {
-                "key": "rzp_test_1a2b3c4d5e6f7g", // Test or Live key
-                "amount": "50000", // 500 = ₹5.00
-                "currency": "INR",
-                "name": "Your Website Name",
-                "description": "Test Transaction",
-                "image": "https://yourlogo.com/logo.png",
-                "handler": function (response) {
-                    alert("Payment ID: " + response.razorpay_payment_id);
-                },
-                "prefill": {
-                    "name": "Customer Name",
-                    "email": "customer@email.com",
-                    "contact": "9999999999"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            document.getElementById('btnPay').onclick = function (e) {
-                rzp1.open();
-                e.preventDefault();
-            }
-        });
-    </script>
 </body>
 
 </html>
