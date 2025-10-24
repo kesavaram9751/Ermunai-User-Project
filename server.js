@@ -50,7 +50,7 @@ const razorpay = new Razorpay({
 const app = express();
 // Enable CORS for frontend running on a different port (like your HTML file)
 app.use(cors({
-    origin: ['http://localhost', 'http://127.0.0.1:5500']// REMEMBER TO UPDATE THIS FOR PRODUCTION
+    origin: ['http://localhost', 'http://127.0.0.1:5500', 'https://ermunaiorganicfarmfoods.com']
 }));
 app.use(bodyParser.json());
 
