@@ -12,13 +12,29 @@ require("dotenv").config(); // Loads variables from .env file
 console.log("DEBUG: RAZORPAY_KEY_ID loaded:", process.env.RAZORPAY_KEY_ID);
 // console.log("DEBUG: RAZORPAY_KEY_SECRET loaded:", process.env.RAZORPAY_KEY_SECRET); // Keep secret hidden!
 
-// ------------------- Firebase Setup -------------------
-// NOTE: Make sure serviceAccountKey.json is in the root and databaseURL is correct.
-const serviceAccount = require("./serviceAccountKey.json"); 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://<your-project-id>.firebaseio.com" // 🚨 REPLACE THIS 🚨
-});
+// ------------------- Firebase Setup (SECURITY FIX APPLIED) -------------------
+// 🚨 SECURITY FIX: Read the private key from the environment variable 🚨
+// This key must be the escaped JSON string set in Render/Railway or your local .env file.
+if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+    console.error("❌ FATAL ERROR: FIREBASE_SERVICE_ACCOUNT environment variable is not set!");
+    process.exit(1); // Exit the process if the key is missing
+}
+
+try {
+    // 1. Parse the escaped JSON string from the environment variable
+    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT); 
+    
+    // 2. Initialize Firebase Admin using the parsed JSON object
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      // Use the correct databaseURL for your project
+      databaseURL: "https://ermunai-e-commerce-project.firebaseio.com" 
+    });
+} catch (error) {
+    console.error("❌ FATAL ERROR: Could not parse FIREBASE_SERVICE_ACCOUNT JSON. Check the format.", error);
+    process.exit(1);
+}
+
 const db = admin.firestore();
 
 // ------------------- Razorpay Setup -------------------
