@@ -4,34 +4,37 @@ const Razorpay = require("razorpay");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const admin = require("firebase-admin");
-require("dotenv").config(); // Loads variables from .env file
+require("dotenv").config(); 
 
 // ------------------- DEBUGGING STEP (Temporary) -------------------
-// !! IMPORTANT: Check your terminal after running the server.
-// !! If either value is 'undefined', your .env file is not loading correctly.
 console.log("DEBUG: RAZORPAY_KEY_ID loaded:", process.env.RAZORPAY_KEY_ID);
-// console.log("DEBUG: RAZORPAY_KEY_SECRET loaded:", process.env.RAZORPAY_KEY_SECRET); // Keep secret hidden!
+// ------------------- Firebase Setup (Base64 Decoding Fix) -------------------
 
-// ------------------- Firebase Setup (SECURITY FIX APPLIED) -------------------
-// 🚨 SECURITY FIX: Read the private key from the environment variable 🚨
-// This key must be the escaped JSON string set in Render/Railway or your local .env file.
-if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
-    console.error("❌ FATAL ERROR: FIREBASE_SERVICE_ACCOUNT environment variable is not set!");
-    process.exit(1); // Exit the process if the key is missing
+// The environment variable name is now FIREBASE_SERVICE_ACCOUNT_BASE64
+if (!process.env.FIREBASE_SERVICE_ACCOUNT_BASE64) {
+    console.error("❌ FATAL ERROR: FIREBASE_SERVICE_ACCOUNT_BASE64 is not set!");
+    process.exit(1);
 }
 
 try {
-    // 1. Parse the escaped JSON string from the environment variable
-    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT); 
+    // 1. Get the Base64 string
+    const base64String = process.env.FIREBASE_SERVICE_ACCOUNT_BASE64;
+
+    // 2. Decode the Base64 string back into a JSON string
+    const jsonString = Buffer.from(base64String, 'base64').toString('utf8');
+
+    // 3. Parse the clean JSON string into a JavaScript object
+    const serviceAccount = JSON.parse(jsonString); 
     
-    // 2. Initialize Firebase Admin using the parsed JSON object
+    // 4. Initialize Firebase Admin
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      // Use the correct databaseURL for your project
       databaseURL: "https://ermunai-e-commerce-project.firebaseio.com" 
     });
 } catch (error) {
-    console.error("❌ FATAL ERROR: Could not parse FIREBASE_SERVICE_ACCOUNT JSON. Check the format.", error);
+    console.error("❌ FATAL ERROR: Failed to decode or parse Firebase Service Account.", error);
+    // Print the raw string to debug if the variable is bad (TEMPORARY)
+    console.log("Raw Base64 string starts with:", process.env.FIREBASE_SERVICE_ACCOUNT_BASE64.substring(0, 10)); 
     process.exit(1);
 }
 
@@ -47,7 +50,7 @@ const razorpay = new Razorpay({
 const app = express();
 // Enable CORS for frontend running on a different port (like your HTML file)
 app.use(cors({
-    origin: ['http://localhost', 'http://127.0.0.1:5500']// or your actual frontend URL if different
+    origin: ['http://localhost', 'http://127.0.0.1:5500']// REMEMBER TO UPDATE THIS FOR PRODUCTION
 }));
 app.use(bodyParser.json());
 
@@ -70,19 +73,15 @@ app.post("/create-order", async (req, res) => {
     const order = await razorpay.orders.create(options);
     res.json(order); // Returns the order ID (e.g., 'order_abc123')
   } catch (err) {
-    // This catches the 401 Authentication error and any other API error
     console.error("❌ Razorpay order creation error:", err.error || err.message);
     
-    // Check for the specific 401 Authentication failure details
     if (err.statusCode === 401 || (err.error && err.error.code === 'BAD_REQUEST_ERROR')) {
-        // Log a specific message for easy diagnosis
-        console.error("🔑 AUTHENTICATION FAILED: Check your RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET in your .env file!");
+        console.error("🔑 AUTHENTICATION FAILED: Check your RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET!");
     }
     
-    // Send a 500 status back to the frontend
     res.status(500).json({ 
         error: "Error creating order", 
-        details: err.error ? err.error.description : err.message // Improved error detail for client-side logging
+        details: err.error ? err.error.description : err.message
     });
   }
 });
