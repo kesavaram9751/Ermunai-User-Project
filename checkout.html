@@ -300,47 +300,34 @@
                     handler: async function (response) {
                         // Step 3: Save order to Firebase after payment success
                         
-                        // 🟢 CRITICAL FIX: Restructure the data to match the Admin Dashboard's expected fields
+                        // 🟢 Data structure for Admin Dashboard compatibility
                         const paymentData = {
-                            // 1. Order/Customer Details (Flat structure for easy admin table display)
                             customerName: formData.name,
                             phone: formData.phone,
-                            // Combine address fields for cleaner display in admin table
                             address: `${formData.address}, ${formData.city}, ${formData.state} - ${formData.pin}`,
-
-                            // 2. Financial Details (Fixes the "N/A - ₹0" issue)
-                            amount: order.total, // maps to amount in admin (Fixes the ₹0)
-                            paymentMethod: "Razorpay - Paid", // maps to paymentMethod in admin (Fixes the N/A)
-
-                            // 3. Products/Totals
-                            // Simplified item structure for admin table
+                            amount: order.total, 
+                            paymentMethod: "Razorpay - Paid",
                             items: order.items.map(i => ({ name: i.name, quantity: i.qty, price: i.price })),
                             shipping: order.shipping,
-                            
-                            // 4. Status and Date (Fixes date sorting/display)
-                            status: "Paid/Pending", // Using "Paid/Pending" to distinguish from cash on delivery (Pending)
-                            // Using getTime() sends a numeric timestamp (milliseconds since epoch) 
-                            // which is better than a string for the backend to convert to Firebase Timestamp
+                            status: "Paid/Pending", 
                             datePlaced: new Date().getTime(),
-                            
-                            // 5. Payment Gateway References
                             payment_id: response.razorpay_payment_id,
                             order_id: response.razorpay_order_id,
                             signature: response.razorpay_signature,
                         };
 
                         try {
-                            // UPDATED: Using the API_BASE_URL variable
+                            // 🛑 CRITICAL FIX: Send paymentData directly, NOT nested under { orderData: ... }
                             const saveResponse = await fetch(`${API_BASE_URL}/save-order`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ orderData: paymentData })
+                                body: JSON.stringify(paymentData) // <--- FIX APPLIED HERE
                             });
 
                             if (!saveResponse.ok) {
                                 const errorText = await saveResponse.text();
                                 console.error("Save Order Error:", errorText);
-                                alert("Payment succeeded but order not saved!");
+                                alert("Payment succeeded but order not saved! Please contact support with payment details.");
                                 return;
                             }
 
