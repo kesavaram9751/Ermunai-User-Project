@@ -156,7 +156,7 @@
                     <input type="text" id="state" name="state" required />
                 </div>
 
-                </form>
+            </form>
         </div>
 
         <div class="summary-section">
@@ -300,7 +300,7 @@
                     handler: async function (response) {
                         // Step 3: Save order to Firebase after payment success
                         
-                        // 🛑 CRITICAL FIX: Restructure the data to match the Admin Dashboard's expected fields
+                        // 🟢 CRITICAL FIX: Restructure the data to match the Admin Dashboard's expected fields
                         const paymentData = {
                             // 1. Order/Customer Details (Flat structure for easy admin table display)
                             customerName: formData.name,
@@ -309,16 +309,16 @@
                             address: `${formData.address}, ${formData.city}, ${formData.state} - ${formData.pin}`,
 
                             // 2. Financial Details (Fixes the "N/A - ₹0" issue)
-                            amount: order.total,               // maps to amount in admin (Fixes the ₹0)
+                            amount: order.total, // maps to amount in admin (Fixes the ₹0)
                             paymentMethod: "Razorpay - Paid", // maps to paymentMethod in admin (Fixes the N/A)
 
                             // 3. Products/Totals
                             // Simplified item structure for admin table
-                            items: order.items.map(i => ({ name: i.name, quantity: i.qty, price: i.price })), 
+                            items: order.items.map(i => ({ name: i.name, quantity: i.qty, price: i.price })),
                             shipping: order.shipping,
                             
                             // 4. Status and Date (Fixes date sorting/display)
-                            status: "Paid",
+                            status: "Paid/Pending", // Using "Paid/Pending" to distinguish from cash on delivery (Pending)
                             // Using getTime() sends a numeric timestamp (milliseconds since epoch) 
                             // which is better than a string for the backend to convert to Firebase Timestamp
                             datePlaced: new Date().getTime(),
