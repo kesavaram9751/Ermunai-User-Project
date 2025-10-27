@@ -46,14 +46,14 @@ const razorpay = new Razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
-// ------------------- Express App and CORS Configuration (FIXED) -------------------
+// ------------------- Express App and CORS Configuration (FINAL FIX) -------------------
 const app = express();
 
 // 🚨 FIX: List all necessary origins, including 'www.' and the Vercel-generated domain.
 const allowedOrigins = [
     // Production Vercel Domain (with and without www)
     'https://ermunaiorganicfarmfoods.com',
-    'https://www.ermunaiorganicfarmfoods.com', // 👈 REQUIRED FIX based on console error
+    'https://www.ermunaiorganicfarmfoods.com', 
     // Vercel Preview/Generated Domain (from Vercel dashboard screenshot)
     'https://ermunai-user-project-cpnrqw0i-kesavagrams-261bd486.vercel.app',
     // Local Development
@@ -63,16 +63,19 @@ const allowedOrigins = [
 
 const corsOptions = {
     origin: allowedOrigins,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Include all methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Important for POST requests
+    // Methods and Headers are automatically handled correctly by the cors middleware
+    // when applied with app.use() before routes.
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], 
     credentials: true,
 };
 
-// 1. Apply the CORS middleware for all regular requests
-app.use(cors(corsOptions));
+// 1. Apply the CORS middleware globally. This is sufficient and automatically 
+//    handles the OPTIONS preflight requests for all subsequent routes.
+app.use(cors(corsOptions)); 
 
-// 2. 🎯 CRITICAL FIX: Explicitly handle the OPTIONS preflight request for all routes.
-app.options('*', cors(corsOptions)); 
+// 2. ❌ REMOVE THE app.options('*', cors(corsOptions)); line. It caused the PathError.
+
 
 app.use(bodyParser.json());
 
