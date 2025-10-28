@@ -653,7 +653,7 @@
     </footer>
 
 
-    <script>
+    <script type="module">
         const hamburger = document.querySelector(".hamburger");
         const nav = document.querySelector("header nav");
         const closeMenu = document.querySelector(".close-menu");
@@ -663,6 +663,56 @@
         });
         closeMenu.addEventListener("click", () => {
             nav.classList.remove("active");
+        });
+
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+            projectId: "ermunai-e-commerce-project",
+            storageBucket: "ermunai-e-commerce-project.appspot.com",
+            messagingSenderId: "365240050790",
+            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
+            measurementId: "G-CZJZ4HLCMR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginBtn = document.querySelector(".btn-login");
+            const signupBtn = document.querySelector(".btn-signup");
+            const profile = document.querySelector(".profile");
+            const username = document.querySelector(".username");
+            const logoutBtn = document.querySelector(".btn-logout");
+
+            // Listen to Firebase Auth state
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is logged in
+                    loginBtn.style.display = "none";
+                    signupBtn.style.display = "none";
+                    profile.style.display = "flex";
+                    username.textContent = user.email; // show email or displayName
+                    localStorage.setItem("user", user.email); // optional
+                } else {
+                    // No user is logged in
+                    loginBtn.style.display = "inline-block";
+                    signupBtn.style.display = "inline-block";
+                    profile.style.display = "none";
+                    localStorage.removeItem("user");
+                }
+            });
+
+            logoutBtn.addEventListener("click", async () => {
+                if (confirm("Do you want to log out?")) {
+                    await signOut(auth);
+                    location.reload();
+                }
+            });
         });
     </script>
 </body>
