@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Basic SEO Meta Tags -->
     <title>Checkout - Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
     <meta name="description"
         content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
@@ -25,6 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <style>
+        /* (CSS styles remain the same) */
         * {
             margin: 0;
             padding: 0;
@@ -128,6 +128,7 @@
             font-size: 16px;
             cursor: pointer;
             margin-top: 20px;
+            width: 100%;
         }
 
         .btn-pay:hover {
@@ -139,7 +140,6 @@
 <body>
     <h1>Checkout</h1>
     <div class="container">
-        <!-- Left: Billing / Shipping Details Form -->
         <div class="form-section">
             <h2>Your Details</h2>
             <form id="checkoutForm">
@@ -173,16 +173,13 @@
                     <input type="text" id="state" name="state" required />
                 </div>
 
-                <!-- you can add more fields as needed -->
-            </form>
+                </form>
         </div>
 
-        <!-- Right: Order Summary and Payment -->
         <div class="summary-section">
             <h2>Order Summary</h2>
             <div id="itemsList">
-                <!-- JS will populate cart items here -->
-            </div>
+                </div>
 
             <div class="totals">
                 <div class="line">
@@ -204,15 +201,54 @@
     </div>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script>
+    <script type="module">
         // -------------------------------------------------------------------------------------
         // 🛑 CRITICAL CHANGE: REPLACE THIS PLACEHOLDER WITH YOUR LIVE RAILWAY URL
-        // Example: https://sparkling-commitment-eqqga-asia-southeast1.railway.app
         // -------------------------------------------------------------------------------------
         const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app";
 
+        // 🔥 FIREBASE IMPORTS
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // 🔑 Firebase Config (Use your actual config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+            projectId: "ermunai-e-commerce-project",
+            storageBucket: "ermunai-e-commerce-project.appspot.com",
+            messagingSenderId: "365240050790",
+            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
+            measurementId: "G-CZJZ4HLCMR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Initialize Auth
+
+        // -----------------------------------------------------------
+        // 🔥 AUTHENTICATION CHECK AND USER ID STORAGE
+        // -----------------------------------------------------------
+        let currentUserId = null; 
+        let userContactEmail = null; // Used for prefilling Razorpay
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in. Store the secure UID.
+                currentUserId = user.uid; 
+                userContactEmail = user.email;
+                console.log("Checkout user is logged in with UID:", currentUserId);
+            } else {
+                // User is signed out. Redirect immediately.
+                alert("Please log in to complete your purchase.");
+                window.location.href = "login.html"; 
+            }
+        });
+        // -----------------------------------------------------------
+
+
         // ---------- Load cart from localStorage ----------
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        
         const itemsDiv = document.getElementById("itemsList");
         const subtotalEl = document.getElementById("subtotalAmt");
         const shippingEl = document.getElementById("shippingAmt");
@@ -268,9 +304,19 @@
         btnPay.addEventListener("click", async (e) => {
             e.preventDefault();
 
+            if (!currentUserId) {
+                 alert("Authentication is still loading. Please wait a moment and try again.");
+                 return;
+            }
+
             if (!form.checkValidity()) {
                 alert("Please fill all required details.");
                 return;
+            }
+
+            if (cart.length === 0) {
+                 alert("Your cart is empty. Please add items to order.");
+                 return;
             }
 
             const formData = {
@@ -292,7 +338,6 @@
 
             try {
                 // Step 1: Create Razorpay Order
-                // UPDATED: Using the API_BASE_URL variable
                 const response = await fetch(`${API_BASE_URL}/create-order`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -311,7 +356,7 @@
 
                 // Step 2: Open Razorpay payment popup
                 const options = {
-                    key: "rzp_test_RWsNjENImz7rr4", // replace with your real key_id
+                    key: "rzp_live_RaPexiedmItQ5c", // replace with your real key_id
                     amount: order.total * 100,
                     currency: "INR",
                     name: "Erumunai Organic Farm Foods",
@@ -321,6 +366,8 @@
                         // Step 3: Save order to Firebase after payment success
                         const paymentData = {
                             ...order,
+                            // 🔥 CRITICAL ADDITION: USE THE SECURE FIREBASE UID
+                            userId: currentUserId, 
                             payment_id: response.razorpay_payment_id,
                             order_id: response.razorpay_order_id,
                             signature: response.razorpay_signature,
@@ -329,7 +376,6 @@
                         };
 
                         try {
-                            // UPDATED: Using the API_BASE_URL variable
                             const saveResponse = await fetch(`${API_BASE_URL}/save-order`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
@@ -353,7 +399,8 @@
                     },
                     prefill: {
                         name: formData.name,
-                        contact: formData.phone
+                        contact: formData.phone,
+                        email: userContactEmail // Use the authenticated email for prefill
                     },
                     theme: { color: "#2f6f31" }
                 };
