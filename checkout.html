@@ -173,13 +173,13 @@
                     <input type="text" id="state" name="state" required />
                 </div>
 
-                </form>
+            </form>
         </div>
 
         <div class="summary-section">
             <h2>Order Summary</h2>
             <div id="itemsList">
-                </div>
+            </div>
 
             <div class="totals">
                 <div class="line">
@@ -228,19 +228,19 @@
         // -----------------------------------------------------------
         // 🔥 AUTHENTICATION CHECK AND USER ID STORAGE
         // -----------------------------------------------------------
-        let currentUserId = null; 
+        let currentUserId = null;
         let userContactEmail = null; // Used for prefilling Razorpay
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in. Store the secure UID.
-                currentUserId = user.uid; 
+                currentUserId = user.uid;
                 userContactEmail = user.email;
                 console.log("Checkout user is logged in with UID:", currentUserId);
             } else {
                 // User is signed out. Redirect immediately.
                 alert("Please log in to complete your purchase.");
-                window.location.href = "login.html"; 
+                window.location.href = "login.html";
             }
         });
         // -----------------------------------------------------------
@@ -248,7 +248,7 @@
 
         // ---------- Load cart from localStorage ----------
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        
+
         const itemsDiv = document.getElementById("itemsList");
         const subtotalEl = document.getElementById("subtotalAmt");
         const shippingEl = document.getElementById("shippingAmt");
@@ -278,6 +278,11 @@
         function computeShipping(pin) {
             if (!pin) return 0;
             pin = pin.trim();
+
+            // 🛑 TEMPORARY: Return 0 shipping for a specific test PIN (e.g., 600001)
+            if (pin === "600001") {
+                return 0; // Free shipping for the test order
+            }
             if (/^6/.test(pin)) return 50;
             if (/^5/.test(pin)) return 70;
             return 100;
@@ -305,8 +310,8 @@
             e.preventDefault();
 
             if (!currentUserId) {
-                 alert("Authentication is still loading. Please wait a moment and try again.");
-                 return;
+                alert("Authentication is still loading. Please wait a moment and try again.");
+                return;
             }
 
             if (!form.checkValidity()) {
@@ -315,8 +320,8 @@
             }
 
             if (cart.length === 0) {
-                 alert("Your cart is empty. Please add items to order.");
-                 return;
+                alert("Your cart is empty. Please add items to order.");
+                return;
             }
 
             const formData = {
@@ -367,7 +372,7 @@
                         const paymentData = {
                             ...order,
                             // 🔥 CRITICAL ADDITION: USE THE SECURE FIREBASE UID
-                            userId: currentUserId, 
+                            userId: currentUserId,
                             payment_id: response.razorpay_payment_id,
                             order_id: response.razorpay_order_id,
                             signature: response.razorpay_signature,
