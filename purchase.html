@@ -726,7 +726,7 @@
                 // ⭐ UPDATED QUERY: Use where AND orderBy
                 const q = query(
                     ordersRef, 
-                    where("userId", "==", userId),
+                    where("userid", "==", userId),
                     orderBy("datePlaced", "desc") // Orders by newest first
                 ); 
                 // ❗ IMPORTANT: This combination requires a composite index on (userId, datePlaced) in Firestore!
