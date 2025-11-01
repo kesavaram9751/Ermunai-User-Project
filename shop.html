@@ -1102,14 +1102,21 @@
       return urlParams.get(param);
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadProducts();         // wait for products to load
       const cat = getQueryParam("category");
       if (cat) {
         const btn = document.querySelector(`.filter-btn[data-category="${cat}"]`);
-        if (btn) btn.click();
+        if (btn) {
+          btn.click();              // this will trigger filter logic now that products exist
+        } else {
+          render(products);         // fallback: show all
+        }
+      } else {
+        render(products);           // no category param -> show all
       }
-      loadProducts();
     });
+
   </script>
 
 </body>
