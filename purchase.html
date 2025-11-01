@@ -19,7 +19,6 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.png">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * {
@@ -616,174 +615,183 @@
 
 
     <script type="module">
-        // Header navigation logic
-        const hamburger = document.querySelector(".hamburger");
-        const nav = document.querySelector("header nav");
-        const closeMenu = document.querySelector(".close-menu");
+        // Header navigation logic
+        const hamburger = document.querySelector(".hamburger");
+        const nav = document.querySelector("header nav");
+        const closeMenu = document.querySelector(".close-menu");
 
-        hamburger.addEventListener("click", () => {
-            nav.classList.add("active");
-        });
+        hamburger.addEventListener("click", () => {
+            nav.classList.add("active");
+        });
 
-        closeMenu.addEventListener("click", () => {
-            nav.classList.remove("active");
-        });
+        closeMenu.addEventListener("click", () => {
+            nav.classList.remove("active");
+        });
 
-        // ------------------------------------------------------------------
-        // 🔥 UPDATED FIREBASE IMPORTS AND INITIALIZATION FOR AUTHENTICATION 🔥
-        // ------------------------------------------------------------------
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-
-        // 🔑 Firebase Config (Use your actual config)
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-            projectId: "ermunai-e-commerce-project",
-            storageBucket: "ermunai-e-commerce-project.appspot.com",
-            messagingSenderId: "365240050790",
-            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
-            measurementId: "G-CZJZ4HLCMR"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app); // Initialize Firebase Auth
-        const ordersListContainer = document.getElementById("ordersList");
-
-        // ⚙️ Helper to get CSS class for status (No change)
-        function getStatusClass(status) {
-            if (!status) return "";
-            switch (status.toLowerCase()) {
-                case "pending":
-                    return "pending";
-                case "shipped":
-                    return "shipped";
-                case "delivered":
-                    return "delivered";
-                default:
-                    return ""; // For 'cancelled' or others
-            }
-        }
-
-        // 🔹 Function to check login status and load orders (Updated to use onAuthStateChanged)
-        document.addEventListener("DOMContentLoaded", () => {
-            const loginBtn = document.querySelector(".btn-login");
-            const signupBtn = document.querySelector(".btn-signup");
-            const profile = document.querySelector(".profile");
-            const usernameSpan = document.querySelector(".username");
-            const logoutBtn = document.querySelector(".btn-logout");
-
-            // Stop relying on localStorage and use the secure Firebase Auth state listener
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // User is signed in. user.uid is the secure ID.
-                    loginBtn.style.display = "none";
-                    signupBtn.style.display = "none";
-                    profile.style.display = "flex";
-                    // Display the user's email or a custom name instead of the UID
-                    usernameSpan.textContent = user.email || "User"; 
-
-                    // ✅ Load orders using the secure Firebase UID
-                    loadOrders(user.uid);
-                } else {
-                    // User is signed out.
-                    loginBtn.style.display = "inline-block";
-                    signupBtn.style.display = "inline-block";
-                    profile.style.display = "none";
-
-                    ordersListContainer.innerHTML = "<p style='text-align: center; color: red; font-weight: bold;'>🛑 Please log in to see your purchases.</p>";
-                }
-            });
-
-            // Logout button handler (Uses Firebase signOut)
-            logoutBtn.addEventListener("click", async () => {
-                if (confirm("Do you want to log out?")) {
-                    try {
-                        await signOut(auth);
-                        // The onAuthStateChanged listener above will automatically update the UI
-                    } catch (error) {
-                        console.error("Logout Error:", error);
-                        alert("Logout failed. Please try again.");
-                    }
-                }
-            });
-        });
+        // ------------------------------------------------------------------
+        // 🔥 UPDATED FIREBASE IMPORTS AND INITIALIZATION FOR AUTHENTICATION 🔥
+        // ------------------------------------------------------------------
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        // 💡 Added 'orderBy' to imports
+        import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-        // 🚀 Fetch orders from Firestore for the specific user (Updated to use UID)
-        async function loadOrders(userId) {
-            ordersListContainer.innerHTML = "<p style='text-align: center; color: green;'>⏳ Loading purchases...</p>";
+        // 🔑 Firebase Config (Use your actual config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+            projectId: "ermunai-e-commerce-project",
+            storageBucket: "ermunai-e-commerce-project.appspot.com",
+            messagingSenderId: "365240050790",
+            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
+            measurementId: "G-CZJZ4HLCMR"
+        };
 
-            // userId is now the secure Firebase UID
-            console.log(`🔎 Attempting to load orders for userId (UID): "${userId}"`);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app); // Initialize Firebase Auth
+        const ordersListContainer = document.getElementById("ordersList");
 
-            try {
-                // NOTE: The 'userId' field in your 'orders' collection MUST now match the UID.
-                const ordersRef = collection(db, "orders");
-                // The database will only return results if the security rules match the UID
-                const q = query(ordersRef, where("userId", "==", userId)); 
+        // ⚙️ Helper to get CSS class for status (No change)
+        function getStatusClass(status) {
+            if (!status) return "";
+            switch (status.toLowerCase()) {
+                case "pending":
+                    return "pending";
+                case "shipped":
+                    return "shipped";
+                case "delivered":
+                    return "delivered";
+                default:
+                    return ""; // For 'cancelled' or others
+            }
+        }
 
-                const querySnapshot = await getDocs(q);
-                ordersListContainer.innerHTML = ""; // Clear loading message
+        // 🔹 Function to check login status and load orders (Updated to use onAuthStateChanged)
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginBtn = document.querySelector(".btn-login");
+            const signupBtn = document.querySelector(".btn-signup");
+            const profile = document.querySelector(".profile");
+            const usernameSpan = document.querySelector(".username");
+            const logoutBtn = document.querySelector(".btn-logout");
 
-                if (querySnapshot.empty) {
-                    ordersListContainer.innerHTML = "<p style='text-align: center;'>You haven't placed any orders yet. Start shopping!</p>";
-                    console.log("No orders found for this userId in Firestore.");
-                    return;
-                }
+            // Stop relying on localStorage and use the secure Firebase Auth state listener
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is signed in. user.uid is the secure ID.
+                    loginBtn.style.display = "none";
+                    signupBtn.style.display = "none";
+                    profile.style.display = "flex";
+                    // Display the user's email or a custom name instead of the UID
+                    usernameSpan.textContent = user.email || "User"; 
 
-                let orderCount = 0;
-                querySnapshot.forEach(docSnap => {
-                    orderCount++;
-                    const order = docSnap.data();
-                    const orderId = docSnap.id;
+                    // ✅ Load orders using the secure Firebase UID
+                    loadOrders(user.uid);
+                } else {
+                    // User is signed out.
+                    loginBtn.style.display = "inline-block";
+                    signupBtn.style.display = "inline-block";
+                    profile.style.display = "none";
 
-                    console.log(`✅ Order found: ID ${orderId}, Status: ${order.status}`);
+                    ordersListContainer.innerHTML = "<p style='text-align: center; color: red; font-weight: bold;'>🛑 Please log in to see your purchases.</p>";
+                }
+            });
 
-                    // Use 'order.total' as is often used for the final price
-                    const totalAmount = order.total || order.amount || 'N/A'; 
-                    // Handle Firestore Timestamp or ISO string date format
-                    let orderDate;
-                    if (order.date && typeof order.date.toDate === 'function') {
-                        orderDate = order.date.toDate().toLocaleDateString();
-                    } else if (order.date) {
-                        orderDate = new Date(order.date).toLocaleDateString();
-                    } else {
-                        orderDate = new Date().toLocaleDateString();
-                    }
+            // Logout button handler (Uses Firebase signOut)
+            logoutBtn.addEventListener("click", async () => {
+                if (confirm("Do you want to log out?")) {
+                    try {
+                        await signOut(auth);
+                        // The onAuthStateChanged listener above will automatically update the UI
+                    } catch (error) {
+                        console.error("Logout Error:", error);
+                        alert("Logout failed. Please try again.");
+                    }
+                }
+            });
+        });
 
 
-                    // Construct product list for display 
-                    const firstItem = order.items && order.items.length > 0 ? order.items[0] : { name: "Product Details Unavailable", quantity: 1, image: 'images/default-product.jpg' };
-                    const totalItems = order.items ? order.items.reduce((sum, item) => sum + item.quantity, 0) : firstItem.quantity;
+        // 🚀 Fetch orders from Firestore for the specific user (Updated to use UID and orderBy)
+        async function loadOrders(userId) {
+            ordersListContainer.innerHTML = "<p style='text-align: center; color: green;'>⏳ Loading purchases...</p>";
 
-                    const card = document.createElement("div");
-                    card.className = "order-card";
-                    card.innerHTML = `
-                        <img src="${firstItem.image || 'images/default-product.jpg'}" alt="${firstItem.name}">
-                        <div class="order-details">
-                            <h3>Order ID: ${orderId}</h3>
-                            <p>Product: ${firstItem.name} ${order.items && order.items.length > 1 ? `(<span style="font-weight: bold;">+${order.items.length - 1} more</span>)` : ''}</p>
-                            <p>Date: ${orderDate}</p>
-                            <p>Total Qty: <span style="font-weight: bold;">${totalItems}</span></p>
-                            <p class="price">₹${totalAmount}</p>
-                            <span class="status ${getStatusClass(order.status)}">${order.status || 'Status Unknown'}</span>
-                        </div>
-                    `;
-                    ordersListContainer.appendChild(card);
-                });
+            // userId is now the secure Firebase UID
+            console.log(`🔎 Attempting to load orders for userId (UID): "${userId}"`);
 
-                console.log(`Total orders displayed: ${orderCount}`);
+            try {
+                const ordersRef = collection(db, "orders");
+                
+                // ⭐ UPDATED QUERY: Use where AND orderBy
+                const q = query(
+                    ordersRef, 
+                    where("userId", "==", userId),
+                    orderBy("datePlaced", "desc") // Orders by newest first
+                ); 
+                // ❗ IMPORTANT: This combination requires a composite index on (userId, datePlaced) in Firestore!
+                
+                const querySnapshot = await getDocs(q);
+                ordersListContainer.innerHTML = ""; // Clear loading message
 
-            } catch (error) {
-                console.error("❌ Error loading purchases:", error);
-                ordersListContainer.innerHTML = `<p style='text-align: center; color: red;'>⚠️ Failed to load your purchases. Please ensure you are logged in and the security rules are correct.</p>`;
-            }
-        }
-    </script>
+                if (querySnapshot.empty) {
+                    ordersListContainer.innerHTML = "<p style='text-align: center;'>You haven't placed any orders yet. Start shopping!</p>";
+                    console.log("No orders found for this userId in Firestore.");
+                    return;
+                }
+
+                let orderCount = 0;
+                querySnapshot.forEach(docSnap => {
+                    orderCount++;
+                    const order = docSnap.data();
+                    const orderId = docSnap.id;
+
+                    console.log(`✅ Order found: ID ${orderId}, Status: ${order.status}`);
+
+                    // Use 'totalAmount' or 'subtotal' if 'total' is missing 
+                    const totalAmount = order.totalAmount || order.subtotal || order.total || order.amount || 'N/A'; 
+                    
+                    // Handle Firestore Timestamp or ISO string date format (Using 'datePlaced' as seen in your document structure)
+                    let orderDate;
+                    if (order.datePlaced && typeof order.datePlaced.toDate === 'function') {
+                        orderDate = order.datePlaced.toDate().toLocaleDateString();
+                    } else if (order.datePlaced) {
+                        // Fallback for ISO string dates
+                        orderDate = new Date(order.datePlaced).toLocaleDateString();
+                    } else {
+                        orderDate = 'Date Unavailable';
+                    }
+
+
+                    // Construct product list for display 
+                    const firstItem = order.items && order.items.length > 0 ? order.items[0] : { name: "Product Details Unavailable", quantity: 1, image: 'images/default-product.jpg' };
+                    const totalItems = order.items ? order.items.reduce((sum, item) => sum + item.quantity, 0) : firstItem.quantity;
+
+                    const card = document.createElement("div");
+                    card.className = "order-card";
+                    card.innerHTML = `
+                        <img src="${firstItem.image || 'images/default-product.jpg'}" alt="${firstItem.name}">
+                        <div class="order-details">
+                            <h3>Order ID: ${orderId}</h3>
+                            <p>Product: ${firstItem.name} ${order.items && order.items.length > 1 ? `(<span style="font-weight: bold;">+${order.items.length - 1} more</span>)` : ''}</p>
+                            <p>Date: ${orderDate}</p>
+                            <p>Total Qty: <span style="font-weight: bold;">${totalItems}</span></p>
+                            <p class="price">₹${totalAmount}</p>
+                            <span class="status ${getStatusClass(order.paymentStatus)}">${order.paymentStatus || 'Status Unknown'}</span>
+                        </div>
+                    `;
+                    ordersListContainer.appendChild(card);
+                });
+
+                console.log(`Total orders displayed: ${orderCount}`);
+
+            } catch (error) {
+                console.error("❌ Error loading purchases:", error);
+                // More specific error message for client-side
+                ordersListContainer.innerHTML = `<p style='text-align: center; color: red;'>⚠️ Failed to load your purchases. This is usually due to missing data (like 'userId') or a **missing index** in your Firestore rules. See console for details.</p>`;
+            }
+        }
+    </script>
 </body>
 
 </html>
