@@ -649,12 +649,8 @@
     async function loadOrders(userId) {
       ordersListContainer.innerHTML = "<p style='text-align:center; color:green;'>⏳ Loading purchases...</p>";
       try {
-        const ordersRef = collection(db, "orders");
-        const q = query(
-          ordersRef,
-          where("userid", "==", userId),   // make sure this field matches your document
-          orderBy("datePlaced", "desc")    // make sure datePlaced field exists & is indexed
-        );
+        const ordersRef = collection(db, "orders");   
+        const q = query(ordersRef, where("userid", "==", userId));
         const snapshot = await getDocs(q);
         ordersListContainer.innerHTML = "";
 
