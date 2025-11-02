@@ -1,221 +1,154 @@
-// server.js (revised)
 // ------------------- Imports -------------------
 const express = require("express");
 const Razorpay = require("razorpay");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const admin = require("firebase-admin");
-const crypto = require("crypto");
-require("dotenv").config();
+require("dotenv").config(); 
 
-// ------------------- Debug / sanity checks -------------------
-console.log("DEBUG: RAZORPAY_KEY_ID loaded:", process.env.RAZORPAY_KEY_ID ? "(present)" : "(missing)");
+// ------------------- DEBUGGING STEP (Temporary) -------------------
+console.log("DEBUG: RAZORPAY_KEY_ID loaded:", process.env.RAZORPAY_KEY_ID);
+// ------------------- Firebase Setup (Base64 Decoding Fix) -------------------
 
-// ------------------- Firebase Setup (Base64 Service Account) -------------------
+// The environment variable name is now FIREBASE_SERVICE_ACCOUNT_BASE64
 if (!process.env.FIREBASE_SERVICE_ACCOUNT_BASE64) {
-  console.error("❌ FATAL ERROR: FIREBASE_SERVICE_ACCOUNT_BASE64 is not set!");
-  process.exit(1);
+    console.error("❌ FATAL ERROR: FIREBASE_SERVICE_ACCOUNT_BASE64 is not set!");
+    process.exit(1);
 }
 
-let db;
 try {
-  const base64String = process.env.FIREBASE_SERVICE_ACCOUNT_BASE64;
-  const jsonString = Buffer.from(base64String, 'base64').toString('utf8');
-  const serviceAccount = JSON.parse(jsonString);
+    // 1. Get the Base64 string
+    const base64String = process.env.FIREBASE_SERVICE_ACCOUNT_BASE64;
 
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: process.env.FIREBASE_DATABASE_URL || undefined
-  });
+    // 2. Decode the Base64 string back into a JSON string
+    const jsonString = Buffer.from(base64String, 'base64').toString('utf8');
 
-  db = admin.firestore();
-  console.log("✅ Firebase admin initialized");
+    // 3. Parse the clean JSON string into a JavaScript object
+    const serviceAccount = JSON.parse(jsonString); 
+    
+    // 4. Initialize Firebase Admin
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL: "https://ermunai-e-commerce-project.firebaseio.com" 
+    });
 } catch (error) {
-  console.error("❌ FATAL ERROR: Failed to decode or parse Firebase Service Account.", error);
-  process.exit(1);
+    console.error("❌ FATAL ERROR: Failed to decode or parse Firebase Service Account.", error);
+    // Print the raw string to debug if the variable is bad (TEMPORARY)
+    console.log("Raw Base64 string starts with:", process.env.FIREBASE_SERVICE_ACCOUNT_BASE64.substring(0, 10)); 
+    process.exit(1);
 }
+
+const db = admin.firestore();
 
 // ------------------- Razorpay Setup -------------------
-if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-  console.warn("⚠️ Razorpay keys missing in env. create-order or signature verification may fail.");
-}
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || "",
-  key_secret: process.env.RAZORPAY_KEY_SECRET || ""
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
-// ------------------- Express + CORS -------------------
+// ------------------- Express App and CORS Configuration (FINAL FIX) -------------------
 const app = express();
+
+// 🚨 FIX: List all necessary origins, including 'www.' and the Vercel-generated domain.
 const allowedOrigins = [
-  "https://ermunaiorganicfarmfoods.com",
-  "https://www.ermunaiorganicfarmfoods.com",
-  "https://ermunai-user-project-production.up.railway.app",
-  "http://localhost:3000",
-  "http://localhost",
-  "http://127.0.0.1:5500"
+    // Production Vercel Domain (with and without www)
+    'https://ermunaiorganicfarmfoods.com',
+    'https://www.ermunaiorganicfarmfoods.com', 
+    // Vercel Preview/Generated Domain (from Vercel dashboard screenshot)
+    'https://ermunai-user-project-cpnrqw0i-kesavagrams-261bd486.vercel.app',
+    // Local Development
+    'http://localhost', 
+    'http://127.0.0.1:5500', 
 ];
 
 const corsOptions = {
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
-    return callback(new Error(`CORS policy does not allow origin: ${origin}`), false);
-  },
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+    origin: allowedOrigins,
+    // Methods and Headers are automatically handled correctly by the cors middleware
+    // when applied with app.use() before routes.
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], 
+    credentials: true,
 };
 
-app.use(cors(corsOptions));
+// 1. Apply the CORS middleware globally. This is sufficient and automatically 
+//    handles the OPTIONS preflight requests for all subsequent routes.
+app.use(cors(corsOptions)); 
+
+// 2. ❌ REMOVE THE app.options('*', cors(corsOptions)); line. It caused the PathError.
+
+
 app.use(bodyParser.json());
 
-// ------------------- Health check -------------------
-app.get("/", (req, res) => res.json({ ok: true, env: process.env.NODE_ENV || "dev" }));
-
-// ------------------- Helper: Verify Firebase ID token (optional, recommended) -------------------
-async function verifyIdTokenFromRequest(req) {
-  const authHeader = req.headers.authorization || "";
-  const match = authHeader.match(/^Bearer (.+)$/);
-  if (!match) return null;
-  const idToken = match[1];
-  try {
-    const decoded = await admin.auth().verifyIdToken(idToken);
-    return decoded; // contains uid and token claims
-  } catch (err) {
-    console.warn("Invalid ID token:", err.message || err);
-    return null;
-  }
-}
 
 // ------------------- Create Razorpay Order -------------------
-// Expects request.body: { amount: <integer paise>, userId?: "...", items?: [...] }
-// IMPORTANT: `amount` must be in paise (integer). Do NOT multiply again on the server.
+// Endpoint: POST https://<RAILWAY_DOMAIN>/create-order
 app.post("/create-order", async (req, res) => {
-  try {
-    const { amount, userId, items } = req.body;
+    try {
+        const { amount } = req.body;
+        if (!amount || isNaN(amount) || amount <= 0) {
+            return res.status(400).json({ error: "Valid amount is required" });
+        }
 
-    // Validate amount (paise integer)
-    if (!amount || isNaN(amount) || Number(amount) <= 0) {
-      return res.status(400).json({ error: "Valid amount (in paise) is required" });
+        const options = {
+            // Razorpay expects amount in the smallest unit (Paise)
+            amount: Math.round(amount * 100), 
+            currency: "INR",
+            receipt: "receipt_" + Date.now()
+        };
+
+        const order = await razorpay.orders.create(options);
+        res.json(order); // Returns the order ID (e.g., 'order_abc123')
+    } catch (err) {
+        console.error("❌ Razorpay order creation error:", err.error || err.message);
+        
+        if (err.statusCode === 401 || (err.error && err.error.code === 'BAD_REQUEST_ERROR')) {
+            console.error("🔑 AUTHENTICATION FAILED: Check your RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET!");
+        }
+        
+        res.status(500).json({ 
+            error: "Error creating order", 
+            details: err.error ? err.error.description : err.message
+        });
     }
-
-    // Optional: verify id token if client sent Authorization header
-    // const decoded = await verifyIdTokenFromRequest(req);
-    // if (decoded && userId && decoded.uid !== userId) {
-    //   return res.status(403).json({ error: "User ID mismatch with provided token" });
-    // }
-
-    // Create Razorpay order with exactly the paise amount client provided
-    const options = {
-      amount: Math.round(Number(amount)), // already paise
-      currency: "INR",
-      receipt: "receipt_" + Date.now()
-    };
-
-    const order = await razorpay.orders.create(options);
-    return res.json({ success: true, id: order.id, order }); // return order object (or just id)
-  } catch (err) {
-    console.error("❌ Razorpay order creation error:", err);
-    if (err.statusCode === 401) {
-      console.error("🔑 AUTH ERROR: Check RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET.");
-    }
-    return res.status(500).json({ error: "Error creating order", details: err.error ? err.error.description : (err.message || String(err)) });
-  }
 });
 
-// ------------------- Save Order to Firebase (with signature verification) -------------------
-// Expects req.body: { orderData: { userId, items, subtotal, shipping, total, razorpay_payment_id, razorpay_order_id, razorpay_signature, customer: {...} } }
+// ------------------- Save Order to Firebase -------------------
+// Endpoint: POST https://<RAILWAY_DOMAIN>/save-order
 app.post("/save-order", async (req, res) => {
-  try {
-    console.log("DEBUG /save-order payload:", JSON.stringify(req.body, null, 2));
-    const { orderData } = req.body;
-
-    if (!orderData || typeof orderData !== "object") {
-      return res.status(400).json({ error: "orderData is required" });
-    }
-
-    // Required fields
-    const required = ["userId", "total", "razorpay_payment_id", "razorpay_order_id", "razorpay_signature"];
-    for (const f of required) {
-      if (!orderData[f]) {
-        return res.status(400).json({ error: `Missing required field: ${f}` });
-      }
-    }
-
-    // Optionally verify ID token: ensure requestor has a valid token and matches userId
-    const decoded = await verifyIdTokenFromRequest(req);
-    if (decoded) {
-      if (decoded.uid !== orderData.userId) {
-        return res.status(403).json({ error: "Auth token UID does not match order userId" });
-      }
-    } else {
-      // If you require authentication for saving orders, uncomment and enforce:
-      // return res.status(401).json({ error: "Missing or invalid Firebase ID token" });
-      console.log("Warning: save-order called without a valid ID token (continuing because token verification is optional).");
-    }
-
-    // 1) Verify signature (HMAC SHA256)
-    const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || "")
-      .update(`${orderData.razorpay_order_id}|${orderData.razorpay_payment_id}`)
-      .digest('hex');
-
-    if (expectedSignature !== orderData.razorpay_signature) {
-      console.warn("❌ Signature mismatch:", { expectedSignature, provided: orderData.razorpay_signature });
-      return res.status(400).json({ error: "Invalid payment signature - verification failed" });
-    }
-
-    // 2) (Optional but important) Fetch Razorpay order and confirm the amount matches `orderData.total`
     try {
-      const gatewayOrder = await razorpay.orders.fetch(orderData.razorpay_order_id);
-      // gatewayOrder.amount is in paise (integer)
-      const gatewayAmount = Number(gatewayOrder.amount);
-      const clientTotal = Number(orderData.total); // should be paise
-      if (gatewayAmount !== clientTotal) {
-        console.warn("❌ Amount mismatch between gateway order and client:", { gatewayAmount, clientTotal });
-        return res.status(400).json({ error: "Amount mismatch with Razorpay order" });
-      }
-    } catch (fetchErr) {
-      console.warn("⚠️ Could not fetch Razorpay order to verify amount:", fetchErr && fetchErr.message ? fetchErr.message : fetchErr);
-      // decide whether to reject here — best to reject, but you may choose to continue
-      return res.status(500).json({ error: "Failed to verify Razorpay order", details: fetchErr.message || String(fetchErr) });
+        const { orderData } = req.body;
+
+        // format order as per your Firebase structure
+        const formattedOrder = {
+            customerName: orderData.customer.name,
+            phone: orderData.customer.phone,
+            address: `${orderData.customer.address}, ${orderData.customer.city}, ${orderData.customer.state} - ${orderData.customer.pin}`,
+            totalAmount: orderData.total,
+            subtotal: orderData.subtotal,
+            shipping: orderData.shipping,
+            paymentId: orderData.payment_id,
+            orderId: orderData.order_id,
+            paymentStatus: orderData.status,
+            datePlaced: admin.firestore.FieldValue.serverTimestamp(), // Use server timestamp
+            items: orderData.items.map(item => ({
+                name: item.name,
+                quantity: item.qty,
+                price: item.price
+            })),
+        };
+
+        // Use the Razorpay order ID as the document ID for easy lookup
+        const docId = orderData.order_id;
+
+        await db.collection("orders").doc(docId).set(formattedOrder);
+
+        res.json({ success: true, id: docId });
+    } catch (err) {
+        console.error("❌ Firebase save error:", err);
+        res.status(500).json({ error: "Error saving order in Firebase", details: err.message });
     }
-
-    // 3) Compose Firestore doc and save (safe mapping)
-    const candidateId = (orderData.order_id && String(orderData.order_id).trim()) || (orderData.razorpay_order_id && String(orderData.razorpay_order_id).trim()) || null;
-    const ordersCol = db.collection("orders");
-    const orderDocRef = candidateId ? ordersCol.doc(candidateId) : ordersCol.doc();
-    const finalDocId = candidateId ? candidateId : orderDocRef.id;
-
-    const formattedOrder = {
-      orderId: finalDocId,
-      userId: orderData.userId,
-      customerName: (orderData.customer && orderData.customer.name) || null,
-      phone: (orderData.customer && orderData.customer.phone) || null,
-      address: ((orderData.customer && orderData.customer.address) ? `${orderData.customer.address}, ${orderData.customer.city || ""}, ${orderData.customer.state || ""} - ${orderData.customer.pin || ""}` : null),
-      subtotal: Number(orderData.subtotal) || 0,
-      shipping: Number(orderData.shipping) || 0,
-      totalAmount: Number(orderData.total) || 0,
-      paymentId: orderData.razorpay_payment_id || null,
-      razorpay_order_id: orderData.razorpay_order_id || null,
-      razorpay_signature: orderData.razorpay_signature || null,
-      paymentStatus: orderData.status || "Paid",
-      items: Array.isArray(orderData.items) ? orderData.items.map(it => ({
-        name: it.name,
-        quantity: it.qty || it.quantity || 1,
-        price: it.price || 0
-      })) : [],
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      rawPayload: orderData
-    };
-
-    await orderDocRef.set(formattedOrder);
-    return res.json({ success: true, id: finalDocId });
-  } catch (err) {
-    console.error("❌ /save-order error:", err);
-    return res.status(500).json({ error: "Error saving order", details: err.message || String(err) });
-  }
 });
 
 // ------------------- Start Server -------------------
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

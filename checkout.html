@@ -5,8 +5,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Checkout - Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
+    <meta name="description"
+        content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
+    <meta name="keywords"
+        content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
+    <meta name="author" content="Ermunai Organic Farm Foods">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/">
+    <meta property="og:title" content="Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products">
+    <meta property="og:description"
+        content="Ermunai Organic Farm Foods brings you healthy, natural, and organic products directly from farm to table.">
+    <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <style>
+        /* (CSS styles remain the same) */
         * {
             margin: 0;
             padding: 0;
@@ -116,11 +134,6 @@
         .btn-pay:hover {
             background: #244021;
         }
-
-        .btn-pay:disabled {
-            background: #9aa79a;
-            cursor: not-allowed;
-        }
     </style>
 </head>
 
@@ -159,12 +172,14 @@
                     <label for="state">State*</label>
                     <input type="text" id="state" name="state" required />
                 </div>
+
             </form>
         </div>
 
         <div class="summary-section">
             <h2>Order Summary</h2>
-            <div id="itemsList"></div>
+            <div id="itemsList">
+            </div>
 
             <div class="totals">
                 <div class="line">
@@ -181,20 +196,22 @@
                 </div>
             </div>
 
-            <button id="btnPay" class="btn-pay" disabled>Pay Now</button>
+            <button id="btnPay" class="btn-pay">Pay Now</button>
         </div>
     </div>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module">
-        // ---------------- CONFIG - keep your values ----------------
-        const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app"; // your backend
-        const RAZORPAY_KEY_ID = "rzp_live_RaPexiedmItQ5c"; // your Razorpay key id
-        // -----------------------------------------------------------
+        // -------------------------------------------------------------------------------------
+        // 🛑 CRITICAL CHANGE: REPLACE THIS PLACEHOLDER WITH YOUR LIVE RAILWAY URL
+        // -------------------------------------------------------------------------------------
+        const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app";
 
+        // 🔥 FIREBASE IMPORTS
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+        // 🔑 Firebase Config (Use your actual config)
         const firebaseConfig = {
             apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
             authDomain: "ermunai-e-commerce-project.firebaseapp.com",
@@ -206,37 +223,37 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+        const auth = getAuth(app); // Initialize Auth
 
-        // State
+        // -----------------------------------------------------------
+        // 🔥 AUTHENTICATION CHECK AND USER ID STORAGE
+        // -----------------------------------------------------------
         let currentUserId = null;
-        let userContactEmail = null;
-        let authReady = false;
-
-        const btnPay = document.getElementById("btnPay");
-        btnPay.disabled = true;
+        let userContactEmail = null; // Used for prefilling Razorpay
 
         onAuthStateChanged(auth, (user) => {
-            authReady = true;
             if (user) {
+                // User is signed in. Store the secure UID.
                 currentUserId = user.uid;
                 userContactEmail = user.email;
                 console.log("Checkout user is logged in with UID:", currentUserId);
-                btnPay.disabled = false;
             } else {
+                // User is signed out. Redirect immediately.
                 alert("Please log in to complete your purchase.");
                 window.location.href = "login.html";
             }
         });
+        // -----------------------------------------------------------
 
-        // Load cart
+
+        // ---------- Load cart from localStorage ----------
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        cart = cart.map(it => ({ ...it, weightGrams: it.weightGrams || 500 }));
 
         const itemsDiv = document.getElementById("itemsList");
         const subtotalEl = document.getElementById("subtotalAmt");
         const shippingEl = document.getElementById("shippingAmt");
         const totalEl = document.getElementById("totalAmt");
+        const btnPay = document.getElementById("btnPay");
         const pinInput = document.getElementById("pin");
         const form = document.getElementById("checkoutForm");
 
@@ -258,54 +275,24 @@
             return subtotal;
         }
 
-        // -- shipping code (unchanged) --
-        const ZONES = { CHENNAI: 'chennai', TN_PY: 'tn_py', AP_TL_KL_KA: 'ap_tl_kl_ka', HYD_SED: 'hyd_sed', MUM_DEL_KOL: 'mum_del_kol', ROI: 'roi', SPECIAL: 'special' };
-        const PRICE_TABLE = { /* same as your table — omitted here for brevity in this snippet copy — keep the table in your file */ };
-        const PREFIX_ZONE_MAP = { "600": ZONES.CHENNAI, "110": ZONES.MUM_DEL_KOL, "400": ZONES.MUM_DEL_KOL, "500": ZONES.HYD_SED, "560": ZONES.AP_TL_KL_KA };
-        function getZoneFromPin(pin) {
-            if (!pin) return ZONES.ROI;
-            const pinStr = String(pin).trim();
-            for (const len of [3, 2, 1]) {
-                const p = pinStr.slice(0, len);
-                if (PREFIX_ZONE_MAP[p]) return PREFIX_ZONE_MAP[p];
-            }
-            const first = pinStr[0];
-            switch (first) {
-                case '6': return ZONES.TN_PY;
-                case '5': return ZONES.AP_TL_KL_KA;
-                case '1': case '2': case '3': case '4': return ZONES.MUM_DEL_KOL;
-                case '7': case '8': return ZONES.ROI;
-                case '9': return ZONES.SPECIAL;
-                default: return ZONES.ROI;
-            }
-        }
-        function getPriceForZoneAndWeight(zone, weightInGrams) {
-            const conf = PRICE_TABLE[zone] || PRICE_TABLE[ZONES.ROI];
-            if (!conf) return 0;
-            const w = Number(weightInGrams) || 0;
-            for (const slab of conf.slabs) if (w <= slab.maxGrams) return slab.price;
-            const largest = conf.slabs[conf.slabs.length - 1].maxGrams;
-            const basePrice = conf.slabs[conf.slabs.length - 1].price;
-            const extraGrams = Math.max(0, w - largest);
-            const extraKg = Math.ceil(extraGrams / 1000);
-            return basePrice + (extraKg * (conf.perKgPrice || 0));
-        }
-        function computeCartWeightGrams() {
-            return cart.reduce((acc, it) => acc + (Number(it.weightGrams || 500) * (Number(it.qty) || 1)), 0);
-        }
         function computeShipping(pin) {
             if (!pin) return 0;
-            const pinStr = String(pin).trim();
-            if (pinStr === "600001") return 0; // dev free pin
-            const zone = getZoneFromPin(pinStr);
-            const weight = computeCartWeightGrams();
-            const price = getPriceForZoneAndWeight(zone, weight);
-            return price;
-        }
-        function computeTotal(subtotal, shipping) { return subtotal + shipping; }
-        // -- end shipping code --
+            pin = pin.trim();
 
-        // Initialize
+            // 🛑 TEMPORARY: Return 0 shipping for a specific test PIN (e.g., 600001)
+            if (pin === "600001") {
+                return 0; // Free shipping for the test order
+            }
+            if (/^6/.test(pin)) return 50;
+            if (/^5/.test(pin)) return 70;
+            return 100;
+        }
+
+        function computeTotal(subtotal, shipping) {
+            return subtotal + shipping;
+        }
+
+        // ---------- Initialize ----------
         let subtotal = renderCart();
         let shipping = 0;
         shippingEl.textContent = "₹" + shipping.toFixed(2);
@@ -318,28 +305,24 @@
             totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
         });
 
-        // --------- Pay handler (fixed) ----------
+        // ---------- Pay Now Button ----------
         btnPay.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            if (!authReady) { alert("Auth still initializing — please wait."); return; }
-            if (!currentUserId) { alert("Please login to continue."); return; }
-            if (!form.checkValidity()) { alert("Please fill all required details."); return; }
-            if (cart.length === 0) { alert("Your cart is empty. Please add items to order."); return; }
+            if (!currentUserId) {
+                alert("Authentication is still loading. Please wait a moment and try again.");
+                return;
+            }
 
-            subtotal = renderCart();
-            shipping = computeShipping(form.pin.value);
-            const totalAmount = computeTotal(subtotal, shipping);
+            if (!form.checkValidity()) {
+                alert("Please fill all required details.");
+                return;
+            }
 
-            // IMPORTANT: convert to paise (integers) for Razorpay & server
-            const amountPaise = Math.round(totalAmount * 100);
-            const subtotalPaise = Math.round(subtotal * 100);
-            const shippingPaise = Math.round(shipping * 100);
-
-            // disable button and show processing
-            btnPay.disabled = true;
-            const prevText = btnPay.textContent;
-            btnPay.textContent = 'Processing…';
+            if (cart.length === 0) {
+                alert("Your cart is empty. Please add items to order.");
+                return;
+            }
 
             const formData = {
                 name: form.name.value,
@@ -350,96 +333,79 @@
                 state: form.state.value
             };
 
-            // Build order object client-side (for user-friendly logs). Server MUST validate amounts.
-            const clientOrderPreview = { items: cart, subtotal: subtotal, shipping: shipping, total: totalAmount, customer: formData };
+            const order = {
+                items: cart,
+                subtotal: subtotal,
+                shipping: shipping,
+                total: computeTotal(subtotal, shipping),
+                customer: formData
+            };
 
             try {
-                // 1) Create Razorpay order on backend — send amount in paise + items + userId so server can validate.
-                const createResp = await fetch(`${API_BASE_URL}/create-order`, {
+                // Step 1: Create Razorpay Order
+                const response = await fetch(`${API_BASE_URL}/create-order`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        amount: amountPaise,      // paise (integer)
-                        userId: currentUserId,
-                        items: cart,
-                        subtotal: subtotalPaise,
-                        shipping: shippingPaise
-                    })
+                    body: JSON.stringify({ amount: order.total })
                 });
 
-                if (!createResp.ok) {
-                    const errText = await createResp.text();
-                    console.error("create-order error:", errText);
-                    alert("Failed to create payment order. Try again.");
-                    btnPay.disabled = false;
-                    btnPay.textContent = prevText;
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Server error:", errorText);
+                    alert("Failed to create Razorpay order.");
                     return;
                 }
 
-                const createData = await createResp.json();
-                console.log("Razorpay order created (createData):", createData);
+                const data = await response.json();
+                console.log("Razorpay Order Created:", data);
 
-                // server should return the Razorpay order id in createData.id
-                const razorpayOrderId = createData.id;
-
-                // 2) Open Razorpay checkout
+                // Step 2: Open Razorpay payment popup
                 const options = {
-                    key: RAZORPAY_KEY_ID,
-                    amount: amountPaise, // paise — MUST match server amount
+                    key: "rzp_live_RaPexiedmItQ5c", // replace with your real key_id
+                    amount: order.total * 100,
                     currency: "INR",
-                    name: "Ermunai Organic Farm Foods",
+                    name: "Erumunai Organic Farm Foods",
                     description: "Order Payment",
-                    order_id: razorpayOrderId,
-                    handler: async function (rzResponse) {
-                        // Build payment data to send to backend (server must verify signature)
+                    order_id: data.id,
+                    handler: async function (response) {
+                        // Step 3: Save order to Firebase after payment success
                         const paymentData = {
-                            items: cart,
-                            subtotal: subtotalPaise,
-                            shipping: shippingPaise,
-                            total: amountPaise,
-                            userId: currentUserId,
-                            customer: formData,
-                            razorpay_payment_id: rzResponse.razorpay_payment_id,
-                            razorpay_order_id: razorpayOrderId, // ID we received from server
-                            razorpay_signature: rzResponse.razorpay_signature,
+                            ...order,
+                            // 🔥 CRITICAL ADDITION: USE THE SECURE FIREBASE UID
+                            userid: currentUserId,
+                            payment_id: response.razorpay_payment_id,
+                            order_id: response.razorpay_order_id,
+                            signature: response.razorpay_signature,
                             status: "Paid",
-                            datePlaced: Date.now()
+                            date: new Date().toISOString()
                         };
 
-                        console.log("Saving order to backend, payload:", paymentData);
-
                         try {
-                            const saveResp = await fetch(`${API_BASE_URL}/save-order`, {
+                            const saveResponse = await fetch(`${API_BASE_URL}/save-order`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({ orderData: paymentData })
                             });
 
-                            if (!saveResp.ok) {
-                                const err = await saveResp.text();
-                                console.error("save-order error:", err);
-                                alert("Payment succeeded but failed to save order. Contact support.");
-                                btnPay.disabled = false;
-                                btnPay.textContent = prevText;
+                            if (!saveResponse.ok) {
+                                const errorText = await saveResponse.text();
+                                console.error("Save Order Error:", errorText);
+                                alert("Payment succeeded but order not saved!");
                                 return;
                             }
 
-                            const saved = await saveResp.json();
-                            console.log("Order saved response:", saved);
                             alert("Payment Successful! Your order has been placed.");
                             localStorage.removeItem("cart");
                             window.location.href = "thankyou.html";
                         } catch (saveErr) {
                             console.error("Error saving order:", saveErr);
-                            alert("Payment succeeded but error saving order. Contact support.");
-                            btnPay.disabled = false;
-                            btnPay.textContent = prevText;
+                            alert("Error saving order details.");
                         }
                     },
                     prefill: {
                         name: formData.name,
                         contact: formData.phone,
-                        email: userContactEmail
+                        email: userContactEmail // Use the authenticated email for prefill
                     },
                     theme: { color: "#2f6f31" }
                 };
@@ -447,12 +413,9 @@
                 const rzp = new Razorpay(options);
                 rzp.open();
 
-                // note: do NOT re-enable button here — let handler finish or re-enable on error inside handler
             } catch (err) {
                 console.error("Payment initiation error:", err);
                 alert("Something went wrong. Please try again.");
-                btnPay.disabled = false;
-                btnPay.textContent = prevText;
             }
         });
     </script>
