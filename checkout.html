@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,129 +10,27 @@
         content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
     <meta name="author" content="Ermunai Organic Farm Foods">
     <meta name="robots" content="index, follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/">
-    <meta property="og:title" content="Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products">
-    <meta property="og:description"
-        content="Ermunai Organic Farm Foods brings you healthy, natural, and organic products directly from farm to table.">
-    <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.png">
-    <meta name="twitter:card" content="summary_large_image">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <style>
         /* (CSS styles remain the same) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f9faf6;
-            color: #333;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        @media(max-width: 800px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-section,
-        .summary-section {
-            background: white;
-            padding: 20px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-        }
-
-        .form-section h2,
-        .summary-section h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #2f6f31;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-        }
-
-        .summary-section .cart-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .summary-section .cart-item span {
-            font-size: 16px;
-        }
-
-        .summary-section .totals {
-            margin-top: 20px;
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-        }
-
-        .totals .line {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .totals .line.total {
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .btn-pay {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #2f6f31;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        .btn-pay:hover {
-            background: #244021;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f9faf6; color: #333; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media(max-width: 800px) { .container { grid-template-columns: 1fr; } }
+        .form-section, .summary-section { background: white; padding: 20px; border: 1px solid #eee; border-radius: 8px; }
+        .form-section h2, .summary-section h2 { margin-bottom: 20px; font-size: 24px; color: #2f6f31; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .form-group textarea { resize: vertical; }
+        .summary-section .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .summary-section .cart-item span { font-size: 16px; }
+        .summary-section .totals { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px; }
+        .totals .line { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .totals .line.total { font-weight: bold; font-size: 18px; }
+        .btn-pay { display: inline-block; padding: 12px 24px; background: #2f6f31; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; margin-top: 20px; width: 100%; }
+        .btn-pay:hover { background: #244021; }
     </style>
 </head>
 
@@ -172,14 +69,12 @@
                     <label for="state">State*</label>
                     <input type="text" id="state" name="state" required />
                 </div>
-
             </form>
         </div>
 
         <div class="summary-section">
             <h2>Order Summary</h2>
-            <div id="itemsList">
-            </div>
+            <div id="itemsList"></div>
 
             <div class="totals">
                 <div class="line">
@@ -203,15 +98,13 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module">
         // -------------------------------------------------------------------------------------
-        // 🛑 CRITICAL CHANGE: REPLACE THIS PLACEHOLDER WITH YOUR LIVE RAILWAY URL
-        // -------------------------------------------------------------------------------------
+        // Replace this with your backend URL
         const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app";
 
-        // 🔥 FIREBASE IMPORTS
+        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // 🔑 Firebase Config (Use your actual config)
         const firebaseConfig = {
             apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
             authDomain: "ermunai-e-commerce-project.firebaseapp.com",
@@ -223,28 +116,23 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app); // Initialize Auth
+        const auth = getAuth(app);
 
-        // -----------------------------------------------------------
-        // 🔥 AUTHENTICATION CHECK AND USER ID STORAGE
-        // -----------------------------------------------------------
-        let currentUserId = null;
-        let userContactEmail = null; // Used for prefilling Razorpay
+        // Authentication state
+        let currentUser = null;         // firebase.User object (trusted)
+        let userContactEmail = null;    // for Razorpay prefill
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in. Store the secure UID.
-                currentUserId = user.uid;
-                userContactEmail = user.email;
-                console.log("Checkout user is logged in with UID:", currentUserId);
+                currentUser = user;
+                userContactEmail = user.email || null;
+                console.log("Checkout user is logged in with UID:", user.uid);
             } else {
-                // User is signed out. Redirect immediately.
+                // redirect to login
                 alert("Please log in to complete your purchase.");
                 window.location.href = "login.html";
             }
         });
-        // -----------------------------------------------------------
-
 
         // ---------- Load cart from localStorage ----------
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -264,12 +152,12 @@
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "cart-item";
                 const nameSpan = document.createElement("span");
-                nameSpan.textContent = item.name + " × " + item.qty;
+                nameSpan.textContent = item.name + " × " + (item.qty || 1);
                 const priceSpan = document.createElement("span");
-                priceSpan.textContent = "₹" + (item.price * item.qty).toFixed(2);
+                priceSpan.textContent = "₹" + ((item.price || 0) * (item.qty || 1)).toFixed(2);
                 itemDiv.append(nameSpan, priceSpan);
                 itemsDiv.appendChild(itemDiv);
-                subtotal += item.price * item.qty;
+                subtotal += (item.price || 0) * (item.qty || 1);
             });
             subtotalEl.textContent = "₹" + subtotal.toFixed(2);
             return subtotal;
@@ -278,11 +166,7 @@
         function computeShipping(pin) {
             if (!pin) return 0;
             pin = pin.trim();
-
-            // 🛑 TEMPORARY: Return 0 shipping for a specific test PIN (e.g., 600001)
-            if (pin === "600001") {
-                return 0; // Free shipping for the test order
-            }
+            if (pin === "600001") return 0;
             if (/^6/.test(pin)) return 50;
             if (/^5/.test(pin)) return 70;
             return 100;
@@ -292,7 +176,7 @@
             return subtotal + shipping;
         }
 
-        // ---------- Initialize ----------
+        // Initialize
         let subtotal = renderCart();
         let shipping = 0;
         shippingEl.textContent = "₹" + shipping.toFixed(2);
@@ -305,11 +189,11 @@
             totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
         });
 
-        // ---------- Pay Now Button ----------
+        // Pay Now
         btnPay.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            if (!currentUserId) {
+            if (!currentUser) {
                 alert("Authentication is still loading. Please wait a moment and try again.");
                 return;
             }
@@ -342,55 +226,62 @@
             };
 
             try {
-                // Step 1: Create Razorpay Order
-                const response = await fetch(`${API_BASE_URL}/create-order`, {
+                // 1) Create order on server (server will create Razorpay order)
+                const createResp = await fetch(`${API_BASE_URL}/create-order`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ amount: order.total })
                 });
 
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error("Server error:", errorText);
-                    alert("Failed to create Razorpay order.");
+                if (!createResp.ok) {
+                    const errorText = await createResp.text();
+                    console.error("Server error (create-order):", errorText);
+                    alert("Failed to create payment order. Try again later.");
                     return;
                 }
 
-                const data = await response.json();
-                console.log("Razorpay Order Created:", data);
+                const razorpayOrder = await createResp.json();
+                console.log("Razorpay Order Created (server):", razorpayOrder);
 
-                // Step 2: Open Razorpay payment popup
+                // 2) Open Razorpay checkout (use server-provided order id)
                 const options = {
-                    key: "rzp_live_RaPexiedmItQ5c", // replace with your real key_id
-                    amount: order.total * 100,
+                    key: "rzp_live_RaPexiedmItQ5c", // replace with your public key_id
+                    amount: Math.round(order.total * 100), // amount in paise
                     currency: "INR",
-                    name: "Erumunai Organic Farm Foods",
+                    name: "Ermunai Organic Farm Foods",
                     description: "Order Payment",
-                    order_id: data.id,
+                    order_id: razorpayOrder.id, // important: server-created order id
                     handler: async function (response) {
-                        // Step 3: Save order to Firebase after payment success
+                        // response should contain razorpay_payment_id, razorpay_order_id, razorpay_signature
+                        console.log("Razorpay handler response:", response);
+
+                        // Build payload to send to server. DO NOT send client-supplied uid.
                         const paymentData = {
                             ...order,
-                            // 🔥 CRITICAL ADDITION: USE THE SECURE FIREBASE UID
-                            userid: currentUserId,
-                            payment_id: response.razorpay_payment_id,
-                            order_id: response.razorpay_order_id,
-                            signature: response.razorpay_signature,
+                            payment_id: response.razorpay_payment_id || null,
+                            order_id: response.razorpay_order_id || razorpayOrder.id || null,
+                            signature: response.razorpay_signature || null,
                             status: "Paid",
                             date: new Date().toISOString()
                         };
 
                         try {
+                            // Get fresh idToken from firebase user and send in Authorization header
+                            const idToken = await currentUser.getIdToken(true);
+
                             const saveResponse = await fetch(`${API_BASE_URL}/save-order`, {
                                 method: "POST",
-                                headers: { "Content-Type": "application/json" },
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Authorization": "Bearer " + idToken
+                                },
                                 body: JSON.stringify({ orderData: paymentData })
                             });
 
                             if (!saveResponse.ok) {
                                 const errorText = await saveResponse.text();
                                 console.error("Save Order Error:", errorText);
-                                alert("Payment succeeded but order not saved!");
+                                alert("Payment succeeded but failed to save order. Contact support.");
                                 return;
                             }
 
@@ -398,14 +289,14 @@
                             localStorage.removeItem("cart");
                             window.location.href = "thankyou.html";
                         } catch (saveErr) {
-                            console.error("Error saving order:", saveErr);
-                            alert("Error saving order details.");
+                            console.error("Error saving order (network):", saveErr);
+                            alert("Payment succeeded but error saving order. Contact support.");
                         }
                     },
                     prefill: {
                         name: formData.name,
                         contact: formData.phone,
-                        email: userContactEmail // Use the authenticated email for prefill
+                        email: userContactEmail
                     },
                     theme: { color: "#2f6f31" }
                 };
@@ -419,7 +310,5 @@
             }
         });
     </script>
-
 </body>
-
 </html>
