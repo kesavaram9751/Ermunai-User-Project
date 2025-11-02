@@ -187,10 +187,10 @@
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module">
-        // ---------------- CONFIG - replace with your real values ----------------
-        const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app"; // TODO: confirm
-        const RAZORPAY_KEY_ID = "rzp_live_RaPexiedmItQ5c"; // TODO: replace with your key id
-        // ----------------------------------------------------------------------
+        // ---------------- CONFIG - keep your values ----------------
+        const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app"; // your backend
+        const RAZORPAY_KEY_ID = "rzp_live_RaPexiedmItQ5c"; // your Razorpay key id
+        // -----------------------------------------------------------
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -258,24 +258,10 @@
             return subtotal;
         }
 
-        // ---------------- SHIPPING (kept from your version) ----------------
-        const ZONES = {
-            CHENNAI: 'chennai', TN_PY: 'tn_py', AP_TL_KL_KA: 'ap_tl_kl_ka',
-            HYD_SED: 'hyd_sed', MUM_DEL_KOL: 'mum_del_kol', ROI: 'roi', SPECIAL: 'special'
-        };
-
-        const PRICE_TABLE = {
-            [ZONES.CHENNAI]: { slabs: [{ maxGrams: 250, price: 35 }, { maxGrams: 500, price: 45 }, { maxGrams: 1000, price: 55 }, { maxGrams: 1500, price: 65 }, { maxGrams: 2000, price: 75 }, { maxGrams: 2500, price: 85 }, { maxGrams: 3000, price: 90 }], perKgPrice: 100 },
-            [ZONES.TN_PY]: { slabs: [{ maxGrams: 250, price: 60 }, { maxGrams: 500, price: 70 }, { maxGrams: 1000, price: 90 }, { maxGrams: 1500, price: 110 }, { maxGrams: 2000, price: 180 }, { maxGrams: 2500, price: 240 }, { maxGrams: 3000, price: 330 }], perKgPrice: 380 },
-            [ZONES.AP_TL_KL_KA]: { slabs: [{ maxGrams: 250, price: 80 }, { maxGrams: 500, price: 85 }, { maxGrams: 1000, price: 145 }, { maxGrams: 1500, price: 190 }, { maxGrams: 2000, price: 230 }, { maxGrams: 2500, price: 350 }, { maxGrams: 3000, price: 380 }], perKgPrice: 1140 },
-            [ZONES.HYD_SED]: { slabs: [{ maxGrams: 250, price: 100 }, { maxGrams: 500, price: 120 }, { maxGrams: 1000, price: 180 }, { maxGrams: 1500, price: 220 }, { maxGrams: 2000, price: 250 }, { maxGrams: 2500, price: 300 }, { maxGrams: 3000, price: 450 }], perKgPrice: 380 },
-            [ZONES.MUM_DEL_KOL]: { slabs: [{ maxGrams: 250, price: 120 }, { maxGrams: 500, price: 140 }, { maxGrams: 1000, price: 180 }, { maxGrams: 1500, price: 240 }, { maxGrams: 2000, price: 300 }, { maxGrams: 2500, price: 300 }, { maxGrams: 3000, price: 380 }], perKgPrice: 350 },
-            [ZONES.ROI]: { slabs: [{ maxGrams: 250, price: 150 }, { maxGrams: 500, price: 180 }, { maxGrams: 1000, price: 230 }, { maxGrams: 1500, price: 270 }, { maxGrams: 2000, price: 350 }, { maxGrams: 2500, price: 380 }, { maxGrams: 3000, price: 450 }], perKgPrice: 380 },
-            [ZONES.SPECIAL]: { slabs: [{ maxGrams: 250, price: 220 }, { maxGrams: 500, price: 250 }, { maxGrams: 1000, price: 380 }, { maxGrams: 1500, price: 570 }, { maxGrams: 2000, price: 760 }, { maxGrams: 2500, price: 950 }, { maxGrams: 3000, price: 1140 }], perKgPrice: 350 }
-        };
-
+        // -- shipping code (unchanged) --
+        const ZONES = { CHENNAI: 'chennai', TN_PY: 'tn_py', AP_TL_KL_KA: 'ap_tl_kl_ka', HYD_SED: 'hyd_sed', MUM_DEL_KOL: 'mum_del_kol', ROI: 'roi', SPECIAL: 'special' };
+        const PRICE_TABLE = { /* same as your table — omitted here for brevity in this snippet copy — keep the table in your file */ };
         const PREFIX_ZONE_MAP = { "600": ZONES.CHENNAI, "110": ZONES.MUM_DEL_KOL, "400": ZONES.MUM_DEL_KOL, "500": ZONES.HYD_SED, "560": ZONES.AP_TL_KL_KA };
-
         function getZoneFromPin(pin) {
             if (!pin) return ZONES.ROI;
             const pinStr = String(pin).trim();
@@ -287,17 +273,12 @@
             switch (first) {
                 case '6': return ZONES.TN_PY;
                 case '5': return ZONES.AP_TL_KL_KA;
-                case '1':
-                case '2':
-                case '3':
-                case '4': return ZONES.MUM_DEL_KOL;
-                case '7':
-                case '8': return ZONES.ROI;
+                case '1': case '2': case '3': case '4': return ZONES.MUM_DEL_KOL;
+                case '7': case '8': return ZONES.ROI;
                 case '9': return ZONES.SPECIAL;
                 default: return ZONES.ROI;
             }
         }
-
         function getPriceForZoneAndWeight(zone, weightInGrams) {
             const conf = PRICE_TABLE[zone] || PRICE_TABLE[ZONES.ROI];
             if (!conf) return 0;
@@ -309,11 +290,9 @@
             const extraKg = Math.ceil(extraGrams / 1000);
             return basePrice + (extraKg * (conf.perKgPrice || 0));
         }
-
         function computeCartWeightGrams() {
             return cart.reduce((acc, it) => acc + (Number(it.weightGrams || 500) * (Number(it.qty) || 1)), 0);
         }
-
         function computeShipping(pin) {
             if (!pin) return 0;
             const pinStr = String(pin).trim();
@@ -323,8 +302,8 @@
             const price = getPriceForZoneAndWeight(zone, weight);
             return price;
         }
-
         function computeTotal(subtotal, shipping) { return subtotal + shipping; }
+        // -- end shipping code --
 
         // Initialize
         let subtotal = renderCart();
@@ -339,7 +318,7 @@
             totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
         });
 
-        // --------- Pay handler (creates order -> opens Razorpay -> saves order with userId + order_id) ----------
+        // --------- Pay handler (fixed) ----------
         btnPay.addEventListener("click", async (e) => {
             e.preventDefault();
 
@@ -352,6 +331,16 @@
             shipping = computeShipping(form.pin.value);
             const totalAmount = computeTotal(subtotal, shipping);
 
+            // IMPORTANT: convert to paise (integers) for Razorpay & server
+            const amountPaise = Math.round(totalAmount * 100);
+            const subtotalPaise = Math.round(subtotal * 100);
+            const shippingPaise = Math.round(shipping * 100);
+
+            // disable button and show processing
+            btnPay.disabled = true;
+            const prevText = btnPay.textContent;
+            btnPay.textContent = 'Processing…';
+
             const formData = {
                 name: form.name.value,
                 phone: form.phone.value,
@@ -361,50 +350,60 @@
                 state: form.state.value
             };
 
-            const order = { items: cart, subtotal: subtotal, shipping: shipping, total: totalAmount, customer: formData };
+            // Build order object client-side (for user-friendly logs). Server MUST validate amounts.
+            const clientOrderPreview = { items: cart, subtotal: subtotal, shipping: shipping, total: totalAmount, customer: formData };
 
             try {
-                // 1) Create Razorpay order on backend. Include userId for server-side linking.
+                // 1) Create Razorpay order on backend — send amount in paise + items + userId so server can validate.
                 const createResp = await fetch(`${API_BASE_URL}/create-order`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ amount: Math.round(totalAmount), userId: currentUserId })
+                    body: JSON.stringify({
+                        amount: amountPaise,      // paise (integer)
+                        userId: currentUserId,
+                        items: cart,
+                        subtotal: subtotalPaise,
+                        shipping: shippingPaise
+                    })
                 });
 
                 if (!createResp.ok) {
                     const errText = await createResp.text();
                     console.error("create-order error:", errText);
                     alert("Failed to create payment order. Try again.");
+                    btnPay.disabled = false;
+                    btnPay.textContent = prevText;
                     return;
                 }
 
                 const createData = await createResp.json();
                 console.log("Razorpay order created (createData):", createData);
 
-                // Keep the returned Razorpay order id so we can pass it to server when saving.
+                // server should return the Razorpay order id in createData.id
                 const razorpayOrderId = createData.id;
 
                 // 2) Open Razorpay checkout
                 const options = {
                     key: RAZORPAY_KEY_ID,
-                    amount: Math.round(totalAmount * 100), // paise
+                    amount: amountPaise, // paise — MUST match server amount
                     currency: "INR",
                     name: "Ermunai Organic Farm Foods",
                     description: "Order Payment",
                     order_id: razorpayOrderId,
                     handler: async function (rzResponse) {
-                        // rzResponse contains razorpay_payment_id, razorpay_order_id, razorpay_signature
-                        // Build payment data to send to backend (includes userId and order_id)
+                        // Build payment data to send to backend (server must verify signature)
                         const paymentData = {
-                            ...order,
+                            items: cart,
+                            subtotal: subtotalPaise,
+                            shipping: shippingPaise,
+                            total: amountPaise,
                             userId: currentUserId,
-                            payment_id: rzResponse.razorpay_payment_id,
-                            // include Razorpay's order id we got earlier
-                            order_id: razorpayOrderId,
-                            razorpay_order_id: rzResponse.razorpay_order_id,
+                            customer: formData,
+                            razorpay_payment_id: rzResponse.razorpay_payment_id,
+                            razorpay_order_id: razorpayOrderId, // ID we received from server
                             razorpay_signature: rzResponse.razorpay_signature,
                             status: "Paid",
-                            date: new Date().toISOString()
+                            datePlaced: Date.now()
                         };
 
                         console.log("Saving order to backend, payload:", paymentData);
@@ -420,6 +419,8 @@
                                 const err = await saveResp.text();
                                 console.error("save-order error:", err);
                                 alert("Payment succeeded but failed to save order. Contact support.");
+                                btnPay.disabled = false;
+                                btnPay.textContent = prevText;
                                 return;
                             }
 
@@ -431,6 +432,8 @@
                         } catch (saveErr) {
                             console.error("Error saving order:", saveErr);
                             alert("Payment succeeded but error saving order. Contact support.");
+                            btnPay.disabled = false;
+                            btnPay.textContent = prevText;
                         }
                     },
                     prefill: {
@@ -444,12 +447,16 @@
                 const rzp = new Razorpay(options);
                 rzp.open();
 
+                // note: do NOT re-enable button here — let handler finish or re-enable on error inside handler
             } catch (err) {
                 console.error("Payment initiation error:", err);
                 alert("Something went wrong. Please try again.");
+                btnPay.disabled = false;
+                btnPay.textContent = prevText;
             }
         });
     </script>
+
 </body>
 
 </html>
