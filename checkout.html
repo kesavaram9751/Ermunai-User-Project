@@ -11,129 +11,27 @@
         content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
     <meta name="author" content="Ermunai Organic Farm Foods">
     <meta name="robots" content="index, follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/">
-    <meta property="og:title" content="Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products">
-    <meta property="og:description"
-        content="Ermunai Organic Farm Foods brings you healthy, natural, and organic products directly from farm to table.">
-    <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.png">
-    <meta name="twitter:card" content="summary_large_image">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
     <style>
-        /* (CSS styles remain the same) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f9faf6;
-            color: #333;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        @media(max-width: 800px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-section,
-        .summary-section {
-            background: white;
-            padding: 20px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-        }
-
-        .form-section h2,
-        .summary-section h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #2f6f31;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-        }
-
-        .summary-section .cart-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .summary-section .cart-item span {
-            font-size: 16px;
-        }
-
-        .summary-section .totals {
-            margin-top: 20px;
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-        }
-
-        .totals .line {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .totals .line.total {
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .btn-pay {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #2f6f31;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        .btn-pay:hover {
-            background: #244021;
-        }
+        /* (same CSS as before) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f9faf6; color: #333; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media(max-width: 800px) { .container { grid-template-columns: 1fr; } }
+        .form-section, .summary-section { background: white; padding: 20px; border: 1px solid #eee; border-radius: 8px; }
+        .form-section h2, .summary-section h2 { margin-bottom: 20px; font-size: 24px; color: #2f6f31; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .form-group textarea { resize: vertical; }
+        .summary-section .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .summary-section .cart-item span { font-size: 16px; }
+        .summary-section .totals { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px; }
+        .totals .line { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .totals .line.total { font-weight: bold; font-size: 18px; }
+        .btn-pay { display: inline-block; padding: 12px 24px; background: #2f6f31; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; margin-top: 20px; width: 100%; }
+        .btn-pay:hover { background: #244021; }
+        .btn-pay:disabled { background: #9aa79a; cursor: not-allowed; }
     </style>
 </head>
 
@@ -178,8 +76,7 @@
 
         <div class="summary-section">
             <h2>Order Summary</h2>
-            <div id="itemsList">
-            </div>
+            <div id="itemsList"></div>
 
             <div class="totals">
                 <div class="line">
@@ -196,22 +93,22 @@
                 </div>
             </div>
 
-            <button id="btnPay" class="btn-pay">Pay Now</button>
+            <button id="btnPay" class="btn-pay" disabled>Pay Now</button>
         </div>
     </div>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module">
         // -------------------------------------------------------------------------------------
-        // 🛑 CRITICAL CHANGE: REPLACE THIS PLACEHOLDER WITH YOUR LIVE RAILWAY URL
+        // CONFIG - change these to your production values
         // -------------------------------------------------------------------------------------
-        const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app";
+        const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app"; // TODO: confirm
+        const RAZORPAY_KEY_ID = "rzp_live_RaPexiedmItQ5c"; // TODO: replace with your key id
+        // -------------------------------------------------------------------------------------
 
-        // 🔥 FIREBASE IMPORTS
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // 🔑 Firebase Config (Use your actual config)
         const firebaseConfig = {
             apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
             authDomain: "ermunai-e-commerce-project.firebaseapp.com",
@@ -223,37 +120,43 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app); // Initialize Auth
+        const auth = getAuth(app);
 
-        // -----------------------------------------------------------
-        // 🔥 AUTHENTICATION CHECK AND USER ID STORAGE
-        // -----------------------------------------------------------
+        // -------------------------------------------------------------------------------------
+        // State
+        // -------------------------------------------------------------------------------------
         let currentUserId = null;
-        let userContactEmail = null; // Used for prefilling Razorpay
+        let userContactEmail = null;
+        let authReady = false;
+
+        // Require auth to enable payment (ensures userId available)
+        const btnPay = document.getElementById("btnPay");
+        btnPay.disabled = true;
 
         onAuthStateChanged(auth, (user) => {
+            authReady = true;
             if (user) {
-                // User is signed in. Store the secure UID.
                 currentUserId = user.uid;
                 userContactEmail = user.email;
                 console.log("Checkout user is logged in with UID:", currentUserId);
+                btnPay.disabled = false;
             } else {
-                // User is signed out. Redirect immediately.
+                // Not logged in. Keep disabled and redirect to login page.
                 alert("Please log in to complete your purchase.");
                 window.location.href = "login.html";
             }
         });
-        // -----------------------------------------------------------
-
 
         // ---------- Load cart from localStorage ----------
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+        // Utility: ensure each cart item has weightGrams (default 500g)
+        cart = cart.map(it => ({ ...it, weightGrams: it.weightGrams || 500 }));
 
         const itemsDiv = document.getElementById("itemsList");
         const subtotalEl = document.getElementById("subtotalAmt");
         const shippingEl = document.getElementById("shippingAmt");
         const totalEl = document.getElementById("totalAmt");
-        const btnPay = document.getElementById("btnPay");
         const pinInput = document.getElementById("pin");
         const form = document.getElementById("checkoutForm");
 
@@ -275,29 +178,133 @@
             return subtotal;
         }
 
+        // -------------------------
+        // SHIPPING: Price table & zone map
+        // -------------------------
+        // Zones
+        const ZONES = {
+            CHENNAI: 'chennai',
+            TN_PY: 'tn_py',
+            AP_TL_KL_KA: 'ap_tl_kl_ka',
+            HYD_SED: 'hyd_sed',
+            MUM_DEL_KOL: 'mum_del_kol',
+            ROI: 'roi',
+            SPECIAL: 'special'
+        };
+
+        // PRICE_TABLE: slabs in grams and perKgPrice for >3kg
+        // TODO: verify these numbers against your official sheet
+        const PRICE_TABLE = {
+            [ZONES.CHENNAI]: { slabs: [
+                { maxGrams: 250, price: 35 }, { maxGrams: 500, price: 45 }, { maxGrams: 1000, price: 55 },
+                { maxGrams: 1500, price: 65 }, { maxGrams: 2000, price: 75 }, { maxGrams: 2500, price: 85 },
+                { maxGrams: 3000, price: 90 } ], perKgPrice: 100 },
+            [ZONES.TN_PY]: { slabs: [
+                { maxGrams: 250, price: 60 }, { maxGrams: 500, price: 70 }, { maxGrams: 1000, price: 90 },
+                { maxGrams: 1500, price: 110 }, { maxGrams: 2000, price: 180 }, { maxGrams: 2500, price: 240 },
+                { maxGrams: 3000, price: 330 } ], perKgPrice: 380 },
+            [ZONES.AP_TL_KL_KA]: { slabs: [
+                { maxGrams: 250, price: 80 }, { maxGrams: 500, price: 85 }, { maxGrams: 1000, price: 145 },
+                { maxGrams: 1500, price: 190 }, { maxGrams: 2000, price: 230 }, { maxGrams: 2500, price: 350 },
+                { maxGrams: 3000, price: 380 } ], perKgPrice: 1140 }, // verify
+            [ZONES.HYD_SED]: { slabs: [
+                { maxGrams: 250, price: 100 }, { maxGrams: 500, price: 120 }, { maxGrams: 1000, price: 180 },
+                { maxGrams: 1500, price: 220 }, { maxGrams: 2000, price: 250 }, { maxGrams: 2500, price: 300 },
+                { maxGrams: 3000, price: 450 } ], perKgPrice: 380 },
+            [ZONES.MUM_DEL_KOL]: { slabs: [
+                { maxGrams: 250, price: 120 }, { maxGrams: 500, price: 140 }, { maxGrams: 1000, price: 180 },
+                { maxGrams: 1500, price: 240 }, { maxGrams: 2000, price: 300 }, { maxGrams: 2500, price: 300 },
+                { maxGrams: 3000, price: 380 } ], perKgPrice: 350 },
+            [ZONES.ROI]: { slabs: [
+                { maxGrams: 250, price: 150 }, { maxGrams: 500, price: 180 }, { maxGrams: 1000, price: 230 },
+                { maxGrams: 1500, price: 270 }, { maxGrams: 2000, price: 350 }, { maxGrams: 2500, price: 380 },
+                { maxGrams: 3000, price: 450 } ], perKgPrice: 380 },
+            [ZONES.SPECIAL]: { slabs: [
+                { maxGrams: 250, price: 220 }, { maxGrams: 500, price: 250 }, { maxGrams: 1000, price: 380 },
+                { maxGrams: 1500, price: 570 }, { maxGrams: 2000, price: 760 }, { maxGrams: 2500, price: 950 },
+                { maxGrams: 3000, price: 1140 } ], perKgPrice: 350 }
+        };
+
+        // Admin-configurable prefix map: add 3-digit prefixes as needed
+        // Example: "600" -> CHENNAI, "110" -> MUM_DEL_KOL (Delhi), "500" -> HYD_SED
+        const PREFIX_ZONE_MAP = {
+            "600": ZONES.CHENNAI,
+            "110": ZONES.MUM_DEL_KOL,
+            "400": ZONES.MUM_DEL_KOL,
+            "500": ZONES.HYD_SED,
+            "560": ZONES.AP_TL_KL_KA
+            // Add more as you know them
+        };
+
+        function getZoneFromPin(pin) {
+            if (!pin) return ZONES.ROI;
+            const pinStr = String(pin).trim();
+            // try 3,2,1 digit prefixes
+            for (const len of [3,2,1]) {
+                const p = pinStr.slice(0, len);
+                if (PREFIX_ZONE_MAP[p]) return PREFIX_ZONE_MAP[p];
+            }
+            // fallback heuristic by first digit
+            const first = pinStr[0];
+            switch (first) {
+                case '6': return ZONES.TN_PY;
+                case '5': return ZONES.AP_TL_KL_KA;
+                case '1':
+                case '2':
+                case '3':
+                case '4': return ZONES.MUM_DEL_KOL;
+                case '7':
+                case '8': return ZONES.ROI;
+                case '9': return ZONES.SPECIAL;
+                default: return ZONES.ROI;
+            }
+        }
+
+        function getPriceForZoneAndWeight(zone, weightInGrams) {
+            const conf = PRICE_TABLE[zone] || PRICE_TABLE[ZONES.ROI];
+            if (!conf) return 0;
+            const w = Number(weightInGrams) || 0;
+            for (const slab of conf.slabs) {
+                if (w <= slab.maxGrams) return slab.price;
+            }
+            // above largest: base + perKg for extra (ceil)
+            const largest = conf.slabs[conf.slabs.length - 1].maxGrams;
+            const basePrice = conf.slabs[conf.slabs.length - 1].price;
+            const extraGrams = Math.max(0, w - largest);
+            const extraKg = Math.ceil(extraGrams / 1000);
+            const perKg = conf.perKgPrice || 0;
+            return basePrice + (extraKg * perKg);
+        }
+
+        // compute cart total weight in grams
+        function computeCartWeightGrams() {
+            // each cart item: { qty, weightGrams }
+            return cart.reduce((acc, it) => acc + (Number(it.weightGrams || 500) * (Number(it.qty) || 1)), 0);
+        }
+
+        // Updated computeShipping(pin) that uses cart weight and zone table
         function computeShipping(pin) {
             if (!pin) return 0;
-            pin = pin.trim();
-
-            // 🛑 TEMPORARY: Return 0 shipping for a specific test PIN (e.g., 600001)
-            if (pin === "600001") {
-                return 0; // Free shipping for the test order
-            }
-            if (/^6/.test(pin)) return 50;
-            if (/^5/.test(pin)) return 70;
-            return 100;
+            const pinStr = String(pin).trim();
+            // dev free shipping pin (remove in prod)
+            if (pinStr === "600001") return 0;
+            const zone = getZoneFromPin(pinStr);
+            const weight = computeCartWeightGrams();
+            const price = getPriceForZoneAndWeight(zone, weight);
+            return price;
         }
 
         function computeTotal(subtotal, shipping) {
             return subtotal + shipping;
         }
 
-        // ---------- Initialize ----------
+        // ---------- Initialize & Render ----------
         let subtotal = renderCart();
         let shipping = 0;
         shippingEl.textContent = "₹" + shipping.toFixed(2);
         totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
 
+        // recalc shipping when pincode changes
         pinInput.addEventListener("blur", () => {
             const pin = pinInput.value;
             shipping = computeShipping(pin);
@@ -305,12 +312,20 @@
             totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
         });
 
-        // ---------- Pay Now Button ----------
+        // Also recalc shipping if cart changes (not implemented here but helpful)
+        // e.g., call recalcShipping()
+
+        // ---------- Pay Now Button Handler ----------
         btnPay.addEventListener("click", async (e) => {
             e.preventDefault();
 
+            if (!authReady) {
+                alert("Auth still initializing — please wait a moment.");
+                return;
+            }
+
             if (!currentUserId) {
-                alert("Authentication is still loading. Please wait a moment and try again.");
+                alert("Please login to continue.");
                 return;
             }
 
@@ -323,6 +338,11 @@
                 alert("Your cart is empty. Please add items to order.");
                 return;
             }
+
+            // Recompute totals (in case cart or pin changed)
+            subtotal = renderCart();
+            shipping = computeShipping(form.pin.value);
+            const totalAmount = computeTotal(subtotal, shipping);
 
             const formData = {
                 name: form.name.value,
@@ -337,60 +357,60 @@
                 items: cart,
                 subtotal: subtotal,
                 shipping: shipping,
-                total: computeTotal(subtotal, shipping),
+                total: totalAmount,
                 customer: formData
             };
 
             try {
-                // Step 1: Create Razorpay Order
-                const response = await fetch(`${API_BASE_URL}/create-order`, {
+                // Step 1: Create Razorpay Order on backend
+                // Include userId so backend can link orders immediately.
+                const createResp = await fetch(`${API_BASE_URL}/create-order`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ amount: order.total })
+                    body: JSON.stringify({ amount: Math.round(totalAmount), userId: currentUserId })
                 });
 
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error("Server error:", errorText);
-                    alert("Failed to create Razorpay order.");
+                if (!createResp.ok) {
+                    const errText = await createResp.text();
+                    console.error("create-order error:", errText);
+                    alert("Failed to create payment order. Try again.");
                     return;
                 }
 
-                const data = await response.json();
-                console.log("Razorpay Order Created:", data);
+                const createData = await createResp.json();
+                console.log("Razorpay order created:", createData);
 
-                // Step 2: Open Razorpay payment popup
+                // Step 2: open Razorpay
                 const options = {
-                    key: "rzp_live_RaPexiedmItQ5c", // replace with your real key_id
-                    amount: order.total * 100,
+                    key: RAZORPAY_KEY_ID,
+                    amount: Math.round(totalAmount * 100), // in paise
                     currency: "INR",
-                    name: "Erumunai Organic Farm Foods",
+                    name: "Ermunai Organic Farm Foods",
                     description: "Order Payment",
-                    order_id: data.id,
-                    handler: async function (response) {
-                        // Step 3: Save order to Firebase after payment success
+                    order_id: createData.id,
+                    handler: async function (rzResponse) {
+                        // Payment success handler
                         const paymentData = {
                             ...order,
-                            // 🔥 CRITICAL ADDITION: USE THE SECURE FIREBASE UID
-                            userId: currentUserId,
-                            payment_id: response.razorpay_payment_id,
-                            order_id: response.razorpay_order_id,
-                            signature: response.razorpay_signature,
+                            userId: currentUserId,             // IMPORTANT: attach secure UID
+                            payment_id: rzResponse.razorpay_payment_id,
+                            razorpay_order_id: rzResponse.razorpay_order_id,
+                            razorpay_signature: rzResponse.razorpay_signature,
                             status: "Paid",
                             date: new Date().toISOString()
                         };
 
                         try {
-                            const saveResponse = await fetch(`${API_BASE_URL}/save-order`, {
+                            const saveResp = await fetch(`${API_BASE_URL}/save-order`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({ orderData: paymentData })
                             });
 
-                            if (!saveResponse.ok) {
-                                const errorText = await saveResponse.text();
-                                console.error("Save Order Error:", errorText);
-                                alert("Payment succeeded but order not saved!");
+                            if (!saveResp.ok) {
+                                const err = await saveResp.text();
+                                console.error("save-order error:", err);
+                                alert("Payment succeeded but failed to save order. Contact support.");
                                 return;
                             }
 
@@ -399,13 +419,13 @@
                             window.location.href = "thankyou.html";
                         } catch (saveErr) {
                             console.error("Error saving order:", saveErr);
-                            alert("Error saving order details.");
+                            alert("Payment succeeded but error saving order. Contact support.");
                         }
                     },
                     prefill: {
                         name: formData.name,
                         contact: formData.phone,
-                        email: userContactEmail // Use the authenticated email for prefill
+                        email: userContactEmail
                     },
                     theme: { color: "#2f6f31" }
                 };
@@ -419,7 +439,6 @@
             }
         });
     </script>
-
 </body>
 
 </html>
