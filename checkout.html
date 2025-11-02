@@ -5,33 +5,122 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Checkout - Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
-    <meta name="description"
-        content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
-    <meta name="keywords"
-        content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
-    <meta name="author" content="Ermunai Organic Farm Foods">
-    <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        /* (same CSS as before) */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f9faf6; color: #333; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        @media(max-width: 800px) { .container { grid-template-columns: 1fr; } }
-        .form-section, .summary-section { background: white; padding: 20px; border: 1px solid #eee; border-radius: 8px; }
-        .form-section h2, .summary-section h2 { margin-bottom: 20px; font-size: 24px; color: #2f6f31; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .form-group textarea { resize: vertical; }
-        .summary-section .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .summary-section .cart-item span { font-size: 16px; }
-        .summary-section .totals { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px; }
-        .totals .line { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .totals .line.total { font-weight: bold; font-size: 18px; }
-        .btn-pay { display: inline-block; padding: 12px 24px; background: #2f6f31; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; margin-top: 20px; width: 100%; }
-        .btn-pay:hover { background: #244021; }
-        .btn-pay:disabled { background: #9aa79a; cursor: not-allowed; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9faf6;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media(max-width: 800px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-section,
+        .summary-section {
+            background: white;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .form-section h2,
+        .summary-section h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #2f6f31;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .summary-section .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-section .cart-item span {
+            font-size: 16px;
+        }
+
+        .summary-section .totals {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .totals .line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .totals .line.total {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .btn-pay {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #2f6f31;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-pay:hover {
+            background: #244021;
+        }
+
+        .btn-pay:disabled {
+            background: #9aa79a;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -70,7 +159,6 @@
                     <label for="state">State*</label>
                     <input type="text" id="state" name="state" required />
                 </div>
-
             </form>
         </div>
 
@@ -99,12 +187,10 @@
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module">
-        // -------------------------------------------------------------------------------------
-        // CONFIG - change these to your production values
-        // -------------------------------------------------------------------------------------
+        // ---------------- CONFIG - replace with your real values ----------------
         const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app"; // TODO: confirm
         const RAZORPAY_KEY_ID = "rzp_live_RaPexiedmItQ5c"; // TODO: replace with your key id
-        // -------------------------------------------------------------------------------------
+        // ----------------------------------------------------------------------
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -122,14 +208,11 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // -------------------------------------------------------------------------------------
         // State
-        // -------------------------------------------------------------------------------------
         let currentUserId = null;
         let userContactEmail = null;
         let authReady = false;
 
-        // Require auth to enable payment (ensures userId available)
         const btnPay = document.getElementById("btnPay");
         btnPay.disabled = true;
 
@@ -141,16 +224,13 @@
                 console.log("Checkout user is logged in with UID:", currentUserId);
                 btnPay.disabled = false;
             } else {
-                // Not logged in. Keep disabled and redirect to login page.
                 alert("Please log in to complete your purchase.");
                 window.location.href = "login.html";
             }
         });
 
-        // ---------- Load cart from localStorage ----------
+        // Load cart
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-        // Utility: ensure each cart item has weightGrams (default 500g)
         cart = cart.map(it => ({ ...it, weightGrams: it.weightGrams || 500 }));
 
         const itemsDiv = document.getElementById("itemsList");
@@ -178,73 +258,31 @@
             return subtotal;
         }
 
-        // -------------------------
-        // SHIPPING: Price table & zone map
-        // -------------------------
-        // Zones
+        // ---------------- SHIPPING (kept from your version) ----------------
         const ZONES = {
-            CHENNAI: 'chennai',
-            TN_PY: 'tn_py',
-            AP_TL_KL_KA: 'ap_tl_kl_ka',
-            HYD_SED: 'hyd_sed',
-            MUM_DEL_KOL: 'mum_del_kol',
-            ROI: 'roi',
-            SPECIAL: 'special'
+            CHENNAI: 'chennai', TN_PY: 'tn_py', AP_TL_KL_KA: 'ap_tl_kl_ka',
+            HYD_SED: 'hyd_sed', MUM_DEL_KOL: 'mum_del_kol', ROI: 'roi', SPECIAL: 'special'
         };
 
-        // PRICE_TABLE: slabs in grams and perKgPrice for >3kg
-        // TODO: verify these numbers against your official sheet
         const PRICE_TABLE = {
-            [ZONES.CHENNAI]: { slabs: [
-                { maxGrams: 250, price: 35 }, { maxGrams: 500, price: 45 }, { maxGrams: 1000, price: 55 },
-                { maxGrams: 1500, price: 65 }, { maxGrams: 2000, price: 75 }, { maxGrams: 2500, price: 85 },
-                { maxGrams: 3000, price: 90 } ], perKgPrice: 100 },
-            [ZONES.TN_PY]: { slabs: [
-                { maxGrams: 250, price: 60 }, { maxGrams: 500, price: 70 }, { maxGrams: 1000, price: 90 },
-                { maxGrams: 1500, price: 110 }, { maxGrams: 2000, price: 180 }, { maxGrams: 2500, price: 240 },
-                { maxGrams: 3000, price: 330 } ], perKgPrice: 380 },
-            [ZONES.AP_TL_KL_KA]: { slabs: [
-                { maxGrams: 250, price: 80 }, { maxGrams: 500, price: 85 }, { maxGrams: 1000, price: 145 },
-                { maxGrams: 1500, price: 190 }, { maxGrams: 2000, price: 230 }, { maxGrams: 2500, price: 350 },
-                { maxGrams: 3000, price: 380 } ], perKgPrice: 1140 }, // verify
-            [ZONES.HYD_SED]: { slabs: [
-                { maxGrams: 250, price: 100 }, { maxGrams: 500, price: 120 }, { maxGrams: 1000, price: 180 },
-                { maxGrams: 1500, price: 220 }, { maxGrams: 2000, price: 250 }, { maxGrams: 2500, price: 300 },
-                { maxGrams: 3000, price: 450 } ], perKgPrice: 380 },
-            [ZONES.MUM_DEL_KOL]: { slabs: [
-                { maxGrams: 250, price: 120 }, { maxGrams: 500, price: 140 }, { maxGrams: 1000, price: 180 },
-                { maxGrams: 1500, price: 240 }, { maxGrams: 2000, price: 300 }, { maxGrams: 2500, price: 300 },
-                { maxGrams: 3000, price: 380 } ], perKgPrice: 350 },
-            [ZONES.ROI]: { slabs: [
-                { maxGrams: 250, price: 150 }, { maxGrams: 500, price: 180 }, { maxGrams: 1000, price: 230 },
-                { maxGrams: 1500, price: 270 }, { maxGrams: 2000, price: 350 }, { maxGrams: 2500, price: 380 },
-                { maxGrams: 3000, price: 450 } ], perKgPrice: 380 },
-            [ZONES.SPECIAL]: { slabs: [
-                { maxGrams: 250, price: 220 }, { maxGrams: 500, price: 250 }, { maxGrams: 1000, price: 380 },
-                { maxGrams: 1500, price: 570 }, { maxGrams: 2000, price: 760 }, { maxGrams: 2500, price: 950 },
-                { maxGrams: 3000, price: 1140 } ], perKgPrice: 350 }
+            [ZONES.CHENNAI]: { slabs: [{ maxGrams: 250, price: 35 }, { maxGrams: 500, price: 45 }, { maxGrams: 1000, price: 55 }, { maxGrams: 1500, price: 65 }, { maxGrams: 2000, price: 75 }, { maxGrams: 2500, price: 85 }, { maxGrams: 3000, price: 90 }], perKgPrice: 100 },
+            [ZONES.TN_PY]: { slabs: [{ maxGrams: 250, price: 60 }, { maxGrams: 500, price: 70 }, { maxGrams: 1000, price: 90 }, { maxGrams: 1500, price: 110 }, { maxGrams: 2000, price: 180 }, { maxGrams: 2500, price: 240 }, { maxGrams: 3000, price: 330 }], perKgPrice: 380 },
+            [ZONES.AP_TL_KL_KA]: { slabs: [{ maxGrams: 250, price: 80 }, { maxGrams: 500, price: 85 }, { maxGrams: 1000, price: 145 }, { maxGrams: 1500, price: 190 }, { maxGrams: 2000, price: 230 }, { maxGrams: 2500, price: 350 }, { maxGrams: 3000, price: 380 }], perKgPrice: 1140 },
+            [ZONES.HYD_SED]: { slabs: [{ maxGrams: 250, price: 100 }, { maxGrams: 500, price: 120 }, { maxGrams: 1000, price: 180 }, { maxGrams: 1500, price: 220 }, { maxGrams: 2000, price: 250 }, { maxGrams: 2500, price: 300 }, { maxGrams: 3000, price: 450 }], perKgPrice: 380 },
+            [ZONES.MUM_DEL_KOL]: { slabs: [{ maxGrams: 250, price: 120 }, { maxGrams: 500, price: 140 }, { maxGrams: 1000, price: 180 }, { maxGrams: 1500, price: 240 }, { maxGrams: 2000, price: 300 }, { maxGrams: 2500, price: 300 }, { maxGrams: 3000, price: 380 }], perKgPrice: 350 },
+            [ZONES.ROI]: { slabs: [{ maxGrams: 250, price: 150 }, { maxGrams: 500, price: 180 }, { maxGrams: 1000, price: 230 }, { maxGrams: 1500, price: 270 }, { maxGrams: 2000, price: 350 }, { maxGrams: 2500, price: 380 }, { maxGrams: 3000, price: 450 }], perKgPrice: 380 },
+            [ZONES.SPECIAL]: { slabs: [{ maxGrams: 250, price: 220 }, { maxGrams: 500, price: 250 }, { maxGrams: 1000, price: 380 }, { maxGrams: 1500, price: 570 }, { maxGrams: 2000, price: 760 }, { maxGrams: 2500, price: 950 }, { maxGrams: 3000, price: 1140 }], perKgPrice: 350 }
         };
 
-        // Admin-configurable prefix map: add 3-digit prefixes as needed
-        // Example: "600" -> CHENNAI, "110" -> MUM_DEL_KOL (Delhi), "500" -> HYD_SED
-        const PREFIX_ZONE_MAP = {
-            "600": ZONES.CHENNAI,
-            "110": ZONES.MUM_DEL_KOL,
-            "400": ZONES.MUM_DEL_KOL,
-            "500": ZONES.HYD_SED,
-            "560": ZONES.AP_TL_KL_KA
-            // Add more as you know them
-        };
+        const PREFIX_ZONE_MAP = { "600": ZONES.CHENNAI, "110": ZONES.MUM_DEL_KOL, "400": ZONES.MUM_DEL_KOL, "500": ZONES.HYD_SED, "560": ZONES.AP_TL_KL_KA };
 
         function getZoneFromPin(pin) {
             if (!pin) return ZONES.ROI;
             const pinStr = String(pin).trim();
-            // try 3,2,1 digit prefixes
-            for (const len of [3,2,1]) {
+            for (const len of [3, 2, 1]) {
                 const p = pinStr.slice(0, len);
                 if (PREFIX_ZONE_MAP[p]) return PREFIX_ZONE_MAP[p];
             }
-            // fallback heuristic by first digit
             const first = pinStr[0];
             switch (first) {
                 case '6': return ZONES.TN_PY;
@@ -264,47 +302,36 @@
             const conf = PRICE_TABLE[zone] || PRICE_TABLE[ZONES.ROI];
             if (!conf) return 0;
             const w = Number(weightInGrams) || 0;
-            for (const slab of conf.slabs) {
-                if (w <= slab.maxGrams) return slab.price;
-            }
-            // above largest: base + perKg for extra (ceil)
+            for (const slab of conf.slabs) if (w <= slab.maxGrams) return slab.price;
             const largest = conf.slabs[conf.slabs.length - 1].maxGrams;
             const basePrice = conf.slabs[conf.slabs.length - 1].price;
             const extraGrams = Math.max(0, w - largest);
             const extraKg = Math.ceil(extraGrams / 1000);
-            const perKg = conf.perKgPrice || 0;
-            return basePrice + (extraKg * perKg);
+            return basePrice + (extraKg * (conf.perKgPrice || 0));
         }
 
-        // compute cart total weight in grams
         function computeCartWeightGrams() {
-            // each cart item: { qty, weightGrams }
             return cart.reduce((acc, it) => acc + (Number(it.weightGrams || 500) * (Number(it.qty) || 1)), 0);
         }
 
-        // Updated computeShipping(pin) that uses cart weight and zone table
         function computeShipping(pin) {
             if (!pin) return 0;
             const pinStr = String(pin).trim();
-            // dev free shipping pin (remove in prod)
-            if (pinStr === "600001") return 0;
+            if (pinStr === "600001") return 0; // dev free pin
             const zone = getZoneFromPin(pinStr);
             const weight = computeCartWeightGrams();
             const price = getPriceForZoneAndWeight(zone, weight);
             return price;
         }
 
-        function computeTotal(subtotal, shipping) {
-            return subtotal + shipping;
-        }
+        function computeTotal(subtotal, shipping) { return subtotal + shipping; }
 
-        // ---------- Initialize & Render ----------
+        // Initialize
         let subtotal = renderCart();
         let shipping = 0;
         shippingEl.textContent = "₹" + shipping.toFixed(2);
         totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
 
-        // recalc shipping when pincode changes
         pinInput.addEventListener("blur", () => {
             const pin = pinInput.value;
             shipping = computeShipping(pin);
@@ -312,34 +339,15 @@
             totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
         });
 
-        // Also recalc shipping if cart changes (not implemented here but helpful)
-        // e.g., call recalcShipping()
-
-        // ---------- Pay Now Button Handler ----------
+        // --------- Pay handler (creates order -> opens Razorpay -> saves order with userId + order_id) ----------
         btnPay.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            if (!authReady) {
-                alert("Auth still initializing — please wait a moment.");
-                return;
-            }
+            if (!authReady) { alert("Auth still initializing — please wait."); return; }
+            if (!currentUserId) { alert("Please login to continue."); return; }
+            if (!form.checkValidity()) { alert("Please fill all required details."); return; }
+            if (cart.length === 0) { alert("Your cart is empty. Please add items to order."); return; }
 
-            if (!currentUserId) {
-                alert("Please login to continue.");
-                return;
-            }
-
-            if (!form.checkValidity()) {
-                alert("Please fill all required details.");
-                return;
-            }
-
-            if (cart.length === 0) {
-                alert("Your cart is empty. Please add items to order.");
-                return;
-            }
-
-            // Recompute totals (in case cart or pin changed)
             subtotal = renderCart();
             shipping = computeShipping(form.pin.value);
             const totalAmount = computeTotal(subtotal, shipping);
@@ -353,17 +361,10 @@
                 state: form.state.value
             };
 
-            const order = {
-                items: cart,
-                subtotal: subtotal,
-                shipping: shipping,
-                total: totalAmount,
-                customer: formData
-            };
+            const order = { items: cart, subtotal: subtotal, shipping: shipping, total: totalAmount, customer: formData };
 
             try {
-                // Step 1: Create Razorpay Order on backend
-                // Include userId so backend can link orders immediately.
+                // 1) Create Razorpay order on backend. Include userId for server-side linking.
                 const createResp = await fetch(`${API_BASE_URL}/create-order`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -378,27 +379,35 @@
                 }
 
                 const createData = await createResp.json();
-                console.log("Razorpay order created:", createData);
+                console.log("Razorpay order created (createData):", createData);
 
-                // Step 2: open Razorpay
+                // Keep the returned Razorpay order id so we can pass it to server when saving.
+                const razorpayOrderId = createData.id;
+
+                // 2) Open Razorpay checkout
                 const options = {
                     key: RAZORPAY_KEY_ID,
-                    amount: Math.round(totalAmount * 100), // in paise
+                    amount: Math.round(totalAmount * 100), // paise
                     currency: "INR",
                     name: "Ermunai Organic Farm Foods",
                     description: "Order Payment",
-                    order_id: createData.id,
+                    order_id: razorpayOrderId,
                     handler: async function (rzResponse) {
-                        // Payment success handler
+                        // rzResponse contains razorpay_payment_id, razorpay_order_id, razorpay_signature
+                        // Build payment data to send to backend (includes userId and order_id)
                         const paymentData = {
                             ...order,
-                            userId: currentUserId,             // IMPORTANT: attach secure UID
+                            userId: currentUserId,
                             payment_id: rzResponse.razorpay_payment_id,
+                            // include Razorpay's order id we got earlier
+                            order_id: razorpayOrderId,
                             razorpay_order_id: rzResponse.razorpay_order_id,
                             razorpay_signature: rzResponse.razorpay_signature,
                             status: "Paid",
                             date: new Date().toISOString()
                         };
+
+                        console.log("Saving order to backend, payload:", paymentData);
 
                         try {
                             const saveResp = await fetch(`${API_BASE_URL}/save-order`, {
@@ -414,6 +423,8 @@
                                 return;
                             }
 
+                            const saved = await saveResp.json();
+                            console.log("Order saved response:", saved);
                             alert("Payment Successful! Your order has been placed.");
                             localStorage.removeItem("cart");
                             window.location.href = "thankyou.html";
