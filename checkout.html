@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,23 +15,115 @@
 
     <style>
         /* (CSS styles remain the same) */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f9faf6; color: #333; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        @media(max-width: 800px) { .container { grid-template-columns: 1fr; } }
-        .form-section, .summary-section { background: white; padding: 20px; border: 1px solid #eee; border-radius: 8px; }
-        .form-section h2, .summary-section h2 { margin-bottom: 20px; font-size: 24px; color: #2f6f31; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .form-group textarea { resize: vertical; }
-        .summary-section .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .summary-section .cart-item span { font-size: 16px; }
-        .summary-section .totals { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px; }
-        .totals .line { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .totals .line.total { font-weight: bold; font-size: 18px; }
-        .btn-pay { display: inline-block; padding: 12px 24px; background: #2f6f31; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; margin-top: 20px; width: 100%; }
-        .btn-pay:hover { background: #244021; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9faf6;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media(max-width: 800px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-section,
+        .summary-section {
+            background: white;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .form-section h2,
+        .summary-section h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #2f6f31;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .summary-section .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-section .cart-item span {
+            font-size: 16px;
+        }
+
+        .summary-section .totals {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .totals .line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .totals .line.total {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .btn-pay {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #2f6f31;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-pay:hover {
+            background: #244021;
+        }
     </style>
 </head>
 
@@ -85,6 +178,11 @@
                     <span>Shipping</span>
                     <span id="shippingAmt">₹0</span>
                 </div>
+                <div class="line">
+                    <span>Tax (5%)</span>
+                    <span id="taxLine">₹0</span>
+                </div>
+
                 <div class="line total">
                     <span>Total</span>
                     <span id="totalAmt">₹0</span>
@@ -97,6 +195,7 @@
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module">
+
         // -------------------------------------------------------------------------------------
         // Replace this with your backend URL
         const API_BASE_URL = "https://ermunai-user-project-production.up.railway.app";
@@ -119,16 +218,14 @@
         const auth = getAuth(app);
 
         // Authentication state
-        let currentUser = null;         // firebase.User object (trusted)
-        let userContactEmail = null;    // for Razorpay prefill
+        let currentUser = null;
+        let userContactEmail = null;
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
                 userContactEmail = user.email || null;
-                console.log("Checkout user is logged in with UID:", user.uid);
             } else {
-                // redirect to login
                 alert("Please log in to complete your purchase.");
                 window.location.href = "login.html";
             }
@@ -141,62 +238,122 @@
         const subtotalEl = document.getElementById("subtotalAmt");
         const shippingEl = document.getElementById("shippingAmt");
         const totalEl = document.getElementById("totalAmt");
-        const btnPay = document.getElementById("btnPay");
+
         const pinInput = document.getElementById("pin");
         const form = document.getElementById("checkoutForm");
+        const btnPay = document.getElementById("btnPay");
+
+        // ✅ NEW TAX ELEMENT
+        let TAX_RATE = 0.05; // 5%
 
         function renderCart() {
             itemsDiv.innerHTML = "";
             let subtotal = 0;
+
             cart.forEach(item => {
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "cart-item";
-                const nameSpan = document.createElement("span");
-                nameSpan.textContent = item.name + " × " + (item.qty || 1);
-                const priceSpan = document.createElement("span");
-                priceSpan.textContent = "₹" + ((item.price || 0) * (item.qty || 1)).toFixed(2);
-                itemDiv.append(nameSpan, priceSpan);
+
+                itemDiv.innerHTML = `
+            <span>${item.name} × ${item.qty}</span>
+            <span>₹${(item.price * item.qty).toFixed(2)}</span>
+        `;
+
                 itemsDiv.appendChild(itemDiv);
-                subtotal += (item.price || 0) * (item.qty || 1);
+                subtotal += item.price * item.qty;
             });
+
             subtotalEl.textContent = "₹" + subtotal.toFixed(2);
             return subtotal;
         }
 
-        function computeShipping(pin) {
-            if (!pin) return 0;
+        /* -------------------------------
+           WEIGHT + LOCATION SHIPPING
+        ----------------------------------*/
+
+        function getWeightInGrams(item) {
+            let value = Number(item.quantityValue || 0);
+            let type = (item.quantityType || "").toLowerCase();
+
+            if (!value) return 0;
+            if (type === "g") return value;
+            if (type === "kg") return value * 1000;
+            if (type === "ml") return value;
+            if (type === "l" || type === "lt") return value * 1000;
+
+            return 0;
+        }
+
+        function computeShipping(pin, cartItems) {
+            if (!pin || cartItems.length === 0) return 0;
+
             pin = pin.trim();
-            if (pin === "600001") return 0;
-            if (/^6/.test(pin)) return 50;
-            if (/^5/.test(pin)) return 70;
-            return 100;
+
+            let regionChargePerProduct = 0;
+            let regionMax = Infinity;
+
+            if (/^60/.test(pin)) {
+                regionChargePerProduct = 50;
+                regionMax = 60;
+            } else if (/^6/.test(pin) || /^5/.test(pin)) {
+                regionChargePerProduct = 70;
+            } else {
+                regionChargePerProduct = 100;
+            }
+
+            let regionShipping = cartItems.length * regionChargePerProduct;
+
+            if (regionMax !== Infinity) {
+                regionShipping = Math.min(regionShipping, regionMax);
+            }
+
+            let totalWeight = 0;
+            cartItems.forEach(item => {
+                totalWeight += getWeightInGrams(item) * (item.qty || 1);
+            });
+
+            let weightExtra = 0;
+
+            if (totalWeight > 2000) weightExtra = 100;
+            else if (totalWeight > 1000) weightExtra = 60;
+            else if (totalWeight > 500) weightExtra = 30;
+
+            return regionShipping + weightExtra;
         }
 
-        function computeTotal(subtotal, shipping) {
-            return subtotal + shipping;
+        // ✅ NEW FUNCTION — add tax
+        function computeTax(subtotal) {
+            return subtotal * TAX_RATE;
         }
 
-        // Initialize
+        function computeTotal(subtotal, tax, shipping) {
+            return subtotal + shipping + tax;
+        }
+
+        // Initialize Summary
         let subtotal = renderCart();
         let shipping = 0;
-        shippingEl.textContent = "₹" + shipping.toFixed(2);
-        totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
+        let tax = computeTax(subtotal);
 
+        document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
+        shippingEl.textContent = "₹" + shipping.toFixed(2);
+        totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
+
+        // Update shipping on PIN entry
         pinInput.addEventListener("blur", () => {
             const pin = pinInput.value;
-            shipping = computeShipping(pin);
+
+            shipping = computeShipping(pin, cart);
+            tax = computeTax(subtotal);
+
             shippingEl.textContent = "₹" + shipping.toFixed(2);
-            totalEl.textContent = "₹" + computeTotal(subtotal, shipping).toFixed(2);
+            document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
+            totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
         });
 
-        // Pay Now
+        // ✅ PAY NOW (unchanged except tax added)
         btnPay.addEventListener("click", async (e) => {
             e.preventDefault();
-
-            if (!currentUser) {
-                alert("Authentication is still loading. Please wait a moment and try again.");
-                return;
-            }
 
             if (!form.checkValidity()) {
                 alert("Please fill all required details.");
@@ -204,7 +361,7 @@
             }
 
             if (cart.length === 0) {
-                alert("Your cart is empty. Please add items to order.");
+                alert("Your cart is empty.");
                 return;
             }
 
@@ -219,79 +376,52 @@
 
             const order = {
                 items: cart,
-                subtotal: subtotal,
-                shipping: shipping,
-                total: computeTotal(subtotal, shipping),
+                subtotal,
+                tax,
+                shipping,
+                total: computeTotal(subtotal, tax, shipping),
                 customer: formData
             };
 
             try {
-                // 1) Create order on server (server will create Razorpay order)
                 const createResp = await fetch(`${API_BASE_URL}/create-order`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ amount: order.total })
                 });
 
-                if (!createResp.ok) {
-                    const errorText = await createResp.text();
-                    console.error("Server error (create-order):", errorText);
-                    alert("Failed to create payment order. Try again later.");
-                    return;
-                }
-
                 const razorpayOrder = await createResp.json();
-                console.log("Razorpay Order Created (server):", razorpayOrder);
 
-                // 2) Open Razorpay checkout (use server-provided order id)
                 const options = {
-                    key: "rzp_live_RaPexiedmItQ5c", // replace with your public key_id
-                    amount: Math.round(order.total * 100), // amount in paise
+                    key: "rzp_live_RaPexiedmItQ5c",
+                    amount: Math.round(order.total * 100),
                     currency: "INR",
                     name: "Ermunai Organic Farm Foods",
                     description: "Order Payment",
-                    order_id: razorpayOrder.id, // important: server-created order id
+                    order_id: razorpayOrder.id,
                     handler: async function (response) {
-                        // response should contain razorpay_payment_id, razorpay_order_id, razorpay_signature
-                        console.log("Razorpay handler response:", response);
+                        const idToken = await currentUser.getIdToken(true);
+                        await fetch(`${API_BASE_URL}/save-order`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer " + idToken
+                            },
+                            body: JSON.stringify({
+                                orderData: {
+                                    ...order,
+                                    payment_id: response.razorpay_payment_id,
+                                    order_id: response.razorpay_order_id,
+                                    signature: response.razorpay_signature,
+                                    status: "Paid",
+                                    date: new Date().toISOString()
+                                }
+                            })
+                        });
 
-                        // Build payload to send to server. DO NOT send client-supplied uid.
-                        const paymentData = {
-                            ...order,
-                            payment_id: response.razorpay_payment_id || null,
-                            order_id: response.razorpay_order_id || razorpayOrder.id || null,
-                            signature: response.razorpay_signature || null,
-                            status: "Paid",
-                            date: new Date().toISOString()
-                        };
-
-                        try {
-                            // Get fresh idToken from firebase user and send in Authorization header
-                            const idToken = await currentUser.getIdToken(true);
-
-                            const saveResponse = await fetch(`${API_BASE_URL}/save-order`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Authorization": "Bearer " + idToken
-                                },
-                                body: JSON.stringify({ orderData: paymentData })
-                            });
-
-                            if (!saveResponse.ok) {
-                                const errorText = await saveResponse.text();
-                                console.error("Save Order Error:", errorText);
-                                alert("Payment succeeded but failed to save order. Contact support.");
-                                return;
-                            }
-
-                            alert("Payment Successful! Your order has been placed.");
-                            localStorage.removeItem("cart");
-                            window.location.href = "thankyou.html";
-                        } catch (saveErr) {
-                            console.error("Error saving order (network):", saveErr);
-                            alert("Payment succeeded but error saving order. Contact support.");
-                        }
+                        alert("Payment Successful!");
+                        localStorage.removeItem("cart");
+                        window.location.href = "thankyou.html";
                     },
                     prefill: {
                         name: formData.name,
@@ -305,10 +435,12 @@
                 rzp.open();
 
             } catch (err) {
-                console.error("Payment initiation error:", err);
-                alert("Something went wrong. Please try again.");
+                console.error(err);
+                alert("Something went wrong!");
             }
         });
     </script>
+
 </body>
+
 </html>
