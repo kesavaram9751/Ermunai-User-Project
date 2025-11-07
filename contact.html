@@ -171,6 +171,14 @@
       color: white;
     }
 
+
+
+    @media (max-width: 900px) {
+      .close-menu {
+        display: block;
+      }
+    }
+
     /* Hide username on mobile */
     @media (max-width: 768px) {
       .profile .username {
@@ -199,14 +207,6 @@
       }
     }
 
-
-
-
-    @media (max-width: 900px) {
-      .close-menu {
-        display: block;
-      }
-    }
 
 
     /* ---------- Mobile Styles ---------- */
@@ -266,37 +266,26 @@
       color: green;
     }
 
-    /* Buttons */
-    .btn-login,
-    .btn-signup {
-      padding: 8px 16px;
-      font-size: 14px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
+    @media (max-width: 768px) {
+      header nav ul {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      header nav ul li {
+        margin: 10px 0;
+      }
+
     }
 
-    .btn-login {
-      background: transparent;
-      border: 2px solid green;
-      color: green;
-    }
+    @media (max-width: 480px) {
+      header .logo img {
+        margin-right: 0px;
+      }
 
-    .btn-login:hover {
-      background: green;
-      color: white;
-    }
-
-    .btn-signup {
-      background: green;
-      border: 2px solid green;
-      color: white;
-    }
-
-    .btn-signup:hover {
-      background: #244021;
-      border-color: #244021;
+      header .logo span {
+        display: none;
+      }
     }
 
     /* Hero */
@@ -326,7 +315,7 @@
       gap: 40px;
       max-width: 1200px;
       margin: 50px auto;
-      padding: 0 30px;
+      /* padding: 0 30px; */
     }
 
     .contact-card {
@@ -544,15 +533,6 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      header nav ul {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      header nav ul li {
-        margin: 10px 0;
-      }
-
       .contact-container {
         grid-template-columns: 1fr;
       }
