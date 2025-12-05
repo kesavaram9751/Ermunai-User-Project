@@ -46,8 +46,8 @@ const app = express();
 const allowedOrigins = [
   'https://ermunaiorganicfarmfoods.com',
   'https://www.ermunaiorganicfarmfoods.com',
-  // add your Vercel preview/other domains if needed
-  'https://ermunai-user-project-cpnrqw0i-kesavagrams-261bd486.vercel.app',
+  // add your backend domains if needed
+  'https://ermunai-user-project.onrender.com',
   'http://localhost',
   'http://127.0.0.1:5500',
 ];
