@@ -197,12 +197,9 @@
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module">
-
         // -------------------------------------------------------------------------------------
-        // Replace this with your backend URL
         const API_BASE_URL = "https://ermunai-user-project.onrender.com";
 
-        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
@@ -219,7 +216,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Authentication state
         let currentUser = null;
         let userContactEmail = null;
 
@@ -233,7 +229,6 @@
             }
         });
 
-        // ---------- Load cart from localStorage ----------
         let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
         const itemsDiv = document.getElementById("itemsList");
@@ -245,7 +240,6 @@
         const form = document.getElementById("checkoutForm");
         const btnPay = document.getElementById("btnPay");
 
-        // ✅ NEW TAX ELEMENT
         let TAX_RATE = 0.05; // 5%
 
         function renderCart() {
@@ -255,12 +249,10 @@
             cart.forEach(item => {
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "cart-item";
-
                 itemDiv.innerHTML = `
-            <span>${item.name} × ${item.qty}</span>
-            <span>₹${(item.price * item.qty).toFixed(2)}</span>
-        `;
-
+                <span>${item.name} × ${item.qty}</span>
+                <span>₹${(item.price * item.qty).toFixed(2)}</span>
+            `;
                 itemsDiv.appendChild(itemDiv);
                 subtotal += item.price * item.qty;
             });
@@ -268,10 +260,6 @@
             subtotalEl.textContent = "₹" + subtotal.toFixed(2);
             return subtotal;
         }
-
-        /* -------------------------------
-           WEIGHT + LOCATION SHIPPING
-        ----------------------------------*/
 
         function getWeightInGrams(item) {
             let value = Number(item.quantityValue || 0);
@@ -282,13 +270,11 @@
             if (type === "kg") return value * 1000;
             if (type === "ml") return value;
             if (type === "l" || type === "lt") return value * 1000;
-
             return 0;
         }
 
         function computeShipping(pin, cartItems) {
             if (!pin || cartItems.length === 0) return 0;
-
             pin = pin.trim();
 
             let regionChargePerProduct = 0;
@@ -304,7 +290,6 @@
             }
 
             let regionShipping = cartItems.length * regionChargePerProduct;
-
             if (regionMax !== Infinity) {
                 regionShipping = Math.min(regionShipping, regionMax);
             }
@@ -315,7 +300,6 @@
             });
 
             let weightExtra = 0;
-
             if (totalWeight > 2000) weightExtra = 100;
             else if (totalWeight > 1000) weightExtra = 60;
             else if (totalWeight > 500) weightExtra = 30;
@@ -323,7 +307,6 @@
             return regionShipping + weightExtra;
         }
 
-        // ✅ NEW FUNCTION — add tax
         function computeTax(subtotal) {
             return subtotal * TAX_RATE;
         }
@@ -334,7 +317,13 @@
 
         // Initialize Summary
         let subtotal = renderCart();
+
+        // Determine initial shipping
         let shipping = 0;
+        const initialPin = pinInput.value.trim();
+        if (initialPin && initialPin !== "000000") {
+            shipping = computeShipping(initialPin, cart);
+        }
         let tax = computeTax(subtotal);
 
         document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
@@ -343,9 +332,12 @@
 
         // Update shipping on PIN entry
         pinInput.addEventListener("blur", () => {
-            const pin = pinInput.value;
-
-            shipping = computeShipping(pin, cart);
+            const pin = pinInput.value.trim();
+            if (pin === "000000") {
+                shipping = 0;
+            } else {
+                shipping = computeShipping(pin, cart);
+            }
             tax = computeTax(subtotal);
 
             shippingEl.textContent = "₹" + shipping.toFixed(2);
@@ -353,9 +345,16 @@
             totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
         });
 
-        // ✅ PAY NOW (unchanged except tax added)
+        // Add a flag to prevent multiple clicks
+        let isProcessing = false;
+
         btnPay.addEventListener("click", async (e) => {
             e.preventDefault();
+
+            if (isProcessing) {
+                // already processing
+                return;
+            }
 
             if (!form.checkValidity()) {
                 alert("Please fill all required details.");
@@ -366,6 +365,11 @@
                 alert("Your cart is empty.");
                 return;
             }
+
+            // Disable button and show please wait message
+            isProcessing = true;
+            btnPay.disabled = true;
+            btnPay.textContent = "Please wait...";
 
             const formData = {
                 name: form.name.value,
@@ -435,13 +439,18 @@
 
                 const rzp = new Razorpay(options);
                 rzp.open();
-
             } catch (err) {
                 console.error(err);
                 alert("Something went wrong!");
+                // optionally re-enable button if error
+                isProcessing = false;
+                btnPay.disabled = false;
+                btnPay.textContent = "Pay Now";
             }
         });
     </script>
+
+
 
 </body>
 
