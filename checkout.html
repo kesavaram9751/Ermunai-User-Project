@@ -2,453 +2,449 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Checkout - Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
-    <meta name="description"
-        content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
-    <meta name="keywords"
-        content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
-    <meta name="author" content="Ermunai Organic Farm Foods">
-    <meta name="robots" content="index, follow">
-    <!-- simplest: 32x32 PNG -->
-    <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
+  <meta name="description"
+    content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
+  <meta name="keywords"
+    content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
+  <meta name="author" content="Ermunai Organic Farm Foods">
+  <meta name="robots" content="index, follow">
+  <!-- simplest: 32x32 PNG -->
+  <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <style>
-        /* (CSS styles remain the same) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    /* (CSS styles remain the same) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f9faf6;
-            color: #333;
-            padding: 20px;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9faf6;
+      color: #333;
+      padding: 20px;
+    }
 
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
 
-        @media(max-width: 800px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
+    @media(max-width: 800px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
 
-        .form-section,
-        .summary-section {
-            background: white;
-            padding: 20px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-        }
+    .form-section,
+    .summary-section {
+      background: white;
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
 
-        .form-section h2,
-        .summary-section h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #2f6f31;
-        }
+    .form-section h2,
+    .summary-section h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #2f6f31;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    .form-group {
+      margin-bottom: 15px;
+    }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
 
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
 
-        .form-group textarea {
-            resize: vertical;
-        }
+    .form-group textarea {
+      resize: vertical;
+    }
 
-        .summary-section .cart-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
+    .summary-section .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
 
-        .summary-section .cart-item span {
-            font-size: 16px;
-        }
+    .summary-section .cart-item span {
+      font-size: 16px;
+    }
 
-        .summary-section .totals {
-            margin-top: 20px;
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-        }
+    .summary-section .totals {
+      margin-top: 20px;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
 
-        .totals .line {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
+    .totals .line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
 
-        .totals .line.total {
-            font-weight: bold;
-            font-size: 18px;
-        }
+    .totals .line.total {
+      font-weight: bold;
+      font-size: 18px;
+    }
 
-        .btn-pay {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #2f6f31;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;
-        }
+    .btn-pay {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #2f6f31;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
 
-        .btn-pay:hover {
-            background: #244021;
-        }
-    </style>
+    .btn-pay:hover {
+      background: #244021;
+    }
+  </style>
 </head>
 
 <body>
-    <h1>Checkout</h1>
-    <div class="container">
-        <div class="form-section">
-            <h2>Your Details</h2>
-            <form id="checkoutForm">
-                <div class="form-group">
-                    <label for="name">Full Name*</label>
-                    <input type="text" id="name" name="name" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number*</label>
-                    <input type="tel" id="phone" name="phone" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="address">Address*</label>
-                    <textarea id="address" name="address" rows="3" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="pin">Pin Code*</label>
-                    <input type="text" id="pin" name="pin" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="city">City*</label>
-                    <input type="text" id="city" name="city" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="state">State*</label>
-                    <input type="text" id="state" name="state" required />
-                </div>
-            </form>
+  <h1>Checkout</h1>
+  <div class="container">
+    <div class="form-section">
+      <h2>Your Details</h2>
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label for="name">Full Name*</label>
+          <input type="text" id="name" name="name" required />
         </div>
 
-        <div class="summary-section">
-            <h2>Order Summary</h2>
-            <div id="itemsList"></div>
-
-            <div class="totals">
-                <div class="line">
-                    <span>Subtotal</span>
-                    <span id="subtotalAmt">₹0</span>
-                </div>
-                <div class="line">
-                    <span>Shipping</span>
-                    <span id="shippingAmt">₹0</span>
-                </div>
-                <div class="line">
-                    <span>Tax (5%)</span>
-                    <span id="taxLine">₹0</span>
-                </div>
-
-                <div class="line total">
-                    <span>Total</span>
-                    <span id="totalAmt">₹0</span>
-                </div>
-            </div>
-
-            <button id="btnPay" class="btn-pay">Pay Now</button>
+        <div class="form-group">
+          <label for="phone">Phone Number*</label>
+          <input type="tel" id="phone" name="phone" required />
         </div>
+
+        <div class="form-group">
+          <label for="address">Address*</label>
+          <textarea id="address" name="address" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="pin">Pin Code*</label>
+          <input type="text" id="pin" name="pin" required />
+        </div>
+
+        <div class="form-group">
+          <label for="city">City*</label>
+          <input type="text" id="city" name="city" required />
+        </div>
+
+        <div class="form-group">
+          <label for="state">State*</label>
+          <input type="text" id="state" name="state" required />
+        </div>
+      </form>
     </div>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script type="module">
-        // -------------------------------------------------------------------------------------
-        const API_BASE_URL = "https://ermunai-user-project.onrender.com";
+    <div class="summary-section">
+      <h2>Order Summary</h2>
+      <div id="itemsList"></div>
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      <div class="totals">
+        <div class="line">
+          <span>Subtotal</span>
+          <span id="subtotalAmt">₹0</span>
+        </div>
+        <div class="line">
+          <span>Shipping</span>
+          <span id="shippingAmt">₹0</span>
+        </div>
+        <div class="line">
+          <span>Tax (5%)</span>
+          <span id="taxLine">₹0</span>
+        </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-            projectId: "ermunai-e-commerce-project",
-            storageBucket: "ermunai-e-commerce-project.appspot.com",
-            messagingSenderId: "365240050790",
-            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
-            measurementId: "G-CZJZ4HLCMR"
-        };
+        <div class="line total">
+          <span>Total</span>
+          <span id="totalAmt">₹0</span>
+        </div>
+      </div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+      <button id="btnPay" class="btn-pay">Pay Now</button>
+    </div>
+  </div>
 
-        let currentUser = null;
-        let userContactEmail = null;
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script type="module">
+    // -------------------------------------------------------------------------------------
+    const API_BASE_URL = "https://ermunai-user-project.onrender.com";
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                userContactEmail = user.email || null;
-            } else {
-                alert("Please log in to complete your purchase.");
-                window.location.href = "login.html";
-            }
-        });
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+      projectId: "ermunai-e-commerce-project",
+      storageBucket: "ermunai-e-commerce-project.appspot.com",
+      messagingSenderId: "365240050790",
+      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
+      measurementId: "G-CZJZ4HLCMR"
+    };
 
-        const itemsDiv = document.getElementById("itemsList");
-        const subtotalEl = document.getElementById("subtotalAmt");
-        const shippingEl = document.getElementById("shippingAmt");
-        const totalEl = document.getElementById("totalAmt");
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-        const pinInput = document.getElementById("pin");
-        const form = document.getElementById("checkoutForm");
-        const btnPay = document.getElementById("btnPay");
+    let currentUser = null;
+    let userContactEmail = null;
 
-        let TAX_RATE = 0.05; // 5%
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        userContactEmail = user.email || null;
+      } else {
+        alert("Please log in to complete your purchase.");
+        window.location.href = "login.html";
+      }
+    });
 
-        function renderCart() {
-            itemsDiv.innerHTML = "";
-            let subtotal = 0;
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-            cart.forEach(item => {
-                const itemDiv = document.createElement("div");
-                itemDiv.className = "cart-item";
-                itemDiv.innerHTML = `
+    const itemsDiv = document.getElementById("itemsList");
+    const subtotalEl = document.getElementById("subtotalAmt");
+    const shippingEl = document.getElementById("shippingAmt");
+    const totalEl = document.getElementById("totalAmt");
+
+    const pinInput = document.getElementById("pin");
+    const form = document.getElementById("checkoutForm");
+    const btnPay = document.getElementById("btnPay");
+
+    let TAX_RATE = 0.05; // 5%
+
+    function renderCart() {
+      itemsDiv.innerHTML = "";
+      let subtotal = 0;
+
+      cart.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "cart-item";
+        itemDiv.innerHTML = `
                 <span>${item.name} × ${item.qty}</span>
                 <span>₹${(item.price * item.qty).toFixed(2)}</span>
             `;
-                itemsDiv.appendChild(itemDiv);
-                subtotal += item.price * item.qty;
-            });
+        itemsDiv.appendChild(itemDiv);
+        subtotal += item.price * item.qty;
+      });
 
-            subtotalEl.textContent = "₹" + subtotal.toFixed(2);
-            return subtotal;
-        }
+      subtotalEl.textContent = "₹" + subtotal.toFixed(2);
+      return subtotal;
+    }
 
-        function getWeightInGrams(item) {
-            let value = Number(item.quantityValue || 0);
-            let type = (item.quantityType || "").toLowerCase();
+    function getWeightInGrams(item) {
+      let value = Number(item.quantityValue || 0);
+      let type = (item.quantityType || "").toLowerCase();
 
-            if (!value) return 0;
-            if (type === "g") return value;
-            if (type === "kg") return value * 1000;
-            if (type === "ml") return value;
-            if (type === "l" || type === "lt") return value * 1000;
-            return 0;
-        }
+      if (!value) return 0;
+      if (type === "g") return value;
+      if (type === "kg") return value * 1000;
+      if (type === "ml") return value;
+      if (type === "l" || type === "lt") return value * 1000;
+      return 0;
+    }
 
-        function computeShipping(pin, cartItems) {
-            if (!pin || cartItems.length === 0) return 0;
-            pin = pin.trim();
+    function computeShipping(pin, cartItems) {
+      if (!pin || cartItems.length === 0) return 0;
+      pin = pin.trim();
 
-            let regionChargePerProduct = 0;
-            let regionMax = Infinity;
+      let regionCharge = 0;
 
-            if (/^60/.test(pin)) {
-                regionChargePerProduct = 50;
-                regionMax = 60;
-            } else if (/^6/.test(pin) || /^5/.test(pin)) {
-                regionChargePerProduct = 70;
-            } else {
-                regionChargePerProduct = 100;
-            }
+      // ONE-TIME REGION CHARGE
+      if (/^60/.test(pin)) {
+        regionCharge = 50;
+      } else if (/^6/.test(pin) || /^5/.test(pin)) {
+        regionCharge = 70;
+      } else {
+        regionCharge = 100;
+      }
 
-            let regionShipping = cartItems.length * regionChargePerProduct;
-            if (regionMax !== Infinity) {
-                regionShipping = Math.min(regionShipping, regionMax);
-            }
+      // WEIGHT CALCULATION
+      let totalWeight = 0;
+      cartItems.forEach(item => {
+        totalWeight += getWeightInGrams(item) * (item.qty || 1);
+      });
 
-            let totalWeight = 0;
-            cartItems.forEach(item => {
-                totalWeight += getWeightInGrams(item) * (item.qty || 1);
-            });
+      let weightExtra = 0;
+      if (totalWeight > 2000) weightExtra = 100;
+      else if (totalWeight > 1000) weightExtra = 60;
+      else if (totalWeight > 500) weightExtra = 30;
 
-            let weightExtra = 0;
-            if (totalWeight > 2000) weightExtra = 100;
-            else if (totalWeight > 1000) weightExtra = 60;
-            else if (totalWeight > 500) weightExtra = 30;
+      return regionCharge + weightExtra;
+    }
 
-            return regionShipping + weightExtra;
-        }
 
-        function computeTax(subtotal) {
-            return subtotal * TAX_RATE;
-        }
+    function computeTax(subtotal) {
+      return subtotal * TAX_RATE;
+    }
 
-        function computeTotal(subtotal, tax, shipping) {
-            return subtotal + shipping + tax;
-        }
+    function computeTotal(subtotal, tax, shipping) {
+      return subtotal + shipping + tax;
+    }
 
-        // Initialize Summary
-        let subtotal = renderCart();
+    // Initialize Summary
+    let subtotal = renderCart();
 
-        // Determine initial shipping
-        let shipping = 0;
-        const initialPin = pinInput.value.trim();
-        if (initialPin && initialPin !== "000000") {
-            shipping = computeShipping(initialPin, cart);
-        }
-        let tax = computeTax(subtotal);
+    // Determine initial shipping
+    let shipping = 0;
+    const initialPin = pinInput.value.trim();
+    if (initialPin && initialPin !== "000000") {
+      shipping = computeShipping(initialPin, cart);
+    }
+    let tax = computeTax(subtotal);
 
-        document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
-        shippingEl.textContent = "₹" + shipping.toFixed(2);
-        totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
+    document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
+    shippingEl.textContent = "₹" + shipping.toFixed(2);
+    totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
 
-        // Update shipping on PIN entry
-        pinInput.addEventListener("blur", () => {
-            const pin = pinInput.value.trim();
-            if (pin === "000000") {
-                shipping = 0;
-            } else {
-                shipping = computeShipping(pin, cart);
-            }
-            tax = computeTax(subtotal);
+    // Update shipping on PIN entry
+    pinInput.addEventListener("blur", () => {
+      const pin = pinInput.value.trim();
+      if (pin === "000000") {
+        shipping = 0;
+      } else {
+        shipping = computeShipping(pin, cart);
+      }
+      tax = computeTax(subtotal);
 
-            shippingEl.textContent = "₹" + shipping.toFixed(2);
-            document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
-            totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
+      shippingEl.textContent = "₹" + shipping.toFixed(2);
+      document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
+      totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
+    });
+
+    // Add a flag to prevent multiple clicks
+    let isProcessing = false;
+
+    btnPay.addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      if (isProcessing) {
+        // already processing
+        return;
+      }
+
+      if (!form.checkValidity()) {
+        alert("Please fill all required details.");
+        return;
+      }
+
+      if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      // Disable button and show please wait message
+      isProcessing = true;
+      btnPay.disabled = true;
+      btnPay.textContent = "Please wait...";
+
+      const formData = {
+        name: form.name.value,
+        phone: form.phone.value,
+        address: form.address.value,
+        pin: form.pin.value,
+        city: form.city.value,
+        state: form.state.value
+      };
+
+      const order = {
+        items: cart,
+        subtotal,
+        tax,
+        shipping,
+        total: computeTotal(subtotal, tax, shipping),
+        customer: formData
+      };
+
+      try {
+        const createResp = await fetch(`${API_BASE_URL}/create-order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: order.total })
         });
 
-        // Add a flag to prevent multiple clicks
-        let isProcessing = false;
+        const razorpayOrder = await createResp.json();
 
-        btnPay.addEventListener("click", async (e) => {
-            e.preventDefault();
+        const options = {
+          key: "rzp_live_RaPexiedmItQ5c",
+          amount: Math.round(order.total * 100),
+          currency: "INR",
+          name: "Ermunai Organic Farm Foods",
+          description: "Order Payment",
+          order_id: razorpayOrder.id,
+          handler: async function (response) {
+            const idToken = await currentUser.getIdToken(true);
+            await fetch(`${API_BASE_URL}/save-order`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + idToken
+              },
+              body: JSON.stringify({
+                orderData: {
+                  ...order,
+                  payment_id: response.razorpay_payment_id,
+                  order_id: response.razorpay_order_id,
+                  signature: response.razorpay_signature,
+                  status: "Paid",
+                  date: new Date().toISOString()
+                }
+              })
+            });
 
-            if (isProcessing) {
-                // already processing
-                return;
-            }
+            alert("Payment Successful!");
+            localStorage.removeItem("cart");
+            window.location.href = "thankyou.html";
+          },
+          prefill: {
+            name: formData.name,
+            contact: formData.phone,
+            email: userContactEmail
+          },
+          theme: { color: "#2f6f31" }
+        };
 
-            if (!form.checkValidity()) {
-                alert("Please fill all required details.");
-                return;
-            }
-
-            if (cart.length === 0) {
-                alert("Your cart is empty.");
-                return;
-            }
-
-            // Disable button and show please wait message
-            isProcessing = true;
-            btnPay.disabled = true;
-            btnPay.textContent = "Please wait...";
-
-            const formData = {
-                name: form.name.value,
-                phone: form.phone.value,
-                address: form.address.value,
-                pin: form.pin.value,
-                city: form.city.value,
-                state: form.state.value
-            };
-
-            const order = {
-                items: cart,
-                subtotal,
-                tax,
-                shipping,
-                total: computeTotal(subtotal, tax, shipping),
-                customer: formData
-            };
-
-            try {
-                const createResp = await fetch(`${API_BASE_URL}/create-order`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ amount: order.total })
-                });
-
-                const razorpayOrder = await createResp.json();
-
-                const options = {
-                    key: "rzp_live_RaPexiedmItQ5c",
-                    amount: Math.round(order.total * 100),
-                    currency: "INR",
-                    name: "Ermunai Organic Farm Foods",
-                    description: "Order Payment",
-                    order_id: razorpayOrder.id,
-                    handler: async function (response) {
-                        const idToken = await currentUser.getIdToken(true);
-                        await fetch(`${API_BASE_URL}/save-order`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer " + idToken
-                            },
-                            body: JSON.stringify({
-                                orderData: {
-                                    ...order,
-                                    payment_id: response.razorpay_payment_id,
-                                    order_id: response.razorpay_order_id,
-                                    signature: response.razorpay_signature,
-                                    status: "Paid",
-                                    date: new Date().toISOString()
-                                }
-                            })
-                        });
-
-                        alert("Payment Successful!");
-                        localStorage.removeItem("cart");
-                        window.location.href = "thankyou.html";
-                    },
-                    prefill: {
-                        name: formData.name,
-                        contact: formData.phone,
-                        email: userContactEmail
-                    },
-                    theme: { color: "#2f6f31" }
-                };
-
-                const rzp = new Razorpay(options);
-                rzp.open();
-            } catch (err) {
-                console.error(err);
-                alert("Something went wrong!");
-                // optionally re-enable button if error
-                isProcessing = false;
-                btnPay.disabled = false;
-                btnPay.textContent = "Pay Now";
-            }
-        });
-    </script>
+        const rzp = new Razorpay(options);
+        rzp.open();
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong!");
+        // optionally re-enable button if error
+        isProcessing = false;
+        btnPay.disabled = false;
+        btnPay.textContent = "Pay Now";
+      }
+    });
+  </script>
 
 
 
