@@ -721,6 +721,149 @@
         font-size: 14px;
       }
     }
+
+    /* ===== Hero Products Styles ===== */
+    .hero-products {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    .hero-products .hero-img {
+      width: 45%;
+      height: 400px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      .hero-products {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .hero-products .hero-img {
+        width: 100%;
+      }
+    }
+
+    /* ===== Export Catalogue Styles ===== */
+    .export-catalogue-section {
+      background: #f9fcf9;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .export-catalogue-section .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .export-catalogue-section .section-header h2 {
+      font-size: 2.5rem;
+      color: #2c3e2c;
+      margin-bottom: 8px;
+    }
+
+    .export-catalogue-section .section-header p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    .product-cards-grid {
+      display: grid;
+      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      justify-content: center;
+    }
+
+    .export-card {
+      background: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .export-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .export-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .export-card h3 {
+      font-size: 1.3rem;
+      color: #2c3e2c;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .export-card p {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .product-icons {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .product-icons li {
+      font-size: 0.9rem;
+      color: #3a6b3a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .product-icons i {
+      color: #27ae60;
+    }
+
+    .small-info {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .cta-export {
+      margin-top: 40px;
+    }
+
+    .btn-export {
+      background: #27ae60;
+      color: white;
+      padding: 12px 26px;
+      font-size: 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .btn-export:hover {
+      background: #1f7f4a;
+    }
+
+    @media (max-width: 600px) {
+      .export-catalogue-section {
+        text-align: left;
+      }
+    }
   </style>
 </head>
 
@@ -790,6 +933,67 @@
     <div class="banner-buttons">
       <button class="btn shop"><a href="shop.html">Shop Now</a></button>
       <button class="btn learn"><a href="about.html">Learn More</a></button>
+    </div>
+  </section>
+
+  <!-- Hero Products Section -->
+  <section class="hero-products">
+    <img src="./images/heritage_millets.png" alt="Heritage Millets" class="hero-img">
+    <img src="./images/readytocook.jpg" alt="Ready to Cook Packs" class="hero-img">
+  </section>
+
+  <!-- ===== Export Ready Products Section ===== -->
+  <section class="export-catalogue-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Export Ready Products</h2>
+        <p>Premium traditional wellness foods for global health-conscious buyers</p>
+      </div>
+
+      <div class="product-cards-grid">
+        <!-- Product Card 1 -->
+        <div class="export-card">
+          <img src="./images/red-sorgam-rava.png" alt="Red Sorghum Instant Rava Dosai Mix">
+          <h3>Red Sorghum Instant Rava Dosai</h3>
+          <p>Gluten-free native sorghum breakfast mix — high fibre & easy digestion.</p>
+          <ul class="product-icons">
+            <li><i class="fa-solid fa-seedling"></i> Gluten Free</li>
+            <li><i class="fa-solid fa-leaf"></i> Millet Based</li>
+            <li><i class="fa-solid fa-bowl-rice"></i> Vegan</li>
+          </ul>
+          <p class="small-info">Shelf Life: 9–12 Months | Pack Sizes: 250g + Bulk</p>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="export-card">
+          <img src="./images/Multi-Millet&Whole-Pulses-Adai-Mix.png" alt="Multi Millet Adai Mix">
+          <h3>Multi-Millet & Whole-Pulses Adai Mix</h3>
+          <p>Rich plant protein & high energy meal with complementing amino acids.</p>
+          <ul class="product-icons">
+            <li><i class="fa-solid fa-dumbbell"></i> Protein Rich</li>
+            <li><i class="fa-solid fa-fire"></i> High Energy</li>
+            <li><i class="fa-solid fa-mortar-pestle"></i> Traditional Taste</li>
+          </ul>
+          <p class="small-info">Shelf Life: 9–12 Months | Retail + Bulk</p>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="export-card">
+          <img src="./images/Andhra-Paruppu-Podi-Garlic.png" alt="Andhra Paruppu Podi – Garlic Flavor">
+          <h3>Andhra Paruppu Podi — Garlic</h3>
+          <p>Authentic lentil seasoning powder — perfect with rice or breakfast foods.</p>
+          <ul class="product-icons">
+            <li><i class="fa-solid fa-utensils"></i> High Protein</li>
+            <li><i class="fa-solid fa-pepper-hot"></i> Regional Taste</li>
+            <li><i class="fa-solid fa-certificate"></i> Long Shelf Life</li>
+          </ul>
+          <p class="small-info">Shelf Life: 9–12 Months | Pack Sizes: 200g, Bulk</p>
+        </div>
+      </div>
+
+      <div class="cta-export">
+        <a href="contact.html" class="btn-export">Request Export Catalogue PDF</a>
+      </div>
     </div>
   </section>
 
