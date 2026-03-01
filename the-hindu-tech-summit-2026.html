@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hindu Tech Summit 2026 | Ermunai Organic Farm Foods</title>
+    <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png/jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            background-color: #f4f7f4;
+            color: #333;
+        }
+
+        /* ---------- Header ---------- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 2px solid #eee;
+            z-index: 1000;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: green;
+            font-size: 18px;
+        }
+
+        header .logo img {
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        header nav ul li a.active,
+        header nav ul li a:hover {
+            color: green;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Buttons */
+        .btn-login,
+        .btn-signup {
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 2px solid green;
+            color: green;
+        }
+
+        .btn-login:hover {
+            background: green;
+            color: white;
+        }
+
+        .btn-signup {
+            background: green;
+            border: 2px solid green;
+            color: white;
+        }
+
+        .btn-signup:hover {
+            background: #244021;
+            border-color: #244021;
+        }
+
+        /* Hamburger (hidden by default) */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: green;
+        }
+
+        .close-menu {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: green;
+            cursor: pointer;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: green;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .profile i {
+            font-size: 20px;
+        }
+
+        .btn-logout {
+            margin-left: 10px;
+            padding: 6px 12px;
+            border: 2px solid crimson;
+            background: transparent;
+            color: crimson;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: crimson;
+            color: white;
+        }
+
+
+
+        @media (max-width: 900px) {
+            .close-menu {
+                display: block;
+            }
+        }
+
+        /* Hide username on mobile */
+        @media (max-width: 768px) {
+            .profile .username {
+                display: none;
+                position: absolute;
+                top: -30px;
+                /* adjust to hover position */
+                left: 50%;
+                transform: translateX(-50%);
+                background: green;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 5px;
+                white-space: nowrap;
+                font-size: 14px;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+                z-index: 2000;
+            }
+
+            /* Show username on hover */
+            .profile:hover .username {
+                display: block;
+                opacity: 1;
+            }
+        }
+
+
+
+        /* ---------- Mobile Styles ---------- */
+        @media (max-width: 900px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            /* Hide normal menu */
+            header nav {
+                position: fixed;
+                top: 0;
+                right: -250px;
+                width: 250px;
+                height: 100%;
+                background: white;
+                border-left: 2px solid #eee;
+                box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                padding-top: 80px;
+                z-index: 1200;
+            }
+
+            header nav ul {
+                flex-direction: column;
+                align-items: start;
+                padding-left: 30px;
+            }
+
+            header nav ul li {
+                margin: 15px 0;
+            }
+
+            .header-right {
+                gap: 10px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            /* Show menu when active */
+            header nav.active {
+                right: 0;
+            }
+        }
+
+
+        /* Cart */
+        .cart {
+            font-size: 22px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .cart i {
+            color: green;
+        }
+
+        /* ---------- Post Header ---------- */
+        .post-header {
+            background: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post-header .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .post-date {
+            color: #888;
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .post-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e2c;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* ---------- Post Content ---------- */
+        .post-content {
+            max-width: 800px;
+            margin: 40px auto 100px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .post-main-img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        .post-content p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .post-content h2 {
+            margin: 40px 0 20px;
+            color: #2e7d32;
+        }
+
+        .certificate-img {
+            width: 100%;
+            height: auto;
+            max-width: 600px;
+            margin: 40px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .content-list li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-list li i {
+            color: #ffd700;
+        }
+
+        /* ---------- Navigation ---------- */
+        .post-navigation {
+            max-width: 800px;
+            margin: 60px auto;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .nav-btn {
+            color: #2e7d32;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ✅ Footer */
+        footer {
+            background: linear-gradient(145deg, #056608, #0b8a0d);
+            color: #fff;
+            padding: 40px 20px;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .footer-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #ffd700;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffd700;
+        }
+
+        /* WhatsApp Order Button */
+        .whatsapp {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .whatsapp a {
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .whatsapp a:hover {
+            background: #1eb85b;
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 15px;
+            font-size: 14px;
+        }
+
+        .footer-bottom p {
+            margin: 5px 0;
+        }
+
+        .footer-links a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .footer-container {
+                text-align: center;
+            }
+
+            .footer-section h3,
+            .footer-section h4 {
+                border: none;
+            }
+        }
+
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            header nav ul li {
+                margin: 10px 0;
+            }
+
+
+        }
+
+        @media (max-width: 480px) {
+
+
+            header .logo img {
+                margin-right: 0px;
+            }
+
+            header .logo span {
+                display: none;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .post-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .post-content {
+                padding: 20px;
+            }
+
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="./images/logo.jpg" alt="Logo">
+            <span>Ermunai Organic Farm Foods</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="close-menu"><i class="fa-solid fa-times"></i></div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="purchase.html">Purchases</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="feedback.html">Certification & Feedback</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+
+        <!-- Right side -->
+        <div class="header-right">
+            <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
+
+            <!-- Buttons (default) -->
+            <a href="login.html" class="btn-login">Login</a>
+            <a href="signup.html" class="btn-signup">Sign Up</a>
+
+            <!-- Profile (hidden initially) -->
+            <div class="profile" style="display: none; position: relative;">
+                <i class="fa-solid fa-user"></i>
+                <span class="username"></span>
+                <button class="btn-logout">Logout</button>
+            </div>
+
+
+
+            <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
+        </div>
+
+    </header>
+
+    <article>
+        <header class="post-header">
+            <div class="container">
+                <span class="post-date">February 12, 2026</span>
+                <h1>My Experience at The Hindu Tech Summit 2026 — Powered by Innovation & Learning</h1>
+                <div class="post-meta">
+                    <span>By <strong>Ermunai Farm</strong></span>
+                    <span><i class="far fa-clock"></i> 5 Min Read</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="post-content">
+            <img src="images/blog-main-image/blog2.jpg" alt="The Hindu Tech Summit 2026" class="post-main-img">
+
+            <p>In February 2026, I had the exciting opportunity to attend The Hindu Tech Summit 2026, one of India’s
+                most influential tech and innovation gatherings, held at the prestigious Taj Coromandel in Chennai. This
+                2-day summit brought together innovators, industry leaders, policymakers, and startup founders to share
+                insights into the future of technology — and I was thrilled to be a part of it!</p>
+
+            <h2>A Special Invitation via Startup Singam</h2>
+            <p>I received a special invitation from Startup Singam, who served as the Ecosystem Partner for the summit —
+                granting selected founders exclusive access to this transformative event. As part of this community, I
+                had the chance to engage with expert panels, meaningful conversations, and networking opportunities that
+                are rarely available outside such premier conferences.</p>
+
+            <p>Their team facilitated introductions and helped us make the most out of the summit’s vibrant startup
+                ecosystem — something I’m truly grateful for.</p>
+
+            <h2>Two Days of Innovation, Insight & Inspiration</h2>
+            <p>The Hindu Tech Summit 2026 was designed to foster deep conversations around technology, business
+                continuity, responsible data practices, and innovation — with sessions that shaped forward-thinking
+                perspectives.</p>
+
+            <p>Here are some highlights from my experience:</p>
+            <ul class="content-list">
+                <li>🔹 <strong>Cutting-Edge Discussions:</strong> Industry experts explored topics like AI’s
+                    transformative impact, responsible tech adoption, and future business models — offering eye-opening
+                    perspectives on how technology is reshaping industries.</li>
+                <li>🔹 <strong>Learning from Leaders:</strong> The summit featured notable leaders and professionals who
+                    unpacked real-world insights on technology, data, and strategic growth — ideal for entrepreneurs
+                    looking to scale their ventures.</li>
+                <li>🔹 <strong>Networking & Collaborations:</strong> Interacting with fellow founders and leaders helped
+                    broaden my understanding of tech innovation and offered ideas for future collaborations.</li>
+            </ul>
+
+            <img src="images/certificates/blog-image/blog2-certificate.jpeg" alt="Participation Recognition"
+                class="certificate-img">
+
+            <h2>Why This Summit Matters</h2>
+            <p>The Hindu Tech Summit 2026 wasn’t just another tech event — it was a platform where ideas met execution.
+                It connected people who are actively building the future and provided a collaborative space to learn and
+                grow.</p>
+
+            <p>It also served as a curtain-raiser to larger national conversations on AI and technology, coinciding with
+                other strategic tech events happening across India in 2026.</p>
+
+            <h2>What I Took Away</h2>
+            <ul class="content-list">
+                <li>✅ Deepen my understanding of emerging tech trends</li>
+                <li>✅ Build valuable connections with tech leaders and innovators</li>
+                <li>✅ Gain inspiration to push the boundaries of my own entrepreneurial journey</li>
+            </ul>
+
+            <p>If you’re passionate about tech, innovation, and business — attending events like The Hindu Tech Summit
+                is a must. These platforms not only impart knowledge but also help startups raise their voice on a
+                national stage.</p>
+        </div>
+    </article>
+
+    <div class="post-navigation">
+        <a href="blog.html" class="nav-btn"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <!-- About Section -->
+            <div class="footer-section about">
+                <h3>Ermunai Organic Farm Foods</h3>
+                <p><i class="fa fa-map-marker-alt"></i> M/s. Ermunai Organic Farm Foods,<br>
+                    Plot No. 8, Ramalingam St., BFI,<br>
+                    Muraliram Srinivas Flats,<br>
+                    Ullagaram, Chennai - 600 091.</p>
+                <p><i class="fa fa-phone"></i> +91 9841231996</p>
+                <p><i class="fab fa-whatsapp"></i> +91 9840752833</p>
+                <p><i class="fa fa-envelope"></i> info@ermunaiorganicfarmfoods.com</p>
+            </div>
+
+            <!-- Company Links -->
+            <div class="footer-section company">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="feedback.html">Certification & Feedback</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="privacy-policy.html" target="_blank">Privacy Policy</a></li>
+                    <li><a href="cancellation-and-refund-policy.html" target="_blank">cancellation Policy</a></li>
+                    <li><a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a></li>
+                    <li><a href="shipping-policy.html" target="_blank">Shipping Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Product Categories -->
+            <div class="footer-section products">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="shop.html?category=readyToCookMixes">Ready-to-cook Instant Mixes</a></li>
+                    <li><a href="shop.html?category=instantSoup">Instant Soup Mix</a></li>
+                    <li><a href="shop.html?category=idliPodi">Idli Podi's</a></li>
+                    <li><a href="shop.html?category=readytoserve">Ready to Serve</a></li>
+                    <li><a href="shop.html?category=herbal">Herbal Products</a></li>
+                </ul>
+            </div>
+
+            <!-- Social Links -->
+            <div class="footer-section follow-us">
+                <h4><i class="fas fa-share-alt"></i> Follow Us</h4>
+                <ul>
+                    <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ermunaiorganicfoods"
+                            target="_blank">Facebook</a></li>
+                    <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/ermunaiorganic"
+                            target="_blank">Instagram</a></li>
+                    <li><i class="fab fa-linkedin"></i> <a
+                            href="https://www.linkedin.com/in/ermunai-organic-farm-217035363"
+                            target="_blank">LinkedIn</a></li>
+                    <li><i class="fab fa-youtube"></i> <a href="https://youtube.com/@ermunaiorganicfarm"
+                            target="_blank">YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- WhatsApp Order Button -->
+        <div class="whatsapp">
+            <a href="https://wa.me/919841231996" target="_blank">
+                <i class="fab fa-whatsapp"></i> Order on WhatsApp
+            </a>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>© 2025 Ermunai Organic Farm Foods. All rights reserved.</p>
+            <p class="footer-links">
+                <a href="privacy.html" target="_blank">Privacy Policy</a> |
+                <a href="terms.html" target="_blank">Terms & Conditions</a> |
+                <a href="shipping.html" target="_blank">Shipping Policy</a>
+            </p>
+        </div>
+    </footer>
+    <script>
+        //responsive header
+        const hamburger = document.querySelector(".hamburger");
+        const nav = document.querySelector("header nav");
+        const closeMenu = document.querySelector(".close-menu");
+
+        hamburger.addEventListener("click", () => {
+            nav.classList.add("active");
+        });
+
+        closeMenu.addEventListener("click", () => {
+            nav.classList.remove("active");
+        });
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+            projectId: "ermunai-e-commerce-project",
+            storageBucket: "ermunai-e-commerce-project.appspot.com",
+            messagingSenderId: "365240050790",
+            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
+            measurementId: "G-CZJZ4HLCMR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginBtn = document.querySelector(".btn-login");
+            const signupBtn = document.querySelector(".btn-signup");
+            const profile = document.querySelector(".profile");
+            const username = document.querySelector(".username");
+            const logoutBtn = document.querySelector(".btn-logout");
+
+            // Listen to Firebase Auth state
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is logged in
+                    loginBtn.style.display = "none";
+                    signupBtn.style.display = "none";
+                    profile.style.display = "flex";
+                    username.textContent = user.email; // show email or displayName
+                    localStorage.setItem("user", user.email); // optional
+                } else {
+                    // No user is logged in
+                    loginBtn.style.display = "inline-block";
+                    signupBtn.style.display = "inline-block";
+                    profile.style.display = "none";
+                    localStorage.removeItem("user");
+                }
+            });
+
+            logoutBtn.addEventListener("click", async () => {
+                if (confirm("Do you want to log out?")) {
+                    await signOut(auth);
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
