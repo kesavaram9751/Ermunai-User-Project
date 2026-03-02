@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CII Chennai Zone Annual Session (2025-26) | Ermunai Organic Farm Foods</title>
+    <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png/jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            background-color: #f4f7f4;
+            color: #333;
+        }
+
+        /* ---------- Header ---------- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 2px solid #eee;
+            z-index: 1000;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            color: green;
+            font-size: 18px;
+        }
+
+        header .logo img {
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        header nav ul li a.active,
+        header nav ul li a:hover {
+            color: green;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Buttons */
+        .btn-login,
+        .btn-signup {
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 2px solid green;
+            color: green;
+        }
+
+        .btn-login:hover {
+            background: green;
+            color: white;
+        }
+
+        .btn-signup {
+            background: green;
+            border: 2px solid green;
+            color: white;
+        }
+
+        .btn-signup:hover {
+            background: #244021;
+            border-color: #244021;
+        }
+
+        /* Hamburger (hidden by default) */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: green;
+        }
+
+        .close-menu {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: green;
+            cursor: pointer;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: green;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .profile i {
+            font-size: 20px;
+        }
+
+        .btn-logout {
+            margin-left: 10px;
+            padding: 6px 12px;
+            border: 2px solid crimson;
+            background: transparent;
+            color: crimson;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: crimson;
+            color: white;
+        }
+
+
+
+        @media (max-width: 900px) {
+            .close-menu {
+                display: block;
+            }
+        }
+
+        /* Hide username on mobile */
+        @media (max-width: 768px) {
+            .profile .username {
+                display: none;
+                position: absolute;
+                top: -30px;
+                /* adjust to hover position */
+                left: 50%;
+                transform: translateX(-50%);
+                background: green;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 5px;
+                white-space: nowrap;
+                font-size: 14px;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+                z-index: 2000;
+            }
+
+            /* Show username on hover */
+            .profile:hover .username {
+                display: block;
+                opacity: 1;
+            }
+        }
+
+
+
+        /* ---------- Mobile Styles ---------- */
+        @media (max-width: 900px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            /* Hide normal menu */
+            header nav {
+                position: fixed;
+                top: 0;
+                right: -250px;
+                width: 250px;
+                height: 100%;
+                background: white;
+                border-left: 2px solid #eee;
+                box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                padding-top: 80px;
+                z-index: 1200;
+            }
+
+            header nav ul {
+                flex-direction: column;
+                align-items: start;
+                padding-left: 30px;
+            }
+
+            header nav ul li {
+                margin: 15px 0;
+            }
+
+            .header-right {
+                gap: 10px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            /* Show menu when active */
+            header nav.active {
+                right: 0;
+            }
+        }
+
+
+        /* Cart */
+        .cart {
+            font-size: 22px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .cart i {
+            color: green;
+        }
+
+        /* ---------- Post Header ---------- */
+        .post-header {
+            background: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post-header .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .post-date {
+            color: #888;
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .post-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e2c;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* ---------- Post Content ---------- */
+        .post-content {
+            max-width: 800px;
+            margin: 40px auto 100px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .post-main-img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        .post-content p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .post-content h2 {
+            margin: 40px 0 20px;
+            color: #2e7d32;
+        }
+
+        .certificate-img {
+            width: 100%;
+            height: auto;
+            max-width: 600px;
+            margin: 40px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .content-list li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-list li i {
+            color: #ffd700;
+        }
+
+        /* ---------- Navigation ---------- */
+        .post-navigation {
+            max-width: 800px;
+            margin: 60px auto;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .nav-btn {
+            color: #2e7d32;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ✅ Footer */
+        footer {
+            background: linear-gradient(145deg, #056608, #0b8a0d);
+            color: #fff;
+            padding: 40px 20px;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .footer-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #ffd700;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffd700;
+        }
+
+        /* WhatsApp Order Button */
+        .whatsapp {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .whatsapp a {
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .whatsapp a:hover {
+            background: #1eb85b;
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 15px;
+            font-size: 14px;
+        }
+
+        .footer-bottom p {
+            margin: 5px 0;
+        }
+
+        .footer-links a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .footer-container {
+                text-align: center;
+            }
+
+            .footer-section h3,
+            .footer-section h4 {
+                border: none;
+            }
+        }
+
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            header nav ul li {
+                margin: 10px 0;
+            }
+
+
+        }
+
+        @media (max-width: 480px) {
+
+
+            header .logo img {
+                margin-right: 0px;
+            }
+
+            header .logo span {
+                display: none;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .post-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .post-content {
+                padding: 20px;
+            }
+
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="./images/logo.jpg" alt="Logo">
+            <span>Ermunai Organic Farm Foods</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="close-menu"><i class="fa-solid fa-times"></i></div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="purchase.html">Purchases</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="feedback.html">Certification & Feedback</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+
+        <!-- Right side -->
+        <div class="header-right">
+            <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
+
+            <!-- Buttons (default) -->
+            <a href="login.html" class="btn-login">Login</a>
+            <a href="signup.html" class="btn-signup">Sign Up</a>
+
+            <!-- Profile (hidden initially) -->
+            <div class="profile" style="display: none; position: relative;">
+                <i class="fa-solid fa-user"></i>
+                <span class="username"></span>
+                <button class="btn-logout">Logout</button>
+            </div>
+
+
+
+            <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
+        </div>
+
+    </header>
+
+    <article>
+        <header class="post-header">
+            <div class="container">
+                <span class="post-date">February 26, 2026</span>
+                <h1>Innovation & Integration: Highlights from the CII Chennai Zone Annual Session (2025-26)</h1>
+                <div class="post-meta">
+                    <span>By <strong>Ermunai Farm</strong></span>
+                    <span><i class="far fa-clock"></i> 6 Min Read</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="post-content">
+            <img src="images/blog-main-image/blog6.jpg" alt="CII Chennai Zone Annual Session" class="post-main-img">
+
+            <p>The manufacturing landscape of Tamil Nadu witnessed a landmark day on Thursday, 26 February 2026, as the
+                Confederation of Indian Industry (CII) hosted its Chennai Zone Annual Session at the Hotel ITC Grand
+                Chola, Chennai. The event served as both a reflection on a successful year and a strategic launchpad for
+                the future of the region's industry.</p>
+
+            <h2>Reflecting on Excellence: The Business Session</h2>
+            <p>The evening commenced with the Business Session, chaired by Mr. Ajit Chordia, Chairman of the CII Chennai
+                Zone. The session was dedicated to celebrating the milestones of the 2025-26 period:</p>
+            <ul class="content-list">
+                <li>🔹 <strong>Year in Review:</strong> Mr. Chordia presented the key activities and highlights that
+                    defined the CII Chennai Zone’s impact over the past year.</li>
+                <li>🔹 <strong>Celebrating Leadership:</strong> The Annual Report was officially released by Mr. AR
+                    Unnikrishnan, Chairman of the CII Tamil Nadu State Council, followed by a felicitation of annual
+                    sponsors and appreciation from past chairmen.</li>
+                <li>🔹 <strong>Passing the Baton:</strong> A pivotal moment occurred with the appointment of the Office
+                    Bearers for 2026-27, marked by an acceptance speech from the incoming Chairman and closing remarks
+                    from the incoming Vice Chairman.</li>
+            </ul>
+
+            <img src="images/blog-main-image/blog6-1.jpg" alt="Leadership Transition at CII Chennai Session"
+                class="certificate-img">
+
+            <h2>Building the Future: The Public Session</h2>
+            <p>The transition to the Public Session shifted the focus toward a broader industrial vision:
+                <strong>"Building India's Manufacturing Future: Transitioning from Legacy Systems to
+                    Innovation"</strong>.
+            </p>
+            <ul class="content-list">
+                <li>🔹 <strong>Regional Perspectives:</strong> Mr. P Ravichandran (President, Danfoss India) and Mr.
+                    Shashwat Goenka (Chairman, CII Eastern Region) provided high-level insights into the shifting
+                    paradigms of manufacturing and retail.</li>
+                <li>🔹 <strong>The Keynote:</strong> Mr. Vellayan Subbiah, Vice Chairman of Tube Investments of India,
+                    delivered a powerful keynote address exploring how Indian businesses can move beyond legacy systems
+                    to embrace true innovation.</li>
+                <li>🔹 <strong>Interactive Dialogue:</strong> The session concluded with an engaging interaction between
+                    industry leaders and the audience, moderated by Mr. R V Chari, Vice Chairman of the CII Chennai
+                    Zone.</li>
+            </ul>
+
+            <h2>Empowering Grassroots: The Market Connect Pavilion</h2>
+            <p>Running parallel to these high-level discussions was a vibrant Market Connect – Product Display Pavilion.
+                Organized by CII CEL (Centre of Excellence on Employment & Livelihood) and the CII Foundation, this
+                initiative provided a critical platform for Micro & Small Businesses to showcase their potential.</p>
+
+            <img src="images/blog-main-image/blog6-2.jpg" alt="Market Connect Pavilion - Micro Enterprise Display"
+                class="certificate-img">
+
+            <p>Enterprises like <strong>Ermunai Organic Farm Foods</strong> utilized dedicated table spaces in Rajendra
+                Hall to display their products and marketing materials to the region's top industrial leaders. This
+                integration of micro-enterprises into the Annual Session underscored CII’s commitment to building a
+                holistic and inclusive industrial ecosystem.</p>
+
+            <h2>A Night of Networking</h2>
+            <p>The session culminated in a Networking Dinner, where the day’s discussions evolved into new partnerships
+                and collaborative ideas. From the factory floors of local micro-businesses to the boardrooms of global
+                conglomerates, the event proved that Chennai’s manufacturing future is bright, innovative, and deeply
+                connected.</p>
+        </div>
+    </article>
+
+    <div class="post-navigation">
+        <a href="blog.html" class="nav-btn"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <!-- About Section -->
+            <div class="footer-section about">
+                <h3>Ermunai Organic Farm Foods</h3>
+                <p><i class="fa fa-map-marker-alt"></i> Manufacturing Unit:<br> Ermunai Organic Farm Foods,<br>
+                    Plot No. 5, 1/328,<br>
+                    Sabari Salai, Ayyappan Nagar,<br>
+                    Madipakkam, Chennai - 600091.</p>
+                <p><i class="fa-solid fa-file-invoice"></i> GSTIN: 33AKAPR8721K1ZZ</p>
+                <p><i class="fa-solid fa-file-invoice"></i> Fsssai License No: 12425008002307</p>
+                <p><i class="fa fa-phone"></i> +91 9841231996</p>
+                <p><i class="fab fa-whatsapp"></i> +91 9840752833</p>
+                <p><i class="fa fa-envelope"></i> info@ermunaiorganicfarmfoods.com</p>
+            </div>
+
+            <!-- Company Links -->
+            <div class="footer-section company">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="feedback.html">Certification & Feedback</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="privacy-policy.html" target="_blank">Privacy Policy</a></li>
+                    <li><a href="cancellation-and-refund-policy.html" target="_blank">cancellation Policy</a></li>
+                    <li><a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a></li>
+                    <li><a href="shipping-policy.html" target="_blank">Shipping Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Product Categories -->
+            <div class="footer-section products">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="shop.html?category=readyToCookMixes">Ready-to-cook Instant Mixes</a></li>
+                    <li><a href="shop.html?category=instantSoup">Instant Soup Mix</a></li>
+                    <li><a href="shop.html?category=idliPodi">Idli Podi's</a></li>
+                    <li><a href="shop.html?category=readytoserve">Ready to Serve</a></li>
+                    <li><a href="shop.html?category=herbal">Herbal Products</a></li>
+                </ul>
+            </div>
+
+            <!-- Social Links -->
+            <div class="footer-section follow-us">
+                <h4><i class="fas fa-share-alt"></i> Follow Us</h4>
+                <ul>
+                    <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ermunaiorganicfoods"
+                            target="_blank">Facebook</a></li>
+                    <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/ermunaiorganic"
+                            target="_blank">Instagram</a></li>
+                    <li><i class="fab fa-linkedin"></i> <a
+                            href="https://www.linkedin.com/in/ermunai-organic-farm-217035363"
+                            target="_blank">LinkedIn</a></li>
+                    <li><i class="fab fa-youtube"></i> <a href="https://youtube.com/@ermunaiorganicfarm"
+                            target="_blank">YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- WhatsApp Order Button -->
+        <div class="whatsapp">
+            <a href="https://wa.me/919841231996" target="_blank">
+                <i class="fab fa-whatsapp"></i> Order on WhatsApp
+            </a>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>© 2025 Ermunai Organic Farm Foods. All rights reserved.</p>
+            <p class="footer-links">
+                <a href="privacy.html" target="_blank">Privacy Policy</a> |
+                <a href="terms.html" target="_blank">Terms & Conditions</a> |
+                <a href="shipping.html" target="_blank">Shipping Policy</a>
+            </p>
+        </div>
+    </footer>
+    <script>
+        //responsive header
+        const hamburger = document.querySelector(".hamburger");
+        const nav = document.querySelector("header nav");
+        const closeMenu = document.querySelector(".close-menu");
+
+        hamburger.addEventListener("click", () => {
+            nav.classList.add("active");
+        });
+
+        closeMenu.addEventListener("click", () => {
+            nav.classList.remove("active");
+        });
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+            projectId: "ermunai-e-commerce-project",
+            storageBucket: "ermunai-e-commerce-project.appspot.com",
+            messagingSenderId: "365240050790",
+            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
+            measurementId: "G-CZJZ4HLCMR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginBtn = document.querySelector(".btn-login");
+            const signupBtn = document.querySelector(".btn-signup");
+            const profile = document.querySelector(".profile");
+            const username = document.querySelector(".username");
+            const logoutBtn = document.querySelector(".btn-logout");
+
+            // Listen to Firebase Auth state
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is logged in
+                    loginBtn.style.display = "none";
+                    signupBtn.style.display = "none";
+                    profile.style.display = "flex";
+                    username.textContent = user.email; // show email or displayName
+                    localStorage.setItem("user", user.email); // optional
+                } else {
+                    // No user is logged in
+                    loginBtn.style.display = "inline-block";
+                    signupBtn.style.display = "inline-block";
+                    profile.style.display = "none";
+                    localStorage.removeItem("user");
+                }
+            });
+
+            logoutBtn.addEventListener("click", async () => {
+                if (confirm("Do you want to log out?")) {
+                    await signOut(auth);
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
