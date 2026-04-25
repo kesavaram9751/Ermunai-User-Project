@@ -250,114 +250,204 @@
 
         /* ---------- Post Header ---------- */
         .post-header {
-            background: white;
-            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+            padding: 90px 20px 120px;
             text-align: center;
-            border-bottom: 1px solid #eee;
+            border-bottom: none;
+            background:
+                radial-gradient(circle at top left, rgba(255, 215, 0, 0.16), transparent 34%),
+                radial-gradient(circle at top right, rgba(255, 255, 255, 0.14), transparent 24%),
+                linear-gradient(135deg, #0f5132 0%, #1f7a3a 45%, #2e7d32 100%);
+        }
+
+        .post-header::before {
+            content: "";
+            position: absolute;
+            inset: auto -5% -65px;
+            height: 150px;
+            background: #f4f7f4;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
         }
 
         .post-header .container {
-            max-width: 800px;
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
             margin: 0 auto;
         }
 
         .post-date {
-            color: #888;
-            display: block;
-            margin-bottom: 15px;
-            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            margin-bottom: 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #f5fff2;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 30px rgba(7, 35, 17, 0.18);
         }
 
         .post-header h1 {
-            font-size: 2.5rem;
-            color: #2c3e2c;
-            margin-bottom: 20px;
-            line-height: 1.2;
+            font-size: clamp(2.3rem, 4vw, 3.7rem);
+            color: #fff;
+            margin-bottom: 24px;
+            line-height: 1.15;
+            text-shadow: 0 10px 30px rgba(10, 31, 16, 0.25);
         }
 
         .post-meta {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            color: #666;
-            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 14px;
+            color: #eff8ef;
+            font-size: 0.95rem;
+        }
+
+        .post-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.16);
         }
 
         /* ---------- Post Content ---------- */
         .post-content {
-            max-width: 800px;
-            margin: 40px auto 100px;
-            padding: 40px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: -70px auto 100px;
+            padding: 38px;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(46, 125, 50, 0.12);
+            border-radius: 28px;
+            box-shadow: 0 24px 60px rgba(20, 51, 27, 0.12);
+            backdrop-filter: blur(10px);
+        }
+
+        .post-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 38px;
+            width: 96px;
+            height: 5px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #2e7d32, #d4af37);
         }
 
         .post-main-img {
             width: 100%;
             height: auto;
-            max-height: 500px;
+            max-height: 520px;
             object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 40px;
+            border-radius: 22px;
+            margin-bottom: 34px;
             display: block;
+            box-shadow: 0 20px 40px rgba(20, 51, 27, 0.12);
         }
 
         .post-content p {
-            margin-bottom: 25px;
-            font-size: 1.1rem;
+            margin-bottom: 22px;
+            font-size: 1.08rem;
+            color: #486050;
+        }
+
+        .post-content p:first-of-type {
+            font-size: 1.18rem;
+            color: #2d4334;
         }
 
         .post-content h2 {
-            margin: 40px 0 20px;
-            color: #2e7d32;
+            margin: 42px 0 18px;
+            padding-left: 16px;
+            border-left: 4px solid #d4af37;
+            color: #1c5e27;
+            line-height: 1.3;
         }
 
         .certificate-img {
             width: 100%;
             height: auto;
-            max-width: 600px;
-            margin: 40px auto;
+            max-width: 680px;
+            margin: 34px auto;
             display: block;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(46, 125, 50, 0.1);
+            box-shadow: 0 18px 36px rgba(20, 51, 27, 0.1);
         }
 
         .content-list {
             list-style: none;
-            margin-bottom: 30px;
+            margin: 0 0 32px;
+            padding: 22px 24px;
+            background: linear-gradient(180deg, rgba(46, 125, 50, 0.06), rgba(212, 175, 55, 0.06));
+            border: 1px solid rgba(46, 125, 50, 0.1);
+            border-radius: 22px;
         }
 
         .content-list li {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+            margin-bottom: 14px;
+            font-size: 1.05rem;
             display: flex;
-            align-items: center;
-            gap: 10px;
+            align-items: flex-start;
+            gap: 12px;
+            color: #314b39;
+        }
+
+        .content-list li:last-child {
+            margin-bottom: 0;
         }
 
         .content-list li i {
-            color: #ffd700;
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            color: #1f7a3a;
+            background: #e8f4e8;
+            border-radius: 50%;
         }
 
         /* ---------- Navigation ---------- */
         .post-navigation {
-            max-width: 800px;
-            margin: 60px auto;
+            max-width: 900px;
+            margin: -40px auto 60px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             padding: 0 20px;
         }
 
         .nav-btn {
-            color: #2e7d32;
+            color: #1f7a3a;
             text-decoration: none;
             font-weight: bold;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
+            padding: 14px 22px;
+            border-radius: 999px;
+            background: #fff;
+            border: 1px solid rgba(46, 125, 50, 0.14);
+            box-shadow: 0 12px 28px rgba(20, 51, 27, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px rgba(20, 51, 27, 0.12);
         }
 
         /* ✅ Footer */
@@ -496,12 +586,37 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .post-header {
+                padding: 72px 16px 95px;
+            }
+
             .post-header h1 {
-                font-size: 1.8rem;
+                font-size: 1.9rem;
             }
 
             .post-content {
-                padding: 20px;
+                margin: -55px 16px 90px;
+                padding: 24px 20px;
+                border-radius: 22px;
+            }
+
+            .post-content::before {
+                left: 20px;
+                width: 74px;
+            }
+
+            .post-main-img,
+            .certificate-img {
+                border-radius: 16px;
+            }
+
+            .content-list {
+                padding: 18px;
+            }
+
+            .post-navigation {
+                margin: -34px auto 50px;
+                padding: 0 16px;
             }
 
 

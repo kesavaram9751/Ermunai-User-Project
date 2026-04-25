@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | Ermunai Organic Farm Foods</title>
+    <title>Empowering Tomorrow: Insights from the CII IWN Southern Region Annual Meeting 2026 | Ermunai Organic Farm Foods</title>
     <meta name="description"
-        content="Stay updated with the latest news, recipes, and insights on organic farming and healthy living from Ermunai Organic Farm Foods.">
+        content="Highlights from the CII IWN Southern Region Annual Meeting 2026 held at ITC Grand Chola, Chennai, focused on transforming women leadership for India@100.">
     <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png/jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
@@ -19,12 +18,11 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            line-height: 1.8;
             background-color: #f4f7f4;
             color: #333;
         }
 
-        /* ---------- Header ---------- */
         header {
             display: flex;
             justify-content: space-between;
@@ -74,7 +72,6 @@
             gap: 15px;
         }
 
-        /* Buttons */
         .btn-login,
         .btn-signup {
             padding: 8px 16px;
@@ -107,7 +104,6 @@
             border-color: #244021;
         }
 
-        /* Hamburger (hidden by default) */
         .hamburger {
             display: none;
             font-size: 24px;
@@ -155,21 +151,17 @@
             color: white;
         }
 
-
-
         @media (max-width: 900px) {
             .close-menu {
                 display: block;
             }
         }
 
-        /* Hide username on mobile */
         @media (max-width: 768px) {
             .profile .username {
                 display: none;
                 position: absolute;
                 top: -30px;
-                /* adjust to hover position */
                 left: 50%;
                 transform: translateX(-50%);
                 background: green;
@@ -184,22 +176,17 @@
                 z-index: 2000;
             }
 
-            /* Show username on hover */
             .profile:hover .username {
                 display: block;
                 opacity: 1;
             }
         }
 
-
-
-        /* ---------- Mobile Styles ---------- */
         @media (max-width: 900px) {
             header {
                 padding: 15px 20px;
             }
 
-            /* Hide normal menu */
             header nav {
                 position: fixed;
                 top: 0;
@@ -232,14 +219,11 @@
                 display: block;
             }
 
-            /* Show menu when active */
             header nav.active {
                 right: 0;
             }
         }
 
-
-        /* Cart */
         .cart {
             font-size: 22px;
             color: #333;
@@ -250,114 +234,205 @@
             color: green;
         }
 
-        /* ---------- Blog Hero ---------- */
-        .blog-hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=1500&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .blog-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .blog-hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-        }
-
-        /* ---------- Blog Grid ---------- */
-        .blog-container {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
-
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .blog-card {
-            background: white;
-            border-radius: 12px;
+        .post-header {
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 90px 20px 120px;
+            text-align: center;
+            border-bottom: none;
+            background:
+                radial-gradient(circle at top left, rgba(255, 215, 0, 0.16), transparent 34%),
+                radial-gradient(circle at top right, rgba(255, 255, 255, 0.14), transparent 24%),
+                linear-gradient(135deg, #0f5132 0%, #1f7a3a 45%, #2e7d32 100%);
+        }
+
+        .post-header::before {
+            content: "";
+            position: absolute;
+            inset: auto -5% -65px;
+            height: 150px;
+            background: #f4f7f4;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .post-header .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .post-date {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            margin-bottom: 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #f5fff2;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 30px rgba(7, 35, 17, 0.18);
+        }
+
+        .post-header h1 {
+            font-size: clamp(2.3rem, 4vw, 3.7rem);
+            color: #fff;
+            margin-bottom: 24px;
+            line-height: 1.15;
+            text-shadow: 0 10px 30px rgba(10, 31, 16, 0.25);
+        }
+
+        .post-meta {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            color: #eff8ef;
+            font-size: 0.95rem;
         }
 
-        .blog-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        .post-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.16);
         }
 
-        .blog-card img {
+        .post-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: -70px auto 100px;
+            padding: 38px;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(46, 125, 50, 0.12);
+            border-radius: 28px;
+            box-shadow: 0 24px 60px rgba(20, 51, 27, 0.12);
+            backdrop-filter: blur(10px);
+        }
+
+        .post-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 38px;
+            width: 96px;
+            height: 5px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #2e7d32, #d4af37);
+        }
+
+        .post-main-img {
             width: 100%;
-            height: 220px;
+            height: auto;
+            max-height: 520px;
             object-fit: cover;
+            border-radius: 22px;
+            margin-bottom: 34px;
+            display: block;
+            box-shadow: 0 20px 40px rgba(20, 51, 27, 0.12);
         }
 
-        .blog-content {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+        .post-content p {
+            margin-bottom: 22px;
+            font-size: 1.08rem;
+            color: #486050;
         }
 
-        .blog-date {
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 10px;
+        .post-content p:first-of-type {
+            font-size: 1.18rem;
+            color: #2d4334;
         }
 
-        .blog-content h3 {
-            font-size: 1.4rem;
-            color: #2c3e2c;
-            margin-bottom: 15px;
+        .post-content h2 {
+            margin: 42px 0 18px;
+            padding-left: 16px;
+            border-left: 4px solid #d4af37;
+            color: #1c5e27;
             line-height: 1.3;
         }
 
-        .blog-content p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3;
-            -webkit-box-orient: vertical;
+        .certificate-img {
+            width: 100%;
+            height: auto;
+            max-width: 680px;
+            margin: 34px auto;
+            display: block;
+            border-radius: 20px;
+            border: 1px solid rgba(46, 125, 50, 0.1);
+            box-shadow: 0 18px 36px rgba(20, 51, 27, 0.1);
         }
 
-        .read-more {
-            align-self: flex-start;
-            margin-top: auto;
-            color: #2e7d32;
-            font-weight: bold;
-            text-decoration: none;
+        .content-list {
+            list-style: none;
+            margin: 0 0 32px;
+            padding: 22px 24px;
+            background: linear-gradient(180deg, rgba(46, 125, 50, 0.06), rgba(212, 175, 55, 0.06));
+            border: 1px solid rgba(46, 125, 50, 0.1);
+            border-radius: 22px;
+        }
+
+        .content-list li {
+            margin-bottom: 14px;
+            font-size: 1.05rem;
             display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: #314b39;
+        }
+
+        .content-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-list li i {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            display: inline-flex;
             align-items: center;
-            gap: 5px;
-            transition: gap 0.3s;
+            justify-content: center;
+            margin-top: 2px;
+            color: #1f7a3a;
+            background: #e8f4e8;
+            border-radius: 50%;
         }
 
-        .read-more:hover {
-            gap: 10px;
+        .post-navigation {
+            max-width: 900px;
+            margin: -40px auto 60px;
+            display: flex;
+            justify-content: flex-start;
+            padding: 0 20px;
         }
 
-        /* ✅ Footer */
+        .nav-btn {
+            color: #1f7a3a;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 22px;
+            border-radius: 999px;
+            background: #fff;
+            border: 1px solid rgba(46, 125, 50, 0.14);
+            box-shadow: 0 12px 28px rgba(20, 51, 27, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px rgba(20, 51, 27, 0.12);
+        }
+
         footer {
             background: linear-gradient(145deg, #056608, #0b8a0d);
             color: #fff;
@@ -409,7 +484,6 @@
             color: #ffd700;
         }
 
-        /* WhatsApp Order Button */
         .whatsapp {
             margin: 25px 0;
             text-align: center;
@@ -429,7 +503,6 @@
             background: #1eb85b;
         }
 
-        /* Footer Bottom */
         .footer-bottom {
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.3);
@@ -451,7 +524,6 @@
             text-decoration: underline;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .footer-container {
                 text-align: center;
@@ -461,12 +533,7 @@
             .footer-section h4 {
                 border: none;
             }
-        }
 
-
-
-        /* Responsive */
-        @media (max-width: 768px) {
             header nav ul {
                 flex-direction: column;
                 text-align: center;
@@ -476,30 +543,47 @@
                 margin: 10px 0;
             }
 
+            .post-header {
+                padding: 72px 16px 95px;
+            }
 
+            .post-header h1 {
+                font-size: 1.9rem;
+            }
+
+            .post-content {
+                margin: -55px 16px 90px;
+                padding: 24px 20px;
+                border-radius: 22px;
+            }
+
+            .post-content::before {
+                left: 20px;
+                width: 74px;
+            }
+
+            .post-main-img,
+            .certificate-img {
+                border-radius: 16px;
+            }
+
+            .content-list {
+                padding: 18px;
+            }
+
+            .post-navigation {
+                margin: -34px auto 50px;
+                padding: 0 16px;
+            }
         }
 
         @media (max-width: 480px) {
-
-
             header .logo img {
-                margin-right: 0px;
+                margin-right: 0;
             }
 
             header .logo span {
                 display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-
-
-            .blog-hero h1 {
-                font-size: 2rem;
-            }
-
-            .blog-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -513,7 +597,6 @@
             <span>Ermunai Organic Farm & Foods</span>
         </div>
 
-        <!-- Navigation -->
         <nav>
             <div class="close-menu"><i class="fa-solid fa-times"></i></div>
             <ul>
@@ -527,135 +610,112 @@
             </ul>
         </nav>
 
-
-        <!-- Right side -->
         <div class="header-right">
             <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
-
-            <!-- Buttons (default) -->
             <a href="login.html" class="btn-login">Login</a>
             <a href="signup.html" class="btn-signup">Sign Up</a>
-
-            <!-- Profile (hidden initially) -->
             <div class="profile" style="display: none; position: relative;">
                 <i class="fa-solid fa-user"></i>
                 <span class="username"></span>
                 <button class="btn-logout">Logout</button>
             </div>
-
-
-
             <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
         </div>
-
     </header>
 
-    <section class="blog-hero">
-        <h1>Our Journal</h1>
-        <p>Discover the journey behind our organic produce and tips for a healthier lifestyle.</p>
-    </section>
+    <article>
+        <header class="post-header">
+            <div class="container">
+                <span class="post-date">April 24, 2026</span>
+                <h1>Empowering Tomorrow: Insights from the CII IWN Southern Region Annual Meeting 2026</h1>
+                <div class="post-meta">
+                    <span>By <strong>Ermunai Farm</strong></span>
+                    <span><i class="far fa-clock"></i> 5 Min Read</span>
+                </div>
+            </div>
+        </header>
 
-        <div class="blog-container">
-        <div class="blog-grid">
-            <!-- Blog Card 7 (CII IWN Southern Region Annual Meeting) -->
-            <div class="blog-card">
-                <a href="cii-iwn-southern-region-annual-meeting-2026.html"><img src="images/blog-main-image/blog7.png"
-                        alt="CII IWN Southern Region Annual Meeting 2026"></a>
-                <div class="blog-content">
-                    <span class="blog-date">April 24, 2026</span>
-                    <h3>Empowering Tomorrow: Insights from the CII IWN Southern Region Annual Meeting 2026</h3>
-                    <p>The CII Indian Women Network Southern Region Annual Meeting at ITC Grand Chola, Chennai,
-                        spotlighted mentorship, leadership transition, and women driving India's next economic leap.</p>
-                    <a href="cii-iwn-southern-region-annual-meeting-2026.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 1 (Tamil Nadu Food Processor’s Conclave) -->
-            <div class="blog-card">
-                <a href="food-processers.html"><img src="images/blog-main-image/blog3.png"
-                        alt="Tamil Nadu Food Processor’s Conclave"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 23, 2026</span>
-                    <h3>Strengthening the Roots: Highlights from the Tamil Nadu Food Processor’s Conclave, Madurai</h3>
-                    <p>The flavor of innovation met the spirit of entrepreneurship at the Tamil Nadu Food Processor’s
-                        Conclave, held on February 23, 2026, at Madurai.</p>
-                    <a href="food-processers.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 00 (Tech Summit) -->
-            <div class="blog-card">
-                <a href="the-hindu-tech-summit-2026.html"><img src="images/blog-main-image/blog2.jpg"
-                        alt="The Hindu Tech Summit 2026"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 12, 2026</span>
-                    <h3>My Experience at The Hindu Tech Summit 2026 — Powered by Innovation & Learning</h3>
-                    <p>In February 2026, I had the exciting opportunity to attend The Hindu Tech Summit 2026, one of
-                        India’s most influential tech gatherings held at Taj Coromandel, Chennai.</p>
-                    <a href="the-hindu-tech-summit-2026.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 2 (Green Horizons Conclave) -->
-            <div class="blog-card">
-                <a href="Green-Horizons-Conclave.html"><img src="images/blog-main-image/blog4.jpg"
-                        alt="Green Horizons Conclave"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 9, 2026</span>
-                    <h3>Pioneering a Sustainable Future: Highlights from the Green Horizons Conclave</h3>
-                    <p>Sustainability took center stage at the Green Horizons Conclave, discussing the roadmap for a
-                        cleaner, greener tomorrow.</p>
-                    <a href="Green-Horizons-Conclave.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 3 (CII CEL Learning Mission) -->
-            <div class="blog-card">
-                <a href="cii-cel.html"><img src="images/blog-main-image/blog5.jpg"
-                        alt="CII CEL Learning Mission to Sri City"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 6, 2026</span>
-                    <h3>Operational Excellence in Action: The CII CEL Learning Mission to Sri City</h3>
-                    <p>CII–CEL Chennai Entrepreneurs Development Forum hosted an exclusive Learning Mission to Sri City,
-                        exploring world-class manufacturing giants.</p>
-                    <a href="cii-cel.html" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 4 (CII Chennai Zone Annual Session) -->
-            <div class="blog-card">
-                <a href="Chennai-Zone-Annual-Session.html"><img src="images/blog-main-image/blog6.jpg"
-                        alt="CII Chennai Zone Annual Session"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 26, 2026</span>
-                    <h3>Innovation & Integration: Highlights from the CII Chennai Zone Annual Session (2025-26)</h3>
-                    <p>CII Chennai Zone Annual Session explored Building India's Manufacturing Future: Transitioning
-                        from Legacy Systems to Innovation.</p>
-                    <a href="Chennai-Zone-Annual-Session.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 0 (New) -->
-            <div class="blog-card">
-                <a href="celebrating-a-milestone.html"><img src="images/blog-main-image/blog1.jpg"
-                        alt="Celebrating a Milestone"></a>
-                <div class="blog-content">
-                    <span class="blog-date">August 10, 2025</span>
-                    <h3>Celebrating a Milestone: My Journey with the All India Women Start-a-thon</h3>
-                    <p>I am thrilled to share a moment of pride and gratitude! Recently, I participated in Stage 2 of
-                        the All India Women Start-a-thon, a platform empowering women entrepreneurs.</p>
-                    <a href="celebrating-a-milestone.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
+        <div class="post-content">
+            <img src="images/blog-main-image/blog7.png" alt="CII IWN Southern Region Annual Meeting 2026"
+                class="post-main-img">
 
+            <p>The landscape of Indian leadership is shifting, and the momentum is undeniable. On April 24, 2026, the
+                Confederation of Indian Industry (CII) Indian Women Network (IWN) hosted its Southern Region Annual
+                Regional Meeting at the ITC Grand Chola, Chennai.</p>
 
+            <p>The event was more than just a formal gathering; it was a powerful convergence of visionaries, industry
+                leaders, and change-makers dedicated to <strong>"Transforming Women Leadership for India@100."</strong>
+            </p>
 
+            <p>Here are the key takeaways and highlights from a day defined by inspiration and strategic growth.</p>
+
+            <h2>Bridging the Gap: Mentorship and Research</h2>
+            <p>One of the most impactful segments of the afternoon was the presentation of a joint study by IWN
+                Southern Region and IIT Hyderabad.</p>
+
+            <p>Presented by Dr. M P Ganesh, the study, <strong>"The Impact of Mentoring on Career Goals of Women
+                    Professionals,"</strong> provided data-driven insights into how structured guidance can accelerate
+                professional trajectories. It reinforced a core truth: when women mentor women, the entire corporate
+                ecosystem gains stability and fresh perspectives.</p>
+
+            <img src="images/blog-main-image/blog7-1.png" alt="Mentorship and research session at CII IWN 2026"
+                class="certificate-img">
+
+            <h2>From Legacy to Leadership</h2>
+            <p>In a captivating spotlight session, the conversation turned toward the unique dynamics of family-owned
+                enterprises. Mr. C K Ranganathan, Chairman of CavinKare, and Ms. Amudhavalli Ranganathan discussed the
+                transition of <strong>"Legacy to Leadership."</strong></p>
+
+            <p>Moderated by Ms. Rajani Seshadri, the discussion explored how women are not just inheriting roles but
+                are actively shaping the next chapter of family businesses through innovation and modern e-commerce
+                strategies. The message was clear: the next generation of leadership is already here, and it is
+                digital, empathetic, and bold.</p>
+
+            <h2>Driving the Economic Leap</h2>
+            <p>As India eyes major economic milestones, a powerful panel discussion focused on
+                <strong>"Women Driving India's Next Economic Leap,"</strong> featuring:
+            </p>
+            <ul class="content-list">
+                <li><i class="fas fa-circle"></i><span>Ms. Subhasri Sriram, MD & CEO, Shriram Capital Pvt Ltd</span>
+                </li>
+                <li><i class="fas fa-circle"></i><span>Mr. Mathew Thomas, CEO & MD, Siemens Industry Software</span>
+                </li>
+                <li><i class="fas fa-circle"></i><span>Ms. Gangapriya Chakraverti, MD, Ford Business Solutions,
+                        India</span></li>
+            </ul>
+
+            <p>Moderated by Ms. Hema Mani, the panel discussed how diversity in the C-suite directly correlates with
+                economic resilience and technological advancement.</p>
+
+            <img src="images/blog-main-image/blog7-2.png" alt="Panel discussion at CII IWN Southern Region Meeting"
+                class="certificate-img">
+
+            <h2>Looking Ahead: The 2026-27 Vision</h2>
+            <p>The day concluded with a formal Business Session led by Ms. Gowri Kailasam and Mr. Ravichandran
+                Purushothaman, marking the release of the Annual Report.</p>
+
+            <p>A significant highlight was the announcement of the new Office Bearers. We extend our congratulations to
+                Ms. Sivapriya Balagopal, VP - Innovations, Orkla India Ltd, who stepped into her role as the
+                Chairperson for IWN Southern Region (2026-27). Her acceptance speech set a clear tone for the coming
+                year: one of innovation, inclusivity, and action.</p>
+
+            <h2>Final Thoughts</h2>
+            <p>The CII IWN Annual Regional Meeting was not just about looking back at a year of achievements; it was
+                about setting the stage for India@100. As we move forward, the message from Chennai is clear: when we
+                empower women to lead, we do not just change a company, we change the economy.</p>
+
+            <p>Were you at the event? We'd love to hear your personal favorite moments in the comments below.</p>
+
+            <p>For more updates on industry leadership and community growth, stay tuned to our blog.</p>
         </div>
+    </article>
+
+    <div class="post-navigation">
+        <a href="blog.html" class="nav-btn"><i class="fas fa-arrow-left"></i> Back to Blog</a>
     </div>
 
     <footer>
         <div class="footer-container">
-            <!-- About Section -->
             <div class="footer-section about">
                 <h3>Ermunai Organic Farm & Foods</h3>
                 <p><i class="fa fa-map-marker-alt"></i> Manufacturing Unit:<br> Ermunai Organic Farm & Foods,<br>
@@ -669,7 +729,6 @@
                 <p><i class="fa fa-envelope"></i> info@ermunaiorganicfarmfoods.com</p>
             </div>
 
-            <!-- Company Links -->
             <div class="footer-section company">
                 <h4>Company</h4>
                 <ul>
@@ -686,7 +745,6 @@
                 </ul>
             </div>
 
-            <!-- Product Categories -->
             <div class="footer-section products">
                 <h4>Products</h4>
                 <ul>
@@ -698,7 +756,6 @@
                 </ul>
             </div>
 
-            <!-- Social Links -->
             <div class="footer-section follow-us">
                 <h4><i class="fas fa-share-alt"></i> Follow Us</h4>
                 <ul>
@@ -715,16 +772,14 @@
             </div>
         </div>
 
-        <!-- WhatsApp Order Button -->
         <div class="whatsapp">
             <a href="https://wa.me/919841231996" target="_blank">
                 <i class="fab fa-whatsapp"></i> Order on WhatsApp
             </a>
         </div>
 
-        <!-- Footer Bottom -->
         <div class="footer-bottom">
-            <p>© 2025 Ermunai Organic Farm & Foods. All rights reserved.</p>
+            <p>&copy; 2025 Ermunai Organic Farm & Foods. All rights reserved.</p>
             <p class="footer-links">
                 <a href="privacy.html" target="_blank">Privacy Policy</a> |
                 <a href="terms.html" target="_blank">Terms & Conditions</a> |
@@ -732,8 +787,7 @@
             </p>
         </div>
     </footer>
-    <script>
-        //responsive header
+    <script type="module">
         const hamburger = document.querySelector(".hamburger");
         const nav = document.querySelector("header nav");
         const closeMenu = document.querySelector(".close-menu");
@@ -769,17 +823,14 @@
             const username = document.querySelector(".username");
             const logoutBtn = document.querySelector(".btn-logout");
 
-            // Listen to Firebase Auth state
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // User is logged in
                     loginBtn.style.display = "none";
                     signupBtn.style.display = "none";
                     profile.style.display = "flex";
-                    username.textContent = user.email; // show email or displayName
-                    localStorage.setItem("user", user.email); // optional
+                    username.textContent = user.email;
+                    localStorage.setItem("user", user.email);
                 } else {
-                    // No user is logged in
                     loginBtn.style.display = "inline-block";
                     signupBtn.style.display = "inline-block";
                     profile.style.display = "none";
@@ -788,9 +839,12 @@
             });
 
             logoutBtn.addEventListener("click", async () => {
-                if (confirm("Do you want to log out?")) {
+                try {
                     await signOut(auth);
-                    location.reload();
+                    alert("Logged out successfully!");
+                    window.location.href = "login.html";
+                } catch (error) {
+                    alert(error.message);
                 }
             });
         });
