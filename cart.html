@@ -270,8 +270,29 @@
     </div>
   </div>
 
-  <script>
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
+      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
+      projectId: "ermunai-e-commerce-project",
+      storageBucket: "ermunai-e-commerce-project.appspot.com",
+      messagingSenderId: "365240050790",
+      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    let cartKey = "";
+    let cart = [];
+
+    function getUserCartKey(user) {
+      return `cart_${user.uid}`;
+    }
 
     function renderCart() {
       const cartItems = document.getElementById("cartItems");
@@ -286,10 +307,11 @@
         const qty = item.qty || 1;
         const itemTotal = item.price * qty;
         subtotal += itemTotal;
+        const quantityText = item.quantityValue && item.quantityType ? `${item.quantityValue}${item.quantityType}` : "";
 
         cartItems.innerHTML += `
           <div class="cart-item">
-            <img src="${item.image}" alt="${item.name}"/>
+            <img src="${item.image || "https://via.placeholder.com/120x100?text=No+Image"}" alt="${item.name}"/>
 
             <div class="item-details">
               <span class="category-tag">${item.category || "Product"}</span>
@@ -298,7 +320,7 @@
               <p>${item.description || ""}</p>
 
               <div class="quantity-line">
-                Quantity Selected: <strong>${item.quantityValue}${item.quantityType}</strong>
+                Quantity Selected: <strong>${quantityText || "N/A"}</strong>
               </div>
 
               <div class="quantity-control">
@@ -328,15 +350,18 @@
     function updateQty(index, change) {
       cart[index].qty = (cart[index].qty || 1) + change;
       if (cart[index].qty < 1) cart[index].qty = 1;
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem(cartKey, JSON.stringify(cart));
       renderCart();
     }
 
     function removeItem(index) {
       cart.splice(index, 1);
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem(cartKey, JSON.stringify(cart));
       renderCart();
     }
+
+    window.updateQty = updateQty;
+    window.removeItem = removeItem;
 
     document.getElementById("checkout-btn").addEventListener("click", () => {
       if (cart.length === 0) {
@@ -347,7 +372,18 @@
       window.location.href = "checkout.html";
     });
 
-    renderCart();
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        alert("Please login to view your cart.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      currentUser = user;
+      cartKey = getUserCartKey(currentUser);
+      cart = JSON.parse(localStorage.getItem(cartKey) || "[]");
+      renderCart();
+    });
   </script>
 </body>
 

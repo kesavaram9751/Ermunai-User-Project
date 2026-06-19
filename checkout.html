@@ -218,18 +218,8 @@
 
     let currentUser = null;
     let userContactEmail = null;
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        currentUser = user;
-        userContactEmail = user.email || null;
-      } else {
-        alert("Please log in to complete your purchase.");
-        window.location.href = "login.html";
-      }
-    });
-
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    let cartKey = "";
+    let cart = [];
 
     const itemsDiv = document.getElementById("itemsList");
     const subtotalEl = document.getElementById("subtotalAmt");
@@ -241,6 +231,13 @@
     const btnPay = document.getElementById("btnPay");
 
     let TAX_RATE = 0.05; // 5%
+    let subtotal = 0;
+    let shipping = 0;
+    let tax = 0;
+
+    function getUserCartKey(user) {
+      return `cart_${user.uid}`;
+    }
 
     function renderCart() {
       itemsDiv.innerHTML = "";
@@ -311,20 +308,30 @@
       return subtotal + shipping + tax;
     }
 
-    // Initialize Summary
-    let subtotal = renderCart();
-
-    // Determine initial shipping
-    let shipping = 0;
-    const initialPin = pinInput.value.trim();
-    if (initialPin && initialPin !== "000000") {
-      shipping = computeShipping(initialPin, cart);
-    }
-    let tax = computeTax(subtotal);
+    function updateTotals() {
+      subtotal = renderCart();
+      const pin = pinInput.value.trim();
+      shipping = pin && pin !== "000000" ? computeShipping(pin, cart) : 0;
+      tax = computeTax(subtotal);
 
     document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
     shippingEl.textContent = "₹" + shipping.toFixed(2);
     totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
+
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        userContactEmail = user.email || null;
+        cartKey = getUserCartKey(currentUser);
+        cart = JSON.parse(localStorage.getItem(cartKey) || "[]");
+        updateTotals();
+      } else {
+        alert("Please log in to complete your purchase.");
+        window.location.href = "login.html";
+      }
+    });
 
     // Update shipping on PIN entry
     pinInput.addEventListener("blur", () => {
@@ -422,7 +429,7 @@
             });
 
             alert("Payment Successful!");
-            localStorage.removeItem("cart");
+            localStorage.removeItem(cartKey);
             window.location.href = "thankyou.html";
           },
           prefill: {
