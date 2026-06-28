@@ -1,460 +1,615 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="scroll-smooth" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout - Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
-  <meta name="description"
-    content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
-  <meta name="keywords"
-    content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
-  <meta name="author" content="Ermunai Organic Farm Foods">
-  <meta name="robots" content="index, follow">
-  <!-- simplest: 32x32 PNG -->
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Checkout | Ermunai Organic Farm Foods</title>
+  <meta content="Secure e-commerce checkout for Ermunai Organic products. Address management, delivery options, and Razorpay integration." name="description"/>
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <style>
-    /* (CSS styles remain the same) */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9faf6;
-      color: #333;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-
-    @media(max-width: 800px) {
-      .container {
-        grid-template-columns: 1fr;
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed-dim": "#78dc77",
+            "surface-container-high": "#eae8e2",
+            "on-error-container": "#93000a",
+            "on-background": "#1b1c19",
+            "surface-container-low": "#f5f3ee",
+            "surface-tint": "#1b6d24",
+            "success-leaf": "#43A047",
+            "tertiary-container": "#85675c",
+            "primary-container": "#2e7d32",
+            "primary-fixed": "#a3f69c",
+            "inverse-primary": "#88d982",
+            "surface-dim": "#dbdad4",
+            "outline-variant": "#bfcaba",
+            "surface-cream": "#FFFDF7",
+            "on-secondary-fixed-variant": "#005313",
+            "secondary-container": "#91f78e",
+            "on-tertiary": "#ffffff",
+            "primary": "#0d631b",
+            "tertiary-fixed": "#ffdbce",
+            "surface-container-highest": "#e4e2dd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed-dim": "#e4beb2",
+            "on-tertiary-container": "#ffeee8",
+            "outline": "#707a6c",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#002204",
+            "on-surface": "#1b1c19",
+            "surface": "#fbf9f3",
+            "inverse-on-surface": "#f2f1eb",
+            "on-tertiary-fixed-variant": "#5b4137",
+            "secondary-fixed": "#94f990",
+            "secondary": "#006e1c",
+            "tertiary": "#6b4f45",
+            "on-primary-container": "#cbffc2",
+            "surface-variant": "#e4e2dd",
+            "on-primary-fixed-variant": "#005312",
+            "background": "#fbf9f3",
+            "surface-bright": "#fbf9f3",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#002204",
+            "on-primary": "#ffffff",
+            "surface-container": "#f0eee8",
+            "glass-stroke": "rgba(46, 125, 50, 0.1)",
+            "on-surface-variant": "#40493d",
+            "primary-fixed-dim": "#88d982",
+            "earth-dark": "#4E342E",
+            "on-tertiary-fixed": "#2b160f",
+            "on-secondary-container": "#00731e",
+            "inverse-surface": "#30312d",
+            "surface-container-lowest": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "64px",
+            "gutter": "32px",
+            "unit": "8px",
+            "margin-mobile": "20px",
+            "stack-md": "40px",
+            "stack-lg": "80px",
+            "container-max": "1280px"
+          }
+        }
       }
     }
-
-    .form-section,
-    .summary-section {
-      background: white;
-      padding: 20px;
-      border: 1px solid #eee;
-      border-radius: 8px;
+  </script>
+  <style>
+    .glass-nav {
+      background: rgba(251, 249, 243, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
-
-    .form-section h2,
-    .summary-section h2 {
-      margin-bottom: 20px;
-      font-size: 24px;
-      color: #2f6f31;
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
     }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-
-    .form-group textarea {
-      resize: vertical;
-    }
-
-    .summary-section .cart-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .summary-section .cart-item span {
-      font-size: 16px;
-    }
-
-    .summary-section .totals {
-      margin-top: 20px;
-      border-top: 1px solid #ddd;
-      padding-top: 20px;
-    }
-
-    .totals .line {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .totals .line.total {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .btn-pay {
-      display: inline-block;
-      padding: 12px 24px;
-      background: #2f6f31;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-      width: 100%;
-    }
-
-    .btn-pay:hover {
-      background: #244021;
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(46, 125, 50, 0.1);
     }
   </style>
 </head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+  <div id="siteHeader"></div>
 
-<body>
-  <h1>Checkout</h1>
-  <div class="container">
-    <div class="form-section">
-      <h2>Your Details</h2>
-      <form id="checkoutForm">
-        <div class="form-group">
-          <label for="name">Full Name*</label>
-          <input type="text" id="name" name="name" required />
+  <main id="checkoutPage" class="hidden pt-24 pb-stack-lg max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop">
+    <!-- Header -->
+    <header class="mb-10 text-left">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-2">Secure Checkout</h1>
+      <p class="text-on-surface-variant">Provide your shipping address and complete payment securely via Razorpay.</p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+      <!-- Steps Forms Left -->
+      <section class="lg:col-span-8 space-y-6">
+        
+        <!-- Step 1: Address Details -->
+        <div class="glass-card p-6 rounded-xl space-y-4">
+          <h2 class="text-lg font-bold text-primary flex items-center gap-2 border-b border-glass-stroke pb-3">
+            <span class="material-symbols-outlined">home</span> 1. Shipping Address Details
+          </h2>
+          <form id="checkoutForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="md:col-span-2 space-y-1">
+              <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="name">Full Name</label>
+              <input id="name" name="name" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" required type="text" placeholder="John Doe"/>
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="phone">Phone Number</label>
+              <input id="phone" name="phone" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" required type="tel" placeholder="e.g. +91 9876543210"/>
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="pin">PIN Code</label>
+              <input id="pin" name="pin" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" required type="text" placeholder="600091"/>
+            </div>
+            <div class="md:col-span-2 space-y-1">
+              <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="address">Delivery Address</label>
+              <textarea id="address" name="address" rows="3" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" required placeholder="Flat/House no., Building, Street name"></textarea>
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="city">City</label>
+              <input id="city" name="city" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" required type="text" placeholder="Chennai"/>
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="state">State</label>
+              <input id="state" name="state" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" required type="text" placeholder="Tamil Nadu"/>
+            </div>
+          </form>
         </div>
 
-        <div class="form-group">
-          <label for="phone">Phone Number*</label>
-          <input type="tel" id="phone" name="phone" required />
+        <!-- Step 2: Delivery Option -->
+        <div class="glass-card p-6 rounded-xl space-y-4">
+          <h2 class="text-lg font-bold text-primary flex items-center gap-2 border-b border-glass-stroke pb-3">
+            <span class="material-symbols-outlined">local_shipping</span> 2. Delivery Options
+          </h2>
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="deliveryOption">Select Speed</label>
+            <select id="deliveryOption" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm cursor-pointer">
+              <option value="standard">Standard Delivery (3-5 Business Days)</option>
+              <option value="express">Express Delivery (+₹50, Next Day Delivery)</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="address">Address*</label>
-          <textarea id="address" name="address" rows="3" required></textarea>
-        </div>
+      </section>
 
-        <div class="form-group">
-          <label for="pin">Pin Code*</label>
-          <input type="text" id="pin" name="pin" required />
+      <!-- Summary Right -->
+      <aside class="lg:col-span-4 space-y-6">
+        <div class="glass-card p-6 rounded-xl space-y-6">
+          <h2 class="text-lg font-bold text-primary border-b border-glass-stroke pb-3 flex items-center gap-2">
+            <span class="material-symbols-outlined">shopping_basket</span> Review Cart Items
+          </h2>
+          <div id="itemsList" class="space-y-3 divide-y divide-glass-stroke max-h-48 overflow-y-auto"></div>
+          <div id="summaryRows" class="space-y-1 pt-4 border-t border-glass-stroke"></div>
+          
+          <button id="btnPay" class="w-full bg-primary text-white font-bold py-3.5 px-6 rounded-lg hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 text-sm shadow-md">
+            <span class="material-symbols-outlined">payments</span> Pay with Razorpay
+          </button>
+          <button id="invoicePreview" class="w-full py-2.5 border border-outline-variant text-on-surface-variant font-bold rounded-lg hover:bg-surface-container-high active:scale-95 transition-all text-xs flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-sm">download_for_offline</span> Generate Proforma Invoice
+          </button>
         </div>
-
-        <div class="form-group">
-          <label for="city">City*</label>
-          <input type="text" id="city" name="city" required />
-        </div>
-
-        <div class="form-group">
-          <label for="state">State*</label>
-          <input type="text" id="state" name="state" required />
-        </div>
-      </form>
+      </aside>
     </div>
+  </main>
 
-    <div class="summary-section">
-      <h2>Order Summary</h2>
-      <div id="itemsList"></div>
-
-      <div class="totals">
-        <div class="line">
-          <span>Subtotal</span>
-          <span id="subtotalAmt">₹0</span>
-        </div>
-        <div class="line">
-          <span>Shipping</span>
-          <span id="shippingAmt">₹0</span>
-        </div>
-        <div class="line">
-          <span>Tax (5%)</span>
-          <span id="taxLine">₹0</span>
-        </div>
-
-        <div class="line total">
-          <span>Total</span>
-          <span id="totalAmt">₹0</span>
-        </div>
-      </div>
-
-      <button id="btnPay" class="btn-pay">Pay Now</button>
-    </div>
-  </div>
+  <div id="siteFooter"></div>
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script type="module">
-    // -------------------------------------------------------------------------------------
-    const API_BASE_URL = "https://ermunai-user-project.onrender.com";
+<script type="module">
+    import { initializeApp } from "./js/supabase-compat.js";
+    import { getSupabase, doc, getDoc, setDoc } from "./js/supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
+    import { formatCurrency, getStorefrontCartKey, mountStorefrontHeader, readStorefrontCart, renderInto, summaryRow, mountStorefrontFooter, syncStorefrontAuth} from "./js/ermunai-components.js";
+    mountStorefrontHeader("siteHeader", { active: "cart" });
+    mountStorefrontFooter("siteFooter");
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-      projectId: "ermunai-e-commerce-project",
-      storageBucket: "ermunai-e-commerce-project.appspot.com",
-      messagingSenderId: "365240050790",
-      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
-      measurementId: "G-CZJZ4HLCMR"
-    };
-
-    const app = initializeApp(firebaseConfig);
+    const PRODUCTION_API_BASE_URL = "https://ermunai-user-project.onrender.com";
+    const API_BASE_URLS = (location.hostname === "127.0.0.1" || location.hostname === "localhost")
+      ? [PRODUCTION_API_BASE_URL, "http://localhost:5000"]
+      : [PRODUCTION_API_BASE_URL];
+const app = initializeApp();
+    const db = getSupabase(app);
     const auth = getAuth(app);
 
     let currentUser = null;
-    let userContactEmail = null;
     let cartKey = "";
     let cart = [];
-
-    const itemsDiv = document.getElementById("itemsList");
-    const subtotalEl = document.getElementById("subtotalAmt");
-    const shippingEl = document.getElementById("shippingAmt");
-    const totalEl = document.getElementById("totalAmt");
-
-    const pinInput = document.getElementById("pin");
-    const form = document.getElementById("checkoutForm");
-    const btnPay = document.getElementById("btnPay");
-
-    let TAX_RATE = 0.05; // 5%
     let subtotal = 0;
     let shipping = 0;
     let tax = 0;
+    let discount = 0;
+    let total = 0;
+    let isProcessing = false;
+    let razorpayKeyId = "";
+    let activeApiBaseUrl = "";
 
-    function getUserCartKey(user) {
-      return `cart_${user.uid}`;
-    }
+    const form = document.getElementById("checkoutForm");
+    const btnPay = document.getElementById("btnPay");
+    const checkoutPage = document.getElementById("checkoutPage");
 
-    function renderCart() {
-      itemsDiv.innerHTML = "";
-      let subtotal = 0;
+    async function apiFetch(path, options = {}) {
+      const bases = activeApiBaseUrl
+        ? [activeApiBaseUrl, ...API_BASE_URLS.filter(base => base !== activeApiBaseUrl)]
+        : API_BASE_URLS;
+      let lastError = null;
 
-      cart.forEach(item => {
-        const itemDiv = document.createElement("div");
-        itemDiv.className = "cart-item";
-        itemDiv.innerHTML = `
-                <span>${item.name} × ${item.qty}</span>
-                <span>₹${(item.price * item.qty).toFixed(2)}</span>
-            `;
-        itemsDiv.appendChild(itemDiv);
-        subtotal += item.price * item.qty;
-      });
+      for (const baseUrl of bases) {
+        try {
+          const response = await fetch(`${baseUrl}${path}`, options);
+          activeApiBaseUrl = baseUrl;
+          return response;
+        } catch (error) {
+          lastError = error;
+          console.warn(`Checkout API unavailable at ${baseUrl}${path}:`, error);
+        }
+      }
 
-      subtotalEl.textContent = "₹" + subtotal.toFixed(2);
-      return subtotal;
+      throw lastError || new Error("Checkout API is unavailable.");
     }
 
     function getWeightInGrams(item) {
-      let value = Number(item.quantityValue || 0);
-      let type = (item.quantityType || "").toLowerCase();
-
-      if (!value) return 0;
-      if (type === "g") return value;
-      if (type === "kg") return value * 1000;
-      if (type === "ml") return value;
-      if (type === "l" || type === "lt") return value * 1000;
-      return 0;
+      const value = Number(item.quantityValue || 0);
+      const type = String(item.quantityType || "").toLowerCase();
+      if (!value) return 250;
+      if (type === "g" || type === "ml") return value;
+      if (type === "kg" || type === "l" || type === "lt") return value * 1000;
+      return 250;
     }
 
-    function computeShipping(pin, cartItems) {
-      if (!pin || cartItems.length === 0) return 0;
-      pin = pin.trim();
-
-      let regionCharge = 0;
-
-      // ONE-TIME REGION CHARGE
-      if (/^60/.test(pin)) {
-        regionCharge = 50;
-      } else if (/^6/.test(pin) || /^5/.test(pin)) {
-        regionCharge = 70;
-      } else {
-        regionCharge = 100;
-      }
-
-      // WEIGHT CALCULATION
-      let totalWeight = 0;
-      cartItems.forEach(item => {
-        totalWeight += getWeightInGrams(item) * (item.qty || 1);
-      });
-
-      let weightExtra = 0;
-      if (totalWeight > 2000) weightExtra = 100;
-      else if (totalWeight > 1000) weightExtra = 60;
-      else if (totalWeight > 500) weightExtra = 30;
-
-      return regionCharge + weightExtra;
-    }
-
-
-    function computeTax(subtotal) {
-      return subtotal * TAX_RATE;
-    }
-
-    function computeTotal(subtotal, tax, shipping) {
-      return subtotal + shipping + tax;
+    function computeShipping(pin, items) {
+      if (!pin || !items.length) return 0;
+      const regionCharge = /^60/.test(pin) ? 50 : /^6|^5/.test(pin) ? 70 : 100;
+      const totalWeight = items.reduce((sum, item) => sum + getWeightInGrams(item) * Number(item.qty || 1), 0);
+      const weightExtra = totalWeight > 2000 ? 100 : totalWeight > 1000 ? 60 : totalWeight > 500 ? 30 : 0;
+      const expressExtra = document.getElementById("deliveryOption").value === "express" ? 50 : 0;
+      return regionCharge + weightExtra + expressExtra;
     }
 
     function updateTotals() {
-      subtotal = renderCart();
-      const pin = pinInput.value.trim();
-      shipping = pin && pin !== "000000" ? computeShipping(pin, cart) : 0;
-      tax = computeTax(subtotal);
+      subtotal = cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.qty || 1), 0);
+      
+      const savedCoupon = localStorage.getItem("checkout_coupon") || "";
+      discount = savedCoupon === "FARM10" ? Math.min(35, subtotal) : 0;
+      
+      const pinVal = form.pin.value.trim();
+      shipping = computeShipping(pinVal, cart);
+      
+      tax = Math.round(subtotal * 0.05);
+      total = subtotal - discount + shipping + tax;
 
-    document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
-    shippingEl.textContent = "₹" + shipping.toFixed(2);
-    totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
+      // Render items list
+      renderInto("itemsList", cart, item => `
+        <div class="flex justify-between items-center text-xs py-1">
+          <span class="text-on-surface-variant line-clamp-1 max-w-[180px]">${item.name} <span class="font-bold">x${item.qty}</span></span>
+          <span class="font-extrabold text-earth-dark">${formatCurrency(Number(item.price || 0) * Number(item.qty || 1))}</span>
+        </div>`);
 
+      // Render summary
+      renderInto("summaryRows", [
+        { label: "Subtotal", value: formatCurrency(subtotal) },
+        { label: "Discount Code", value: `- ${formatCurrency(discount)}` },
+        { label: "Shipping & Handling", value: shipping ? formatCurrency(shipping) : "Enter PIN Code" },
+        { label: "GST (5%)", value: formatCurrency(tax) },
+        { label: "Grand Total", value: formatCurrency(total), total: true }
+      ], summaryRow);
     }
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        currentUser = user;
-        userContactEmail = user.email || null;
-        cartKey = getUserCartKey(currentUser);
-        cart = JSON.parse(localStorage.getItem(cartKey) || "[]");
-        updateTotals();
-      } else {
-        alert("Please log in to complete your purchase.");
-        window.location.href = "login.html";
+    function buildOrder() {
+      return {
+        items: cart,
+        subtotal,
+        discount,
+        tax,
+        shipping,
+        total,
+        customer: {
+          name: form.name.value.trim(),
+          phone: form.phone.value.trim(),
+          address: form.address.value.trim(),
+          pin: form.pin.value.trim(),
+          city: form.city.value.trim(),
+          state: form.state.value.trim()
+        },
+        deliveryOption: document.getElementById("deliveryOption").value
+      };
+    }
+
+    async function logFailedPayment(orderId, reason) {
+      try {
+        const idToken = await currentUser.getIdToken(true);
+        await apiFetch("/payment-failed", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + idToken
+          },
+          body: JSON.stringify({ orderId, reason })
+        });
+      } catch (err) {
+        console.warn("Unable to log failed payment:", err);
       }
-    });
+    }
 
-    // Update shipping on PIN entry
-    pinInput.addEventListener("blur", () => {
-      const pin = pinInput.value.trim();
-      if (pin === "000000") {
-        shipping = 0;
-      } else {
-        shipping = computeShipping(pin, cart);
+    async function loadPublicConfig() {
+      try {
+        const response = await apiFetch("/public-config");
+        const config = await response.json();
+        razorpayKeyId = config.razorpayKeyId || "";
+      } catch (error) {
+        console.warn("Unable to load public checkout config:", error);
       }
-      tax = computeTax(subtotal);
+    }
 
-      shippingEl.textContent = "₹" + shipping.toFixed(2);
-      document.getElementById("taxLine").textContent = "₹" + tax.toFixed(2);
-      totalEl.textContent = "₹" + computeTotal(subtotal, tax, shipping).toFixed(2);
-    });
-
-    // Add a flag to prevent multiple clicks
-    let isProcessing = false;
-
-    btnPay.addEventListener("click", async (e) => {
-      e.preventDefault();
-
-      if (isProcessing) {
-        // already processing
-        return;
-      }
-
+    async function payNow() {
+      if (isProcessing) return;
       if (!form.checkValidity()) {
-        alert("Please fill all required details.");
+        form.reportValidity();
         return;
       }
-
-      if (cart.length === 0) {
+      if (!cart.length) {
         alert("Your cart is empty.");
         return;
       }
 
-      // Disable button and show please wait message
       isProcessing = true;
       btnPay.disabled = true;
-      btnPay.textContent = "Please wait...";
+      btnPay.textContent = "Initiating payment gateway...";
 
-      const formData = {
-        name: form.name.value,
-        phone: form.phone.value,
-        address: form.address.value,
-        pin: form.pin.value,
-        city: form.city.value,
-        state: form.state.value
-      };
-
-      const order = {
-        items: cart,
-        subtotal,
-        tax,
-        shipping,
-        total: computeTotal(subtotal, tax, shipping),
-        customer: formData
-      };
+      updateTotals();
+      const order = buildOrder();
+      let razorpayOrderId = "";
 
       try {
-        const createResp = await fetch(`${API_BASE_URL}/create-order`, {
+        const idToken = await currentUser.getIdToken(true);
+        const createResp = await apiFetch("/create-order", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: order.total })
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + idToken
+          },
+          body: JSON.stringify({ amount: order.total, cart: order.items })
         });
 
         const razorpayOrder = await createResp.json();
+        if (!createResp.ok) throw new Error(razorpayOrder.error || "Unable to create Razorpay order");
+        razorpayOrderId = razorpayOrder.id;
+        if (!razorpayKeyId) await loadPublicConfig();
+        if (!razorpayKeyId) throw new Error("Payment configuration is unavailable. Please try again later.");
 
         const options = {
-          key: "rzp_live_RaPexiedmItQ5c",
+          key: razorpayKeyId,
           amount: Math.round(order.total * 100),
           currency: "INR",
           name: "Ermunai Organic Farm Foods",
-          description: "Order Payment",
-          order_id: razorpayOrder.id,
+          description: "Organic Marketplace Order",
+          order_id: razorpayOrderId,
           handler: async function (response) {
-            const idToken = await currentUser.getIdToken(true);
-            await fetch(`${API_BASE_URL}/save-order`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + idToken
-              },
-              body: JSON.stringify({
-                orderData: {
-                  ...order,
-                  payment_id: response.razorpay_payment_id,
-                  order_id: response.razorpay_order_id,
-                  signature: response.razorpay_signature,
-                  status: "Paid",
-                  date: new Date().toISOString()
-                }
-              })
-            });
+            btnPay.textContent = "Verifying signature and saving order...";
+            try {
+              const freshToken = await currentUser.getIdToken(true);
+              
+              // Address saving back to User profile doc in Supabase
+              const userDocRef = doc(db, "users", currentUser.uid);
+              await setDoc(userDocRef, {
+                displayName: order.customer.name,
+                phone: order.customer.phone,
+                address: order.customer.address,
+                city: order.customer.city,
+                state: order.customer.state,
+                pin: order.customer.pin,
+                updatedAt: new Date().toISOString()
+              }, { merge: true });
 
-            alert("Payment Successful!");
-            localStorage.removeItem(cartKey);
-            window.location.href = "thankyou.html";
+              const saveResp = await apiFetch("/save-order", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer " + freshToken
+                },
+                body: JSON.stringify({
+                  orderData: {
+                    ...order,
+                    payment_id: response.razorpay_payment_id,
+                    order_id: response.razorpay_order_id,
+                    signature: response.razorpay_signature,
+                    status: "Paid",
+                    date: new Date().toISOString()
+                  }
+                })
+              });
+              
+              const saveResult = await saveResp.json();
+              if (!saveResp.ok) throw new Error(saveResult.error || "Verification success but save crashed");
+              
+              // Clear cart local storage
+              localStorage.removeItem(cartKey);
+              localStorage.removeItem("checkout_pin");
+              localStorage.removeItem("checkout_coupon");
+              
+              window.location.href = `thankyou.html?order=${encodeURIComponent(saveResult.id || response.razorpay_order_id)}`;
+            } catch (saveErr) {
+              console.error("Order save crashed:", saveErr);
+              alert("Signature verification success, but we failed to save the order details. Please contact customer support with payment reference ID: " + response.razorpay_payment_id);
+              isProcessing = false;
+              btnPay.disabled = false;
+              btnPay.textContent = "Retry Order Save";
+            }
           },
           prefill: {
-            name: formData.name,
-            contact: formData.phone,
-            email: userContactEmail
+            name: order.customer.name,
+            contact: order.customer.phone,
+            email: currentUser.email || ""
           },
-          theme: { color: "#2f6f31" }
+          modal: {
+            ondismiss() {
+              isProcessing = false;
+              btnPay.disabled = false;
+              btnPay.textContent = "Pay with Razorpay";
+              logFailedPayment(razorpayOrderId, "Payment popup closed by customer");
+            }
+          },
+          theme: { color: "#0d631b" }
         };
 
-        const rzp = new Razorpay(options);
-        rzp.open();
-      } catch (err) {
-        console.error(err);
-        alert("Something went wrong!");
-        // optionally re-enable button if error
+        new Razorpay(options).open();
+      } catch (error) {
+        console.error("Payment initiation failed:", error);
+        alert(error.message || "Failed to create order transaction. Please try again.");
         isProcessing = false;
         btnPay.disabled = false;
-        btnPay.textContent = "Pay Now";
+        btnPay.textContent = "Pay with Razorpay";
+        if (razorpayOrderId) {
+          logFailedPayment(razorpayOrderId, error.message || "Order creation failure");
+        }
       }
+    }
+
+    function escapeInvoiceHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function generateInvoicePreview() {
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      updateTotals();
+      const order = buildOrder();
+      const invoiceDoc = document.implementation.createHTMLDocument("Proforma Invoice - Ermunai Organic");
+      const style = invoiceDoc.createElement("style");
+      style.textContent = [
+        "body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; color: #333; padding: 20px; line-height: 1.5; }",
+        ".container { max-width: 800px; margin: auto; border: 1px solid #ddd; padding: 30px; border-radius: 12px; }",
+        ".header { display: flex; justify-content: space-between; border-bottom: 2px solid #0d631b; padding-bottom: 20px; margin-bottom: 20px; }",
+        ".brand { font-size: 24px; font-weight: bold; color: #0d631b; }",
+        ".invoice-title { font-size: 20px; font-weight: bold; text-transform: uppercase; text-align: right; }",
+        ".meta-details { display: flex; justify-content: space-between; margin-bottom: 30px; gap: 24px; }",
+        "table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }",
+        "th { background-color: #f5f3ee; color: #0d631b; padding: 10px; font-weight: bold; text-align: left; }",
+        "td { padding: 10px; border-bottom: 1px solid #ddd; }",
+        ".totals { float: right; width: 300px; margin-top: 20px; }",
+        ".totals div { display: flex; justify-content: space-between; padding: 5px 0; }",
+        ".grand-total { font-weight: bold; font-size: 18px; color: #0d631b; border-top: 1px solid #ddd; padding-top: 10px; }"
+      ].join("\n");
+      invoiceDoc.head.appendChild(style);
+
+      const rows = order.items.map(item => [
+        "<tr>",
+        `<td>${escapeInvoiceHtml(item.name)}</td>`,
+        `<td style="text-align: center;">${escapeInvoiceHtml(item.qty || 1)}</td>`,
+        `<td style="text-align: right;">${escapeInvoiceHtml(formatCurrency(item.price))}</td>`,
+        `<td style="text-align: right;">${escapeInvoiceHtml(formatCurrency(Number(item.price || 0) * Number(item.qty || 1)))}</td>`,
+        "</tr>"
+      ].join("")).join("");
+
+      invoiceDoc.body.innerHTML = [
+        '<div class="container">',
+        '<div class="header">',
+        '<div class="brand">Ermunai Organic Farm Foods</div>',
+        '<div class="invoice-title">Proforma Invoice</div>',
+        '</div>',
+        '<div class="meta-details">',
+        '<div>',
+        '<strong>Billed To:</strong><br>',
+        `${escapeInvoiceHtml(order.customer.name)}<br>`,
+        `${escapeInvoiceHtml(order.customer.address)}, ${escapeInvoiceHtml(order.customer.city)}<br>`,
+        `${escapeInvoiceHtml(order.customer.state)} - ${escapeInvoiceHtml(order.customer.pin)}<br>`,
+        `Phone: ${escapeInvoiceHtml(order.customer.phone)}`,
+        '</div>',
+        '<div style="text-align: right;">',
+        `<strong>Date Issued:</strong> ${escapeInvoiceHtml(new Date().toLocaleDateString())}<br>`,
+        '<strong>Status:</strong> Draft / Unpaid',
+        '</div>',
+        '</div>',
+        '<table>',
+        '<thead><tr>',
+        '<th>Product Description</th>',
+        '<th style="text-align: center;">Qty</th>',
+        '<th style="text-align: right;">Unit Price</th>',
+        '<th style="text-align: right;">Amount</th>',
+        '</tr></thead>',
+        `<tbody>${rows}</tbody>`,
+        '</table>',
+        '<div class="totals">',
+        `<div><span>Subtotal:</span><span>${escapeInvoiceHtml(formatCurrency(order.subtotal))}</span></div>`,
+        `<div><span>Coupon Discount:</span><span>-${escapeInvoiceHtml(formatCurrency(order.discount))}</span></div>`,
+        `<div><span>Shipping Charge:</span><span>${escapeInvoiceHtml(formatCurrency(order.shipping))}</span></div>`,
+        `<div><span>GST (5%):</span><span>${escapeInvoiceHtml(formatCurrency(order.tax))}</span></div>`,
+        `<div class="grand-total"><span>Grand Total:</span><span>${escapeInvoiceHtml(formatCurrency(order.total))}</span></div>`,
+        '</div>',
+        '<div style="clear: both; margin-top: 40px; font-size: 10px; color: #777;">',
+        '* This is a computer-generated proforma invoice preview for your purchase check.',
+        '</div>',
+        '</div>'
+      ].join("");
+
+      const content = `<!doctype html>${invoiceDoc.documentElement.outerHTML}`;
+      const blob = new Blob([content], { type: "text/html" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `Proforma_Invoice_${Date.now()}.html`;
+      link.click();
+    }
+
+    // Set listeners
+    btnPay.addEventListener("click", payNow);
+    document.getElementById("invoicePreview").addEventListener("click", generateInvoicePreview);
+    document.getElementById("deliveryOption").addEventListener("change", updateTotals);
+    form.pin.addEventListener("input", updateTotals);
+
+    // Monitor Auth state
+    onAuthStateChanged(auth, async user => {
+      syncStorefrontAuth(user);
+      if (!user) {
+        window.location.replace("login.html?redirect=cart.html");
+        return;
+      }
+      currentUser = user;
+      const name = user.displayName || (user.email ? user.email.split("@")[0] : "User");
+      const userAvatar = document.getElementById("userAvatar");
+      if (userAvatar) userAvatar.textContent = name.slice(0, 2).toUpperCase();
+      
+      cartKey = getStorefrontCartKey(currentUser);
+      cart = readStorefrontCart(currentUser);
+      const cartCount = document.getElementById("cartCount");
+      if (cartCount) cartCount.textContent = cart.reduce((sum, item) => sum + Number(item.qty || 1), 0);
+      
+      if (!cart.length) {
+        alert("Your cart is empty.");
+        window.location.href = "shop.html";
+        return;
+      }
+
+      // Pre-fill fields from localStorage first
+      const checkoutPin = localStorage.getItem("checkout_pin") || "";
+      if (checkoutPin) {
+        form.pin.value = checkoutPin;
+      }
+
+      // Fetch user profile from Supabase to populate address form
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const udata = docSnap.data();
+          if (udata.displayName) form.name.value = udata.displayName;
+          if (udata.phone) form.phone.value = udata.phone;
+          if (udata.address) form.address.value = udata.address;
+          if (udata.city) form.city.value = udata.city;
+          if (udata.state) form.state.value = udata.state;
+          if (udata.pin) form.pin.value = udata.pin;
+        }
+      } catch (err) {
+        console.warn("Unable to prefill user details:", err);
+      }
+
+      updateTotals();
+      checkoutPage.classList.remove("hidden");
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.reload();
     });
   </script>
-
-
-
 </body>
-
 </html>

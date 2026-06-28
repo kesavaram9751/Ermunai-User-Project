@@ -1,0 +1,742 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Erumunai Admin — Orders</title>
+
+  <!-- icons / fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin-theme.css">
+
+  <style>
+    :root {
+      --primary: #4a7c59;
+      --accent: #f0ad4e;
+      --text: #333;
+      --bg: #f7f7f7;
+      --white: #fff;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --transition: 0.25s;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+            a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--primary);
+            color: var(--white);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 42px;
+        }
+
+        .menu-toggle span,
+        .menu-toggle span::before,
+        .menu-toggle span::after {
+            content: "";
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 999px;
+            position: relative;
+        }
+
+        .menu-toggle span::before {
+            position: absolute;
+            top: -6px;
+        }
+
+        .menu-toggle span::after {
+            position: absolute;
+            top: 6px;
+        }
+
+        .sidebar-backdrop {
+            display: none;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 2rem;
+            font-size: 1.25rem;
+        }
+
+        .nav {
+            list-style: none;
+            width: 100%;
+        }
+
+        .nav li+li {
+            margin-top: 1rem;
+        }
+
+        .nav a {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: var(--accent);
+        }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 24px;
+      overflow: auto
+    }
+
+    .main h1 {
+      color: var(--primary);
+      margin-bottom: 12px
+    }
+
+    .admin-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 12px;
+    }
+
+    .admin-heading h1 {
+      margin-bottom: 0;
+    }
+
+    /* Status message */
+    #statusMessage {
+      display: none;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-weight: 600
+    }
+
+    #statusMessage.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      display: block
+    }
+
+    #statusMessage.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: block
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 13px;
+    }
+
+    thead {
+      background: var(--primary);
+      color: #fff
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      vertical-align: top
+    }
+
+    tbody tr:hover {
+      background: #fafafa
+    }
+
+    .products-list {
+      font-size: 0.92rem;
+      color: #333;
+      white-space: pre-wrap
+    }
+
+    .payment-breakdown {
+      display: grid;
+      gap: 8px;
+      min-width: 180px;
+    }
+
+    .payment-breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--admin-muted, #61705d);
+      line-height: 1.35;
+    }
+
+    .payment-breakdown-row strong {
+      color: var(--admin-green, #0d631b);
+    }
+
+    select {
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer
+    }
+
+    /* Responsive */
+    @media (max-width:800px) {
+      body {
+        display: block;
+        height: auto;
+      }
+
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: min(82vw, 290px);
+        max-width: 290px;
+        padding: 1.25rem 1rem;
+        align-items: center;
+        transform: translateX(-105%);
+        transition: transform var(--transition);
+        z-index: 1200;
+        box-shadow: 8px 0 24px rgba(0, 0, 0, 0.18);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-backdrop.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1100;
+      }
+
+      .sidebar h2 {
+        margin-bottom: 1.25rem;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+
+      .nav {
+        display: block;
+        overflow: visible;
+        padding-bottom: 0;
+      }
+
+      .nav li+li {
+        margin-top: 0.75rem;
+      }
+
+      .nav a {
+        white-space: normal;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+      }
+
+      .main {
+        padding: 1rem;
+        min-width: 0;
+      }
+
+      .main h1 {
+        font-size: 1.35rem;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .orders-table,
+      .orders-table > thead,
+      .orders-table > tbody,
+      .orders-table > thead > tr,
+      .orders-table > tbody > tr,
+      .orders-table > thead > tr > th,
+      .orders-table > tbody > tr > td {
+        display: block
+      }
+
+      .orders-table > thead {
+        display: none
+      }
+
+      .orders-table > tbody > tr {
+        margin-bottom: 12px;
+        border: 1px solid rgba(46, 125, 50, 0.14);
+        border-radius: 18px;
+        padding: 14px;
+        background: #fff
+      }
+
+      .orders-table > tbody > tr > td {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        align-items: start;
+        column-gap: 16px;
+        min-height: 34px;
+        padding: 10px 0;
+        position: static;
+        border-bottom: 0;
+        text-align: left;
+        overflow-wrap: anywhere;
+      }
+
+      .orders-table > tbody > tr > td:before {
+        content: attr(data-label);
+        position: static;
+        width: auto;
+        font-weight: 700;
+        color: var(--primary);
+        text-align: left;
+        overflow-wrap: normal;
+      }
+
+      .orders-table > tbody > tr > td > * {
+        min-width: 0;
+      }
+
+      .orders-table > tbody > tr > td[data-label="Payment / Total"] {
+        text-align: left;
+      }
+
+      .orders-table > tbody > tr > td[data-label="Address"],
+      .orders-table > tbody > tr > td[data-label="Products"] {
+        text-align: left;
+      }
+
+      .orders-table > tbody > tr > td[data-label="Payment / Total"]:before {
+        white-space: normal;
+      }
+
+      .payment-breakdown {
+        width: 100%;
+        min-width: 0;
+        text-align: left;
+      }
+
+      .payment-breakdown-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: baseline;
+        gap: 10px;
+      }
+
+      .payment-breakdown-row span,
+      .payment-breakdown-row strong {
+        min-width: 0;
+        justify-self: end;
+        white-space: nowrap;
+      }
+
+      .products-list {
+        text-align: left
+      }
+
+      .orders-table select,
+      .orders-table .download-invoice {
+        width: 100%;
+        min-height: 38px;
+      }
+
+      .orders-table .download-invoice {
+        border: 1px solid rgba(46, 125, 50, 0.2);
+        border-radius: 8px;
+        background: var(--admin-green, #0d631b);
+        color: #fff;
+        font-weight: 800;
+        padding: 8px 12px;
+      }
+    }
+
+    @media (max-width:520px) {
+      .sidebar {
+        width: min(86vw, 280px);
+        padding: 1rem 0.85rem;
+      }
+
+      .main {
+        padding: 0.8rem;
+      }
+
+      .orders-table > tbody > tr > td {
+        grid-template-columns: 100px minmax(0, 1fr);
+        column-gap: 14px;
+        font-size: 0.9rem;
+      }
+
+      .orders-table > tbody > tr > td:before {
+        width: auto;
+      }
+
+      select {
+        max-width: 100%;
+      }
+
+      .payment-breakdown {
+        width: 100%;
+      }
+
+      .payment-breakdown-row {
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <aside class="sidebar">
+        <div class="admin-brand">
+            <div class="admin-brand-icon"><span class="material-symbols-outlined">eco</span></div>
+            <div>
+                <span class="admin-brand-title">Admin Portal</span>
+                <span class="admin-brand-subtitle">Ermunai Organic</span>
+            </div>
+        </div>
+        <ul class="nav">
+            <li><a href="admin-dashboard.html" data-page="dashboard"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a></li>
+            <li><a href="dashboard-product-page.html" data-page="products"><span class="material-symbols-outlined">inventory_2</span><span>Product Manager</span></a></li>
+            <li><a href="dashboard-order-page.html" data-page="orders" class="active"><span class="material-symbols-outlined">shopping_bag</span><span>Order Manager</span></a></li>
+            <li><a href="site-control.html" data-page="site-control"><span class="material-symbols-outlined">tune</span><span>Site Control</span></a></li>
+            <li><a href="control-center.html" data-page="control-center"><span class="material-symbols-outlined">admin_panel_settings</span><span>Control Center</span></a></li>
+            <li><a href="daashboard-setting.html" data-page="settings"><span class="material-symbols-outlined">settings</span><span>Settings & CMS</span></a></li>
+        </ul>
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <strong>Role: Super Admin</strong>
+                <span>ermunaiorganicfarm@gmail.com</span>
+            </div>
+            <button class="sidebar-logout" id="logoutBtn" type="button">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+  <div class="main">
+    <div class="admin-heading">
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+      </button>
+      <h1>Customer Orders</h1>
+    </div>
+
+    <div id="statusMessage"></div>
+
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Payment / Total</th>
+          <th>Date</th>
+          <th>Products</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="ordersTable">
+        <tr>
+          <td colspan="9" style="text-align:center;padding:20px">⏳ Loading orders…</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    // Supabase v10 modular imports
+    import { initializeApp } from "./supabase-compat.js";
+    import { getSupabase, collection, getDocs, updateDoc, doc, getDoc, query, orderBy } from "./supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./supabase-compat.js";
+
+    // Paste your Supabase config here (kept same as your provided config)
+// Basic safety: ensure config present
+const app = initializeApp();
+    const db = getSupabase(app);
+    const auth = getAuth(app);
+
+    const sidebar = document.querySelector(".sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+
+    function closeSidebar() {
+      sidebar.classList.remove("open");
+      sidebarBackdrop.classList.remove("show");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+
+    function openSidebar() {
+      sidebar.classList.add("open");
+      sidebarBackdrop.classList.add("show");
+      menuToggle.setAttribute("aria-expanded", "true");
+    }
+
+    menuToggle.addEventListener("click", () => {
+      if (sidebar.classList.contains("open")) closeSidebar();
+      else openSidebar();
+    });
+
+    sidebarBackdrop.addEventListener("click", closeSidebar);
+    document.querySelectorAll(".nav a").forEach(link => link.addEventListener("click", closeSidebar));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeSidebar();
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      if (confirm("Logout from Admin Portal?")) {
+        await signOut(auth);
+        window.location.href = "index.html";
+      }
+    });
+
+    const ordersTable = document.getElementById('ordersTable');
+    const statusMessage = document.getElementById('statusMessage');
+
+    function showStatus(message, kind = 'success') {
+      statusMessage.textContent = message;
+      statusMessage.className = kind;
+      statusMessage.style.display = 'block';
+      setTimeout(() => statusMessage.style.display = 'none', 5000);
+    }
+
+    const formatDate = (value) => {
+      if (!value) return 'N/A';
+      // Supabase Timestamp (has seconds property)
+      if (typeof value.seconds === 'number') return new Date(value.seconds * 1000).toLocaleString();
+      if (typeof value === 'number') return new Date(value).toLocaleString();
+      const parsed = new Date(value);
+      return Number.isNaN(parsed.getTime()) ? value.toString() : parsed.toLocaleString();
+    };
+
+    const money = value => `₹${Number(value || 0).toFixed(2)}`;
+
+    // load orders — sorts by datePlaced (descending)
+    async function loadOrders() {
+      ordersTable.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:20px"><i class="fas fa-circle-notch fa-spin"></i> Loading orders...</td></tr>';
+      try {
+        const ordersRef = collection(db, 'orders');
+        const q = query(ordersRef, orderBy('datePlaced', 'desc'));
+        const snap = await getDocs(q);
+
+        if (snap.empty) {
+          ordersTable.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:20px">🚫 No orders found</td></tr>';
+          return;
+        }
+
+        ordersTable.innerHTML = '';
+        snap.forEach(docSnap => {
+          const o = docSnap.data();
+          const itemsHtml = Array.isArray(o.items) ? o.items.map(i => `${i.name} (x${i.quantity}) - ₹${i.price * i.quantity}`).join('<br>') : 'No items';
+          const tr = document.createElement('tr');
+
+          const productTotal = Number(o.subtotal || 0);
+          const shippingAmount = Number(o.shipping || 0);
+          const discountAmount = Number(o.discount || 0);
+          const gstAmount = Number(o.tax || 0);
+          const totalAmount = Number(o.totalAmount ?? o.total ?? (productTotal - discountAmount + shippingAmount + gstAmount));
+          const currentStatus = o.status || 'Processing';
+          const customerUid = o.userid || o.userId || '';
+
+          const paymentBreakdown = `
+            <div class="payment-breakdown">
+              <div class="payment-breakdown-row"><span>Product Total</span><strong>${money(productTotal)}</strong></div>
+              ${discountAmount ? `<div class="payment-breakdown-row"><span>Discount</span><strong>-${money(discountAmount)}</strong></div>` : ''}
+              <div class="payment-breakdown-row"><span>Shipping</span><strong>${money(shippingAmount)}</strong></div>
+              <div class="payment-breakdown-row"><span>GST</span><strong>${money(gstAmount)}</strong></div>
+              <div class="payment-breakdown-row"><span>Total</span><strong>${money(totalAmount)}</strong></div>
+              <div class="payment-breakdown-row"><span>Payment</span><strong>${o.paymentStatus || 'N/A'}</strong></div>
+            </div>
+          `;
+
+          tr.innerHTML = `
+            <td data-label="Order ID">${docSnap.id}</td>
+            <td data-label="Customer">${o.customerName || 'N/A'}${customerUid ? ' (ID:' + customerUid.slice(0, 8) + '...)' : ''}</td>
+            <td data-label="Phone">${o.phone || 'N/A'}</td>
+            <td data-label="Address">${o.address || 'N/A'}</td>
+            <td data-label="Payment / Total">${paymentBreakdown}</td>
+            <td data-label="Date">${formatDate(o.datePlaced)}</td>
+            <td data-label="Products" class="products-list">${itemsHtml}</td>
+            <td data-label="Status">
+              <select data-id="${docSnap.id}">
+                <option value="Processing" ${currentStatus === 'Processing' ? 'selected' : ''}>Processing</option>
+                <option value="Pending" ${currentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+                <option value="Shipped" ${currentStatus === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                <option value="Delivered" ${currentStatus === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                <option value="Cancelled" ${currentStatus === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </td>
+            <td data-label="Actions">
+              <button class="download-invoice" data-id="${docSnap.id}">Download Invoice</button>
+            </td>
+          `;
+          ordersTable.appendChild(tr);
+        });
+
+        // attach listeners for status selects
+        document.querySelectorAll('select[data-id]').forEach(sel => {
+          sel.addEventListener('change', async (e) => {
+            const id = e.target.dataset.id;
+            const newStatus = e.target.value;
+            showStatus(`Updating ${id} → ${newStatus}...`, 'success');
+            try {
+              await updateDoc(doc(db, 'orders', id), { status: newStatus, updatedAt: Date.now() });
+              showStatus(`✅ Order ${id} updated to ${newStatus}`, 'success');
+            } catch (err) {
+              console.error('Update failed', err);
+              showStatus('❌ Failed to update order. See console.', 'error');
+            }
+          });
+        });
+
+        // Attach event listener for Download Invoice buttons
+        document.querySelectorAll('.download-invoice').forEach(button => {
+          button.addEventListener('click', async (e) => {
+            const orderId = e.target.dataset.id;
+            const orderData = snap.docs.find(doc => doc.id === orderId)?.data();
+
+            if (!orderData) {
+              alert('Order data not found!');
+              return;
+            }
+
+            const productTotal = Number(orderData.subtotal || 0);
+            const shippingAmount = Number(orderData.shipping || 0);
+            const discountAmount = Number(orderData.discount || 0);
+            const gstAmount = Number(orderData.tax || 0);
+            const totalAmount = Number(orderData.totalAmount ?? orderData.total ?? (productTotal - discountAmount + shippingAmount + gstAmount));
+
+            const invoiceContent = `
+              <div style="font-family: Arial, sans-serif;">
+                <h1 style="text-align: center;">Invoice</h1>
+                <p><strong>Order ID:</strong> ${orderId}</p>
+                <p><strong>Customer:</strong> ${orderData.customerName || 'N/A'}</p>
+                <p><strong>Address:</strong> ${orderData.address || 'N/A'}</p>
+                <p><strong>Phone:</strong> ${orderData.phone || 'N/A'}</p>
+                <h2>Products</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr>
+                      <th style="border: 1px solid #ddd; padding: 8px;">QTY</th>
+                      <th style="border: 1px solid #ddd; padding: 8px;">Description</th>
+                      <th style="border: 1px solid #ddd; padding: 8px;">Unit Price</th>
+                      <th style="border: 1px solid #ddd; padding: 8px;">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${orderData.items.map(item => `
+                      <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${item.quantity}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${money(item.price)}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${money(Number(item.price || 0) * Number(item.quantity || 1))}</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+                <p><strong>Product Total:</strong> ${money(productTotal)}</p>
+                ${discountAmount ? `<p><strong>Discount:</strong> -${money(discountAmount)}</p>` : ''}
+                <p><strong>Shipping:</strong> ${money(shippingAmount)}</p>
+                <p><strong>GST:</strong> ${money(gstAmount)}</p>
+                <p><strong>Payment Status:</strong> ${orderData.paymentStatus || 'N/A'}</p>
+                <h3>Total: ${money(totalAmount)}</h3>
+              </div>
+            `;
+
+            const blob = new Blob([invoiceContent], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Invoice_${orderId}.html`;
+            link.click();
+          });
+        });
+
+      } catch (err) {
+        console.error('Failed to load orders', err);
+        ordersTable.innerHTML = '<tr><td colspan="9" style="text-align:center;color:red;padding:20px">⚠️ Error loading orders (check console)</td></tr>';
+        showStatus('❌ Failed to load orders. See console for details.', 'error');
+      }
+    }
+
+    // Role-based auth protection guard
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      if (String(user.email || "").toLowerCase() === "ermunaiorganicfarm@gmail.com") {
+        loadOrders();
+        return;
+      }
+      
+      try {
+        const roleSnap = await getDoc(doc(db, "users", user.uid));
+        const role = roleSnap.exists() ? roleSnap.data().role : null;
+        const allowedRoles = ["Super Admin", "Admin", "Support Staff", "Marketing Team"];
+
+        if (allowedRoles.includes(role)) {
+          loadOrders();
+        } else {
+          alert("Access Denied: You do not have administrator permissions.");
+          await signOut(auth);
+          window.location.href = "index.html";
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Unable to verify administrator role. Please run the Supabase migration and bootstrap script.");
+      }
+    });
+  </script>
+</body>
+
+</html>
+

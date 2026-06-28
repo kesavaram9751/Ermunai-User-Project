@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Product Details | Ermunai Organic Farm Foods</title>
+  <meta content="Dynamic product details, nutrition facts, benefits, reviews, and related organic products from Ermunai Organic Farm Foods." name="description"/>
+  <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0d631b",
+            "success-leaf": "#43A047",
+            surface: "#fbf9f3",
+            "surface-container": "#f1eee5",
+            "surface-container-high": "#e9e4d8",
+            "surface-container-highest": "#ddd7c9",
+            "on-surface": "#171a15",
+            "on-surface-variant": "#4f5b4b",
+            "outline-variant": "#d6d0c2",
+            "earth-dark": "#6b4f45",
+            "glass-stroke": "rgba(46, 125, 50, 0.14)"
+          },
+          fontFamily: { sans: ["Plus Jakarta Sans", "sans-serif"] }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { font-family: "Plus Jakarta Sans", sans-serif; }
+    .glass-nav { background: rgba(251, 249, 243, .9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    .font-fill { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
+    .detail-card { background: rgba(255,255,255,.68); border: 1px solid rgba(46,125,50,.12); }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+  <div id="siteHeader"></div>
+
+  <main class="pt-24">
+    <section class="max-w-7xl mx-auto px-5 md:px-8 py-8 md:py-12">
+      <div id="productStatus" class="text-sm font-bold text-on-surface-variant">Loading product...</div>
+      <div id="productLayout" class="hidden grid lg:grid-cols-[1.05fr_.95fr] gap-10 lg:gap-16 items-start">
+        <div>
+          <div class="relative overflow-hidden rounded-2xl bg-[#15170f] border border-black/10 shadow-xl aspect-[1.05/1]">
+            <img id="mainImage" class="w-full h-full object-contain p-8 md:p-12" src="./images/logo.jpg" alt="Product image"/>
+            <div class="absolute top-5 left-5 flex flex-col gap-2">
+              <span id="badgePrimary" class="w-max bg-primary text-white text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Organic</span>
+              <span id="badgeSecondary" class="w-max bg-[#7be77b] text-[#073b0c] text-[10px] font-extrabold px-3 py-1.5 rounded-full uppercase tracking-widest">Fresh Stock</span>
+            </div>
+          </div>
+          <div id="thumbs" class="grid grid-cols-5 sm:grid-cols-6 gap-3 mt-5"></div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex items-center gap-2 text-xs text-primary font-bold">
+            <span id="ratingStars" class="text-[#9a6b12]">★★★★★</span>
+            <span id="reviewCount">(Verified Reviews)</span>
+          </div>
+          <div>
+            <p id="categoryLabel" class="text-xs font-extrabold uppercase tracking-[0.24em] text-primary mb-3">Organic Product</p>
+            <h1 id="productName" class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">Product Name</h1>
+            <div class="flex items-end gap-3 mt-4">
+              <span id="productPrice" class="text-2xl font-extrabold text-primary">Rs. 0</span>
+              <span id="oldPrice" class="text-sm line-through text-on-surface-variant hidden">Rs. 0</span>
+            </div>
+          </div>
+          <p id="productDescription" class="text-sm md:text-base leading-8 text-on-surface-variant max-w-2xl"></p>
+
+          <div id="variantBlock" class="space-y-3 hidden">
+            <p class="text-[11px] font-extrabold uppercase tracking-[0.24em]">Select Size</p>
+            <div id="variantOptions" class="grid grid-cols-3 gap-3"></div>
+          </div>
+
+          <div class="space-y-3">
+            <p class="text-[11px] font-extrabold uppercase tracking-[0.24em]">Quantity</p>
+            <div class="grid sm:grid-cols-[160px_1fr] gap-4">
+              <div class="h-12 rounded-lg bg-surface-container flex items-center justify-between overflow-hidden border border-outline-variant">
+                <button id="qtyMinus" class="w-12 h-full text-primary font-bold" type="button">-</button>
+                <span id="qtyValue" class="font-bold">1</span>
+                <button id="qtyPlus" class="w-12 h-full text-primary font-bold" type="button">+</button>
+              </div>
+              <button id="addToCartBtn" class="h-12 rounded-lg bg-primary text-white font-extrabold flex items-center justify-center gap-2" type="button">
+                <span class="material-symbols-outlined text-sm">shopping_cart</span> Add to Cart
+              </button>
+            </div>
+            <button id="buyNowBtn" class="w-full h-12 rounded-lg bg-earth-dark text-white font-extrabold" type="button">Buy It Now</button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3 pt-8 border-t border-glass-stroke">
+            <div class="text-center space-y-2">
+              <span class="inline-flex w-11 h-11 items-center justify-center rounded-full bg-[#7be77b]/60 text-primary"><span class="material-symbols-outlined">eco</span></span>
+              <p class="text-[10px] font-extrabold uppercase">Natural</p>
+            </div>
+            <div class="text-center space-y-2">
+              <span class="inline-flex w-11 h-11 items-center justify-center rounded-full bg-[#7be77b]/60 text-primary"><span class="material-symbols-outlined">local_shipping</span></span>
+              <p class="text-[10px] font-extrabold uppercase">Ships Fast</p>
+            </div>
+            <div class="text-center space-y-2">
+              <span class="inline-flex w-11 h-11 items-center justify-center rounded-full bg-[#7be77b]/60 text-primary"><span class="material-symbols-outlined">verified</span></span>
+              <p class="text-[10px] font-extrabold uppercase">Pure Trace</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="storySection" class="hidden max-w-7xl mx-auto px-5 md:px-8 py-14 border-t border-glass-stroke">
+      <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <div class="space-y-8">
+          <div>
+            <h2 id="storyTitle" class="text-3xl md:text-4xl font-extrabold tracking-tight">Direct from Ermunai Organic</h2>
+            <p id="storyText" class="mt-5 text-sm leading-8 text-on-surface-variant"></p>
+          </div>
+          <div class="detail-card rounded-2xl p-7 md:p-9 max-w-xl">
+            <h3 class="text-lg font-bold mb-5">Nutrition Facts</h3>
+            <div id="nutritionFacts" class="divide-y divide-outline-variant/60 text-sm"></div>
+          </div>
+        </div>
+        <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-surface-container-high border border-glass-stroke">
+          <img id="storyImage" class="w-full h-full object-cover" src="./images/heritage_millets.png" alt="Farm story"/>
+          <div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/70 to-transparent">
+            <p class="text-white font-extrabold text-xl md:text-2xl max-w-md">"Food should feel honest from field to family."</p>
+            <p class="text-white/80 text-xs font-bold uppercase tracking-widest mt-3">Ermunai Organic</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-5 md:px-8 py-14">
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div class="detail-card rounded-2xl p-7">
+          <h2 class="text-2xl font-extrabold mb-5">Benefits</h2>
+          <ul id="benefitsList" class="grid gap-3 text-sm text-on-surface-variant"></ul>
+        </div>
+        <div class="detail-card rounded-2xl p-7">
+          <h2 class="text-2xl font-extrabold mb-5">Product Specifications</h2>
+          <div id="specificationsList" class="divide-y divide-outline-variant/60 text-sm"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-5 md:px-8 py-14">
+      <div class="flex items-end justify-between gap-4 mb-8">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold">Customer Voices</h2>
+          <p class="text-sm text-on-surface-variant mt-2">The soul of Ermunai reflected through our community.</p>
+        </div>
+        <a class="hidden sm:inline-flex h-10 px-5 rounded-full border border-outline-variant items-center justify-center text-xs font-bold hover:border-primary hover:text-primary" href="feedback.html">Write a Review</a>
+      </div>
+      <div id="reviewsGrid" class="grid md:grid-cols-3 gap-5"></div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-5 md:px-8 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-10">You May Also Like</h2>
+      <div id="relatedGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module">
+    import { initializeApp } from "./js/supabase-compat.js";
+    import { getSupabase, collection, getDocs, doc, getDoc, query, where, limit } from "./js/supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
+    import { escapeHtml, formatCurrency, getMainProductImage, getProductImages, getStorefrontCartKey, mountStorefrontHeader, productCard, readStorefrontCart, renderInto, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
+
+    mountStorefrontHeader("siteHeader", { active: "shop" });
+    mountStorefrontFooter("siteFooter");
+const app = initializeApp();
+    const db = getSupabase(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    let product = null;
+    let products = [];
+    let quantity = 1;
+    let selectedVariant = null;
+    let recentViewRecorded = false;
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value || "";
+    }
+
+    function upsertMeta(selector, attributes) {
+      let tag = document.head.querySelector(selector);
+      if (!tag) {
+        tag = document.createElement("meta");
+        document.head.appendChild(tag);
+      }
+      Object.entries(attributes).forEach(([key, value]) => tag.setAttribute(key, value));
+    }
+
+    function upsertLink(rel, href) {
+      let tag = document.head.querySelector(`link[rel="${rel}"]`);
+      if (!tag) {
+        tag = document.createElement("link");
+        tag.rel = rel;
+        document.head.appendChild(tag);
+      }
+      tag.href = href;
+    }
+
+    function upsertJsonLd(id, payload) {
+      let tag = document.getElementById(id);
+      if (!tag) {
+        tag = document.createElement("script");
+        tag.type = "application/ld+json";
+        tag.id = id;
+        document.head.appendChild(tag);
+      }
+      tag.textContent = JSON.stringify(payload);
+    }
+
+    function renderProductSeo() {
+      if (!product) return;
+      const url = new URL(location.href);
+      const image = new URL(getMainProductImage(product), location.href).href;
+      const description = product.seo?.description || product.description || "Organic product from Ermunai Organic Farm Foods.";
+      upsertLink("canonical", url.href);
+      upsertMeta('meta[property="og:type"]', { property: "og:type", content: "product" });
+      upsertMeta('meta[property="og:title"]', { property: "og:title", content: `${product.name} | Ermunai Organic Farm Foods` });
+      upsertMeta('meta[property="og:description"]', { property: "og:description", content: description });
+      upsertMeta('meta[property="og:image"]', { property: "og:image", content: image });
+      upsertMeta('meta[property="og:url"]', { property: "og:url", content: url.href });
+      upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
+      upsertJsonLd("productSchema", {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: product.name,
+        image: getProductImages(product).map(img => new URL(img, location.href).href),
+        description,
+        sku: product.sku || product.id,
+        brand: { "@type": "Brand", name: "Ermunai Organic Farm Foods" },
+        category: product.categoryLabel || product.category || "Organic Foods",
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: String(product.rating || "4.8"),
+          reviewCount: String(product.reviewCount || 24)
+        },
+        offers: {
+          "@type": "Offer",
+          url: url.href,
+          priceCurrency: "INR",
+          price: currentPrice(),
+          availability: Number(product.stock || 0) > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+          itemCondition: "https://schema.org/NewCondition"
+        }
+      });
+      upsertJsonLd("breadcrumbSchema", {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: new URL("index.html", location.href).href },
+          { "@type": "ListItem", position: 2, name: "Shop", item: new URL("shop.html", location.href).href },
+          { "@type": "ListItem", position: 3, name: product.name, item: url.href }
+        ]
+      });
+    }
+
+    function normalizeProduct(item) {
+      return {
+        ...item,
+        price: Number(item.price ?? item.amount ?? 0),
+        oldPrice: Number(item.oldPrice || item.mrp || 0),
+        categoryLabel: item.categoryLabel || item.category || "Organic",
+        tag: item.tag || (item.featured ? "Featured" : item.offer ? "Offer" : "Organic")
+      };
+    }
+
+    function currentPrice() {
+      return Number(selectedVariant?.price ?? product?.price ?? 0);
+    }
+
+    function renderThumbs(images) {
+      renderInto("thumbs", images, (img, index) => `
+        <button class="aspect-square rounded-xl overflow-hidden bg-surface-container border ${index === 0 ? "border-primary" : "border-outline-variant"} p-1 product-thumb" data-src="${escapeHtml(img)}" type="button">
+          <img class="w-full h-full object-contain" src="${escapeHtml(img)}" alt="${escapeHtml(product.name)} image ${index + 1}" loading="lazy">
+        </button>
+      `);
+    }
+
+    function renderRows(target, data, emptyText) {
+      const entries = Array.isArray(data)
+        ? data.map((value, index) => [`${index + 1}`, value])
+        : Object.entries(data || {});
+      document.getElementById(target).innerHTML = entries.length
+        ? entries.map(([key, value]) => `<div class="flex justify-between gap-6 py-3"><span class="text-on-surface-variant">${escapeHtml(key)}</span><strong class="text-right">${escapeHtml(String(value))}</strong></div>`).join("")
+        : `<p class="text-sm text-on-surface-variant">${escapeHtml(emptyText)}</p>`;
+    }
+
+    function renderProduct() {
+      if (!product) return;
+      const images = getProductImages(product);
+      const variants = Array.isArray(product.variants) ? product.variants.filter(v => v.name || v.weight || v.price) : [];
+      if (variants.length && !selectedVariant) selectedVariant = variants[0];
+      document.title = `${product.name} | Ermunai Organic Farm Foods`;
+      document.querySelector('meta[name="description"]').content = product.seo?.description || product.description || "Organic product from Ermunai Organic Farm Foods.";
+      renderProductSeo();
+      document.getElementById("productStatus").classList.add("hidden");
+      document.getElementById("productLayout").classList.remove("hidden");
+      document.getElementById("storySection").classList.remove("hidden");
+
+      setText("productName", product.name);
+      setText("categoryLabel", product.categoryLabel);
+      setText("productPrice", formatCurrency(currentPrice()));
+      setText("productDescription", product.description || "Premium organic food product crafted with native ingredients and traditional recipes.");
+      setText("badgePrimary", product.tag || "Organic");
+      setText("badgeSecondary", Number(product.stock || 0) > 0 ? `${product.stock} in stock` : "Out of stock");
+      setText("reviewCount", `(${product.reviewCount || 24} Verified Reviews)`);
+      document.getElementById("mainImage").src = getMainProductImage(product);
+      document.getElementById("mainImage").alt = product.name;
+      document.getElementById("storyImage").src = images[1] || images[0] || "./images/heritage_millets.png";
+      document.getElementById("oldPrice").classList.toggle("hidden", !product.oldPrice || product.oldPrice <= currentPrice());
+      setText("oldPrice", formatCurrency(product.oldPrice));
+
+      document.getElementById("variantBlock").classList.toggle("hidden", !variants.length);
+      renderInto("variantOptions", variants, (variant, index) => `
+        <button class="variant-option h-11 rounded-lg border ${selectedVariant === variant || (!selectedVariant && index === 0) ? "border-primary text-primary" : "border-outline-variant"} text-xs font-bold" data-index="${index}" type="button">${escapeHtml(variant.name || variant.weight || `Option ${index + 1}`)}</button>
+      `);
+
+      renderThumbs(images.length ? images : ["./images/logo.jpg"]);
+      setText("storyText", product.story || `${product.name} is prepared with Ermunai's farm-first commitment: honest sourcing, careful processing, and clean ingredients suitable for everyday family cooking.`);
+      renderRows("nutritionFacts", product.nutritionFacts, "Nutrition facts are being updated.");
+      renderRows("specificationsList", product.specifications || { Category: product.categoryLabel, Stock: Number(product.stock || 0) > 0 ? "Available" : "Out of stock" }, "Specifications are being updated.");
+      document.getElementById("benefitsList").innerHTML = (product.benefits?.length ? product.benefits : ["No artificial preservatives", "Made for everyday family cooking", "Farm-direct organic quality"]).map(item => `<li class="flex gap-3"><span class="material-symbols-outlined text-primary text-lg">check_circle</span><span>${escapeHtml(item)}</span></li>`).join("");
+    }
+
+    function renderReviews() {
+      const reviews = [
+        ["Sarah Jenkins", "Verified Buyer", "The product quality is consistent, fresh, and easy to use for daily meals."],
+        ["David Chen", "Verified Buyer", "Packaging is neat, delivery was prompt, and the flavour feels genuinely traditional."],
+        ["Martha Stewart", "Verified Buyer", "Clean ingredients and trustworthy sourcing. Exactly what I wanted."]
+      ];
+      renderInto("reviewsGrid", reviews, ([name, label, text]) => `
+        <article class="detail-card rounded-xl p-5">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">${escapeHtml(name.slice(0, 1))}</div>
+            <div><h3 class="font-bold text-sm">${escapeHtml(name)}</h3><p class="text-[10px] uppercase tracking-widest text-primary font-extrabold">${escapeHtml(label)}</p></div>
+          </div>
+          <p class="text-[#9a6b12] text-xs mb-3">★★★★★</p>
+          <p class="text-xs text-on-surface-variant leading-6">"${escapeHtml(text)}"</p>
+        </article>
+      `);
+    }
+
+    function renderRelated() {
+      const related = products.filter(item => item.id !== product.id && (item.category === product.category || item.categoryLabel === product.categoryLabel)).slice(0, 4);
+      const list = related.length ? related : products.filter(item => item.id !== product.id).slice(0, 4);
+      renderInto("relatedGrid", list, item => productCard(item, { addAction: `addProductToCart('${item.id}')` }));
+    }
+
+    function getCartKey() {
+      return getStorefrontCartKey(currentUser);
+    }
+
+    function getRecentlyViewedKey() {
+      return currentUser ? `recently_viewed_${currentUser.uid}` : "";
+    }
+
+    function recordRecentlyViewed() {
+      const key = getRecentlyViewedKey();
+      if (!key || !product || recentViewRecorded) return;
+      const summary = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: getMainProductImage(product),
+        category: product.categoryLabel || product.category || "",
+        categoryLabel: product.categoryLabel || product.category || "",
+        stock: product.stock,
+        rating: product.rating,
+        tag: product.tag
+      };
+      let recent = JSON.parse(localStorage.getItem(key) || "[]").filter(item => item.id !== product.id);
+      recent.unshift(summary);
+      localStorage.setItem(key, JSON.stringify(recent.slice(0, 8)));
+      recentViewRecorded = true;
+    }
+
+    function updateCartCount() {
+      const cart = readStorefrontCart(currentUser);
+      setText("cartCount", cart.reduce((sum, item) => sum + Number(item.qty || 1), 0));
+    }
+
+    window.addProductToCart = (id = product?.id) => {
+      const targetProduct = id === product?.id ? product : products.find(item => item.id === id);
+      if (!targetProduct) return;
+      if (!currentUser) {
+        window.location.href = "login.html";
+        return;
+      }
+      if (!getCartKey()) {
+        window.location.href = "login.html";
+        return;
+      }
+      const cart = readStorefrontCart(currentUser);
+      const variantName = id === product?.id ? (selectedVariant?.name || selectedVariant?.weight || "") : "";
+      const existing = cart.find(item => item.id === targetProduct.id && item.variantName === variantName);
+      if (existing) existing.qty = Number(existing.qty || 1) + quantity;
+      else cart.push({
+        id: targetProduct.id,
+        name: targetProduct.name,
+        price: id === product?.id ? currentPrice() : Number(targetProduct.price || 0),
+        image: getMainProductImage(targetProduct),
+        qty: id === product?.id ? quantity : 1,
+        category: targetProduct.categoryLabel || targetProduct.category || "",
+        variantName
+      });
+      writeStorefrontCart(currentUser, cart);
+      updateCartCount();
+    };
+
+    async function loadProduct() {
+      const id = new URLSearchParams(location.search).get("id");
+      try {
+        const snap = await getDocs(collection(db, "products"));
+        products = snap.docs.map(item => normalizeProduct({ id: item.id, ...item.data() })).filter(item => !item.disabled);
+      } catch (error) {
+        console.warn("Products unavailable:", error);
+        products = [];
+      }
+      product = products.find(item => item.id === id) || products[0];
+      if (id) {
+        try {
+          const productSnap = await getDoc(doc(db, "products", id));
+          if (productSnap.exists()) product = normalizeProduct({ id: productSnap.id, ...productSnap.data() });
+        } catch (error) {
+          console.warn("Product lookup failed:", error);
+        }
+      }
+      if (!product) {
+        document.getElementById("productStatus").textContent = "Product not found.";
+        return;
+      }
+      renderProduct();
+      renderReviews();
+      renderRelated();
+      recordRecentlyViewed();
+    }
+
+    document.addEventListener("click", event => {
+      const thumb = event.target.closest(".product-thumb");
+      if (thumb) {
+        document.querySelectorAll(".product-thumb").forEach(item => item.classList.remove("border-primary"));
+        thumb.classList.add("border-primary");
+        document.getElementById("mainImage").src = thumb.dataset.src;
+      }
+      const variantButton = event.target.closest(".variant-option");
+      if (variantButton) {
+        selectedVariant = product.variants[Number(variantButton.dataset.index)];
+        renderProduct();
+      }
+    });
+
+    document.getElementById("qtyMinus").addEventListener("click", () => {
+      quantity = Math.max(1, quantity - 1);
+      setText("qtyValue", quantity);
+    });
+    document.getElementById("qtyPlus").addEventListener("click", () => {
+      quantity = Math.min(99, quantity + 1);
+      setText("qtyValue", quantity);
+    });
+    document.getElementById("addToCartBtn").addEventListener("click", () => window.addProductToCart(product.id));
+    document.getElementById("buyNowBtn").addEventListener("click", () => {
+      window.addProductToCart(product.id);
+      if (currentUser) window.location.href = "checkout.html";
+    });
+
+    onAuthStateChanged(auth, user => {
+      currentUser = user;
+      const authLinks = document.getElementById("authLinks");
+      const userProfile = document.getElementById("userProfile");
+      const dashboardLink = document.getElementById("dashboardLink");
+      const mobileDashboardLink = document.getElementById("mobileDashboardLink");
+      if (user) {
+        authLinks.classList.add("hidden");
+        userProfile.classList.remove("hidden");
+        userProfile.classList.add("flex");
+        dashboardLink.classList.remove("hidden");
+        mobileDashboardLink.classList.remove("hidden");
+        const name = user.displayName || (user.email ? user.email.split("@")[0] : "User");
+        document.getElementById("userAvatar").textContent = name.slice(0, 2).toUpperCase();
+        recordRecentlyViewed();
+      } else {
+        authLinks.classList.remove("hidden");
+        userProfile.classList.add("hidden");
+        userProfile.classList.remove("flex");
+        dashboardLink.classList.add("hidden");
+        mobileDashboardLink.classList.add("hidden");
+      }
+      updateCartCount();
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.reload();
+    });
+
+    loadProduct();
+  </script>
+</body>
+</html>

@@ -1,1439 +1,858 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="scroll-smooth" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Basic SEO Meta Tags -->
-  <title>Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
-  <meta name="description"
-    content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
-  <meta name="keywords"
-    content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
-  <meta name="author" content="Ermunai Organic Farm Foods">
-  <meta name="robots" content="index, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Ermunai Organic Farm Foods | Soil to Soul. Purely Organic.</title>
+  <meta content="Premium organic food marketplace from Ermunai Organic Farm Foods. Traditional recipes, native grains, millets, idli podis, and health products." name="description"/>
   <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/">
-  <meta property="og:title" content="Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products">
-  <meta property="og:description"
-    content="Ermunai Organic Farm Foods brings you healthy, natural, and organic products directly from farm to table.">
-  <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.png">
+  <meta property="og:title" content="Ermunai Organic Farm Foods | Soil to Soul. Purely Organic.">
+  <meta property="og:description" content="Shop premium organic millet mixes, podis, soups, wellness staples, and traditional foods from Ermunai Organic Farm Foods.">
+  <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.jpg">
+  <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- simplest: 32x32 PNG -->
-  <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png/jpg">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
-  <!-- Font Awesome for icons -->
+  <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Ermunai Organic Farm Foods",
+          "url": "https://ermunaiorganicfarmfoods.com/",
+          "logo": "https://ermunaiorganicfarmfoods.com/images/logo.jpg",
+          "email": "info@ermunaiorganicfarmfoods.com",
+          "telephone": "+91 98412 31996",
+          "sameAs": [
+            "https://www.facebook.com/ermunaiorganicfoods",
+            "https://www.instagram.com/ermunaiorganic",
+            "https://www.linkedin.com/in/ermunai-organic-farm-217035363/",
+            "https://www.youtube.com/@ermunaiorganicfarm"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "name": "Ermunai Organic Farm Foods",
+          "url": "https://ermunaiorganicfarmfoods.com/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://ermunaiorganicfarmfoods.com/shop.html?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./css/ermunai-marketplace.css">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed-dim": "#78dc77",
+            "surface-container-high": "#eae8e2",
+            "on-error-container": "#93000a",
+            "on-background": "#1b1c19",
+            "surface-container-low": "#f5f3ee",
+            "surface-tint": "#1b6d24",
+            "success-leaf": "#43A047",
+            "tertiary-container": "#85675c",
+            "primary-container": "#2e7d32",
+            "primary-fixed": "#a3f69c",
+            "inverse-primary": "#88d982",
+            "surface-dim": "#dbdad4",
+            "outline-variant": "#bfcaba",
+            "surface-cream": "#FFFDF7",
+            "on-secondary-fixed-variant": "#005313",
+            "secondary-container": "#91f78e",
+            "on-tertiary": "#ffffff",
+            "primary": "#0d631b",
+            "tertiary-fixed": "#ffdbce",
+            "surface-container-highest": "#e4e2dd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed-dim": "#e4beb2",
+            "on-tertiary-container": "#ffeee8",
+            "outline": "#707a6c",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#002204",
+            "on-surface": "#1b1c19",
+            "surface": "#fbf9f3",
+            "inverse-on-surface": "#f2f1eb",
+            "on-tertiary-fixed-variant": "#5b4137",
+            "secondary-fixed": "#94f990",
+            "secondary": "#006e1c",
+            "tertiary": "#6b4f45",
+            "on-primary-container": "#cbffc2",
+            "surface-variant": "#e4e2dd",
+            "on-primary-fixed-variant": "#005312",
+            "background": "#fbf9f3",
+            "surface-bright": "#fbf9f3",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#002204",
+            "on-primary": "#ffffff",
+            "surface-container": "#f0eee8",
+            "glass-stroke": "rgba(46, 125, 50, 0.1)",
+            "on-surface-variant": "#40493d",
+            "primary-fixed-dim": "#88d982",
+            "earth-dark": "#4E342E",
+            "on-tertiary-fixed": "#2b160f",
+            "on-secondary-container": "#00731e",
+            "inverse-surface": "#30312d",
+            "surface-container-lowest": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "64px",
+            "gutter": "32px",
+            "unit": "8px",
+            "margin-mobile": "20px",
+            "stack-md": "40px",
+            "stack-lg": "80px",
+            "container-max": "1280px"
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    html,
     body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
+      max-width: 100%;
+      overflow-x: hidden;
     }
-
-
-    /* ---------- Header ---------- */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: white;
-      padding: 15px 40px;
-      border-bottom: 2px solid #eee;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    .glass-nav {
+      background: rgba(251, 249, 243, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
-
-    header .logo {
-      display: flex;
-      align-items: center;
-      font-weight: bold;
-      color: green;
-      font-size: 18px;
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
     }
-
-    header .logo img {
-      height: 60px;
-      margin-right: 10px;
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(46, 125, 50, 0.1);
     }
-
-    header nav ul {
-      display: flex;
-      list-style: none;
+    .bento-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    header nav ul li {
-      margin: 0 15px;
+    .bento-card:hover {
+      transform: translateY(-4px);
     }
-
-    header nav ul li a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-
-    header nav ul li a.active,
-    header nav ul li a:hover {
-      color: green;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    /* Buttons */
-    .btn-login,
-    .btn-signup {
-      padding: 8px 16px;
-      font-size: 14px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-
-    .btn-login {
-      background: transparent;
-      border: 2px solid green;
-      color: green;
-    }
-
-    .btn-login:hover {
-      background: green;
-      color: white;
-    }
-
-    .btn-signup {
-      background: green;
-      border: 2px solid green;
-      color: white;
-    }
-
-    .btn-signup:hover {
-      background: #244021;
-      border-color: #244021;
-    }
-
-    /* Hamburger (hidden by default) */
-    .hamburger {
-      display: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: green;
-    }
-
-    .close-menu {
-      display: none;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 24px;
-      color: green;
-      cursor: pointer;
-    }
-
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: green;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .profile i {
-      font-size: 20px;
-    }
-
-    .btn-logout {
-      margin-left: 10px;
-      padding: 6px 12px;
-      border: 2px solid crimson;
-      background: transparent;
-      color: crimson;
-      border-radius: 5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .btn-logout:hover {
-      background: crimson;
-      color: white;
-    }
-
-
-
-    @media (max-width: 900px) {
-      .close-menu {
-        display: block;
-      }
-    }
-
-    /* Hide username on mobile */
-    @media (max-width: 768px) {
-      .profile .username {
-        display: none;
-        position: absolute;
-        top: -30px;
-        /* adjust to hover position */
-        left: 50%;
-        transform: translateX(-50%);
-        background: green;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        white-space: nowrap;
-        font-size: 14px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        z-index: 2000;
-      }
-
-      /* Show username on hover */
-      .profile:hover .username {
-        display: block;
-        opacity: 1;
-      }
-    }
-
-
-
-    /* ---------- Mobile Styles ---------- */
-    @media (max-width: 900px) {
-      header {
-        padding: 15px 20px;
-      }
-
-      /* Hide normal menu */
-      header nav {
-        position: fixed;
-        top: 0;
-        right: -250px;
-        width: 250px;
-        height: 100%;
-        background: white;
-        border-left: 2px solid #eee;
-        box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
-        padding-top: 80px;
-        z-index: 1200;
-      }
-
-      header nav ul {
-        flex-direction: column;
-        align-items: start;
-        padding-left: 30px;
-      }
-
-      header nav ul li {
-        margin: 15px 0;
-      }
-
-      .header-right {
-        gap: 10px;
-      }
-
-      .hamburger {
-        display: block;
-      }
-
-      /* Show menu when active */
-      header nav.active {
-        right: 0;
-      }
-    }
-
-
-    /* Cart */
-    .cart {
-      font-size: 22px;
-      color: #333;
-      cursor: pointer;
-    }
-
-    .cart i {
-      color: green;
-    }
-
-
-
-
-    /* ✅ Banner */
-    .banner {
+    .home-hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      align-items: end;
       position: relative;
-      text-align: center;
+      width: 100%;
+      max-width: 100vw;
       overflow: hidden;
     }
-
-    .slider {
-      position: relative;
-      width: 100%;
-      height: 450px;
+    .home-hero-content,
+    .home-hero-copy {
+      min-width: 0;
     }
-
-    .slide {
-      display: none;
-      width: 100%;
-      height: 100%;
+    #heroTitle,
+    #heroSubtitle {
+      overflow-wrap: anywhere;
     }
-
-    .slide.active {
-      display: block;
-      animation: fade 1s;
+    #heroTitle {
+      white-space: pre-line;
     }
-
-    .slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    @keyframes fade {
-      from {
-        opacity: 0.4;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    .controls {
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      font-size: 40px;
-      color: white;
-      padding: 0 20px;
-      cursor: pointer;
-    }
-
-    /* ✅ Banner Buttons side by side */
-    .banner-buttons {
-      width: 300px;
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .banner-buttons .btn {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .banner-buttons .btn a {
-      text-decoration: none;
-    }
-
-    .banner-buttons .shop {
-      background: green;
-    }
-
-    .banner-buttons .shop a {
-      color: white;
-
-    }
-
-    .banner-buttons .learn {
-      background: white;
-      border: 2px solid green;
-    }
-
-    .banner-buttons .learn a {
-      color: green;
-
-    }
-
-    .banner-buttons .btn::before {
+    .home-hero::after {
       content: "";
       position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.2) 100%);
-      transform: skewX(-25deg);
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(20, 18, 14, .78) 0%, rgba(20, 18, 14, .52) 42%, rgba(20, 18, 14, .14) 100%),
+        linear-gradient(0deg, rgba(251, 249, 243, 1) 0%, rgba(251, 249, 243, 0) 22%);
+      pointer-events: none;
     }
-
-    .banner-buttons .btn:hover::before {
-      animation: shine 0.8s forwards;
-    }
-
-    @keyframes shine {
-      0% {
-        left: -75%;
-      }
-
-      100% {
-        left: 125%;
-      }
-    }
-
-    /* Product Section */
-    .product-section {
-      padding: 60px 20px;
-      background: #f8fbf7;
-      text-align: center;
-    }
-
-    .product-section .section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #2c3e2c;
-      margin-bottom: 10px;
-    }
-
-    .product-section .section-subtitle {
-      font-size: 1rem;
-      color: #555;
-      max-width: 700px;
-      margin: 0 auto 40px;
-    }
-
-    .product-grid {
-      display: grid;
-      gap: 30px;
-      grid-template-columns: repeat(3, 1fr);
-      /* Top row: 3 columns */
-      justify-content: center;
-      /* Center content */
-    }
-
-    .product-card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .product-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-    }
-
-    .product-card .card-image {
-      position: relative;
-      height: 300px;
-      overflow: hidden;
-    }
-
-    .product-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .product-card:hover img {
-      transform: scale(1.05);
-    }
-
-    .badge {
+    .hero-media {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #27ae60;
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 20px;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.02);
+      opacity: 1;
+      transition: opacity .45s ease, transform 6s ease;
     }
-
-    .card-content {
-      padding: 15px;
-      text-align: left;
+    .hero-media.is-changing {
+      opacity: .4;
+      transform: scale(1.04);
     }
-
-    .card-content h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #2c3e2c;
+    .market-search {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 10px;
+      background: rgba(255, 253, 247, .94);
+      border: 1px solid rgba(255, 255, 255, .35);
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+      backdrop-filter: blur(14px);
     }
-
-    .card-content p {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 12px;
+    .category-strip {
+      scrollbar-width: none;
     }
-
-    .explore-link {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #27ae60;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .explore-link:hover {
-      color: #1d8348;
-    }
-
-    /* Mobile and layout adjustments */
-    @media (max-width: 992px) {
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* On tablets: 2 columns */
-      }
-    }
-
-    @media (max-width: 600px) {
-      .product-grid {
-        grid-template-columns: 1fr;
-        /* On phones: single column */
-      }
-    }
-
-    /* ✅ FAQ Section */
-    .faq {
-      background: #fafcf9;
-      padding: 60px 20px;
-    }
-
-    .faq h2 {
-      font-size: 28px;
-      font-weight: bold;
-      color: #2c3e2c;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .faq-item {
-      max-width: 800px;
-      margin: 15px auto;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 15px 20px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .faq-item:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .faq-question {
-      font-weight: bold;
-      color: green;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq-answer {
+    .category-strip::-webkit-scrollbar {
       display: none;
-      color: #444;
-      font-size: 15px;
     }
-
-    .faq-item.active .faq-answer {
-      display: block;
-      margin-top: 8px;
+    .commerce-card {
+      background: rgba(255, 253, 247, .88);
+      border: 1px solid rgba(46, 125, 50, .12);
+      box-shadow: 0 18px 40px rgba(13, 99, 27, .08);
     }
-
-    /* ✅ Footer */
-    footer {
-      background: linear-gradient(145deg, #056608, #0b8a0d);
+    .section-kicker {
+      color: #0d631b;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .hero-carousel-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .55);
+      background: rgba(255, 255, 255, .14);
       color: #fff;
-      padding: 40px 20px;
-      font-family: "Poppins", sans-serif;
-    }
-
-    .footer-container {
-      max-width: 1300px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-
-    .footer-section h3,
-    .footer-section h4 {
-      color: #fff;
-      margin-bottom: 15px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      border-bottom: 2px solid #ffd700;
-      display: inline-block;
-      padding-bottom: 5px;
-    }
-
-    .footer-section p {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .footer-section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 10px;
-    }
-
-    .footer-section ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .footer-section ul li a:hover {
-      color: #ffd700;
-    }
-
-    /* WhatsApp Order Button */
-    .whatsapp {
-      margin: 25px 0;
-      text-align: center;
-    }
-
-    .whatsapp a {
-      background: #25D366;
-      color: white;
-      padding: 12px 25px;
-      border-radius: 30px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background 0.3s ease;
-    }
-
-    .whatsapp a:hover {
-      background: #1eb85b;
-    }
-
-    /* Footer Bottom */
-    .footer-bottom {
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.3);
-      padding-top: 15px;
-      font-size: 14px;
-    }
-
-    .footer-bottom p {
-      margin: 5px 0;
-    }
-
-    .footer-links a {
-      color: #ffd700;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .footer-links a:hover {
-      text-decoration: underline;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .footer-container {
-        text-align: center;
-      }
-
-      .footer-section h3,
-      .footer-section h4 {
-        border: none;
-      }
-    }
-
-
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      header nav ul {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      header nav ul li {
-        margin: 10px 0;
-      }
-
-      .banner {
-        height: 300px;
-      }
-
-      .slider {
-        height: 300px;
-      }
-
-      .slide img {
-        object-fit: cover;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .banner {
-        height: 250px;
-      }
-
-      .slider {
-        height: 250px;
-      }
-
-      .slide img {
-        object-fit: cover;
-
-      }
-
-      header .logo img {
-        margin-right: 0px;
-      }
-
-      header .logo span {
-        display: none;
-      }
-
-      .banner-buttons .btn {
-        padding: 8px 15px;
-        font-size: 14px;
-      }
-    }
-
-    /* ===== Hero Products Styles ===== */
-    .hero-products {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin: 40px 0;
-    }
-
-    .hero-products .hero-img {
-      width: 45%;
-      height: 400px;
-      border-radius: 12px;
-      object-fit: cover;
-    }
-
-    @media (max-width: 768px) {
-      .hero-products {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .hero-products .hero-img {
-        width: 100%;
-      }
-    }
-
-    /* ===== Export Catalogue Styles ===== */
-    .export-catalogue-section {
-      background: #f9fcf9;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .export-catalogue-section .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .export-catalogue-section .section-header h2 {
-      font-size: 2.5rem;
-      color: #2c3e2c;
-      margin-bottom: 8px;
-    }
-
-    .export-catalogue-section .section-header p {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 40px;
-    }
-
-    .product-cards-grid {
-      display: grid;
-      gap: 30px;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      justify-content: center;
-    }
-
-    .export-card {
-      background: white;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-      border-radius: 12px;
-      overflow: hidden;
-      padding: 20px;
-      transition: transform 0.3s ease;
-    }
-
-    .export-card:hover {
-      transform: translateY(-6px);
-    }
-
-    .export-card img {
-      width: 100%;
-      height: 240px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    .export-card h3 {
-      font-size: 1.3rem;
-      color: #2c3e2c;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    .export-card p {
-      font-size: 0.95rem;
-      color: #444;
-      margin-bottom: 10px;
-    }
-
-    .fa-pepper-hot {
-      color: red;
-
-    }
-
-    .product-icons {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-
-    .product-icons li {
-      font-size: 0.9rem;
-      color: #3a6b3a;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      backdrop-filter: blur(12px);
+      transition: background .18s ease, transform .18s ease;
     }
-
-    .product-icons i {
-      color: #27ae60;
+    .hero-carousel-btn:hover {
+      background: rgba(255, 255, 255, .24);
+      transform: translateY(-1px);
     }
-
-    .small-info {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 8px;
+    .hero-carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.46);
+      border: 1px solid rgba(255,255,255,.7);
+      transition: width .2s ease, background .2s ease;
     }
-
-    .cta-export {
-      margin-top: 40px;
+    .hero-carousel-dot.active {
+      width: 30px;
+      background: #fff;
     }
-
-    .btn-export {
-      background: #27ae60;
-      color: white;
-      padding: 12px 26px;
-      font-size: 1rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-
-    .btn-export:hover {
-      background: #1f7f4a;
-    }
-
-    @media (max-width: 600px) {
-      .export-catalogue-section {
-        text-align: left;
+    @media (max-width: 760px) {
+      .home-hero {
+        min-height: auto;
+        padding-block: 0 28px;
+      }
+      .home-hero::after {
+        background:
+          linear-gradient(180deg, rgba(20, 18, 14, .28) 0%, rgba(20, 18, 14, .72) 36%, rgba(20, 18, 14, .82) 100%),
+          linear-gradient(0deg, rgba(251, 249, 243, 1) 0%, rgba(251, 249, 243, 0) 18%);
+      }
+      .hero-media {
+        background-position: center top;
+      }
+      #heroEyebrow {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      #heroTitle {
+        font-size: clamp(2.35rem, 11vw, 3.4rem);
+        line-height: 1.02;
+      }
+      #heroSubtitle {
+        line-height: 1.75;
+      }
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .hero-actions a {
+        width: 100%;
+        min-width: 0;
+      }
+      .market-search {
+        width: 100%;
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+      .market-search a,
+      .market-search input {
+        width: 100%;
+        min-width: 0;
+      }
+      .hero-carousel-controls {
+        display: none;
       }
     }
   </style>
 </head>
+<body class="bg-surface text-on-surface font-sans selection:bg-primary-fixed selection:text-on-primary-fixed antialiased">
+  <div id="siteHeader"></div>
 
-<body>
-
-  <!-- ✅ Header -->
-  <header>
-    <div class="logo">
-      <img src="./images/logo.jpg" alt="Logo">
-      <span>Ermunai Organic Farm & Foods</span>
-    </div>
-
-    <!-- Navigation -->
-    <nav>
-      <div class="close-menu"><i class="fa-solid fa-times"></i></div>
-      <ul>
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="purchase.html">Purchases</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="feedback.html">Certification & Feedback</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-
-
-    <!-- Right side -->
-    <div class="header-right">
-      <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
-
-      <!-- Buttons (default) -->
-      <a href="login.html" class="btn-login">Login</a>
-      <a href="signup.html" class="btn-signup">Sign Up</a>
-
-      <!-- Profile (hidden initially) -->
-      <div class="profile" style="display: none; position: relative;">
-        <i class="fa-solid fa-user"></i>
-        <span class="username"></span>
-        <button class="btn-logout">Logout</button>
-      </div>
-
-
-
-      <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
-    </div>
-
-  </header>
-
-
-
-  <!-- ✅ Banner Section -->
-  <section class="banner">
-    <div class="slider">
-      <div class="slide active">
-        <img src="./images/banner.png" alt="Banner 1">
-      </div>
-      <div class="slide">
-        <img src="./images/banner2.png" alt="Banner 2">
-      </div>
-    </div>
-
-    <div class="controls">
-      <span class="prev">&#10094;</span>
-      <span class="next">&#10095;</span>
-    </div>
-
-    <div class="banner-buttons">
-      <button class="btn shop"><a href="shop.html">Shop Now</a></button>
-      <button class="btn learn"><a href="about.html">Learn More</a></button>
-    </div>
-  </section>
-
-  <!-- Hero Products Section -->
-  <section class="hero-products">
-    <img src="./images/heritage_millets.png" alt="Heritage Millets" class="hero-img">
-    <img src="./images/readytocook.jpg" alt="Ready to Cook Packs" class="hero-img">
-  </section>
-
-  <!-- ===== Export Ready Products Section ===== -->
-  <section class="export-catalogue-section">
-    <div class="container">
-      <div class="section-header">
-        <h2>Export Ready Products</h2>
-        <p>“Traditional condiment powders are dry spice and pulse-based blends used as flavour enhancers and nutritional
-          accompaniments in Indian cuisine.”</p>
-      </div>
-
-      <div class="product-cards-grid">
-        <!-- Product Card 1 -->
-        <div class="export-card">
-          <img src="./images/red-sorgam-rava.png" alt="Red Sorghum Instant Rava Dosai Mix">
-          <h3>Red Sorghum Instant Rava Dosai</h3>
-          <p>Gluten-free native sorghum breakfast mix — high fibre & easy digestion.</p>
-          <ul class="product-icons">
-            <li><i class="fa-solid fa-seedling"></i> Gluten Free</li>
-            <li><i class="fa-solid fa-leaf"></i> Millet Based</li>
-            <li><i class="fa-solid fa-bowl-rice"></i> Vegan</li>
-          </ul>
-          <p class="small-info">Shelf Life: 9–12 Months | Pack Sizes: 250g + Bulk</p>
-        </div>
-
-        <!-- Product Card 2 -->
-        <div class="export-card">
-          <img src="./images/Multi-Millet&Whole-Pulses-Adai-Mix.png" alt="Multi Millet Adai Mix">
-          <h3>Multi-Millet & Native Whole-Pulses Adai Mix</h3>
-          <p>Rich plant protein & high energy meal with complementing amino acids.</p>
-          <ul class="product-icons">
-            <li><i class="fa-solid fa-dumbbell"></i> Protein Rich</li>
-            <li><i class="fa-solid fa-fire"></i> High Energy</li>
-            <li><i class="fa-solid fa-mortar-pestle"></i> Traditional Taste</li>
-          </ul>
-          <p class="small-info">Shelf Life: 9–12 Months | Retail + Bulk</p>
-        </div>
-
-        <!-- Product Card 3 -->
-        <div class="export-card">
-          <img src="./images/Andhra-Paruppu-Podi-Garlic.png" alt="Andhra Paruppu Podi – Garlic Flavor">
-          <h3>Andhra Paruppu Podi — Garlic</h3>
-          <p>Authentic lentil seasoning powder — perfect with rice or breakfast foods.</p>
-          <ul class="product-icons">
-            <li><i class="fa-solid fa-utensils"></i> High Protein</li>
-            <li><i class="fa-solid fa-pepper-hot" style="color: red;"></i> Red Chillies</li>
-            <li><i class="fa-solid fa-industry"></i> Manufacturing Unit: Chennai</li>
-            <li><i class="fa-solid fa-certificate"></i> Long Shelf Life</li>
-          </ul>
-          <p class="small-info">Shelf Life: 9–12 Months | Pack Sizes: 200g, Bulk</p>
-        </div>
-
-
-      </div>
-
-      <div class="cta-export">
-        <a href="contact.html" class="btn-export">Request Export Catalogue PDF</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ✅ Product Categories Section -->
-  <section class="product-section">
-    <div class="container">
-      <h2 class="section-title">Our Product Categories</h2>
-      <p class="section-subtitle">
-        Explore our wide range of organic farm products, each crafted with traditional methods
-        and modern quality standards to bring you the best of nature.
-      </p>
-
-      <div class="product-grid">
-        <div class="product-card">
-          <div class="card-image">
-            <img src="./images/readytocook.jpg" alt="Ready-to-cook Instant Mixes">
-            <span class="badge">11+ varieties</span>
-          </div>
-          <div class="card-content">
-            <h3>Ready-to-cook Instant Mixes</h3>
-            <p>Convenient and healthy cooking mixes prepared with traditional recipes.</p>
-            <a href="shop.html?category=readyToCookMixes" class="explore-link">Explore Category →</a>
+  <main class="pt-[72px]">
+    <section class="home-hero">
+      <div id="heroImage" class="hero-media" style="background-image: url('./images/banner2.png')"></div>
+      <div class="home-hero-content relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full pb-10 md:pb-14">
+        <div class="home-hero-copy max-w-3xl text-white pt-12 md:pt-24">
+          <span id="heroEyebrow" class="inline-flex items-center rounded-full bg-white/90 text-primary px-4 py-2 font-extrabold text-xs uppercase tracking-widest mb-5">Premium farm direct</span>
+          <h1 id="heroTitle" class="text-4xl md:text-[72px] font-black leading-[.98] tracking-tight max-w-3xl">Soil to Soul.<br>Purely Organic.</h1>
+          <p id="heroSubtitle" class="mt-6 text-base md:text-xl text-white/90 leading-8 max-w-2xl">Traditional recipes meet sustainable farming. Shop honest millet mixes, podis, soups, and wellness staples made for everyday kitchens.</p>
+          <div class="hero-actions flex flex-wrap gap-3 mt-8">
+            <a id="primaryCta" href="shop.html" class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary text-white px-7 py-4 font-extrabold shadow-xl hover:bg-primary-container active:scale-95 transition-all">
+              Shop the Harvest <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+            <a id="secondaryCta" href="about.html" class="inline-flex items-center justify-center rounded-lg border border-white/70 px-7 py-4 font-extrabold text-white hover:bg-white/10 active:scale-95 transition-all">Our Story</a>
           </div>
         </div>
 
-        <div class="product-card">
-          <div class="card-image">
-            <img src="./images/soupmix.jpg" alt="Instant Soup Mix">
-            <span class="badge">3+ flavors</span>
-          </div>
-          <div class="card-content">
-            <h3>Instant Soup Mix</h3>
-            <p>Nutritious and quick soups made from organic ingredients.</p>
-            <a href="shop.html?category=instantSoup" class="explore-link">Explore Category →</a>
-          </div>
+        <div class="market-search rounded-xl p-3 mt-10 max-w-5xl">
+          <label class="relative min-w-0">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+            <input id="homeSearchInput" class="w-full h-14 rounded-lg border border-outline-variant bg-white pl-12 pr-4 text-sm font-semibold outline-none focus:border-primary focus:ring-4 focus:ring-primary/10" placeholder="Search for podi, millet mix, soup..." type="search">
+          </label>
+          <a href="shop.html" id="homeSearchButton" class="h-14 rounded-lg bg-primary px-6 text-white font-extrabold inline-flex items-center justify-center gap-2">
+            Search <span class="material-symbols-outlined text-lg">search</span>
+          </a>
+          <a href="shop.html" class="h-14 rounded-lg border border-outline-variant bg-white px-6 text-primary font-extrabold inline-flex items-center justify-center gap-2">
+            Catalog <span class="material-symbols-outlined text-lg">grid_view</span>
+          </a>
         </div>
 
-        <div class="product-card">
-          <div class="card-image">
-            <img src="./images/idlipodi.jpg" alt="Idli Podi's">
-            <span class="badge">7+ varieties</span>
-          </div>
-          <div class="card-content">
-            <h3>Idli Podi's</h3>
-            <p>Traditional condiment powders are dry spice and pulse-based blends used as flavour enhancers and
-              nutritional accompaniments in Indian cuisine.</p>
-            <a href="shop.html?category=idliPodi" class="explore-link">Explore Category →</a>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-image">
-            <img src="./images/readytoserve.jpg" alt="Instant">
-            <span class="badge">4+ products</span>
-          </div>
-          <div class="card-content">
-            <h3>Ready to Serve</h3>
-            <p>Ready-to-use mixes for soups, snacks, and more.</p>
-            <a href="shop.html?category=readytoserve" class="explore-link">Explore Category →</a>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-image">
-            <img src="./images/herbal.jpg" alt="Herbal Products">
-            <span class="badge">4+ products</span>
-          </div>
-          <div class="card-content">
-            <h3>Herbal Products</h3>
-            <p>Natural wellness products and cleansers made from herbs.</p>
-            <a href="shop.html?category=herbal" class="explore-link">Explore Category →</a>
-          </div>
+        <div class="category-strip flex gap-3 overflow-x-auto pt-5 pb-1">
+          <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=readyToCookMixes">Ready-to-cook Instant Mixes</a>
+          <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=instantSoup">Instant Soup Mix</a>
+          <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=idliPodi">Idli Podi's</a>
+          <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=instant">Instant Products</a>
+          <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=readytoserve">Ready to Serve</a>
+          <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=herbal">Herbal Products</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ✅ Our Catalogues Section -->
-  <!-- <section class="catalogue-section" style="padding: 60px 20px; text-align: center; background: #f9f9f9;">
-    <div class="container">
-      <h2 style="font-size: 28px; color: green; margin-bottom: 20px; text-align: center;">Our Product Catalogues</h2>
-      <p style="margin-bottom: 40px; color: #555; text-align: center;">Download our catalogues to explore our full range
-        of organic farm products.</p>
-      <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
-        <div class="catalogue-card"
-          style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 280px; transition: 0.3s;">
-          <img src="./images/logo.jpg" alt="Retail Catalogue"
-            style="width: 100%; height: 150px; object-fit: contain; margin-bottom: 15px;">
-          <h3>Retail Catalogue</h3>
-          <p style="font-size: 14px; color: #666; margin: 10px 0;">Our complete list for individual health-conscious
-            buyers.</p>
-          <a href="#" class="btn-export"
-            style="display: inline-block; padding: 10px 20px; background: green; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Download
-            PDF</a>
-        </div>
-        <div class="catalogue-card"
-          style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 280px; transition: 0.3s;">
-          <img src="./images/logo.jpg" alt="Export Catalogue"
-            style="width: 100%; height: 150px; object-fit: contain; margin-bottom: 15px;">
-          <h3>Export Catalogue</h3>
-          <p style="font-size: 14px; color: #666; margin: 10px 0;">Premium traditional wellness foods for global
-            markets.</p>
-          <a href="#" class="btn-export"
-            style="display: inline-block; padding: 10px 20px; background: green; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">Download
-            PDF</a>
+      <div id="heroCarouselControls" class="hero-carousel-controls absolute z-20 right-6 md:right-12 bottom-8 md:bottom-12 hidden">
+        <div class="flex items-center gap-3">
+          <button id="heroPrev" class="hero-carousel-btn" type="button" aria-label="Previous banner">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div id="heroDots" class="flex items-center gap-2" aria-label="Hero banner slides"></div>
+          <button id="heroNext" class="hero-carousel-btn" type="button" aria-label="Next banner">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
         </div>
       </div>
-    </div>
-  </section> -->
+    </section>
 
-  <!-- ✅ FAQ Section -->
-  <section class="faq">
-    <h2>Frequently Asked Questions</h2>
+    <section class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto -mt-4 md:-mt-8 relative z-20">
+      <div id="heroStats" class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <div class="commerce-card rounded-xl p-5">
+          <span class="material-symbols-outlined text-primary">verified</span>
+          <div class="mt-3 text-2xl font-black text-primary">100%</div>
+          <div class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Natural Ingredients</div>
+        </div>
+        <div class="commerce-card rounded-xl p-5">
+          <span class="material-symbols-outlined text-primary">science_off</span>
+          <div class="mt-3 text-2xl font-black text-primary">Zero</div>
+          <div class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Preservatives Added</div>
+        </div>
+        <div class="commerce-card rounded-xl p-5">
+          <span class="material-symbols-outlined text-primary">local_shipping</span>
+          <div class="mt-3 text-2xl font-black text-primary">Fresh</div>
+          <div class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Packed in Chennai</div>
+        </div>
+        <div class="commerce-card rounded-xl p-5">
+          <span class="material-symbols-outlined text-primary">support_agent</span>
+          <div class="mt-3 text-2xl font-black text-primary">Direct</div>
+          <div class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Customer Support</div>
+        </div>
+      </div>
+    </section>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>1. What is Ermunai Organic Farm Foods?</span>
-        <i class="fa fa-plus"></i>
+    <section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="section-kicker">Shop by need</span>
+          <h2 class="text-3xl md:text-4xl font-black text-primary mt-2">Browse Organic Categories</h2>
+          <p class="text-on-surface-variant mt-2 max-w-2xl">Quick routes to daily staples, traditional podis, ready mixes, soups, and herbal wellness products.</p>
+        </div>
+        <a href="shop.html" class="inline-flex items-center gap-2 text-primary font-extrabold">View all categories <span class="material-symbols-outlined text-lg">arrow_forward</span></a>
       </div>
-      <div class="faq-answer">
-        Ermunai Organic Farm Foods is a Chennai-based brand offering organic millet mixes, health powders, and
-        ready-to-cook traditional foods without preservatives.
-      </div>
-    </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" id="featuredCategories"></div>
+    </section>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>2. Are Ermunai Organic products organic and natural?</span>
-        <i class="fa fa-plus"></i>
+    <section class="py-stack-lg bg-surface-container-low">
+      <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div>
+            <span class="section-kicker">Popular choice</span>
+            <h2 class="text-3xl md:text-4xl font-black text-primary mt-2">Featured Products</h2>
+            <p class="text-on-surface-variant mt-2">Products added from the admin dashboard appear here automatically.</p>
+          </div>
+          <a href="shop.html" class="inline-flex items-center gap-2 text-primary font-extrabold">Shop all <span class="material-symbols-outlined text-lg">arrow_forward</span></a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter" id="bestSellers"></div>
       </div>
-      <div class="faq-answer">
-        Yes. All our food mixes are 100% natural, made from native grains, with no artificial flavors, colors, or
-        preservatives.
-      </div>
-    </div>
+    </section>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>3. What products do you offer?</span>
-        <i class="fa fa-plus"></i>
+    <section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-[.9fr_1.4fr] gap-gutter items-start">
+        <div class="commerce-card rounded-xl p-8 lg:sticky lg:top-28">
+          <span class="section-kicker">New & offer shelf</span>
+          <h2 class="text-3xl font-black text-primary mt-2">Fresh arrivals from your catalog</h2>
+          <p class="text-on-surface-variant mt-3 leading-7">Use this section for discounts, new launches, or seasonal products. It stays empty until products are added from admin.</p>
+          <a href="shop.html" class="mt-6 inline-flex items-center gap-2 bg-primary text-white rounded-lg px-6 py-3 font-extrabold">Explore shop <span class="material-symbols-outlined text-lg">arrow_forward</span></a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter" id="offerProducts"></div>
       </div>
-      <div class="faq-answer">
-        We provide organic millet mixes, instant dosa/idli mixes, upma mix, pongal mix, health powders, and podis made
-        from traditional recipes.
-      </div>
-    </div>
+    </section>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>4. Are your millet mixes good for health?</span>
-        <i class="fa fa-plus"></i>
+    <section class="py-stack-lg bg-primary text-white overflow-hidden">
+      <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_.9fr] gap-stack-md items-center">
+          <div>
+            <span class="text-primary-fixed font-black text-xs uppercase tracking-widest">Why Ermunai</span>
+            <h2 class="text-4xl md:text-[56px] font-black leading-[1.02] mt-4">Traditional food, made ready for modern homes.</h2>
+            <p class="text-white/80 mt-5 leading-8 max-w-2xl">We keep the product experience simple: clear categories, clean ingredients, practical mixes, and farm-direct quality signals visible before checkout.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+              <div class="border border-white/20 rounded-xl p-5 bg-white/10">
+                <span class="material-symbols-outlined text-primary-fixed">eco</span>
+                <h3 class="font-extrabold mt-3">Native ingredients</h3>
+                <p class="text-xs text-white/70 mt-2 leading-5">Millets, pulses, spices, and traditional blends.</p>
+              </div>
+              <div class="border border-white/20 rounded-xl p-5 bg-white/10">
+                <span class="material-symbols-outlined text-primary-fixed">inventory_2</span>
+                <h3 class="font-extrabold mt-3">Clear catalog</h3>
+                <p class="text-xs text-white/70 mt-2 leading-5">Product details, stock, and pricing from admin.</p>
+              </div>
+              <div class="border border-white/20 rounded-xl p-5 bg-white/10">
+                <span class="material-symbols-outlined text-primary-fixed">payments</span>
+                <h3 class="font-extrabold mt-3">Easy checkout</h3>
+                <p class="text-xs text-white/70 mt-2 leading-5">Cart, account dashboard, orders, and support.</p>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <img class="rounded-xl aspect-[4/5] object-cover shadow-2xl mt-10" src="./images/heritage_millets.png" alt="Organic millets">
+            <img class="rounded-xl aspect-[4/5] object-cover shadow-2xl" src="./images/readytocook.jpg" alt="Ready to cook mixes">
+          </div>
+        </div>
       </div>
-      <div class="faq-answer">
-        Yes. Millets are rich in fiber, protein, and minerals. They support digestion, manage weight, and are
-        diabetic-friendly.
-      </div>
-    </div>
+    </section>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>5. Are your products gluten-free?</span>
-        <i class="fa fa-plus"></i>
+    <section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="section-kicker">Learn and cook</span>
+          <h2 class="text-3xl md:text-4xl font-black text-primary mt-2">Farm Stories & Recipes</h2>
+          <p class="text-on-surface-variant mt-2">Publish blogs from admin to keep recipes and product education fresh.</p>
+        </div>
+        <a href="blog.html" class="inline-flex items-center gap-2 text-primary font-extrabold">Read blog <span class="material-symbols-outlined text-lg">arrow_forward</span></a>
       </div>
-      <div class="faq-answer">
-        Most millet-based mixes are naturally gluten-free. Please check each product’s ingredient list for details.
-      </div>
-    </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" id="homeBlogCards"></div>
+    </section>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>6. How do I cook your instant mixes?</span>
-        <i class="fa fa-plus"></i>
+    <!-- <section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+      <div class="rounded-xl bg-surface-container-highest border border-glass-stroke p-8 md:p-12 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 items-center">
+        <div>
+          <span class="section-kicker">Harvest notes</span>
+          <h2 id="newsletterTitle" class="text-3xl md:text-4xl font-black text-primary mt-2">Taste the Purity</h2>
+          <p id="newsletterText" class="text-on-surface-variant mt-3 max-w-xl">Join health-conscious families receiving seasonal product updates, farm notes, and recipe ideas.</p>
+        </div>
+        <form id="newsletterForm" class="grid sm:grid-cols-[minmax(0,1fr)_auto] gap-3 min-w-0 lg:min-w-[520px]">
+          <input id="newsletterEmail" class="h-14 rounded-lg border border-outline-variant bg-white px-5 text-sm font-semibold outline-none focus:border-primary focus:ring-4 focus:ring-primary/10" placeholder="Your email address" type="email" required>
+          <button class="h-14 rounded-lg bg-primary px-7 text-white font-extrabold hover:bg-primary-container active:scale-95 transition-all" type="submit">Subscribe</button>
+          <p id="newsletterStatus" class="sm:col-span-2 text-xs font-semibold text-primary hidden"></p>
+        </form>
       </div>
-      <div class="faq-answer">
-        Just add hot water or cook with simple ingredients as per pack instructions. Ready in minutes – perfect for
-        breakfast, dinner, or travel.
-      </div>
-    </div>
+    </section> -->
+  </main>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>7. Are your products suitable for children and elders?</span>
-        <i class="fa fa-plus"></i>
-      </div>
-      <div class="faq-answer">
-        Yes. Our mixes are safe, healthy, and made with gentle native ingredients, ideal for all age groups.
-      </div>
-    </div>
+  <div id="siteFooter"></div>
 
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>8. Do you deliver across India?</span>
-        <i class="fa fa-plus"></i>
-      </div>
-      <div class="faq-answer">
-        Yes. We ship to all major cities and towns in India within 3–7 working days. International delivery is also
-        available on request.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>9. How can I order your products?</span>
-        <i class="fa fa-plus"></i>
-      </div>
-      <div class="faq-answer">
-        You can order directly from our website or contact us at +91 9840752833 for bulk and retail orders.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>10. Is your packaging eco-friendly?</span>
-        <i class="fa fa-plus"></i>
-      </div>
-      <div class="faq-answer">
-        Yes. We use eco-conscious and sustainable packaging to reduce plastic and support a greener lifestyle.
-      </div>
-    </div>
-  </section>
-
-  <!-- ✅ Footer -->
-  <footer>
-    <div class="footer-container">
-      <!-- About Section -->
-      <div class="footer-section about">
-        <h3>Ermunai Organic Farm & Foods</h3>
-        <p><i class="fa fa-map-marker-alt"></i> Manufacturing Unit:<br> Ermunai Organic Farm &Foods,<br>
-          Plot No. 5, 1/328,<br>
-          Sabari Salai, Ayyappan Nagar,<br>
-          Madipakkam, Chennai - 600091.</p>
-        <p><i class="fa-solid fa-file-invoice"></i> GSTIN: 33AKAPR8721K1ZZ</p>
-        <p><i class="fa-solid fa-file-invoice"></i> Fsssai License No: 12425008002307</p>
-        <p><i class="fa fa-phone"></i> +91 9841231996</p>
-        <p><i class="fab fa-whatsapp"></i> +91 9840752833</p>
-        <p><i class="fa fa-envelope"></i> info@ermunaiorganicfarmfoods.com</p>
-      </div>
-
-      <!-- Company Links -->
-      <div class="footer-section company">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="shop.html">Shop</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="feedback.html">Certification & Feedback</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="privacy-policy.html" target="_blank">Privacy Policy</a></li>
-          <li><a href="cancellation-and-refund-policy.html" target="_blank">cancellation Policy</a></li>
-          <li><a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a></li>
-          <li><a href="shipping-policy.html" target="_blank">Shipping Policy</a></li>
-        </ul>
-      </div>
-
-      <!-- Product Categories -->
-      <div class="footer-section products">
-        <h4>Products</h4>
-        <ul>
-          <li><a href="shop.html?category=readyToCookMixes">Ready-to-cook Instant Mixes</a></li>
-          <li><a href="shop.html?category=instantSoup">Instant Soup Mix</a></li>
-          <li><a href="shop.html?category=idliPodi">Idli Podi's</a></li>
-          <li><a href="shop.html?category=readytoserve">Ready to Serve</a></li>
-          <li><a href="shop.html?category=herbal">Herbal Products</a></li>
-        </ul>
-      </div>
-
-      <!-- Social Links -->
-      <div class="footer-section follow-us">
-        <h4><i class="fas fa-share-alt"></i> Follow Us</h4>
-        <ul>
-          <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ermunaiorganicfoods"
-              target="_blank">Facebook</a></li>
-          <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/ermunaiorganic"
-              target="_blank">Instagram</a></li>
-          <li><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/ermunai-organic-farm-217035363"
-              target="_blank">LinkedIn</a></li>
-          <li><i class="fab fa-youtube"></i> <a href="https://youtube.com/@ermunaiorganicfarm"
-              target="_blank">YouTube</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- WhatsApp Order Button -->
-    <div class="whatsapp">
-      <a href="https://wa.me/919841231996" target="_blank">
-        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-      </a>
-    </div>
-
-    <!-- Footer Bottom -->
-    <div class="footer-bottom">
-      <p>© 2025 Ermunai Organic Farm & Foods. All rights reserved.</p>
-      <p class="footer-links">
-        <a href="privacy.html" target="_blank">Privacy Policy</a> |
-        <a href="terms.html" target="_blank">Terms & Conditions</a> |
-        <a href="shipping.html" target="_blank">Shipping Policy</a>
-      </p>
-    </div>
-  </footer>
-
-
-
-  <!-- ✅ Script for Auto + Manual Slider -->
   <script type="module">
-
-    //responsive header
-    const hamburger = document.querySelector(".hamburger");
-    const nav = document.querySelector("header nav");
-    const closeMenu = document.querySelector(".close-menu");
-
-    hamburger.addEventListener("click", () => {
-      nav.classList.add("active");
-    });
-
-    closeMenu.addEventListener("click", () => {
-      nav.classList.remove("active");
-    });
-
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-      projectId: "ermunai-e-commerce-project",
-      storageBucket: "ermunai-e-commerce-project.appspot.com",
-      messagingSenderId: "365240050790",
-      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
-      measurementId: "G-CZJZ4HLCMR"
-    };
-
-    const app = initializeApp(firebaseConfig);
+    import { initializeApp } from "./js/supabase-compat.js";
+    import { getSupabase, collection, addDoc, getDocs, query, limit, orderBy, doc, getDoc } from "./js/supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
+    import { blogCard, categoryCard, getMainProductImage, getStorefrontCartKey, mountStorefrontHeader, productCard, readStorefrontCart, renderInto, mountStorefrontFooter, syncStorefrontAuth, writeStorefrontCart} from "./js/ermunai-components.js";
+    mountStorefrontHeader("siteHeader", { active: "home" });
+    mountStorefrontFooter("siteFooter");
+const app = initializeApp();
+    const db = getSupabase(app);
     const auth = getAuth(app);
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const loginBtn = document.querySelector(".btn-login");
-      const signupBtn = document.querySelector(".btn-signup");
-      const profile = document.querySelector(".profile");
-      const username = document.querySelector(".username");
-      const logoutBtn = document.querySelector(".btn-logout");
+    const defaultHomepage = {
+      hero: {
+        eyebrow: "PREMIUM FARM DIRECT",
+        title: "Soil to Soul.\nPurely Organic.",
+        subtitle: "Traditional recipes meet sustainable farming. Experience 100% natural goodness with no preservatives, delivered from our Chennai Manufacturing Unit @ Madipakkam directly to your kitchen.",
+        image: "./images/banner2.png",
+        primaryText: "Shop the Harvest",
+        primaryHref: "shop.html",
+        secondaryText: "Our Story",
+        secondaryHref: "about.html"
+      },
+      stats: [
+        { value: "100%", label: "Natural Ingredients" },
+        { value: "Zero", label: "Preservatives Added" }
+      ],
+      newsletter: {
+        title: "Taste the Purity",
+        text: "Join 5,000+ health-conscious families receiving weekly farm updates and exclusive harvest offers."
+      },
+      seo: {
+        title: "Ermunai Organic Farm Foods | Soil to Soul. Purely Organic.",
+        description: "Premium organic food marketplace from Ermunai Organic Farm Foods. Traditional recipes, native grains, millets, idli podis, and health products."
+      },
+      footer: {
+        address: "Manufacturing Unit: Plot No. 5, 1/328, Sabari Salai, Ayyappan Nagar, Madipakkam, Chennai - 600091.",
+        phone: "+91 98412 31996 / +91 98407 52833",
+        email: "info@ermunaiorganicfarmfoods.com"
+      }
+    };
 
-      // Listen to Firebase Auth state
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is logged in
-          loginBtn.style.display = "none";
-          signupBtn.style.display = "none";
-          profile.style.display = "flex";
-          username.textContent = user.email; // show email or displayName
-          localStorage.setItem("user", user.email); // optional
-        } else {
-          // No user is logged in
-          loginBtn.style.display = "inline-block";
-          signupBtn.style.display = "inline-block";
-          profile.style.display = "none";
-          localStorage.removeItem("user");
-        }
-      });
+    let categories = [
+      { title: "Ready-to-Cook Mixes", tag: "11+ Varieties", image: "./images/readytocook.jpg", alt: "Ready to cook mixes", category: "readyToCookMixes" },
+      { title: "Instant Soup Mix", tag: "Comfort Bowls", image: "./images/soupmix.jpg", alt: "Instant soup mixes", category: "instantSoup" },
+      { title: "Idli Podi", tag: "Traditional", image: "./images/idlipodi.jpg", alt: "Idli podi", category: "idliPodi" },
+      { title: "Instant Products", tag: "Quick Meals", image: "./images/instant.png", alt: "Instant products", category: "instant" },
+      { title: "Ready to Serve", tag: "Serve Fast", image: "./images/readytoserve.jpg", alt: "Ready to serve foods", category: "readytoserve" },
+      { title: "Herbal Products", tag: "Wellness", image: "./images/herbal.jpg", alt: "Herbal products", category: "herbal" }
+    ];
 
-      logoutBtn.addEventListener("click", async () => {
-        if (confirm("Do you want to log out?")) {
-          await signOut(auth);
-          location.reload();
-        }
-      });
-    });
-
-
-
-
-    let index = 0;
-    const slides = document.querySelectorAll(".slide");
-    const prev = document.querySelector(".prev");
-    const next = document.querySelector(".next");
-
-    function showSlide(i) {
-      slides.forEach((slide, idx) => {
-        slide.classList.remove("active");
-        if (idx === i) slide.classList.add("active");
-      });
+    function resolvePublicImage(url) {
+      if (!url) return "";
+      if (/^https?:\/\//i.test(url) || url.startsWith("./")) return url;
+      if (url.startsWith("../Ermunai-User-Project/")) return url.replace("../Ermunai-User-Project/", "./");
+      return url;
     }
 
-    function autoSlide() {
-      index = (index + 1) % slides.length;
-      showSlide(index);
+    function setText(id, value) {
+      if (value) document.getElementById(id).textContent = value;
     }
 
-    let slideInterval = setInterval(autoSlide, 3000);
-
-    prev.addEventListener("click", () => {
-      index = (index - 1 + slides.length) % slides.length;
-      showSlide(index);
-      resetInterval();
-    });
-
-    next.addEventListener("click", () => {
-      index = (index + 1) % slides.length;
-      showSlide(index);
-      resetInterval();
-    });
-
-    function resetInterval() {
-      clearInterval(slideInterval);
-      slideInterval = setInterval(autoSlide, 3000);
+    function setLink(id, href, text) {
+      const link = document.getElementById(id);
+      if (!link) return;
+      if (href) link.href = href;
+      if (text) {
+        const icon = link.querySelector(".material-symbols-outlined");
+        link.textContent = text + " ";
+        if (icon) link.appendChild(icon);
+      }
     }
 
+    let heroBannerTimer = null;
+    let heroBanners = [];
+    let heroBannerIndex = 0;
+    let heroFallback = defaultHomepage.hero;
 
+    function renderHeroDots() {
+      const dots = document.getElementById("heroDots");
+      if (!dots) return;
+      dots.innerHTML = heroBanners.map((_, index) => `
+        <button class="hero-carousel-dot ${index === heroBannerIndex ? "active" : ""}" type="button" aria-label="Show banner ${index + 1}" data-hero-index="${index}"></button>
+      `).join("");
+    }
 
-    // FAQ toggle functionality
-    const faqItems = document.querySelectorAll(".faq-item");
+    function applyHeroBanner(banner, fallbackHero, animate = true) {
+      const heroImage = document.getElementById("heroImage");
+      setText("heroEyebrow", banner.eyebrow || fallbackHero.eyebrow);
+      setText("heroTitle", banner.title || fallbackHero.title);
+      setText("heroSubtitle", banner.subtitle || fallbackHero.subtitle);
+      setLink("primaryCta", banner.buttonHref || fallbackHero.primaryHref, banner.buttonText || fallbackHero.primaryText);
+      const image = resolvePublicImage(banner.image || fallbackHero.image);
+      if (image && heroImage) {
+        if (animate) heroImage.classList.add("is-changing");
+        window.setTimeout(() => {
+          heroImage.style.backgroundImage = `url('${image}')`;
+          heroImage.classList.remove("is-changing");
+        }, animate ? 160 : 0);
+      }
+      renderHeroDots();
+    }
 
-    faqItems.forEach(item => {
-      const question = item.querySelector(".faq-question");
+    function showHeroBanner(index, fallbackHero, restart = true) {
+      if (!heroBanners.length) return;
+      heroBannerIndex = (index + heroBanners.length) % heroBanners.length;
+      applyHeroBanner(heroBanners[heroBannerIndex], fallbackHero);
+      if (restart) startHeroCarousel(fallbackHero);
+    }
 
-      question.addEventListener("click", () => {
-        item.classList.toggle("active");
+    function startHeroCarousel(fallbackHero) {
+      if (heroBannerTimer) clearInterval(heroBannerTimer);
+      if (heroBanners.length <= 1) return;
+      heroBannerTimer = setInterval(() => {
+        showHeroBanner(heroBannerIndex + 1, fallbackHero, false);
+      }, 5500);
+    }
 
-        // Toggle icon between plus and minus
-        const icon = question.querySelector("i");
-        if (item.classList.contains("active")) {
-          icon.classList.remove("fa-plus");
-          icon.classList.add("fa-minus");
-        } else {
-          icon.classList.remove("fa-minus");
-          icon.classList.add("fa-plus");
+    function applyHomepageSettings(settings = {}) {
+      const data = {
+        ...defaultHomepage,
+        ...settings,
+        hero: { ...defaultHomepage.hero, ...(settings.hero || {}) },
+        newsletter: { ...defaultHomepage.newsletter, ...(settings.newsletter || {}) },
+        seo: { ...defaultHomepage.seo, ...(settings.seo || {}) }
+      };
+      heroFallback = data.hero;
+
+      setText("heroEyebrow", data.hero.eyebrow);
+      setText("heroTitle", data.hero.title);
+      setText("heroSubtitle", data.hero.subtitle);
+      setText("newsletterTitle", data.newsletter.title);
+      setText("newsletterText", data.newsletter.text);
+      setLink("primaryCta", data.hero.primaryHref, data.hero.primaryText);
+      setLink("secondaryCta", data.hero.secondaryHref, data.hero.secondaryText);
+
+      const heroImage = resolvePublicImage(data.hero.image);
+      if (heroImage) document.getElementById("heroImage").style.backgroundImage = `url('${heroImage}')`;
+
+      if (heroBannerTimer) clearInterval(heroBannerTimer);
+      heroBanners = Array.isArray(settings.banners)
+        ? settings.banners.filter(banner => banner && banner.active !== false && (banner.title || banner.image))
+        : [];
+      const controls = document.getElementById("heroCarouselControls");
+      controls?.classList.toggle("hidden", heroBanners.length <= 1);
+      if (heroBanners.length) {
+        heroBannerIndex = 0;
+        applyHeroBanner(heroBanners[heroBannerIndex], data.hero, false);
+        startHeroCarousel(data.hero);
+      } else {
+        renderHeroDots();
+      }
+
+      if (Array.isArray(data.stats) && data.stats.length) {
+        document.getElementById("heroStats").innerHTML = data.stats.map((stat, index) => `
+          <div class="commerce-card rounded-xl p-5">
+            <span class="material-symbols-outlined text-primary">${["verified", "science_off", "local_shipping", "support_agent"][index % 4]}</span>
+            <div class="mt-3 text-2xl font-black text-primary">${stat.value || ""}</div>
+            <div class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">${stat.label || ""}</div>
+          </div>
+        `).join("");
+      }
+
+      if (Array.isArray(settings.categories) && settings.categories.length) {
+        categories = settings.categories.map(item => ({ ...item, image: resolvePublicImage(item.image) }));
+      }
+      if (data.seo.title) document.title = data.seo.title;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription && data.seo.description) metaDescription.content = data.seo.description;
+
+      const footer = { ...defaultHomepage.footer, ...(settings.footer || {}) };
+      if (footer.address) setText("footerAddress", footer.address);
+      if (footer.phone) setText("footerPhone", footer.phone);
+      if (footer.email) setText("footerEmail", footer.email);
+    }
+
+    document.getElementById("heroPrev")?.addEventListener("click", () => showHeroBanner(heroBannerIndex - 1, heroFallback));
+    document.getElementById("heroNext")?.addEventListener("click", () => showHeroBanner(heroBannerIndex + 1, heroFallback));
+    document.getElementById("heroDots")?.addEventListener("click", event => {
+      const button = event.target.closest("[data-hero-index]");
+      if (!button) return;
+      showHeroBanner(Number(button.dataset.heroIndex), heroFallback);
+    });
+    document.querySelector(".home-hero")?.addEventListener("mouseenter", () => {
+      if (heroBannerTimer) clearInterval(heroBannerTimer);
+    });
+    document.querySelector(".home-hero")?.addEventListener("mouseleave", () => {
+      if (heroBanners.length > 1) startHeroCarousel(heroFallback);
+    });
+
+    async function loadHomepageBlogs() {
+      const target = document.getElementById("homeBlogCards");
+      try {
+        const snap = await getDocs(query(collection(db, "blogs"), orderBy("updatedAt", "desc"), limit(12)));
+        const blogs = snap.docs
+          .map(item => ({ id: item.id, ...item.data() }))
+          .filter(blog => (blog.status || "published") === "published")
+          .slice(0, 3);
+        if (!blogs.length) {
+          target.innerHTML = `<div class="md:col-span-3 glass-card rounded-xl p-8 text-center border border-glass-stroke bg-white/80">
+            <h3 class="text-xl font-extrabold text-primary">No blog stories yet</h3>
+            <p class="text-sm text-on-surface-variant mt-3">Publish blogs from Admin Site Control to show them here.</p>
+          </div>`;
+          return;
         }
-      });
+        renderInto(target, blogs, blogCard);
+      } catch (error) {
+        console.warn("Homepage blogs unavailable:", error);
+        target.innerHTML = `<div class="md:col-span-3 glass-card rounded-xl p-8 text-center border border-glass-stroke bg-white/80">
+          <h3 class="text-xl font-extrabold text-primary">Blog stories coming soon</h3>
+          <p class="text-sm text-on-surface-variant mt-3">Check back after the admin team publishes new farm stories.</p>
+        </div>`;
+      }
+    }
+
+    async function loadHomepageSettings() {
+      try {
+        const snap = await getDoc(doc(db, "settings", "homepage"));
+        if (snap.exists()) applyHomepageSettings(snap.data());
+      } catch (error) {
+        console.warn("Homepage settings unavailable, using defaults:", error);
+      }
+      renderInto("featuredCategories", categories, categoryCard);
+      await loadHomepageBlogs();
+    }
+
+    function updateCartCount(user) {
+      const cart = readStorefrontCart(user);
+      const cartCount = document.getElementById("cartCount");
+      if (cartCount) cartCount.textContent = cart.reduce((sum, item) => sum + Number(item.qty || 1), 0);
+    }
+
+    function normalizeProduct(product) {
+      return {
+        ...product,
+        price: Number(product.price ?? product.amount ?? 0),
+        amount: Number(product.amount ?? product.price ?? 0),
+        discount: Number(product.discount || 0),
+        stock: Number(product.stock ?? 0),
+        categoryLabel: product.categoryLabel || product.category || "Organic",
+        tag: product.tag || (product.featured ? "Featured" : product.offer ? "Offer" : "Organic")
+      };
+    }
+
+    async function loadProducts() {
+      try {
+        const snap = await getDocs(collection(db, "products"));
+        const products = snap.docs
+          .map(doc => normalizeProduct({ id: doc.id, ...doc.data() }))
+          .filter(product => !product.disabled);
+        window.homeProducts = products;
+
+        if (!products.length) {
+          const emptyState = `<div class="sm:col-span-2 lg:col-span-4 glass-card rounded-xl p-8 text-center border border-glass-stroke bg-white/80">
+            <h3 class="text-xl font-extrabold text-primary">No products available</h3>
+            <p class="text-sm text-on-surface-variant mt-3">Products added from the admin dashboard will appear here.</p>
+          </div>`;
+          document.getElementById("bestSellers").innerHTML = emptyState;
+          document.getElementById("offerProducts").innerHTML = emptyState;
+          return;
+        }
+        
+        // Render Best Sellers (first 4 items or featured)
+        const bestSellersList = products.filter(p => p.featured || p.tag === "Best Seller").slice(0, 4);
+        renderInto("bestSellers", bestSellersList.length ? bestSellersList : products.slice(0, 4), product => productCard(product, { addAction: `addHomeProductToCart('${product.id}')` }));
+        
+        // Render Offer Products
+        const offersList = products.filter(p => p.offer || p.discount > 0).slice(0, 4);
+        renderInto("offerProducts", offersList.length ? offersList : products.slice(4, 8), product => productCard(product, { addAction: `addHomeProductToCart('${product.id}')` }));
+      } catch (error) {
+        console.warn("Homepage products unavailable:", error);
+        window.homeProducts = [];
+        const unavailableState = `<div class="sm:col-span-2 lg:col-span-4 glass-card rounded-xl p-8 text-center border border-glass-stroke bg-white/80">
+          <h3 class="text-xl font-extrabold text-primary">Products unavailable</h3>
+          <p class="text-sm text-on-surface-variant mt-3">Please check the admin product collection or database connection.</p>
+        </div>`;
+        document.getElementById("bestSellers").innerHTML = unavailableState;
+        document.getElementById("offerProducts").innerHTML = unavailableState;
+      }
+    }
+
+    window.addHomeProductToCart = (id) => {
+      const user = auth.currentUser;
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+      const product = (window.homeProducts || []).find(item => item.id === id);
+      if (!product) return;
+      const key = getStorefrontCartKey(user);
+      if (!key) {
+        window.location.href = "login.html";
+        return;
+      }
+      const cart = readStorefrontCart(user);
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.qty = Number(existing.qty || 1) + 1;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price || product.amount || 0,
+          image: getMainProductImage(product),
+          qty: 1,
+          category: product.categoryLabel || product.category || ""
+        });
+      }
+      writeStorefrontCart(user, cart);
+      updateCartCount(user);
+    };
+
+    window.openQuickView = (id) => {
+      window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+    };
+
+    const homeSearchInput = document.getElementById("homeSearchInput");
+    const homeSearchButton = document.getElementById("homeSearchButton");
+    function goToShopSearch() {
+      const value = homeSearchInput?.value.trim();
+      window.location.href = value ? `shop.html?search=${encodeURIComponent(value)}` : "shop.html";
+    }
+    homeSearchButton?.addEventListener("click", event => {
+      event.preventDefault();
+      goToShopSearch();
+    });
+    homeSearchInput?.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        goToShopSearch();
+      }
+    });
+
+    // Newsletter sign up
+    const newsletterForm = document.getElementById("newsletterForm");
+    const newsletterEmail = document.getElementById("newsletterEmail");
+    const newsletterStatus = document.getElementById("newsletterStatus");
+
+    newsletterForm?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const emailVal = newsletterEmail?.value.trim();
+      if (!emailVal) return;
+      try {
+        await addDoc(collection(db, "newsletter"), {
+          email: emailVal,
+          subscribedAt: new Date().toISOString()
+        });
+        if (newsletterStatus) {
+          newsletterStatus.textContent = "Thank you for subscribing!";
+          newsletterStatus.classList.remove("hidden", "text-error");
+          newsletterStatus.classList.add("text-primary");
+        }
+        newsletterForm.reset();
+      } catch (err) {
+        console.error("Newsletter error:", err);
+        if (newsletterStatus) {
+          newsletterStatus.textContent = "Something went wrong. Please try again.";
+          newsletterStatus.classList.remove("hidden", "text-primary");
+          newsletterStatus.classList.add("text-error");
+        }
+      }
+    });
+
+    loadHomepageSettings();
+    loadProducts();
+
+    // Track user Auth state
+    onAuthStateChanged(auth, user => {
+      syncStorefrontAuth(user);
+      updateCartCount(user);
+    });
+
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.reload();
     });
   </script>
 </body>
-
 </html>

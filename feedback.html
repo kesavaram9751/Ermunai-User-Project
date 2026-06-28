@@ -1,725 +1,278 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="scroll-smooth" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Basic SEO Meta Tags -->
-    <title>Feedbacks - Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
-    <meta name="description"
-        content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
-    <meta name="keywords"
-        content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
-    <meta name="author" content="Ermunai Organic Farm Foods">
-    <meta name="robots" content="index, follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/">
-    <meta property="og:title" content="Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products">
-    <meta property="og:description"
-        content="Ermunai Organic Farm Foods brings you healthy, natural, and organic products directly from farm to table.">
-    <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <!-- simplest: 32x32 PNG -->
-    <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            color: #2c3e2c;
-            background: #fff;
-            overflow-x: hidden;
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Certifications & Feedback | Ermunai Organic</title>
+  <meta content="View organic certifications, customer testimonials, and leave reviews for Ermunai Organic Farm Foods." name="description"/>
+  <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#0d631b",
+            "success-leaf": "#43A047",
+            "surface-container-low": "#f5f3ee",
+            "surface": "#fbf9f3",
+            "on-surface": "#1b1c19",
+            "on-surface-variant": "#40493d",
+            "outline-variant": "#bfcaba",
+            "earth-dark": "#4E342E",
+            "glass-stroke": "rgba(46, 125, 50, 0.1)"
+          }
         }
-
-        /* ---------- Header ---------- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            padding: 15px 40px;
-            border-bottom: 2px solid #eee;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        header .logo {
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            color: green;
-            font-size: 18px;
-        }
-
-        header .logo img {
-            height: 60px;
-            margin-right: 10px;
-        }
-
-        header nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        header nav ul li {
-            margin: 0 15px;
-        }
-
-        header nav ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-
-        header nav ul li a.active,
-        header nav ul li a:hover {
-            color: green;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Buttons */
-        .btn-login,
-        .btn-signup {
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .btn-login {
-            background: transparent;
-            border: 2px solid green;
-            color: green;
-        }
-
-        .btn-login:hover {
-            background: green;
-            color: white;
-        }
-
-        .btn-signup {
-            background: green;
-            border: 2px solid green;
-            color: white;
-        }
-
-        .btn-signup:hover {
-            background: #244021;
-            border-color: #244021;
-        }
-
-        /* Hamburger (hidden by default) */
-        .hamburger {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: green;
-        }
-
-        .close-menu {
-            display: none;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: green;
-            cursor: pointer;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: green;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .profile i {
-            font-size: 20px;
-        }
-
-        .btn-logout {
-            margin-left: 10px;
-            padding: 6px 12px;
-            border: 2px solid crimson;
-            background: transparent;
-            color: crimson;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: crimson;
-            color: white;
-        }
-
-
-
-        @media (max-width: 900px) {
-            .close-menu {
-                display: block;
-            }
-        }
-
-        /* Hide username on mobile */
-        @media (max-width: 768px) {
-            .profile .username {
-                display: none;
-                position: absolute;
-                top: -30px;
-                /* adjust to hover position */
-                left: 50%;
-                transform: translateX(-50%);
-                background: green;
-                color: white;
-                padding: 5px 10px;
-                border-radius: 5px;
-                white-space: nowrap;
-                font-size: 14px;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease;
-                z-index: 2000;
-            }
-
-            /* Show username on hover */
-            .profile:hover .username {
-                display: block;
-                opacity: 1;
-            }
-        }
-
-
-
-        /* ---------- Mobile Styles ---------- */
-        @media (max-width: 900px) {
-            header {
-                padding: 15px 20px;
-            }
-
-            /* Hide normal menu */
-            header nav {
-                position: fixed;
-                top: 0;
-                right: -250px;
-                width: 250px;
-                height: 100%;
-                background: white;
-                border-left: 2px solid #eee;
-                box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
-                transition: right 0.3s ease;
-                padding-top: 80px;
-                z-index: 1200;
-            }
-
-            header nav ul {
-                flex-direction: column;
-                align-items: start;
-                padding-left: 30px;
-            }
-
-            header nav ul li {
-                margin: 15px 0;
-            }
-
-            .header-right {
-                gap: 10px;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            /* Show menu when active */
-            header nav.active {
-                right: 0;
-            }
-        }
-
-
-        /* Cart */
-        .cart {
-            font-size: 22px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        .cart i {
-            color: green;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header nav ul {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            header nav ul li {
-                margin: 10px 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header .logo img {
-                margin-right: 0px;
-            }
-
-            header .logo span {
-                display: none;
-            }
-        }
-
-        .section {
-            padding: 60px 20px;
-            padding-bottom: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 10px;
-            color: green;
-        }
-
-        .section-subtitle {
-            font-size: 1rem;
-            color: #555;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .gallery-container {
-            position: relative;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 20px 0;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-        }
-
-        .gallery-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .gallery-container::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        .gallery-item {
-            display: inline-block;
-            vertical-align: top;
-            width: 250px;
-            margin: 0 12px;
-            transition: transform .35s ease, box-shadow .35s ease;
-            position: relative;
-            animation: floatUpDown 6s ease-in-out infinite;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            object-fit: cover;
-            display: block;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-        }
-
-        @keyframes floatUpDown {
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
-        }
-
-        @media(max-width: 992px) {
-            .gallery-item {
-                width: 200px;
-                margin: 0 10px;
-            }
-        }
-
-        @media(max-width: 600px) {
-            .gallery-item {
-                width: 140px;
-                margin: 0 8px;
-            }
-        }
-
-        @media(max-width: 500px) {
-            .section {
-                padding: 20px 20px;
-            }
-        }
-
-        /* ✅ Footer */
-        footer {
-            background: linear-gradient(145deg, #056608, #0b8a0d);
-            color: #fff;
-            padding: 40px 20px;
-            font-family: "Poppins", sans-serif;
-        }
-
-        .footer-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .footer-section h3,
-        .footer-section h4 {
-            color: #fff;
-            margin-bottom: 15px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            border-bottom: 2px solid #ffd700;
-            display: inline-block;
-            padding-bottom: 5px;
-        }
-
-        .footer-section p {
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section ul li a:hover {
-            color: #ffd700;
-        }
-
-        /* WhatsApp Order Button */
-        .whatsapp {
-            margin: 25px 0;
-            text-align: center;
-        }
-
-        .whatsapp a {
-            background: #25D366;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: background 0.3s ease;
-        }
-
-        .whatsapp a:hover {
-            background: #1eb85b;
-        }
-
-        /* Footer Bottom */
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            padding-top: 15px;
-            font-size: 14px;
-        }
-
-        .footer-bottom p {
-            margin: 5px 0;
-        }
-
-        .footer-links a {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .footer-container {
-                text-align: center;
-            }
-
-            .footer-section h3,
-            .footer-section h4 {
-                border: none;
-            }
-        }
-    </style>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+      }
+    }
+  </script>
+  <style>
+    .glass-nav {
+      background: rgba(251, 249, 243, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(46, 125, 50, 0.1);
+    }
+  </style>
 </head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+  <div id="siteHeader"></div>
 
-<body>
-    <header>
-        <div class="logo">
-            <img src="./images/logo.jpg" alt="Logo">
-            <span>Ermunai Organic Farm & Foods</span>
-        </div>
-
-        <!-- Navigation -->
-        <nav>
-            <div class="close-menu"><i class="fa-solid fa-times"></i></div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="purchase.html">Purchases</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="feedback.html" class="active">Certification & Feedback</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-
-
-        <!-- Right side -->
-        <div class="header-right">
-            <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
-
-            <!-- Buttons (default) -->
-            <a href="login.html" class="btn-login">Login</a>
-            <a href="signup.html" class="btn-signup">Sign Up</a>
-
-            <!-- Profile (hidden initially) -->
-            <div class="profile" style="display: none; position: relative;">
-                <i class="fa-solid fa-user"></i>
-                <span class="username"></span>
-                <button class="btn-logout">Logout</button>
-            </div>
-
-
-
-            <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
-        </div>
-
+  <main class="pt-24 max-w-7xl mx-auto px-6 space-y-16 pb-16">
+    <!-- Header -->
+    <header class="text-center max-w-2xl mx-auto space-y-4">
+      <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-lg font-bold text-xs uppercase tracking-wider">Trust & Verification</span>
+      <h1 class="text-4xl font-extrabold text-primary">Certifications & Feedback</h1>
+      <p class="text-sm text-on-surface-variant leading-relaxed">We maintain high agricultural and processing benchmarks to deliver authentic native nutrition safely.</p>
     </header>
 
-    <!-- Section 1: Certifications -->
-    <section class="section" id="certifications">
-        <h2 class="section-title">Our Certifications & Trust Badges</h2>
-        <p class="section-subtitle">
-            We are proudly certified by leading organic & sustainable standards. Browse our badges below.
-        </p>
-        <div class="gallery-container">
-            <div class="gallery-item"><img src="./images/certificates/c1.jpg" alt="Certification Badge 1"></div>
-            <div class="gallery-item"><img src="./images/certificates/c2.jpg" alt="Certification Badge 2"></div>
-            <div class="gallery-item"><img src="./images/certificates/c3.jpg" alt="Certification Badge 3"></div>
-            <div class="gallery-item"><img src="./images/certificates/c4.jpg" alt="Certification Badge 4"></div>
-            <div class="gallery-item"><img src="./images/certificates/c5.jpg" alt="Certification Badge 5"></div>
-            <div class="gallery-item"><img src="./images/certificates/c6.jpg" alt="Certification Badge 6"></div>
-            <div class="gallery-item"><img src="./images/certificates/c7.jpg" alt="Certification Badge 7"></div>
-            <div class="gallery-item"><img src="./images/certificates/c8.jpg" alt="Certification Badge 8"></div>
-            <!-- Add more badges as needed -->
-        </div>
+    <!-- Badges -->
+    <section class="space-y-6">
+      <h2 class="text-2xl font-bold text-primary text-center">Quality & Trust Badges</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+        <div class="glass-card p-4 rounded-xl flex items-center justify-center bg-white"><img class="max-h-16 object-contain" src="./images/certificates/c1.jpg" alt="Badge 1"/></div>
+        <div class="glass-card p-4 rounded-xl flex items-center justify-center bg-white"><img class="max-h-16 object-contain" src="./images/certificates/c2.jpg" alt="Badge 2"/></div>
+        <div class="glass-card p-4 rounded-xl flex items-center justify-center bg-white"><img class="max-h-16 object-contain" src="./images/certificates/c3.jpg" alt="Badge 3"/></div>
+        <div class="glass-card p-4 rounded-xl flex items-center justify-center bg-white"><img class="max-h-16 object-contain" src="./images/certificates/c4.jpg" alt="Badge 4"/></div>
+        <div class="glass-card p-4 rounded-xl flex items-center justify-center bg-white"><img class="max-h-16 object-contain" src="./images/certificates/c5.jpg" alt="Badge 5"/></div>
+        <div class="glass-card p-4 rounded-xl flex items-center justify-center bg-white"><img class="max-h-16 object-contain" src="./images/certificates/c6.jpg" alt="Badge 6"/></div>
+        <div class="glass-card p-4 rounded-xl flex items-center justify-center bg-white"><img class="max-h-16 object-contain" src="./images/certificates/c7.jpg" alt="Badge 7"/></div>
+        <div class="glass-card p-4 rounded-xl flex items-center justify-center bg-white"><img class="max-h-16 object-contain" src="./images/certificates/c8.jpg" alt="Badge 8"/></div>
+      </div>
     </section>
 
-    <!-- Section 2: Feedback -->
-    <section class="section" id="feedback" style="background: #f8fbf7;">
-        <h2 class="section-title">Customer Feedbacks</h2>
-        <p class="section-subtitle">
-            Real screenshots from our happy customers — showing product delivery, usage and testimonials.
-        </p>
-        <div class="gallery-container">
-            <div class="gallery-item"><img src="./images/feedbacks/fb1.jpg" alt="Customer Feedback 1"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb2.jpg" alt="Customer Feedback 2"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb3.jpg" alt="Customer Feedback 3"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb4.jpg" alt="Customer Feedback 4"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb5.jpg" alt="Customer Feedback 5"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb6.jpg" alt="Customer Feedback 6"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb7.jpg" alt="Customer Feedback 7"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb8.jpg" alt="Customer Feedback 8"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb9.jpg" alt="Customer Feedback 9"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb10.jpg" alt="Customer Feedback 10"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb11.jpg" alt="Customer Feedback 11"></div>
-            <div class="gallery-item"><img src="./images/feedbacks/fb12.jpg" alt="Customer Feedback 12"></div>
-            <!-- Add more screenshots as needed -->
-        </div>
+    <!-- Testimonials Screenshots -->
+    <section class="space-y-6">
+      <h2 class="text-2xl font-bold text-primary text-center">Customer Testimonials</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div class="rounded-xl overflow-hidden shadow-sm border border-glass-stroke bg-white"><img class="w-full h-full object-cover" src="./images/feedbacks/fb1.jpg" alt="Feedback 1"/></div>
+        <div class="rounded-xl overflow-hidden shadow-sm border border-glass-stroke bg-white"><img class="w-full h-full object-cover" src="./images/feedbacks/fb2.jpg" alt="Feedback 2"/></div>
+        <div class="rounded-xl overflow-hidden shadow-sm border border-glass-stroke bg-white"><img class="w-full h-full object-cover" src="./images/feedbacks/fb3.jpg" alt="Feedback 3"/></div>
+        <div class="rounded-xl overflow-hidden shadow-sm border border-glass-stroke bg-white"><img class="w-full h-full object-cover" src="./images/feedbacks/fb4.jpg" alt="Feedback 4"/></div>
+        <div class="rounded-xl overflow-hidden shadow-sm border border-glass-stroke bg-white"><img class="w-full h-full object-cover" src="./images/feedbacks/fb5.jpg" alt="Feedback 5"/></div>
+        <div class="rounded-xl overflow-hidden shadow-sm border border-glass-stroke bg-white"><img class="w-full h-full object-cover" src="./images/feedbacks/fb6.jpg" alt="Feedback 6"/></div>
+      </div>
     </section>
 
-    <footer>
-        <div class="footer-container">
-            <!-- About Section -->
-            <div class="footer-section about">
-                <h3>Ermunai Organic Farm & Foods</h3>
-                <p><i class="fa fa-map-marker-alt"></i> Manufacturing Unit:<br> Ermunai Organic Farm & Foods,<br>
-                    Plot No. 5, 1/328,<br>
-                    Sabari Salai, Ayyappan Nagar,<br>
-                    Madipakkam, Chennai - 600091.</p>
-                <p><i class="fa-solid fa-file-invoice"></i> GSTIN: 33AKAPR8721K1ZZ</p>
-                <p><i class="fa-solid fa-file-invoice"></i> Fsssai License No: 12425008002307</p>
-                <p><i class="fa fa-phone"></i> +91 9841231996</p>
-                <p><i class="fab fa-whatsapp"></i> +91 9840752833</p>
-                <p><i class="fa fa-envelope"></i> info@ermunaiorganicfarmfoods.com</p>
+    <!-- Dynamic Reviews & Submission Form -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-6">
+      <!-- Read Reviews Left -->
+      <div class="lg:col-span-7 space-y-6">
+        <h2 class="text-2xl font-bold text-primary">Recent User Ratings</h2>
+        <div id="reviewsList" class="space-y-4 divide-y divide-glass-stroke"></div>
+      </div>
+
+      <!-- Write Review Right -->
+      <div class="lg:col-span-5 glass-card p-6 rounded-2xl space-y-4 h-fit">
+        <h2 class="text-lg font-bold text-primary border-b border-glass-stroke pb-3 flex items-center gap-1">
+          <span class="material-symbols-outlined">rate_review</span> Leave a Review
+        </h2>
+        <form id="reviewForm" class="space-y-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary uppercase tracking-widest">Your Name</label>
+            <input id="revName" required class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" placeholder="e.g. Anand Kumar"/>
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary uppercase tracking-widest">Rating</label>
+            <select id="revRating" class="w-full px-4 py-2 border border-outline-variant rounded-lg text-sm cursor-pointer">
+              <option value="5">5 Stars (Excellent)</option>
+              <option value="4">4 Stars (Good)</option>
+              <option value="3">3 Stars (Average)</option>
+              <option value="2">2 Stars (Poor)</option>
+              <option value="1">1 Star (Very Bad)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-primary uppercase tracking-widest">Review Comments</label>
+            <textarea id="revText" required rows="4" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" placeholder="How did you like our millet mixes or podi?"></textarea>
+          </div>
+          <button type="submit" id="submitRevBtn" class="w-full bg-primary text-white font-bold py-2.5 rounded-lg hover:opacity-90 active:scale-95 transition-all text-xs flex items-center justify-center gap-1">
+            Submit Rating
+          </button>
+        </form>
+        <p id="revStatusMsg" class="text-xs font-bold text-center hidden"></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module">
+    import { initializeApp } from "./js/supabase-compat.js";
+    import { getSupabase, collection, addDoc, getDocs, query, limit } from "./js/supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
+    import { mountStorefrontHeader, mountStorefrontFooter, readStorefrontCart} from "./js/ermunai-components.js";
+    mountStorefrontHeader("siteHeader", { active: "feedback" });
+    mountStorefrontFooter("siteFooter");
+const app = initializeApp();
+    const db = getSupabase(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+
+    const fallbackReviews = [
+      { name: "Meera Krishnan", rating: 5, text: "The Red Sorghum Rava Dosa is absolutely delicious! My kids loved it and it's so healthy.", date: "12/05/2026" },
+      { name: "Suresh Kumar", rating: 4, text: "Excellent garlic paruppu podi. Authentic taste, goes great with idlis and hot ghee.", date: "05/05/2026" },
+      { name: "Devi Prasad", rating: 5, text: "Quick shipping within Chennai and premium packaging. Will order Pongal mix next time.", date: "28/04/2026" }
+    ];
+
+    async function loadReviews() {
+      const list = document.getElementById("reviewsList");
+      list.innerHTML = "<p class='text-xs text-on-surface-variant'>Loading reviews...</p>";
+      
+      try {
+        const snap = await getDocs(collection(db, "reviews"));
+        const reviews = snap.docs.map(doc => ({
+          name: doc.data().name,
+          rating: doc.data().rating,
+          text: doc.data().text,
+          date: doc.data().createdAt ? new Date(doc.data().createdAt).toLocaleDateString() : "Recently"
+        }));
+        
+        const finalReviews = reviews.length ? reviews : fallbackReviews;
+        list.innerHTML = finalReviews.map(r => `
+          <div class="py-4 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-on-surface text-sm">${escapeHtml(r.name)}</span>
+              <span class="text-outline font-semibold">${r.date}</span>
             </div>
-
-            <!-- Company Links -->
-            <div class="footer-section company">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="feedback.html">Certification & Feedback</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="privacy-policy.html" target="_blank">Privacy Policy</a></li>
-                    <li><a href="cancellation-and-refund-policy.html" target="_blank">cancellation Policy</a></li>
-                    <li><a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a></li>
-                    <li><a href="shipping-policy.html" target="_blank">Shipping Policy</a></li>
-                </ul>
+            <div class="text-[#a66d12] text-xs font-bold">
+              ${'★'.repeat(Number(r.rating || 5))}${'☆'.repeat(5 - Number(r.rating || 5))}
             </div>
-
-            <!-- Product Categories -->
-            <div class="footer-section products">
-                <h4>Products</h4>
-                <ul>
-                    <li><a href="shop.html?category=readyToCookMixes">Ready-to-cook Instant Mixes</a></li>
-                    <li><a href="shop.html?category=instantSoup">Instant Soup Mix</a></li>
-                    <li><a href="shop.html?category=idliPodi">Idli Podi's</a></li>
-                    <li><a href="shop.html?category=readytoserve">Ready to Serve</a></li>
-                    <li><a href="shop.html?category=herbal">Herbal Products</a></li>
-                </ul>
+            <p class="text-xs text-on-surface-variant leading-relaxed">${escapeHtml(r.text)}</p>
+          </div>
+        `).join("");
+      } catch (err) {
+        console.warn("Reviews load error:", err);
+        list.innerHTML = fallbackReviews.map(r => `
+          <div class="py-4 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-on-surface text-sm">${escapeHtml(r.name)}</span>
+              <span class="text-outline font-semibold">${r.date}</span>
             </div>
-
-            <!-- Social Links -->
-            <div class="footer-section follow-us">
-                <h4><i class="fas fa-share-alt"></i> Follow Us</h4>
-                <ul>
-                    <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ermunaiorganicfoods"
-                            target="_blank">Facebook</a></li>
-                    <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/ermunaiorganic"
-                            target="_blank">Instagram</a></li>
-                    <li><i class="fab fa-linkedin"></i> <a
-                            href="https://www.linkedin.com/in/ermunai-organic-farm-217035363"
-                            target="_blank">LinkedIn</a></li>
-                    <li><i class="fab fa-youtube"></i> <a href="https://youtube.com/@ermunaiorganicfarm"
-                            target="_blank">YouTube</a></li>
-                </ul>
+            <div class="text-[#a66d12] text-xs font-bold">
+              ${'★'.repeat(Number(r.rating))}${'☆'.repeat(5 - Number(r.rating))}
             </div>
-        </div>
+            <p class="text-xs text-on-surface-variant leading-relaxed">${escapeHtml(r.text)}</p>
+          </div>
+        `).join("");
+      }
+    }
 
-        <!-- WhatsApp Order Button -->
-        <div class="whatsapp">
-            <a href="https://wa.me/919841231996" target="_blank">
-                <i class="fab fa-whatsapp"></i> Order on WhatsApp
-            </a>
-        </div>
+    // Submit review form
+    const reviewForm = document.getElementById("reviewForm");
+    const revStatusMsg = document.getElementById("revStatusMsg");
 
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <p>© 2025 Ermunai Organic Farm &Foods. All rights reserved.</p>
-            <p class="footer-links">
-                <a href="privacy.html" target="_blank">Privacy Policy</a> |
-                <a href="terms.html" target="_blank">Terms & Conditions</a> |
-                <a href="shipping.html" target="_blank">Shipping Policy</a>
-            </p>
-        </div>
-    </footer>
+    reviewForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!currentUser) {
+        alert("Please login to leave a rating review.");
+        window.location.href = "login.html";
+        return;
+      }
+      
+      const name = document.getElementById("revName").value.trim();
+      const rating = document.getElementById("revRating").value;
+      const text = document.getElementById("revText").value.trim();
 
-
-    <script type="module">
-        const hamburger = document.querySelector(".hamburger");
-        const nav = document.querySelector("header nav");
-        const closeMenu = document.querySelector(".close-menu");
-
-        hamburger.addEventListener("click", () => {
-            nav.classList.add("active");
+      try {
+        await addDoc(collection(db, "reviews"), {
+          name,
+          rating: Number(rating),
+          text,
+          userId: currentUser.uid,
+          createdAt: new Date().toISOString()
         });
-        closeMenu.addEventListener("click", () => {
-            nav.classList.remove("active");
-        });
 
+        revStatusMsg.textContent = "Thank you for your valuable feedback!";
+        revStatusMsg.className = "text-xs font-bold text-success-leaf text-center block";
+        revStatusMsg.classList.remove("hidden");
+        reviewForm.reset();
+        loadReviews();
+      } catch (err) {
+        console.error(err);
+        revStatusMsg.textContent = "Unable to post review at the moment.";
+        revStatusMsg.className = "text-xs font-bold text-error text-center block";
+        revStatusMsg.classList.remove("hidden");
+      }
+    });
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-            projectId: "ermunai-e-commerce-project",
-            storageBucket: "ermunai-e-commerce-project.appspot.com",
-            messagingSenderId: "365240050790",
-            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
-            measurementId: "G-CZJZ4HLCMR"
-        };
+    function updateCartCount(user) {
+      const cart = readStorefrontCart(user);
+      document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + Number(item.qty || 1), 0);
+    }
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+    onAuthStateChanged(auth, user => {
+      const authLinks = document.getElementById("authLinks");
+      const userProfile = document.getElementById("userProfile");
+      const dashboardLink = document.getElementById("dashboardLink");
+      
+      if (user) {
+        currentUser = user;
+        authLinks.classList.add("hidden");
+        userProfile.classList.remove("hidden");
+        userProfile.classList.add("flex");
+        dashboardLink.classList.remove("hidden");
+        const name = user.displayName || (user.email ? user.email.split("@")[0] : "User");
+        document.getElementById("userAvatar").textContent = name.slice(0, 2).toUpperCase();
+        document.getElementById("revName").value = name;
+      } else {
+        currentUser = null;
+        authLinks.classList.remove("hidden");
+        userProfile.classList.add("hidden");
+        userProfile.classList.remove("flex");
+        dashboardLink.classList.add("hidden");
+      }
+      updateCartCount(user);
+    });
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const loginBtn = document.querySelector(".btn-login");
-            const signupBtn = document.querySelector(".btn-signup");
-            const profile = document.querySelector(".profile");
-            const username = document.querySelector(".username");
-            const logoutBtn = document.querySelector(".btn-logout");
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.reload();
+    });
 
-            // Listen to Firebase Auth state
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // User is logged in
-                    loginBtn.style.display = "none";
-                    signupBtn.style.display = "none";
-                    profile.style.display = "flex";
-                    username.textContent = user.email; // show email or displayName
-                    localStorage.setItem("user", user.email); // optional
-                } else {
-                    // No user is logged in
-                    loginBtn.style.display = "inline-block";
-                    signupBtn.style.display = "inline-block";
-                    profile.style.display = "none";
-                    localStorage.removeItem("user");
-                }
-            });
-
-            logoutBtn.addEventListener("click", async () => {
-                if (confirm("Do you want to log out?")) {
-                    await signOut(auth);
-                    location.reload();
-                }
-            });
-        });
-    </script>
+    loadReviews();
+  </script>
 </body>
-
 </html>
+

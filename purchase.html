@@ -1,711 +1,697 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="scroll-smooth" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Purchases - Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products in India</title>
-  <meta name="description"
-    content="Buy 100% organic, natural, and chemical-free farm foods from Ermunai Organic Farm Foods. Explore our range of ready-to-cook and ready-to-eat organic products, delivered fresh across India.">
-  <meta name="keywords"
-    content="organic food India, Ermunai Organic, organic farm foods, ready to cook, organic groceries, natural farm produce">
-  <meta name="author" content="Ermunai Organic Farm Foods">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/">
-  <meta property="og:title" content="Ermunai Organic Farm Foods | 100% Organic & Ready-to-Cook Products">
-  <meta property="og:description"
-    content="Ermunai Organic Farm Foods brings you healthy, natural, and organic products directly from farm to table.">
-  <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <!-- simplest: 32x32 PNG -->
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>My Account | Ermunai Organic Farm Foods</title>
+  <meta content="Manage your orders, wishlist, addresses, and support tickets." name="description"/>
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background: #f7f7f7;
-      color: #333;
-    }
-
-    /* ---------- Header ---------- */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: white;
-      padding: 15px 40px;
-      border-bottom: 2px solid #eee;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    header .logo {
-      display: flex;
-      align-items: center;
-      font-weight: bold;
-      color: green;
-      font-size: 18px;
-    }
-
-    header .logo img {
-      height: 60px;
-      margin-right: 10px;
-    }
-
-    header nav ul {
-      display: flex;
-      list-style: none;
-    }
-
-    header nav ul li {
-      margin: 0 15px;
-    }
-
-    header nav ul li a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-
-    header nav ul li a.active,
-    header nav ul li a:hover {
-      color: green;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    /* Buttons */
-    .btn-login,
-    .btn-signup {
-      padding: 8px 16px;
-      font-size: 14px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-
-    .btn-login {
-      background: transparent;
-      border: 2px solid green;
-      color: green;
-    }
-
-    .btn-login:hover {
-      background: green;
-      color: white;
-    }
-
-    .btn-signup {
-      background: green;
-      border: 2px solid green;
-      color: white;
-    }
-
-    .btn-signup:hover {
-      background: #244021;
-      border-color: #244021;
-    }
-
-    /* Hamburger (hidden by default) */
-    .hamburger {
-      display: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: green;
-    }
-
-    .close-menu {
-      display: none;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 24px;
-      color: green;
-      cursor: pointer;
-    }
-
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: green;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .profile i {
-      font-size: 20px;
-    }
-
-    .btn-logout {
-      margin-left: 10px;
-      padding: 6px 12px;
-      border: 2px solid crimson;
-      background: transparent;
-      color: crimson;
-      border-radius: 5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .btn-logout:hover {
-      background: crimson;
-      color: white;
-    }
-
-
-
-    @media (max-width: 900px) {
-      .close-menu {
-        display: block;
-      }
-    }
-
-    /* Hide username on mobile */
-    @media (max-width: 768px) {
-      .profile .username {
-        display: none;
-        position: absolute;
-        top: -30px;
-        /* adjust to hover position */
-        left: 50%;
-        transform: translateX(-50%);
-        background: green;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        white-space: nowrap;
-        font-size: 14px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        z-index: 2000;
-      }
-
-      /* Show username on hover */
-      .profile:hover .username {
-        display: block;
-        opacity: 1;
-      }
-    }
-
-
-
-    /* ---------- Mobile Styles ---------- */
-    @media (max-width: 900px) {
-      header {
-        padding: 15px 20px;
-      }
-
-      /* Hide normal menu */
-      header nav {
-        position: fixed;
-        top: 0;
-        right: -250px;
-        width: 250px;
-        height: 100%;
-        background: white;
-        border-left: 2px solid #eee;
-        box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
-        padding-top: 80px;
-        z-index: 1200;
-      }
-
-      header nav ul {
-        flex-direction: column;
-        align-items: start;
-        padding-left: 30px;
-      }
-
-      header nav ul li {
-        margin: 15px 0;
-      }
-
-      .header-right {
-        gap: 10px;
-      }
-
-      .hamburger {
-        display: block;
-      }
-
-      /* Show menu when active */
-      header nav.active {
-        right: 0;
-      }
-    }
-
-
-    /* Cart */
-    .cart {
-      font-size: 22px;
-      color: #333;
-      cursor: pointer;
-    }
-
-    .cart i {
-      color: green;
-    }
-
-
-
-    .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: green;
-      margin-bottom: 30px;
-    }
-
-    .orders {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .order-card {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      transition: box-shadow .3s ease;
-    }
-
-    .order-card:hover {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .order-info h3 {
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      color: #333;
-    }
-
-    .order-info p {
-      margin: 5px 0;
-      font-size: 0.95rem;
-    }
-
-    .order-info .price {
-      margin-top: 10px;
-      font-size: 1.05rem;
-      color: green;
-      font-weight: bold;
-    }
-
-    .order-status {
-      text-align: center;
-      padding: 10px 15px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .status.pending {
-      background: #fff3cd;
-      color: #856404;
-    }
-
-    .status.shipped {
-      background: #cce5ff;
-      color: #004085;
-    }
-
-    .status.delivered {
-      background: #d4edda;
-      color: #155724;
-    }
-
-    footer {
-      background: linear-gradient(145deg, #056608, #0b8a0d);
-      color: #fff;
-      padding: 40px 20px;
-      font-family: "Poppins", sans-serif;
-    }
-
-    .footer-container {
-      max-width: 1300px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-
-    .footer-section h3,
-    .footer-section h4 {
-      color: #fff;
-      margin-bottom: 15px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      border-bottom: 2px solid #ffd700;
-      display: inline-block;
-      padding-bottom: 5px;
-    }
-
-    .footer-section p,
-    .footer-section ul li {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .footer-section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 10px;
-    }
-
-    .footer-section ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color .3s ease;
-    }
-
-    .footer-section ul li a:hover {
-      color: #ffd700;
-    }
-
-    .whatsapp {
-      margin: 25px 0;
-      text-align: center;
-    }
-
-    .whatsapp a {
-      background: #25D366;
-      color: #fff;
-      padding: 12px 25px;
-      border-radius: 30px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background .3s ease;
-    }
-
-    .whatsapp a:hover {
-      background: #1eb85b;
-    }
-
-    .footer-bottom {
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.3);
-      padding-top: 15px;
-      font-size: 14px;
-    }
-
-    .footer-bottom p {
-      margin: 5px 0;
-    }
-
-    .footer-links a {
-      color: #ffd700;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .footer-links a:hover {
-      text-decoration: underline;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      header nav ul {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      header nav ul li {
-        margin: 10px 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      header .logo img {
-        margin-right: 0px;
-      }
-
-      header .logo span {
-        display: none;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <header>
-    <div class="logo">
-      <img src="./images/logo.jpg" alt="Logo">
-      <span>Ermunai Organic Farm & Foods</span>
-    </div>
-
-    <nav>
-      <div class="close-menu"><i class="fa-solid fa-times"></i></div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="purchase.html" class="active">Purchases</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="feedback.html">Certification & Feedback</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-
-    <div class="header-right">
-      <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
-      <a href="login.html" class="btn-login">Login</a>
-      <a href="signup.html" class="btn-signup">Sign Up</a>
-      <div class="profile" style="display:none; position:relative;">
-        <i class="fa-solid fa-user"></i>
-        <span class="username"></span>
-        <button class="btn-logout">Logout</button>
-      </div>
-      <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
-    </div>
-  </header>
-
-  <div class="container">
-    <h1>My Recent Purchases</h1>
-    <div class="orders" id="ordersList">
-      <!-- JS will insert order-cards here -->
-    </div>
-  </div>
-
-  <footer>
-    <div class="footer-container">
-      <div class="footer-section about">
-        <h3>Ermunai Organic Farm & Foods</h3>
-        <p><i class="fa fa-map-marker-alt"></i> Manufacturing Unit:<br> Ermunai Organic Farm &Foods,<br>
-          Plot No. 5, 1/328,<br>
-          Sabari Salai, Ayyappan Nagar,<br>
-          Madipakkam, Chennai - 600091.</p>
-        <p><i class="fa-solid fa-file-invoice"></i> GSTIN: 33AKAPR8721K1ZZ</p>
-        <p><i class="fa-solid fa-file-invoice"></i> Fsssai License No: 12425008002307</p>
-        <p><i class="fa fa-phone"></i> +91 9841231996</p>
-        <p><i class="fab fa-whatsapp"></i> +91 9840752833</p>
-        <p><i class="fa fa-envelope"></i> info@ermunaiorganicfarmfoods.com</p>
-      </div>
-
-      <div class="footer-section company">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="shop.html">Shop</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="feedback.html">Certification & Feedback</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="privacy.html" target="_blank">Privacy Policy</a></li>
-          <li><a href="terms.html" target="_blank">Terms & Conditions</a></li>
-          <li><a href="shipping.html" target="_blank">Shipping Policy</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-section products">
-        <h4>Products</h4>
-        <ul>
-          <li><a href="shop.html?category=readyToCookMixes">Ready-to-cook Instant Mixes</a></li>
-          <li><a href="shop.html?category=instantSoup">Instant Soup Mix</a></li>
-          <li><a href="shop.html?category=idliPodi">Idli Podi’s</a></li>
-          <li><a href="shop.html?category=readytoserve">Ready to Serve</a></li>
-          <li><a href="shop.html?category=herbal">Herbal Products</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-section follow-us">
-        <h4><i class="fas fa-share-alt"></i> Follow Us</h4>
-        <ul>
-          <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ermunaiorganicfoods"
-              target="_blank">Facebook</a></li>
-          <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/ermunaiorganic"
-              target="_blank">Instagram</a></li>
-          <li><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/ermunai-organic-farm-217035363"
-              target-_blank">LinkedIn</a></li>
-          <li><i class="fab fa-youtube"></i> <a href="https://youtube.com/@ermunaiorganicfarm"
-              target="_blank">YouTube</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="whatsapp">
-      <a href="https://wa.me/919841231996" target="_blank">
-        <i class="fab fa-whatsapp"></i> Order on WhatsApp
-      </a>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 Ermunai Organic Farm & Foods. All rights reserved.</p>
-      <p class="footer-links">
-        <a href="privacy.html" target="_blank">Privacy Policy</a> |
-        <a href="terms.html" target="_blank">Terms & Conditions</a> |
-        <a href="shipping.html" target="_blank">Shipping Policy</a>
-      </p>
-    </div>
-  </footer>
-
-  <script type="module">
-    //responsive header
-    const hamburger = document.querySelector(".hamburger");
-    const nav = document.querySelector("header nav");
-    const closeMenu = document.querySelector(".close-menu");
-
-    hamburger.addEventListener("click", () => {
-      nav.classList.add("active");
-    });
-
-    closeMenu.addEventListener("click", () => {
-      nav.classList.remove("active");
-    });
-    // Firebase configuration & initialization (adjust your config)
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-      projectId: "ermunai-e-commerce-project",
-      storageBucket: "ermunai-e-commerce-project.appspot.com",
-      messagingSenderId: "365240050790",
-      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
-      measurementId: "G-CZJZ4HLCMR"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    const ordersListContainer = document.getElementById("ordersList");
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const loginBtn = document.querySelector(".btn-login");
-      const signupBtn = document.querySelector(".btn-signup");
-      const profile = document.querySelector(".profile");
-      const username = document.querySelector(".username");
-      const logoutBtn = document.querySelector(".btn-logout");
-
-      // Listen to Firebase Auth state
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is logged in
-          loginBtn.style.display = "none";
-          signupBtn.style.display = "none";
-          profile.style.display = "flex";
-          username.textContent = user.email; // show email or displayName
-          localStorage.setItem("user", user.email); // optional
-        } else {
-          // No user is logged in
-          loginBtn.style.display = "inline-block";
-          signupBtn.style.display = "inline-block";
-          profile.style.display = "none";
-          localStorage.removeItem("user");
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0d631b",
+            "primary-container": "#2e7d32",
+            "secondary-container": "#91f78e",
+            "success-leaf": "#43A047",
+            surface: "#fbf9f3",
+            "surface-container": "#f0eee8",
+            "surface-container-low": "#f5f3ee",
+            "on-surface": "#1b1c19",
+            "on-surface-variant": "#40493d",
+            "outline-variant": "#bfcaba",
+            "earth-dark": "#4E342E",
+            "glass-stroke": "rgba(46, 125, 50, 0.12)",
+            error: "#ba1a1a"
+          },
+          fontFamily: { sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"] }
         }
-      });
-
-      logoutBtn.addEventListener("click", async () => {
-        if (confirm("Do you want to log out?")) {
-          await signOut(auth);
-          location.reload();
-        }
-      });
-    });
-
-    function getStatusClass(status) {
-      if (!status) return "";
-      switch (status.toLowerCase()) {
-        case "pending": return "pending";
-        case "shipped": return "shipped";
-        case "delivered": return "delivered";
-        default: return "";
-      }
-    }
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        loadOrders(user.uid);
-      } else {
-        ordersListContainer.innerHTML = "<p style='text-align:center; color:red; font-weight:bold;'>🛑 Please log in to see your purchases.</p>";
-      }
-    });
-
-    async function loadOrders(userId) {
-      ordersListContainer.innerHTML = "<p style='text-align:center; color:green;'>⏳ Loading purchases...</p>";
-      try {
-        const ordersRef = collection(db, "orders");
-        const q = query(ordersRef, where("userid", "==", userId));
-        const snapshot = await getDocs(q);
-        ordersListContainer.innerHTML = "";
-
-        if (snapshot.empty) {
-          ordersListContainer.innerHTML = "<p style='text-align:center;'>You haven't placed any orders yet. Start shopping!</p>";
-          return;
-        }
-
-        snapshot.forEach(docSnap => {
-          const order = docSnap.data();
-          const orderId = docSnap.id;
-
-          const totalAmount = order.totalAmount || order.subtotal || order.amount || "N/A";
-          let orderDate = "Date Unavailable";
-          if (order.datePlaced && typeof order.datePlaced.toDate === "function") {
-            orderDate = order.datePlaced.toDate().toLocaleDateString();
-          } else if (order.datePlaced) {
-            orderDate = new Date(order.datePlaced).toLocaleDateString();
-          }
-
-          const totalItems = (order.items && Array.isArray(order.items))
-            ? order.items.reduce((sum, i) => (sum + (i.quantity || 0)), 0)
-            : 0;
-          const firstItemName = (order.items && order.items.length > 0) ? order.items[0].name : "Product details unavailable";
-          const restItemsCount = (order.items && order.items.length > 1) ? order.items.length - 1 : 0;
-
-          const card = document.createElement("div");
-          card.className = "order-card";
-          card.innerHTML = `
-            <div class="order-info">
-              <h3>Order ID: ${orderId}</h3>
-              <p>Product: ${firstItemName}${restItemsCount > 0 ? ` (+${restItemsCount} more)` : ''}</p>
-              <p>Date: ${orderDate}</p>
-              <p>Qty: ${totalItems}</p>
-              <p class="price">₹${totalAmount}</p>
-            </div>
-            <div class="order-status status ${getStatusClass(order.status)}">
-              ${order.status || "Status Unknown"}
-            </div>
-          `;
-          ordersListContainer.appendChild(card);
-        });
-
-      } catch (error) {
-        console.error("Error loading orders:", error);
-        ordersListContainer.innerHTML = "<p style='text-align:center; color:red;'>⚠️ Failed to load your purchases. Check your setup.</p>";
       }
     }
   </script>
+  <style>
+    body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
+    .glass-nav {
+      background: rgba(251, 249, 243, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      vertical-align: middle;
+    }
+    .nav-active {
+      background: linear-gradient(135deg, #91f78e 0%, #78dc77 100%);
+      color: #005313;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(13, 99, 27, 0.12);
+    }
+    .stat-card {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(46, 125, 50, 0.1);
+      backdrop-filter: blur(8px);
+    }
+    .panel-card {
+      background: #fff;
+      border: 1px solid rgba(46, 125, 50, 0.1);
+      box-shadow: 0 4px 24px rgba(13, 99, 27, 0.06);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #0d631b 0%, #2e7d32 55%, #43A047 100%);
+    }
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .skeleton { animation: pulse-soft 1.5s ease-in-out infinite; background: #eae8e2; border-radius: 0.5rem; }
+    .toast-enter { animation: slideUp 0.3s ease; }
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen">
 
+  <!-- Loading screen -->
+  <div id="dashboardLoader" class="fixed inset-0 z-[100] bg-surface flex flex-col items-center justify-center gap-4">
+    <div class="w-14 h-14 rounded-2xl hero-gradient flex items-center justify-center shadow-lg">
+      <span class="material-symbols-outlined text-white text-3xl">eco</span>
+    </div>
+    <p class="text-sm font-semibold text-on-surface-variant">Loading your dashboard...</p>
+    <div class="w-48 h-1.5 bg-surface-container rounded-full overflow-hidden">
+      <div class="h-full w-1/3 bg-primary rounded-full animate-[pulse-soft_1s_ease-in-out_infinite]"></div>
+    </div>
+  </div>
+
+  <!-- Sign-in gate -->
+  <div id="authGate" class="hidden fixed inset-0 z-[90] bg-surface flex items-center justify-center p-6">
+    <div class="max-w-md w-full panel-card rounded-3xl p-8 text-center space-y-5">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+        <span class="material-symbols-outlined text-4xl">lock</span>
+      </div>
+      <h1 class="text-2xl font-extrabold text-primary">Sign in to continue</h1>
+      <p class="text-sm text-on-surface-variant">Access your orders, wishlist, addresses, and support tickets.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="login.html?redirect=purchase.html" class="bg-primary text-white font-bold px-6 py-3 rounded-xl hover:opacity-90 transition-all text-sm">Sign In</a>
+        <a href="signup.html" class="border border-outline-variant text-primary font-bold px-6 py-3 rounded-xl hover:bg-surface-container transition-all text-sm">Create Account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main dashboard -->
+  <div id="dashboardApp" class="hidden">
+    <div id="siteHeader"></div>
+
+    <!-- Hero strip -->
+    <section class="hero-gradient pt-24 pb-8 px-5 md:px-10">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="flex items-center gap-4">
+            <div id="heroAvatar" class="w-16 h-16 rounded-2xl bg-white/20 text-white font-extrabold text-xl flex items-center justify-center border-2 border-white/30 backdrop-blur-sm">--</div>
+            <div>
+              <p class="text-white/70 text-xs font-bold uppercase tracking-widest">Welcome back</p>
+              <h1 id="heroName" class="text-2xl md:text-3xl font-extrabold text-white">Guest</h1>
+              <p id="heroEmail" class="text-white/80 text-sm mt-0.5"></p>
+            </div>
+          </div>
+          <div class="flex gap-3 flex-wrap">
+            <div class="stat-card rounded-2xl px-5 py-3 flex items-center gap-3 min-w-[140px]">
+              <span class="material-symbols-outlined text-primary text-2xl">shopping_bag</span>
+              <div>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase">Total Orders</p>
+                <p id="statOrders" class="text-xl font-extrabold text-primary">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="max-w-6xl mx-auto px-5 md:px-10 py-8">
+      <div class="flex flex-col lg:flex-row gap-8">
+
+        <!-- Sidebar nav -->
+        <aside class="lg:w-56 flex-shrink-0">
+          <nav class="flex lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 lg:sticky lg:top-24">
+            <button class="tab-btn nav-active flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all" data-panel="orders" data-title="My Orders">
+              <span class="material-symbols-outlined text-lg">receipt_long</span> Orders
+            </button>
+            <button class="tab-btn flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-semibold text-on-surface-variant hover:bg-surface-container whitespace-nowrap transition-all" data-panel="wishlist" data-title="My Wishlist">
+              <span class="material-symbols-outlined text-lg">favorite</span> Wishlist
+            </button>
+            <button class="tab-btn flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-semibold text-on-surface-variant hover:bg-surface-container whitespace-nowrap transition-all" data-panel="addresses" data-title="My Address">
+              <span class="material-symbols-outlined text-lg">location_on</span> Address
+            </button>
+            <button class="tab-btn flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-semibold text-on-surface-variant hover:bg-surface-container whitespace-nowrap transition-all" data-panel="support" data-title="Support">
+              <span class="material-symbols-outlined text-lg">support_agent</span> Support
+            </button>
+          </nav>
+        </aside>
+
+        <!-- Content panels -->
+        <main class="flex-1 min-w-0">
+          <h2 id="panelTitle" class="text-xl font-extrabold text-on-surface mb-6">My Orders</h2>
+
+          <!-- Orders -->
+          <section id="ordersPanel" class="tab-panel">
+            <div id="ordersList" class="space-y-4">
+              <div class="skeleton h-24 w-full"></div>
+              <div class="skeleton h-24 w-full"></div>
+            </div>
+          </section>
+
+          <!-- Wishlist -->
+          <section id="wishlistPanel" class="tab-panel hidden">
+            <div id="wishlistGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+              <div class="skeleton h-72 w-full col-span-full"></div>
+            </div>
+          </section>
+
+          <!-- Address -->
+          <section id="addressesPanel" class="tab-panel hidden">
+            <div class="panel-card rounded-2xl p-6 md:p-8 max-w-xl">
+              <h3 class="font-bold text-primary text-lg mb-1 flex items-center gap-2">
+                <span class="material-symbols-outlined">home</span> Shipping Address
+              </h3>
+              <p class="text-xs text-on-surface-variant mb-6">Used for faster checkout on your next order.</p>
+              <form id="addressForm" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Full Name</label>
+                  <input id="addrName" class="w-full px-4 py-2.5 border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary/20 text-sm" type="text" placeholder="Your name"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Phone</label>
+                  <input id="addrPhone" class="w-full px-4 py-2.5 border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary/20 text-sm" type="tel" placeholder="+91 98765 43210"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Street Address</label>
+                  <textarea id="addrAddress" rows="2" class="w-full px-4 py-2.5 border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary/20 text-sm" placeholder="House no., street, area"></textarea>
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                  <input id="addrCity" class="px-3 py-2.5 border border-outline-variant rounded-xl text-sm" placeholder="City"/>
+                  <input id="addrState" class="px-3 py-2.5 border border-outline-variant rounded-xl text-sm" placeholder="State"/>
+                  <input id="addrPin" class="px-3 py-2.5 border border-outline-variant rounded-xl text-sm" placeholder="PIN"/>
+                </div>
+                <button type="submit" id="addrSaveBtn" class="bg-primary text-white text-sm font-bold px-6 py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all">Save Address</button>
+              </form>
+            </div>
+          </section>
+          <!-- Support -->
+          <section id="supportPanel" class="tab-panel hidden">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <div class="panel-card rounded-2xl p-6 space-y-4">
+                <h3 class="font-bold text-primary text-lg">Open a Ticket</h3>
+                <form id="ticketForm" class="space-y-4">
+                  <div>
+                    <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Subject</label>
+                    <input id="ticketSubject" required class="w-full px-4 py-2.5 border border-outline-variant rounded-xl text-sm" placeholder="Delivery delay, wrong item..."/>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Priority</label>
+                    <select id="ticketPriority" class="w-full px-4 py-2.5 border border-outline-variant rounded-xl text-sm">
+                      <option value="Low">Low</option>
+                      <option value="Medium" selected>Medium</option>
+                      <option value="High">High</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-primary uppercase tracking-wider mb-1">Description</label>
+                    <textarea id="ticketDescription" required rows="4" class="w-full px-4 py-2.5 border border-outline-variant rounded-xl text-sm" placeholder="Describe your issue in detail..."></textarea>
+                  </div>
+                  <button type="submit" class="w-full bg-primary text-white font-bold py-2.5 rounded-xl hover:opacity-90 text-sm">Submit Ticket</button>
+                </form>
+                <p id="ticketStatusMsg" class="text-xs font-bold hidden"></p>
+              </div>
+              <div class="panel-card rounded-2xl p-6">
+                <h3 class="font-bold text-primary text-lg mb-4">Ticket History</h3>
+                <div id="ticketsList" class="space-y-3 max-h-[420px] overflow-y-auto">
+                  <p class="text-xs text-on-surface-variant">Loading...</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[110] hidden">
+    <div class="toast-enter bg-on-surface text-white text-sm font-semibold px-5 py-3 rounded-xl shadow-xl flex items-center gap-2">
+      <span class="material-symbols-outlined text-success-leaf text-lg">check_circle</span>
+      <span id="toastMsg">Done</span>
+    </div>
+  </div>
+
+  <div id="siteFooter"></div>
+
+<script type="module">
+    import { initializeApp, getSupabase, getAuth, getCurrentUser, onAuthStateChanged, signOut,
+      doc, getDoc, setDoc, getDocs, collection, query, where, addDoc } from "./js/supabase-compat.js";
+    import { formatCurrency, getStorefrontCartKey, mountStorefrontHeader, readStorefrontCart, renderInto, statusChip, productCard, syncStorefrontAuth, getMainProductImage, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
+
+    const API_BASE_URL = (location.hostname === "127.0.0.1" || location.hostname === "localhost")
+      ? "http://localhost:5000"
+      : "https://ermunai-user-project.onrender.com";
+
+    const $ = id => document.getElementById(id);
+    const loader = $("dashboardLoader");
+    const authGate = $("authGate");
+    const dashboardApp = $("dashboardApp");
+
+    let currentUser = null;
+    let userProfileData = null;
+    let wishlistProducts = [];
+    let userOrders = [];
+    let bootstrapped = false;
+
+    function showToast(msg) {
+      $("toastMsg").textContent = msg;
+      const toast = $("toast");
+      toast.classList.remove("hidden");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.add("hidden"), 2800);
+    }
+
+    function hideLoader() {
+      loader?.classList.add("hidden");
+    }
+
+    function showAuthGate() {
+      hideLoader();
+      authGate?.classList.remove("hidden");
+      dashboardApp?.classList.add("hidden");
+    }
+
+    function showDashboard() {
+      hideLoader();
+      authGate?.classList.add("hidden");
+      dashboardApp?.classList.remove("hidden");
+    }
+
+    try {
+      initializeApp();
+      mountStorefrontHeader("siteHeader", { active: "shop" });
+    mountStorefrontFooter("siteFooter");
+    } catch (err) {
+      console.error("Header init failed:", err);
+    }
+
+    const db = getSupabase();
+    const auth = getAuth();
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    }
+
+    function orderTimestamp(value) {
+      if (!value) return 0;
+      if (value.seconds) return value.seconds * 1000;
+      const time = new Date(value).getTime();
+      return Number.isNaN(time) ? 0 : time;
+    }
+
+    function toDate(value) {
+      if (!value) return "—";
+      if (typeof value.toDate === "function") return value.toDate().toLocaleDateString("en-IN");
+      if (value.seconds) return new Date(value.seconds * 1000).toLocaleDateString("en-IN");
+      const d = new Date(value);
+      return Number.isNaN(d.getTime()) ? "—" : d.toLocaleDateString("en-IN");
+    }
+
+    function emptyState(icon, title, subtitle, actionHtml = "") {
+      return `
+        <div class="panel-card rounded-2xl p-10 text-center">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-surface-container flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-4xl text-outline-variant">${icon}</span>
+          </div>
+          <p class="font-bold text-on-surface">${escapeHtml(title)}</p>
+          <p class="text-sm text-on-surface-variant mt-1">${escapeHtml(subtitle)}</p>
+          ${actionHtml}
+        </div>`;
+    }
+
+    // Tab navigation
+    const tabBtns = document.querySelectorAll(".tab-btn");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+
+    function switchPanel(panelId, title) {
+      tabBtns.forEach(btn => {
+        const active = btn.dataset.panel === panelId;
+        btn.classList.toggle("nav-active", active);
+        btn.classList.toggle("text-on-surface-variant", !active);
+        btn.classList.toggle("hover:bg-surface-container", !active);
+      });
+      tabPanels.forEach(p => p.classList.add("hidden"));
+      $(`${panelId}Panel`).classList.remove("hidden");
+      $("panelTitle").textContent = title || "Dashboard";
+      if (panelId === "wishlist") loadWishlist();
+      if (panelId === "support") loadSupportTickets();
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => switchPanel(btn.dataset.panel, btn.dataset.title));
+    });
+
+    function orderCard(order) {
+      const items = Array.isArray(order.items) ? order.items : [];
+      const firstItem = items[0]?.name || "Order items";
+      const restCount = Math.max(0, items.length - 1);
+      const shortId = String(order.id).slice(0, 8).toUpperCase();
+      const totalAmt = order.totalAmount ?? order.subtotal ?? order.amount ?? 0;
+
+      return `
+        <article class="panel-card rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:shadow-md transition-shadow">
+          <div class="flex gap-4 items-start">
+            <div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined">package_2</span>
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-bold text-on-surface">#${shortId}</span>
+                ${statusChip(order.status || "Processing")}
+              </div>
+              <p class="text-sm text-on-surface-variant mt-0.5">${escapeHtml(firstItem)}${restCount ? ` +${restCount} more` : ""}</p>
+              <p class="text-xs text-outline mt-1">${toDate(order.datePlaced)}</p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between sm:justify-end gap-4 pl-16 sm:pl-0">
+            <span class="text-lg font-extrabold text-earth-dark">${formatCurrency(totalAmt)}</span>
+            <button type="button" onclick="downloadInvoice('${order.id}')" class="text-xs font-bold text-primary bg-primary/10 hover:bg-primary hover:text-white px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">download</span> Invoice
+            </button>
+          </div>
+        </article>`;
+    }
+
+    async function fetchOrdersFromApi() {
+      const token = await currentUser.getIdToken();
+      const resp = await fetch(`${API_BASE_URL}/my-orders`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!resp.ok) throw new Error("API orders fetch failed");
+      const payload = await resp.json();
+      return (payload.orders || []).sort((a, b) => orderTimestamp(b.datePlaced) - orderTimestamp(a.datePlaced));
+    }
+
+    async function fetchOrdersFromDb() {
+      const snap = await getDocs(query(collection(db, "orders"), where("userid", "==", currentUser.uid)));
+      return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => orderTimestamp(b.datePlaced) - orderTimestamp(a.datePlaced));
+    }
+
+    async function loadOrders() {
+      const listEl = $("ordersList");
+      listEl.innerHTML = `<div class="skeleton h-24"></div><div class="skeleton h-24 mt-4"></div>`;
+
+      try {
+        let orders = [];
+        try {
+          orders = await fetchOrdersFromDb();
+        } catch (dbErr) {
+          console.warn("Direct DB fetch failed, trying API:", dbErr);
+          orders = await fetchOrdersFromApi();
+        }
+
+        userOrders = orders;
+        $("statOrders").textContent = String(orders.length);
+
+        if (!orders.length) {
+          listEl.innerHTML = emptyState(
+            "shopping_bag",
+            "No orders yet",
+            "When you place an order, it will show up here.",
+            `<a href="shop.html" class="inline-block mt-4 bg-primary text-white text-sm font-bold px-5 py-2.5 rounded-xl hover:opacity-90">Browse Products</a>`
+          );
+          return;
+        }
+        renderInto(listEl, orders, orderCard);
+      } catch (err) {
+        console.error("Orders load error:", err);
+        listEl.innerHTML = emptyState(
+          "error_outline",
+          "Could not load orders",
+          "Please check your connection and try again.",
+          `<button type="button" onclick="location.reload()" class="inline-block mt-4 bg-primary text-white text-sm font-bold px-5 py-2.5 rounded-xl">Retry</button>`
+        );
+      }
+    }
+
+    window.downloadInvoice = (orderId) => {
+      const order = userOrders.find(o => o.id === orderId);
+      if (!order) return;
+      const rows = (order.items || []).map(item => `
+        <tr><td style="padding:8px;border-bottom:1px solid #eee">${escapeHtml(item.name)}</td>
+        <td style="padding:8px;text-align:center;border-bottom:1px solid #eee">${item.qty || item.quantity || 1}</td>
+        <td style="padding:8px;text-align:right;border-bottom:1px solid #eee">${formatCurrency(item.price)}</td>
+        <td style="padding:8px;text-align:right;border-bottom:1px solid #eee">${formatCurrency(Number(item.price || 0) * Number(item.qty || item.quantity || 1))}</td></tr>`).join("");
+
+      const html = `<!DOCTYPE html><html><head><title>Invoice ${orderId}</title>
+        <style>body{font-family:sans-serif;padding:24px;color:#333}table{width:100%;border-collapse:collapse}th{background:#f5f3ee;padding:8px;text-align:left}</style></head>
+        <body><h1 style="color:#0d631b">Ermunai Organic</h1><p><strong>Order:</strong> ${orderId}<br><strong>Date:</strong> ${toDate(order.datePlaced)}</p>
+        <table><thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody>${rows}</tbody></table>
+        <p style="text-align:right;font-size:18px;font-weight:bold;margin-top:16px">Total: ${formatCurrency(order.totalAmount || 0)}</p><\/body><\/html>`;
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([html], { type: "text/html" }));
+      link.download = `Invoice_${orderId.slice(0, 8)}.html`;
+      link.click();
+    };
+
+    async function loadWishlist() {
+      const grid = $("wishlistGrid");
+      grid.innerHTML = `<div class="skeleton h-72 col-span-full"></div>`;
+      try {
+        const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+        const wishIds = docSnap.exists() ? (docSnap.data().wishlist || []) : [];
+
+        if (!wishIds.length) {
+          grid.innerHTML = emptyState("favorite", "Wishlist is empty", "Save products you love while shopping.",
+            `<a href="shop.html" class="inline-block mt-4 text-primary font-bold text-sm hover:underline">Explore Shop →</a>`);
+          return;
+        }
+
+        const snap = await getDocs(collection(db, "products"));
+        wishlistProducts = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => wishIds.includes(p.id));
+
+        if (!wishlistProducts.length) {
+          grid.innerHTML = emptyState("inventory_2", "Products unavailable", "Saved items may have been removed from the catalog.");
+          return;
+        }
+        renderInto(grid, wishlistProducts, p => productCard(p, {
+          addAction: `addToCart('${p.id}')`,
+          quickAction: `goToProduct('${p.id}')`
+        }));
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = emptyState("error_outline", "Could not load wishlist", "Please try again later.");
+      }
+    }
+
+    window.goToProduct = (id) => { window.location.href = `product.html?id=${encodeURIComponent(id)}`; };
+
+    window.addToCart = (id) => {
+      const key = getStorefrontCartKey(currentUser);
+      if (!key) {
+        showAuthGate();
+        return;
+      }
+      const cart = readStorefrontCart(currentUser);
+      const existing = cart.find(i => i.id === id);
+      const product = wishlistProducts.find(p => p.id === id);
+      if (existing) {
+        existing.qty = Number(existing.qty || 1) + 1;
+      } else if (product) {
+        cart.push({ id, name: product.name, price: product.price ?? product.amount ?? 0, image: getMainProductImage(product), qty: 1 });
+      } else {
+        showToast("Product not found — open from shop instead.");
+        return;
+      }
+      writeStorefrontCart(currentUser, cart);
+      updateCartCount();
+      showToast("Added to cart!");
+    };
+
+    async function loadSupportTickets() {
+      const list = $("ticketsList");
+      list.innerHTML = `<p class="text-xs text-on-surface-variant">Loading...</p>`;
+      try {
+        const snap = await getDocs(query(collection(db, "supportTickets"), where("userid", "==", currentUser.uid)));
+        const tickets = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+
+        if (!tickets.length) {
+          list.innerHTML = `<p class="text-sm text-on-surface-variant py-4">No tickets yet. Submit one if you need help.</p>`;
+          return;
+        }
+        list.innerHTML = tickets.map(t => `
+          <div class="border border-glass-stroke rounded-xl p-4 space-y-1">
+            <div class="flex justify-between items-start gap-2">
+              <span class="font-bold text-sm text-on-surface">${escapeHtml(t.subject)}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${t.status === "Resolved" ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"}">${escapeHtml(t.status || "Open")}</span>
+            </div>
+            <p class="text-xs text-on-surface-variant">${escapeHtml(t.description)}</p>
+            <p class="text-[10px] text-outline">${toDate(t.createdAt)} · ${escapeHtml(t.priority || "Medium")} priority</p>
+            ${t.reply ? `<p class="text-xs bg-surface-container rounded-lg p-2 mt-2 text-primary"><strong>Reply:</strong> ${escapeHtml(t.reply)}</p>` : ""}
+          </div>`).join("");
+      } catch (err) {
+        console.error(err);
+        list.innerHTML = `<p class="text-xs text-error font-bold">Unable to load tickets.</p>`;
+      }
+    }
+
+    function renderProfile() {
+      const name = userProfileData?.displayName || currentUser.displayName || (currentUser.email?.split("@")[0] || "Customer");
+      const initials = name.slice(0, 2).toUpperCase();
+
+      $("heroName").textContent = name;
+      $("heroEmail").textContent = currentUser.email || "";
+      $("heroAvatar").textContent = initials;
+
+      const avatar = $("userAvatar");
+      if (avatar) avatar.textContent = initials;
+
+      if (userProfileData?.displayName) $("addrName").value = userProfileData.displayName;
+      if (userProfileData?.phone) $("addrPhone").value = userProfileData.phone;
+      if (userProfileData?.address) $("addrAddress").value = userProfileData.address;
+      if (userProfileData?.city) $("addrCity").value = userProfileData.city;
+      if (userProfileData?.state) $("addrState").value = userProfileData.state;
+      if (userProfileData?.pin) $("addrPin").value = userProfileData.pin;
+    }
+
+    async function loadProfile() {
+      try {
+        const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+        if (docSnap.exists()) {
+          userProfileData = docSnap.data();
+        } else {
+          userProfileData = { email: currentUser.email };
+          await setDoc(doc(db, "users", currentUser.uid), userProfileData, { merge: true });
+        }
+      } catch (err) {
+        console.warn("Profile load failed:", err);
+        userProfileData = userProfileData || {};
+      }
+      renderProfile();
+    }
+
+    function updateCartCount() {
+      const cart = readStorefrontCart(currentUser);
+      const el = $("cartCount");
+      if (el) el.textContent = cart.reduce((s, i) => s + Number(i.qty || 1), 0);
+    }
+
+    async function bootstrap(user) {
+      if (!user) {
+        showAuthGate();
+        return;
+      }
+      currentUser = user;
+      bootstrapped = true;
+      syncStorefrontAuth(user);
+      showDashboard();
+      renderProfile();
+      updateCartCount();
+      loadProfile().catch(err => console.warn("Profile load:", err));
+      loadOrders().catch(err => console.warn("Orders load:", err));
+    }
+
+    async function initDashboard() {
+      const user = await getCurrentUser(12000);
+      await bootstrap(user);
+    }
+
+    // Event listeners (guard against missing elements)
+    $("addressForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = $("addrSaveBtn");
+      btn.disabled = true;
+      const payload = {
+        displayName: $("addrName").value.trim(),
+        phone: $("addrPhone").value.trim(),
+        address: $("addrAddress").value.trim(),
+        city: $("addrCity").value.trim(),
+        state: $("addrState").value.trim(),
+        pin: $("addrPin").value.trim()
+      };
+      try {
+        await setDoc(doc(db, "users", currentUser.uid), payload, { merge: true });
+        userProfileData = { ...userProfileData, ...payload };
+        renderProfile();
+        showToast("Address saved!");
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to save address.");
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    $("ticketForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msg = $("ticketStatusMsg");
+      try {
+        await addDoc(collection(db, "supportTickets"), {
+          userid: currentUser.uid,
+          customerEmail: currentUser.email,
+          subject: $("ticketSubject").value.trim(),
+          priority: $("ticketPriority").value,
+          description: $("ticketDescription").value.trim(),
+          status: "Open",
+          createdAt: new Date().toISOString()
+        });
+        msg.textContent = "Ticket submitted!";
+        msg.className = "text-xs font-bold text-success-leaf";
+        msg.classList.remove("hidden");
+        $("ticketForm").reset();
+        loadSupportTickets();
+        showToast("Support ticket submitted");
+      } catch (err) {
+        console.error(err);
+        msg.textContent = "Submission failed. Try again.";
+        msg.className = "text-xs font-bold text-error";
+        msg.classList.remove("hidden");
+      }
+    });
+
+    const logoutBtn = $("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async () => {
+        await signOut();
+        window.location.href = "login.html";
+      });
+    }
+
+    // Start dashboard — don't block on auth listener
+    initDashboard().catch(err => {
+      console.error("Dashboard init failed:", err);
+      showAuthGate();
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (bootstrapped && !user) {
+        showAuthGate();
+        return;
+      }
+      if (user && !bootstrapped) {
+        try {
+          await bootstrap(user);
+        } catch (err) {
+          console.error("Dashboard bootstrap failed:", err);
+          showDashboard();
+        }
+      }
+    }).catch(err => {
+      console.error("Auth listener failed:", err);
+      if (!bootstrapped) showAuthGate();
+    });
+  </script>
 </body>
-
 </html>

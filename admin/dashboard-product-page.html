@@ -1,0 +1,1504 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Erumunai Organic Farm — Product Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin-theme.css">
+    <style>
+        :root {
+            --primary: #4a7c59;
+            --accent: #f0ad4e;
+            --text: #333;
+            --bg: #f7f7f7;
+            --white: #fff;
+            --radius: 8px;
+            --transition: 0.3s ease;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Roboto, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--primary);
+            color: var(--white);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 42px;
+        }
+
+        .menu-toggle span,
+        .menu-toggle span::before,
+        .menu-toggle span::after {
+            content: "";
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 999px;
+            position: relative;
+        }
+
+        .menu-toggle span::before {
+            position: absolute;
+            top: -6px;
+        }
+
+        .menu-toggle span::after {
+            position: absolute;
+            top: 6px;
+        }
+
+        .sidebar-backdrop {
+            display: none;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 2rem;
+            font-size: 1.25rem;
+        }
+
+        .nav {
+            list-style: none;
+            width: 100%;
+        }
+
+        .nav li+li {
+            margin-top: 1rem;
+        }
+
+        .nav a {
+            display: block;
+            text-decoration: none;
+            color: var(--white);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: var(--accent);
+        }
+
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        header .logo {
+            height: 80px;
+            width: auto;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            flex-grow: 1;
+        }
+
+        .logout-btn {
+            background: #ff5f5f;
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .logout-btn:hover {
+            background: #e65050;
+        }
+
+        .content {
+            padding: 1.5rem;
+            overflow: auto;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .product-search {
+            position: relative;
+            max-width: 420px;
+            margin-bottom: 1rem;
+        }
+
+        .product-search input {
+            width: 100%;
+            min-height: 42px;
+            border: 1px solid rgba(74, 124, 89, 0.24);
+            border-radius: 6px;
+            background: #fff;
+            color: #222;
+            font-size: 0.95rem;
+            padding: 0.65rem 0.85rem 0.65rem 2.35rem;
+            outline: none;
+        }
+
+        .product-search input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.14);
+        }
+
+        .product-search svg {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #61705d;
+            pointer-events: none;
+        }
+
+        .filter-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.45rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent);
+            color: #222;
+        }
+
+        .add-btn {
+            background: var(--accent);
+            color: #222;
+            border: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            padding: 0.9rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .product-card.disabled {
+            opacity: 0.6;
+            filter: grayscale(0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            color: var(--primary);
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-meta {
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .category-label {
+            align-self: flex-start;
+            background: rgba(18, 104, 46, 0.1);
+            color: var(--primary);
+            border-radius: 6px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .small-muted {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            align-items: center;
+        }
+
+        .card-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+            transition: 0.25s ease;
+        }
+
+        .card-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .card-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Color-coded buttons */
+        .btn-edit svg {
+            stroke: #1d8cf8;
+        }
+
+        /* Blue */
+        .btn-delete svg {
+            stroke: #e63946;
+        }
+
+        /* Red */
+        .btn-toggle svg {
+            stroke: #2fa360;
+        }
+
+        /* Green */
+        .disabled .btn-toggle svg {
+            stroke: #666;
+        }
+
+        /* Disabled toggle gray */
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            background: #f1f1f1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 999;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 860px;
+            max-width: 100%;
+            max-height: calc(100vh - 2rem);
+            overflow: auto;
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            box-shadow: var(--shadow);
+            align-items: flex-start;
+        }
+
+        .modal-image {
+            width: 42%;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .image-preview-item {
+            position: relative;
+            width: 100%;
+            height: 70px;
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .image-preview-item:first-child img {
+            border-color: var(--accent);
+        }
+
+        .remove-image-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 22px;
+            height: 22px;
+            border: none;
+            border-radius: 50%;
+            background: #e63946;
+            color: #fff;
+            cursor: pointer;
+            font-size: 15px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-form {
+            width: 58%;
+        }
+
+        .modal-form label {
+            display: block;
+            margin: 0.45rem 0 0.2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .modal-form input,
+        .modal-form textarea,
+        .modal-form select {
+            width: 100%;
+            padding: 0.45rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.6rem;
+        }
+
+        .save-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background: #ccc;
+            border: none;
+            padding: 0.45rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Toggle switch styles (checkbox + label) */
+        .toggle-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-checkbox {
+            /* hide native checkbox but keep accessible for screen readers */
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-label {
+            display: inline-block;
+            position: relative;
+            width: 46px;
+            height: 26px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.18s ease;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+        }
+
+        .toggle-label::after {
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: calc(26px - 6px);
+            height: calc(26px - 6px);
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.18s ease, background 0.18s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        /* checked state */
+        .toggle-checkbox:checked+.toggle-label {
+            background: #2fa360;
+        }
+
+        .toggle-checkbox:checked+.toggle-label::after {
+            transform: translateX(calc(46px - 26px));
+        }
+
+        .toggle-text {
+            font-size: 0.85rem;
+            color: #444;
+            user-select: none;
+        }
+
+        @media (max-width:900px) {
+            body {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                inset: 0 auto 0 0;
+                width: min(82vw, 290px);
+                max-width: 290px;
+                padding: 1.25rem 1rem;
+                align-items: center;
+                transform: translateX(-105%);
+                transition: transform var(--transition);
+                z-index: 1200;
+                box-shadow: 8px 0 24px rgba(0, 0, 0, 0.18);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-backdrop.show {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.45);
+                z-index: 1100;
+            }
+
+            .sidebar h2 {
+                margin-bottom: 1.25rem;
+                text-align: center;
+                font-size: 1.1rem;
+            }
+
+            .nav {
+                display: block;
+                overflow: visible;
+                padding-bottom: 0;
+            }
+
+            .nav li+li {
+                margin-top: 0.75rem;
+            }
+
+            .nav a {
+                white-space: normal;
+                padding: 0.75rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .main {
+                min-width: 0;
+                width: 100%;
+            }
+
+            header {
+                padding: 0.85rem 1rem;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+            }
+
+            header h1 {
+                font-size: 1.25rem;
+                min-width: 0;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .filters {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 0.2rem;
+                margin-inline: -1rem;
+                padding-inline: 1rem;
+            }
+
+            .filter-btn {
+                flex: 0 0 auto;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+                gap: 0.8rem;
+            }
+
+            .product-card {
+                padding: 0.75rem;
+            }
+
+            .product-card img {
+                height: 130px;
+            }
+
+            .card-actions {
+                flex-wrap: wrap;
+                gap: 0.55rem;
+            }
+
+            .modal {
+                align-items: flex-start;
+                padding: 0.6rem;
+                overflow-y: auto;
+            }
+
+            .modal-content {
+                flex-direction: column;
+                width: 100%;
+                max-height: none;
+                border-radius: 8px;
+                padding: 0.85rem;
+            }
+
+            .modal-image,
+            .modal-form {
+                width: 100%;
+            }
+
+            .modal-image img {
+                height: 220px;
+            }
+
+            .image-preview-grid {
+                grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+            }
+
+            .image-preview-item,
+            .image-preview-item img {
+                height: 58px;
+            }
+        }
+
+        @media (max-width:520px) {
+            .sidebar {
+                width: min(86vw, 280px);
+                padding: 1rem 0.85rem;
+            }
+
+            header {
+                gap: 0.65rem;
+            }
+
+            header h1 {
+                flex-basis: auto;
+                order: 0;
+                font-size: 1.12rem;
+            }
+
+            .logout-btn {
+                margin-left: auto;
+                padding: 0.45rem 0.7rem;
+            }
+
+            .content {
+                padding: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1.08rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .add-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal {
+                padding: 0;
+                background: rgba(0, 0, 0, 0.45);
+            }
+
+            .modal-content {
+                min-height: 100vh;
+                border-radius: 0;
+            }
+
+            .modal-image img {
+                height: 190px;
+            }
+
+            .modal-form h2 {
+                font-size: 1.25rem;
+            }
+
+            .modal-form input,
+            .modal-form textarea,
+            .modal-form select {
+                min-height: 42px;
+                font-size: 16px;
+            }
+
+            .modal-actions {
+                position: sticky;
+                bottom: -0.85rem;
+                background: var(--white);
+                padding: 0.75rem 0 0.85rem;
+                gap: 0.75rem;
+            }
+
+            .save-btn,
+            .cancel-btn {
+                flex: 1;
+                min-height: 42px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <aside class="sidebar">
+        <div class="admin-brand">
+            <div class="admin-brand-icon"><span class="material-symbols-outlined">eco</span></div>
+            <div>
+                <span class="admin-brand-title">Admin Portal</span>
+                <span class="admin-brand-subtitle">Ermunai Organic</span>
+            </div>
+        </div>
+        <ul class="nav">
+            <li><a href="admin-dashboard.html" data-page="dashboard"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a></li>
+            <li><a href="dashboard-product-page.html" data-page="products" class="active"><span class="material-symbols-outlined">inventory_2</span><span>Product Manager</span></a></li>
+            <li><a href="dashboard-order-page.html" data-page="orders"><span class="material-symbols-outlined">shopping_bag</span><span>Order Manager</span></a></li>
+            <li><a href="site-control.html" data-page="site-control"><span class="material-symbols-outlined">tune</span><span>Site Control</span></a></li>
+            <li><a href="control-center.html" data-page="control-center"><span class="material-symbols-outlined">admin_panel_settings</span><span>Control Center</span></a></li>
+            <li><a href="daashboard-setting.html" data-page="settings"><span class="material-symbols-outlined">settings</span><span>Settings & CMS</span></a></li>
+        </ul>
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <strong>Role: Super Admin</strong>
+                <span>ermunaiorganicfarm@gmail.com</span>
+            </div>
+            <button class="sidebar-logout" id="logoutBtn" type="button">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header>
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">
+                <span></span>
+            </button>
+            <h1>Product Management</h1>
+            <button class="logout-btn admin-header-logout" title="Logout">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden>
+                    <path d="M16 17l5-5-5-5" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M21 12H9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 19H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Logout
+            </button>
+        </header>
+
+        <div class="content">
+            <section id="products" class="page active">
+                <div class="section-title">Manage Products</div>
+
+                <div class="filters">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="readyToCookMixes">Ready-to-Cook Mixes</button>
+                    <button class="filter-btn" data-category="readytoserve">Ready to Serve</button>
+                    <button class="filter-btn" data-category="instantSoup">Instant Soup Mix</button>
+                    <button class="filter-btn" data-category="idliPodi">Idli Podi's</button>
+                    <button class="filter-btn" data-category="instant">Instant Products</button>
+                    <button class="filter-btn" data-category="herbal">Herbal Products</button>
+                    <button class="filter-btn" data-category="disabled">Disabled</button>
+                </div>
+
+                <div class="product-search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                        <path d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <input id="adminProductSearch" type="search" placeholder="Search product name or description" autocomplete="off" />
+                </div>
+
+                <button id="addProductBtn" class="add-btn" title="Add product">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+                        <path d="M12 5v14M5 12h14" stroke="#000" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    Add Product
+                </button>
+
+                <div class="product-grid" id="productList" aria-live="polite"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="productModal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-image">
+                <div class="small-muted">Product Images</div>
+                <img id="imagePreview" src="" alt="product preview" style="display:none" />
+                <div id="imagePreviewGrid" class="image-preview-grid"></div>
+                <div class="small-muted" style="margin-top:0.5rem">Leave image input empty to keep existing images. The
+                    first image is used as the main product image.</div>
+                <div style="margin-top:0.5rem">
+                    <label style="font-weight:600; display:block; margin-bottom:0.3rem">Upload Product Images</label>
+                    <input type="file" id="productImageFile" accept="image/*" multiple />
+                    <div id="imageSelectionStatus" class="small-muted" style="margin-top:0.35rem"></div>
+                    <button type="button" id="clearSelectedImages" class="cancel-btn"
+                        style="margin-top:0.5rem; display:none">Clear selected images</button>
+                </div>
+            </div>
+
+            <div class="modal-form">
+                <h2 id="modalTitle">Add Product</h2>
+                <form id="productForm">
+                    <input type="hidden" id="productId" />
+                    <label>Name</label>
+                    <input type="text" id="productName" required />
+                    <label>Price (₹)</label>
+                    <input type="number" id="productPrice" required step="0.01" min="0" />
+                    <label>Discount (%)</label>
+                    <input type="number" id="productDiscount" min="0" max="100" />
+                    <label>Available Stock</label>
+                    <input type="number" id="productStock" required min="0" />
+                    <label>Description</label>
+                    <textarea id="productDescription" rows="4"></textarea>
+                    <label>Category</label>
+                    <select id="productCategory" required>
+                        <option value="readyToCookMixes">Ready-to-Cook Instant Mixes</option>
+                        <option value="readytoserve">Ready to Serve</option>
+                        <option value="instantSoup">Instant Soup Mix</option>
+                        <option value="idliPodi">Idli Podi's</option>
+                        <option value="instant">Instant Products</option>
+                        <option value="herbal">Herbal Products</option>
+                    </select>
+                    <label style="margin-top:0.5rem"><input type="checkbox" id="productDisabled" /> Disable product
+                        (hide from shop)</label>
+                    <div class="modal-actions" style="margin-top:0.6rem">
+                        <button type="submit" class="save-btn">Save</button>
+                        <button type="button" id="closeModal" class="cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase & script -->
+    <script type="module">
+        // ---------- Supabase (client) imports ----------
+        import { initializeApp } from "./supabase-compat.js";
+        import { getSupabase, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, getDoc } from "./supabase-compat.js";
+        import { getAuth, signOut, onAuthStateChanged } from "./supabase-compat.js";
+
+        // ---------- CONFIG ----------
+        const ADMIN_EMAIL = "ermunaiorganicfarm@gmail.com";
+        // ---------- INIT ----------
+        const app = initializeApp();
+        const db = getSupabase(app);
+        const productRef = collection(db, "products");
+        const auth = getAuth(app);
+
+        // Authenticated Supabase client used for storage uploads and product writes.
+        let supabase = null;
+
+        // UI elements
+        const productList = document.getElementById("productList");
+        const productModal = document.getElementById("productModal");
+        const closeModalBtn = document.getElementById("closeModal");
+        const addProductBtn = document.getElementById("addProductBtn");
+        const productForm = document.getElementById("productForm");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const imagePreview = document.getElementById("imagePreview");
+        const imagePreviewGrid = document.getElementById("imagePreviewGrid");
+        const productImageFile = document.getElementById("productImageFile");
+        const imageSelectionStatus = document.getElementById("imageSelectionStatus");
+        const clearSelectedImages = document.getElementById("clearSelectedImages");
+        const adminProductSearch = document.getElementById("adminProductSearch");
+        const sidebar = document.querySelector(".sidebar");
+        const menuToggle = document.getElementById("menuToggle");
+        const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+
+        let currentProductId = null;
+        let editingExistingImageUrls = [];
+        let removedExistingImageUrls = [];
+        let selectedImageFiles = [];
+        let selectedImagePreviewUrls = [];
+        let isAdmin = false;
+        let currentAdminUser = null;
+
+        function closeSidebar() {
+            sidebar.classList.remove("open");
+            sidebarBackdrop.classList.remove("show");
+            menuToggle.setAttribute("aria-expanded", "false");
+        }
+
+        function openSidebar() {
+            sidebar.classList.add("open");
+            sidebarBackdrop.classList.add("show");
+            menuToggle.setAttribute("aria-expanded", "true");
+        }
+
+        menuToggle.addEventListener("click", () => {
+            if (sidebar.classList.contains("open")) closeSidebar();
+            else openSidebar();
+        });
+
+        sidebarBackdrop.addEventListener("click", closeSidebar);
+        document.querySelectorAll(".nav a").forEach(link => link.addEventListener("click", closeSidebar));
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") closeSidebar();
+        });
+
+        // ---------- Supabase storage client ----------
+        async function initSupabase() {
+            supabase = db;
+            return supabase;
+        }
+
+        // call it early but non-blocking for Supabase reads we'll await it once.
+        await initSupabase();
+
+        // Role-based auth protection guard
+        onAuthStateChanged(auth, async user => {
+            if (!user) {
+                isAdmin = false;
+                currentAdminUser = null;
+                window.location.href = "index.html";
+                return;
+            }
+
+            if (String(user.email || "").toLowerCase() === ADMIN_EMAIL) {
+                isAdmin = true;
+                currentAdminUser = user;
+                loadProducts();
+                return;
+            }
+            
+            try {
+                const roleSnap = await getDoc(doc(db, "users", user.uid));
+                const role = roleSnap.exists() ? roleSnap.data().role : null;
+                const allowedRoles = ["Super Admin", "Admin", "Inventory Manager"];
+
+                if (allowedRoles.includes(role)) {
+                    isAdmin = true;
+                    currentAdminUser = user;
+                    loadProducts();
+                } else {
+                    isAdmin = false;
+                    currentAdminUser = null;
+                    alert("Access Denied: You do not have administrator permissions.");
+                    await signOut(auth);
+                    window.location.href = "index.html";
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Unable to verify administrator role. Please run the Supabase migration and bootstrap script.");
+            }
+        });
+
+        document.querySelectorAll("#logoutBtn, .admin-header-logout").forEach(button => button.addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+                alert("Logged out");
+            } catch (err) {
+                console.error("Sign out failed:", err);
+            }
+        }));
+
+
+        // ---------- UI behavior ----------
+        function getProductImages(product) {
+            const images = Array.isArray(product?.images) ? product.images.filter(Boolean) : [];
+            if (product?.image && !images.includes(product.image)) images.unshift(product.image);
+            return images;
+        }
+
+        const categoryLabels = {
+            readyToCookMixes: "Ready-to-Cook Instant Mixes",
+            readytoserve: "Ready to Serve",
+            readyToServe: "Ready to Serve",
+            "ready-to-serve": "Ready to Serve",
+            instantSoup: "Instant Soup Mix",
+            idliPodi: "Idli Podi's",
+            instant: "Instant Products",
+            herbal: "Herbal Products"
+        };
+
+        function normalizeCategory(category) {
+            if (category === "readyToServe" || category === "ready-to-serve") return "readytoserve";
+            return category || "";
+        }
+
+        function getCategoryLabel(product) {
+            const category = normalizeCategory(product?.category || "");
+            return product?.categoryLabel || categoryLabels[category] || category || "Uncategorized";
+        }
+
+        function getSupabaseStoragePath(publicUrl) {
+            try {
+                const url = new URL(publicUrl);
+                const marker = "/storage/v1/object/public/ermunai-product-images/";
+                const markerIndex = url.pathname.indexOf(marker);
+                if (markerIndex === -1) return "";
+                return decodeURIComponent(url.pathname.slice(markerIndex + marker.length));
+            } catch (err) {
+                console.warn("Could not parse image URL for storage removal:", publicUrl, err);
+                return "";
+            }
+        }
+
+        async function removeUploadedImagesFromStorage(urls) {
+            if (!supabase || urls.length === 0) return;
+            const paths = urls.map(getSupabaseStoragePath).filter(Boolean);
+            if (paths.length === 0) return;
+
+            const { error } = await supabase.storage.from("ermunai-product-images").remove(paths);
+            if (error) {
+                console.warn("Product was saved, but removed images could not be deleted from storage:", error);
+            }
+        }
+
+        function removeExistingImage(index) {
+            const removedUrl = editingExistingImageUrls.splice(index, 1)[0];
+            if (removedUrl) removedExistingImageUrls.push(removedUrl);
+            renderAllImagePreviews();
+        }
+
+        function removeSelectedImage(index) {
+            const previewUrl = selectedImagePreviewUrls[index];
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
+            selectedImageFiles.splice(index, 1);
+            selectedImagePreviewUrls.splice(index, 1);
+            renderAllImagePreviews();
+        }
+
+        function renderImagePreviews(items = []) {
+            const cleanItems = items.filter(item => item.url);
+            imagePreviewGrid.innerHTML = "";
+            if (cleanItems.length > 0) {
+                imagePreview.src = cleanItems[0].url;
+                imagePreview.style.display = "block";
+            } else {
+                imagePreview.removeAttribute("src");
+                imagePreview.style.display = "none";
+            }
+
+            cleanItems.forEach((item, index) => {
+                const tile = document.createElement("div");
+                tile.className = "image-preview-item";
+
+                const thumb = document.createElement("img");
+                thumb.src = item.url;
+                thumb.alt = index === 0 ? "Main product image" : `Product image ${index + 1}`;
+
+                const removeBtn = document.createElement("button");
+                removeBtn.type = "button";
+                removeBtn.className = "remove-image-btn";
+                removeBtn.title = "Remove image";
+                removeBtn.setAttribute("aria-label", "Remove image");
+                removeBtn.textContent = "x";
+                removeBtn.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (item.type === "existing") removeExistingImage(item.sourceIndex);
+                    else removeSelectedImage(item.sourceIndex);
+                });
+
+                tile.appendChild(thumb);
+                tile.appendChild(removeBtn);
+                imagePreviewGrid.appendChild(tile);
+            });
+        }
+
+        function clearPendingImageSelection() {
+            selectedImagePreviewUrls.forEach(url => URL.revokeObjectURL(url));
+            selectedImageFiles = [];
+            selectedImagePreviewUrls = [];
+            productImageFile.value = "";
+            imageSelectionStatus.textContent = "";
+            clearSelectedImages.style.display = "none";
+        }
+
+        function renderAllImagePreviews() {
+            const existingItems = editingExistingImageUrls.map((url, index) => ({
+                type: "existing",
+                sourceIndex: index,
+                url
+            }));
+            const selectedItems = selectedImagePreviewUrls.map((url, index) => ({
+                type: "selected",
+                sourceIndex: index,
+                url
+            }));
+
+            renderImagePreviews([...existingItems, ...selectedItems]);
+            const selectedCount = selectedImageFiles.length;
+            imageSelectionStatus.textContent = selectedCount
+                ? `${selectedCount} new image${selectedCount === 1 ? "" : "s"} selected for upload.`
+                : "";
+            clearSelectedImages.style.display = selectedCount ? "inline-block" : "none";
+        }
+
+        addProductBtn.addEventListener("click", () => {
+            currentProductId = null;
+            editingExistingImageUrls = [];
+            removedExistingImageUrls = [];
+            clearPendingImageSelection();
+            productForm.reset();
+            renderAllImagePreviews();
+            document.getElementById("modalTitle").textContent = "Add Product";
+            productModal.classList.add("show");
+            productModal.setAttribute("aria-hidden", "false");
+        });
+
+        closeModalBtn.addEventListener("click", () => {
+            productModal.classList.remove("show");
+            productModal.setAttribute("aria-hidden", "true");
+        });
+
+        productModal.addEventListener("click", (e) => {
+            if (e.target === productModal) {
+                productModal.classList.remove("show");
+                productModal.setAttribute("aria-hidden", "true");
+            }
+        });
+
+        productImageFile.addEventListener("change", (e) => {
+            const newFiles = Array.from(e.target.files || []);
+            selectedImageFiles.push(...newFiles);
+            selectedImagePreviewUrls.push(...newFiles.map(file => URL.createObjectURL(file)));
+            productImageFile.value = "";
+            renderAllImagePreviews();
+        });
+
+        clearSelectedImages.addEventListener("click", () => {
+            clearPendingImageSelection();
+            renderAllImagePreviews();
+        });
+
+        // ---------- Save product (with Supabase guard) ----------
+        productForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const user = currentAdminUser;
+            if (!user || !isAdmin) {
+                alert("⚠️ Please login as admin to add/edit products.");
+                return;
+            }
+
+            const files = [...selectedImageFiles];
+            let imageUrls = [...editingExistingImageUrls];
+
+            if (files.length > 0) {
+                // if supabase didn't initialize (e.g. tracking prevention), do not fail whole page
+                if (!supabase) {
+                    alert("Image upload is unavailable in this browser (storage/tracking blocked). The product will be saved without changing the image.");
+                    // Keep existing images or empty, continue saving product without upload.
+                } else {
+                    try {
+                        const uploadedUrls = [];
+                        for (const file of files) {
+                            const safeName = file.name.replace(/\s+/g, "_");
+                            const fileName = `products/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
+                            const { data, error } = await supabase.storage.from("ermunai-product-images").upload(fileName, file);
+                            if (error) {
+                                console.error("Supabase upload error:", error);
+                                alert("Upload failed: " + (error.message || JSON.stringify(error)));
+                                return;
+                            }
+                            const { data: publicData } = supabase.storage.from("ermunai-product-images").getPublicUrl(fileName);
+                            if (publicData?.publicUrl) uploadedUrls.push(publicData.publicUrl);
+                        }
+                        imageUrls = currentProductId ? [...imageUrls, ...uploadedUrls] : uploadedUrls;
+                    } catch (err) {
+                        console.error("Upload exception:", err);
+                        alert("Upload failed: " + (err.message || err));
+                        return;
+                    }
+                }
+            }
+
+            // prepare product object
+            const productData = {
+                image: imageUrls[0] || "",
+                images: imageUrls,
+                name: (document.getElementById("productName").value || "").trim(),
+                price: parseFloat(document.getElementById("productPrice").value) || 0,
+                discount: parseFloat(document.getElementById("productDiscount").value) || 0,
+                stock: parseInt(document.getElementById("productStock").value) || 0,
+                description: document.getElementById("productDescription").value || "",
+                category: document.getElementById("productCategory").value,
+                categoryLabel: categoryLabels[document.getElementById("productCategory").value] || document.getElementById("productCategory").value,
+                disabled: !!document.getElementById("productDisabled").checked,
+                updatedBy: user.uid,
+                updatedAt: new Date().toISOString()
+            };
+
+            try {
+                if (currentProductId) {
+                    await updateDoc(doc(db, "products", currentProductId), productData);
+                } else {
+                    productData.createdAt = new Date().toISOString();
+                    productData.createdBy = user.uid;
+                    await addDoc(productRef, productData);
+                }
+                productModal.classList.remove("show");
+                productModal.setAttribute("aria-hidden", "true");
+                await removeUploadedImagesFromStorage(removedExistingImageUrls);
+                editingExistingImageUrls = [];
+                removedExistingImageUrls = [];
+                clearPendingImageSelection();
+                renderAllImagePreviews();
+                loadProducts(getCurrentFilterCategory());
+            } catch (err) {
+                console.error("Supabase write failed:", err);
+                alert("Failed to save product: " + (err.message || err));
+            }
+        });
+
+        // ---------- Load products (Supabase) ----------
+        async function loadProducts(category = "all") {
+            productList.innerHTML = "";
+            try {
+                const snapshot = await getDocs(productRef);
+                const products = [];
+                snapshot.forEach(s => products.push({ id: s.id, ...(s.data() || {}) }));
+                // sort newest first if possible
+                products.sort((a, b) => {
+                    const ta = a.createdAt ? Date.parse(a.createdAt) : 0;
+                    const tb = b.createdAt ? Date.parse(b.createdAt) : 0;
+                    return tb - ta;
+                });
+
+                products.forEach(p => {
+                    const isDisabled = !!p.disabled;
+                    const productCategory = normalizeCategory(p.category);
+                    const search = (adminProductSearch?.value || "").trim().toLowerCase();
+                    const matchesCategory = (category === "all")
+                        || (category === "disabled" && isDisabled)
+                        || (category !== "disabled" && category !== "all" && productCategory === category);
+                    const matchesSearch = !search || [
+                        p.name,
+                        p.description,
+                        p.categoryLabel,
+                        getCategoryLabel(p)
+                    ].join(" ").toLowerCase().includes(search);
+
+                    if (!matchesCategory || !matchesSearch) return;
+
+                    const productImages = getProductImages(p);
+                    const card = document.createElement("div");
+                    card.className = "product-card" + (isDisabled ? " disabled" : "");
+
+                    const img = document.createElement("img");
+                    img.src = productImages[0] || "https://via.placeholder.com/420x300?text=No+Image";
+                    img.alt = p.name || "Product image";
+                    card.appendChild(img);
+
+                    const h3 = document.createElement("h3");
+                    h3.textContent = p.name || "Untitled";
+                    card.appendChild(h3);
+
+                    const meta = document.createElement("div");
+                    meta.className = "product-meta";
+                    const priceText = `₹${Number(p.price || 0).toFixed(2)}`;
+                    const discountText = (Number(p.discount) > 0) ? ` (${Number(p.discount)}% off)` : "";
+                    meta.textContent = priceText + discountText;
+                    card.appendChild(meta);
+
+                    const categoryLabel = document.createElement("div");
+                    categoryLabel.className = "category-label";
+                    categoryLabel.textContent = getCategoryLabel(p);
+                    card.appendChild(categoryLabel);
+
+                    const stock = document.createElement("div");
+                    stock.className = "small-muted";
+                    stock.textContent = `Stock: ${p.stock || 0}`;
+                    card.appendChild(stock);
+
+                    const actions = document.createElement("div");
+                    actions.className = "card-actions";
+
+                    // --- Edit button (circular) ---
+                    const editBtn = document.createElement("button");
+                    editBtn.className = "card-btn btn-edit";
+                    editBtn.title = "Edit";
+                    editBtn.setAttribute("aria-label", "Edit product");
+                    editBtn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M3 21v-3l11-11 3 3L6 21H3z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+                    editBtn.addEventListener("click", () => {
+                        if (!isAdmin) { alert("Please login as admin to edit."); return; }
+                        currentProductId = p.id;
+                        document.getElementById("modalTitle").textContent = "Edit Product";
+                        document.getElementById("productName").value = p.name || "";
+                        document.getElementById("productPrice").value = p.price || 0;
+                        document.getElementById("productDiscount").value = p.discount || 0;
+                        document.getElementById("productStock").value = p.stock || 0;
+                        document.getElementById("productDescription").value = p.description || "";
+                        document.getElementById("productCategory").value = normalizeCategory(p.category) || "readyToCookMixes";
+                        document.getElementById("productDisabled").checked = !!p.disabled;
+                        editingExistingImageUrls = getProductImages(p);
+                        removedExistingImageUrls = [];
+                        clearPendingImageSelection();
+                        renderAllImagePreviews();
+                        productModal.classList.add("show");
+                        productModal.setAttribute("aria-hidden", "false");
+                    });
+
+                    // --- Delete button (circular) ---
+                    const deleteBtn = document.createElement("button");
+                    deleteBtn.className = "card-btn btn-delete";
+                    deleteBtn.title = "Delete";
+                    deleteBtn.setAttribute("aria-label", "Delete product");
+                    deleteBtn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <path d="M3 6h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 6v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 6V4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+                    deleteBtn.addEventListener("click", async () => {
+                        if (!isAdmin) { alert("Please login as admin to delete."); return; }
+                        if (!confirm(`Delete product "${p.name}"?`)) return;
+                        try {
+                            await deleteDoc(doc(db, "products", p.id));
+                            loadProducts(getCurrentFilterCategory());
+                        } catch (err) {
+                            console.error("Delete failed:", err);
+                            alert("Failed to delete product: " + (err.message || err));
+                        }
+                    });
+
+                    // --- Toggle switch (checkbox) ---
+                    // create unique id for checkbox
+                    const toggleId = `toggle-${p.id}`;
+
+                    const wrap = document.createElement("div");
+                    wrap.className = "toggle-wrap";
+
+                    const checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.id = toggleId;
+                    checkbox.className = "toggle-checkbox";
+                    // checked means enabled -> disabled === false
+                    checkbox.checked = !isDisabled;
+
+                    const label = document.createElement("label");
+                    label.className = "toggle-label";
+                    label.setAttribute("for", toggleId);
+                    // accessibility text (optional)
+                    const txt = document.createElement("div");
+                    txt.className = "toggle-text";
+                    txt.textContent = checkbox.checked ? "Enabled" : "Disabled";
+
+                    // optimistic update handler
+                    checkbox.addEventListener("change", async (ev) => {
+                        if (!isAdmin) {
+                            alert("Please login as admin to change status.");
+                            // rollback
+                            checkbox.checked = !checkbox.checked;
+                            return;
+                        }
+
+                        // determine new disabled value (disabled = !checked)
+                        const newDisabled = !checkbox.checked;
+
+                        // optimistic UI: update card class and label text immediately
+                        if (newDisabled) {
+                            card.classList.add("disabled");
+                        } else {
+                            card.classList.remove("disabled");
+                        }
+                        txt.textContent = checkbox.checked ? "Enabled" : "Disabled";
+
+                        try {
+                            await updateDoc(doc(db, "products", p.id), {
+                                disabled: newDisabled,
+                                updatedAt: new Date().toISOString()
+                            });
+                            // success - nothing else needed
+                        } catch (err) {
+                            console.error("Toggle failed:", err);
+                            // rollback UI
+                            checkbox.checked = !checkbox.checked;
+                            if (!checkbox.checked) card.classList.add("disabled"); else card.classList.remove("disabled");
+                            txt.textContent = checkbox.checked ? "Enabled" : "Disabled";
+                            alert("Failed to change status: " + (err.message || err));
+                        }
+                    });
+
+                    wrap.appendChild(checkbox);
+                    wrap.appendChild(label);
+                    wrap.appendChild(txt);
+
+                    // append action buttons and toggle
+                    actions.appendChild(editBtn);
+                    actions.appendChild(deleteBtn);
+                    actions.appendChild(wrap);
+
+                    card.appendChild(actions);
+
+                    productList.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error("Failed to load products:", err);
+                const message = err?.message || String(err);
+                const safeMessage = message.replace(/[&<>"']/g, char => ({
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+                }[char]));
+                productList.innerHTML = `
+                    <div style="grid-column:1/-1;background:#fff;border:1px solid rgba(186,26,26,.22);border-radius:14px;padding:1rem;color:#3b2722;">
+                        <strong style="color:#ba1a1a;">Products could not be loaded.</strong>
+                        <p style="margin:.5rem 0 0;font-weight:700;color:#6b5b52;">${safeMessage}</p>
+                        <p style="margin:.5rem 0 0;color:#6b5b52;">Check that this browser can access Supabase and that ad/tracking blockers are not blocking <code>supabase.co</code>.</p>
+                    </div>`;
+                alert("Failed to load products: " + message + "\n\nIf this says 'Failed to fetch', allow supabase.co in this browser/network and refresh.");
+            }
+        }
+
+        // ---------- Filters ----------
+        function getCurrentFilterCategory() {
+            const active = document.querySelector(".filter-btn.active");
+            return active ? active.dataset.category : "all";
+        }
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                loadProducts(btn.dataset.category);
+            });
+        });
+
+        adminProductSearch?.addEventListener("input", () => {
+            loadProducts(getCurrentFilterCategory());
+        });
+
+    </script>
+
+</body>
+
+</html>
+

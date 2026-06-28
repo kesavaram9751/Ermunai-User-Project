@@ -1,800 +1,311 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="scroll-smooth" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | Ermunai Organic Farm Foods</title>
-    <meta name="description"
-        content="Stay updated with the latest news, recipes, and insights on organic farming and healthy living from Ermunai Organic Farm Foods.">
-    <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png/jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* Reset & Base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Blogs & Farm Stories | Ermunai Organic</title>
+  <meta content="Insights on organic farming, startup stories, and recipes from Ermunai Organic Farm Foods." name="description"/>
+  <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#0d631b",
+            "success-leaf": "#43A047",
+            "surface-container-low": "#f5f3ee",
+            "surface": "#fbf9f3",
+            "on-surface": "#1b1c19",
+            "on-surface-variant": "#40493d",
+            "outline-variant": "#bfcaba",
+            "earth-dark": "#4E342E",
+            "glass-stroke": "rgba(46, 125, 50, 0.1)"
+          }
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f7f4;
-            color: #333;
-        }
-
-        /* ---------- Header ---------- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            padding: 15px 40px;
-            border-bottom: 2px solid #eee;
-            z-index: 1000;
-        }
-
-        header .logo {
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            color: green;
-            font-size: 18px;
-        }
-
-        header .logo img {
-            height: 60px;
-            margin-right: 10px;
-        }
-
-        header nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        header nav ul li {
-            margin: 0 15px;
-        }
-
-        header nav ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-
-        header nav ul li a.active,
-        header nav ul li a:hover {
-            color: green;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Buttons */
-        .btn-login,
-        .btn-signup {
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .btn-login {
-            background: transparent;
-            border: 2px solid green;
-            color: green;
-        }
-
-        .btn-login:hover {
-            background: green;
-            color: white;
-        }
-
-        .btn-signup {
-            background: green;
-            border: 2px solid green;
-            color: white;
-        }
-
-        .btn-signup:hover {
-            background: #244021;
-            border-color: #244021;
-        }
-
-        /* Hamburger (hidden by default) */
-        .hamburger {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: green;
-        }
-
-        .close-menu {
-            display: none;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: green;
-            cursor: pointer;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: green;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .profile i {
-            font-size: 20px;
-        }
-
-        .btn-logout {
-            margin-left: 10px;
-            padding: 6px 12px;
-            border: 2px solid crimson;
-            background: transparent;
-            color: crimson;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: crimson;
-            color: white;
-        }
-
-
-
-        @media (max-width: 900px) {
-            .close-menu {
-                display: block;
-            }
-        }
-
-        /* Hide username on mobile */
-        @media (max-width: 768px) {
-            .profile .username {
-                display: none;
-                position: absolute;
-                top: -30px;
-                /* adjust to hover position */
-                left: 50%;
-                transform: translateX(-50%);
-                background: green;
-                color: white;
-                padding: 5px 10px;
-                border-radius: 5px;
-                white-space: nowrap;
-                font-size: 14px;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s ease;
-                z-index: 2000;
-            }
-
-            /* Show username on hover */
-            .profile:hover .username {
-                display: block;
-                opacity: 1;
-            }
-        }
-
-
-
-        /* ---------- Mobile Styles ---------- */
-        @media (max-width: 900px) {
-            header {
-                padding: 15px 20px;
-            }
-
-            /* Hide normal menu */
-            header nav {
-                position: fixed;
-                top: 0;
-                right: -250px;
-                width: 250px;
-                height: 100%;
-                background: white;
-                border-left: 2px solid #eee;
-                box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
-                transition: right 0.3s ease;
-                padding-top: 80px;
-                z-index: 1200;
-            }
-
-            header nav ul {
-                flex-direction: column;
-                align-items: start;
-                padding-left: 30px;
-            }
-
-            header nav ul li {
-                margin: 15px 0;
-            }
-
-            .header-right {
-                gap: 10px;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            /* Show menu when active */
-            header nav.active {
-                right: 0;
-            }
-        }
-
-
-        /* Cart */
-        .cart {
-            font-size: 22px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        .cart i {
-            color: green;
-        }
-
-        /* ---------- Blog Hero ---------- */
-        .blog-hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=1500&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .blog-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .blog-hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-        }
-
-        /* ---------- Blog Grid ---------- */
-        .blog-container {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
-
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .blog-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .blog-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-        }
-
-        .blog-content {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .blog-date {
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 10px;
-        }
-
-        .blog-content h3 {
-            font-size: 1.4rem;
-            color: #2c3e2c;
-            margin-bottom: 15px;
-            line-height: 1.3;
-        }
-
-        .blog-content p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3;
-            -webkit-box-orient: vertical;
-        }
-
-        .read-more {
-            align-self: flex-start;
-            margin-top: auto;
-            color: #2e7d32;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: gap 0.3s;
-        }
-
-        .read-more:hover {
-            gap: 10px;
-        }
-
-        /* ✅ Footer */
-        footer {
-            background: linear-gradient(145deg, #056608, #0b8a0d);
-            color: #fff;
-            padding: 40px 20px;
-            font-family: "Poppins", sans-serif;
-        }
-
-        .footer-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .footer-section h3,
-        .footer-section h4 {
-            color: #fff;
-            margin-bottom: 15px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            border-bottom: 2px solid #ffd700;
-            display: inline-block;
-            padding-bottom: 5px;
-        }
-
-        .footer-section p {
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section ul li a:hover {
-            color: #ffd700;
-        }
-
-        /* WhatsApp Order Button */
-        .whatsapp {
-            margin: 25px 0;
-            text-align: center;
-        }
-
-        .whatsapp a {
-            background: #25D366;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: background 0.3s ease;
-        }
-
-        .whatsapp a:hover {
-            background: #1eb85b;
-        }
-
-        /* Footer Bottom */
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            padding-top: 15px;
-            font-size: 14px;
-        }
-
-        .footer-bottom p {
-            margin: 5px 0;
-        }
-
-        .footer-links a {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .footer-container {
-                text-align: center;
-            }
-
-            .footer-section h3,
-            .footer-section h4 {
-                border: none;
-            }
-        }
-
-
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header nav ul {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            header nav ul li {
-                margin: 10px 0;
-            }
-
-
-        }
-
-        @media (max-width: 480px) {
-
-
-            header .logo img {
-                margin-right: 0px;
-            }
-
-            header .logo span {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-
-
-            .blog-hero h1 {
-                font-size: 2rem;
-            }
-
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    .glass-nav {
+      background: rgba(251, 249, 243, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(46, 125, 50, 0.1);
+    }
+    .blog-hero {
+      min-height: 560px;
+      box-shadow: 0 40px 80px -20px rgba(46, 125, 50, 0.12);
+    }
+    .article-body p { margin: 0 0 1.5rem; }
+    .article-body h2 { margin: 2.5rem 0 1rem; color: #0d631b; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; line-height: 1.2; }
+    .article-body h3 { margin: 2rem 0 .8rem; color: #1b1c19; font-size: 1.35rem; font-weight: 800; }
+    .article-body ul, .article-body ol { margin: 1rem 0 1.5rem 1.25rem; display: grid; gap: .65rem; }
+    .article-body blockquote { border-left: 4px solid #0d631b; padding: .8rem 1rem; background: rgba(13,99,27,.06); border-radius: 0 .75rem .75rem 0; font-weight: 700; color: #1b1c19; }
+    .article-body img { width: 100%; border-radius: .75rem; margin: 2rem 0; }
+    .filter-btn.active { background: #0d631b; color: #fff; }
+    @media (max-width: 720px) {
+      .blog-hero { min-height: 480px; }
+    }
+  </style>
 </head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+  <div id="siteHeader"></div>
 
-<body>
+  <main id="mainContent" class="pt-24 pb-16">
+    <div id="blogView" class="space-y-12"></div>
+  </main>
 
-    <header>
-        <div class="logo">
-            <img src="./images/logo.jpg" alt="Logo">
-            <span>Ermunai Organic Farm & Foods</span>
-        </div>
+  <div id="siteFooter"></div>
 
-        <!-- Navigation -->
-        <nav>
-            <div class="close-menu"><i class="fa-solid fa-times"></i></div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="purchase.html">Purchases</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="blog.html" class="active">Blog</a></li>
-                <li><a href="feedback.html">Certification & Feedback</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+  <script type="module">
+    import { initializeApp } from "./js/supabase-compat.js";
+    import { getSupabase, collection, getDocs, query, orderBy } from "./js/supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
+    import { blogCard, escapeHtml, mountStorefrontHeader, normalizeBlog, readStorefrontCart, renderInto, mountStorefrontFooter, syncStorefrontAuth } from "./js/ermunai-components.js";
 
+    mountStorefrontHeader("siteHeader", { active: "blog" });
+    mountStorefrontFooter("siteFooter");
 
-        <!-- Right side -->
-        <div class="header-right">
-            <div class="cart"><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></div>
+    const app = initializeApp();
+    const db = getSupabase(app);
+    const auth = getAuth(app);
 
-            <!-- Buttons (default) -->
-            <a href="login.html" class="btn-login">Login</a>
-            <a href="signup.html" class="btn-signup">Sign Up</a>
+    const blogView = document.getElementById("blogView");
+    const categories = ["All Stories", "Farm Stories", "Healthy Living", "Recipe Insights", "Sustainability", "Events"];
 
-            <!-- Profile (hidden initially) -->
-            <div class="profile" style="display: none; position: relative;">
-                <i class="fa-solid fa-user"></i>
-                <span class="username"></span>
-                <button class="btn-logout">Logout</button>
-            </div>
+    function selectedPostKey() {
+      const queryKey = new URLSearchParams(window.location.search).get("post");
+      if (queryKey) return queryKey;
+      const pathKey = window.location.pathname.split("/").filter(Boolean).pop();
+      if (pathKey && !pathKey.endsWith(".html") && pathKey !== "blog") return pathKey;
+      return "";
+    }
 
-
-
-            <div class="hamburger"><i class="fa-solid fa-bars"></i></div>
-        </div>
-
-    </header>
-
-    <section class="blog-hero">
-        <h1>Our Journal</h1>
-        <p>Discover the journey behind our organic produce and tips for a healthier lifestyle.</p>
-    </section>
-
-        <div class="blog-container">
-        <div class="blog-grid">
-            <!-- Blog Card 7 (CII IWN Southern Region Annual Meeting) -->
-            <div class="blog-card">
-                <a href="cii-iwn-southern-region-annual-meeting-2026.html"><img src="images/blog-main-image/blog7.png"
-                        alt="CII IWN Southern Region Annual Meeting 2026"></a>
-                <div class="blog-content">
-                    <span class="blog-date">April 24, 2026</span>
-                    <h3>Empowering Tomorrow: Insights from the CII IWN Southern Region Annual Meeting 2026</h3>
-                    <p>The CII Indian Women Network Southern Region Annual Meeting at ITC Grand Chola, Chennai,
-                        spotlighted mentorship, leadership transition, and women driving India's next economic leap.</p>
-                    <a href="cii-iwn-southern-region-annual-meeting-2026.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 1 (Tamil Nadu Food Processor’s Conclave) -->
-            <div class="blog-card">
-                <a href="food-processers.html"><img src="images/blog-main-image/blog3.png"
-                        alt="Tamil Nadu Food Processor’s Conclave"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 23, 2026</span>
-                    <h3>Strengthening the Roots: Highlights from the Tamil Nadu Food Processor’s Conclave, Madurai</h3>
-                    <p>The flavor of innovation met the spirit of entrepreneurship at the Tamil Nadu Food Processor’s
-                        Conclave, held on February 23, 2026, at Madurai.</p>
-                    <a href="food-processers.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 00 (Tech Summit) -->
-            <div class="blog-card">
-                <a href="the-hindu-tech-summit-2026.html"><img src="images/blog-main-image/blog2.jpg"
-                        alt="The Hindu Tech Summit 2026"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 12, 2026</span>
-                    <h3>My Experience at The Hindu Tech Summit 2026 — Powered by Innovation & Learning</h3>
-                    <p>In February 2026, I had the exciting opportunity to attend The Hindu Tech Summit 2026, one of
-                        India’s most influential tech gatherings held at Taj Coromandel, Chennai.</p>
-                    <a href="the-hindu-tech-summit-2026.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 2 (Green Horizons Conclave) -->
-            <div class="blog-card">
-                <a href="Green-Horizons-Conclave.html"><img src="images/blog-main-image/blog4.jpg"
-                        alt="Green Horizons Conclave"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 9, 2026</span>
-                    <h3>Pioneering a Sustainable Future: Highlights from the Green Horizons Conclave</h3>
-                    <p>Sustainability took center stage at the Green Horizons Conclave, discussing the roadmap for a
-                        cleaner, greener tomorrow.</p>
-                    <a href="Green-Horizons-Conclave.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 3 (CII CEL Learning Mission) -->
-            <div class="blog-card">
-                <a href="cii-cel.html"><img src="images/blog-main-image/blog5.jpg"
-                        alt="CII CEL Learning Mission to Sri City"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 6, 2026</span>
-                    <h3>Operational Excellence in Action: The CII CEL Learning Mission to Sri City</h3>
-                    <p>CII–CEL Chennai Entrepreneurs Development Forum hosted an exclusive Learning Mission to Sri City,
-                        exploring world-class manufacturing giants.</p>
-                    <a href="cii-cel.html" class="read-more">Read Full Story <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 4 (CII Chennai Zone Annual Session) -->
-            <div class="blog-card">
-                <a href="Chennai-Zone-Annual-Session.html"><img src="images/blog-main-image/blog6.jpg"
-                        alt="CII Chennai Zone Annual Session"></a>
-                <div class="blog-content">
-                    <span class="blog-date">February 26, 2026</span>
-                    <h3>Innovation & Integration: Highlights from the CII Chennai Zone Annual Session (2025-26)</h3>
-                    <p>CII Chennai Zone Annual Session explored Building India's Manufacturing Future: Transitioning
-                        from Legacy Systems to Innovation.</p>
-                    <a href="Chennai-Zone-Annual-Session.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <!-- Blog Card 0 (New) -->
-            <div class="blog-card">
-                <a href="celebrating-a-milestone.html"><img src="images/blog-main-image/blog1.jpg"
-                        alt="Celebrating a Milestone"></a>
-                <div class="blog-content">
-                    <span class="blog-date">August 10, 2025</span>
-                    <h3>Celebrating a Milestone: My Journey with the All India Women Start-a-thon</h3>
-                    <p>I am thrilled to share a moment of pride and gratitude! Recently, I participated in Stage 2 of
-                        the All India Women Start-a-thon, a platform empowering women entrepreneurs.</p>
-                    <a href="celebrating-a-milestone.html" class="read-more">Read Full Story <i
-                            class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-
-
-
-        </div>
-    </div>
-
-    <footer>
-        <div class="footer-container">
-            <!-- About Section -->
-            <div class="footer-section about">
-                <h3>Ermunai Organic Farm & Foods</h3>
-                <p><i class="fa fa-map-marker-alt"></i> Manufacturing Unit:<br> Ermunai Organic Farm & Foods,<br>
-                    Plot No. 5, 1/328,<br>
-                    Sabari Salai, Ayyappan Nagar,<br>
-                    Madipakkam, Chennai - 600091.</p>
-                <p><i class="fa-solid fa-file-invoice"></i> GSTIN: 33AKAPR8721K1ZZ</p>
-                <p><i class="fa-solid fa-file-invoice"></i> Fsssai License No: 12425008002307</p>
-                <p><i class="fa fa-phone"></i> +91 9841231996</p>
-                <p><i class="fab fa-whatsapp"></i> +91 9840752833</p>
-                <p><i class="fa fa-envelope"></i> info@ermunaiorganicfarmfoods.com</p>
-            </div>
-
-            <!-- Company Links -->
-            <div class="footer-section company">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="feedback.html">Certification & Feedback</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="privacy-policy.html" target="_blank">Privacy Policy</a></li>
-                    <li><a href="cancellation-and-refund-policy.html" target="_blank">cancellation Policy</a></li>
-                    <li><a href="terms-and-conditions.html" target="_blank">Terms & Conditions</a></li>
-                    <li><a href="shipping-policy.html" target="_blank">Shipping Policy</a></li>
-                </ul>
-            </div>
-
-            <!-- Product Categories -->
-            <div class="footer-section products">
-                <h4>Products</h4>
-                <ul>
-                    <li><a href="shop.html?category=readyToCookMixes">Ready-to-cook Instant Mixes</a></li>
-                    <li><a href="shop.html?category=instantSoup">Instant Soup Mix</a></li>
-                    <li><a href="shop.html?category=idliPodi">Idli Podi's</a></li>
-                    <li><a href="shop.html?category=readytoserve">Ready to Serve</a></li>
-                    <li><a href="shop.html?category=herbal">Herbal Products</a></li>
-                </ul>
-            </div>
-
-            <!-- Social Links -->
-            <div class="footer-section follow-us">
-                <h4><i class="fas fa-share-alt"></i> Follow Us</h4>
-                <ul>
-                    <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/ermunaiorganicfoods"
-                            target="_blank">Facebook</a></li>
-                    <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/ermunaiorganic"
-                            target="_blank">Instagram</a></li>
-                    <li><i class="fab fa-linkedin"></i> <a
-                            href="https://www.linkedin.com/in/ermunai-organic-farm-217035363"
-                            target="_blank">LinkedIn</a></li>
-                    <li><i class="fab fa-youtube"></i> <a href="https://youtube.com/@ermunaiorganicfarm"
-                            target="_blank">YouTube</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- WhatsApp Order Button -->
-        <div class="whatsapp">
-            <a href="https://wa.me/919841231996" target="_blank">
-                <i class="fab fa-whatsapp"></i> Order on WhatsApp
-            </a>
-        </div>
-
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <p>© 2025 Ermunai Organic Farm & Foods. All rights reserved.</p>
-            <p class="footer-links">
-                <a href="privacy.html" target="_blank">Privacy Policy</a> |
-                <a href="terms.html" target="_blank">Terms & Conditions</a> |
-                <a href="shipping.html" target="_blank">Shipping Policy</a>
-            </p>
-        </div>
-    </footer>
-    <script>
-        //responsive header
-        const hamburger = document.querySelector(".hamburger");
-        const nav = document.querySelector("header nav");
-        const closeMenu = document.querySelector(".close-menu");
-
-        hamburger.addEventListener("click", () => {
-            nav.classList.add("active");
+    function sanitizeArticleHtml(html) {
+      const source = String(html || "");
+      if (!source.trim()) return "";
+      const template = document.createElement("template");
+      template.innerHTML = source.includes("<") ? source : source.split(/\n{2,}/).map(part => `<p>${escapeHtml(part).replace(/\n/g, "<br>")}</p>`).join("");
+      const allowed = new Set(["P", "H2", "H3", "UL", "OL", "LI", "STRONG", "EM", "B", "I", "A", "IMG", "FIGURE", "FIGCAPTION", "BLOCKQUOTE", "BR"]);
+      template.content.querySelectorAll("*").forEach(node => {
+        if (node.tagName === "DIV") {
+          const paragraph = document.createElement("p");
+          paragraph.replaceChildren(...node.childNodes);
+          node.replaceWith(paragraph);
+          node = paragraph;
+        }
+        if (!allowed.has(node.tagName)) {
+          node.replaceWith(...node.childNodes);
+          return;
+        }
+        [...node.attributes].forEach(attr => {
+          const name = attr.name.toLowerCase();
+          if (node.tagName === "A" && name === "href") {
+            node.setAttribute("target", "_blank");
+            node.setAttribute("rel", "noopener");
+            return;
+          }
+          if (node.tagName === "IMG" && ["src", "alt"].includes(name)) return;
+          node.removeAttribute(attr.name);
         });
+      });
+      return template.innerHTML;
+    }
 
-        closeMenu.addEventListener("click", () => {
-            nav.classList.remove("active");
+    function updateBlogMeta(blog) {
+      const item = normalizeBlog(blog);
+      const url = new URL(window.location.href);
+      document.title = `${item.title} | Ermunai Organic Farm Foods`;
+      document.querySelector('meta[name="description"]').content = blog.seoDescription || item.desc || "Read the latest Ermunai Organic Farm Foods story.";
+      const upsert = (selector, attrs) => {
+        let tag = document.querySelector(selector);
+        if (!tag) {
+          tag = document.createElement("meta");
+          document.head.appendChild(tag);
+        }
+        Object.entries(attrs).forEach(([key, value]) => tag.setAttribute(key, value));
+      };
+      upsert('meta[property="og:title"]', { property: "og:title", content: item.title });
+      upsert('meta[property="og:description"]', { property: "og:description", content: item.desc });
+      upsert('meta[property="og:image"]', { property: "og:image", content: item.image });
+      upsert('meta[property="og:url"]', { property: "og:url", content: url.href });
+      upsert('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
+    }
+
+    function renderBlogDetail(blog, related = []) {
+      const item = normalizeBlog(blog);
+      const body = sanitizeArticleHtml(blog.content || item.desc || "More details coming soon from Ermunai Organic Farm Foods.");
+      updateBlogMeta(blog);
+      blogView.innerHTML = `
+        <section class="px-6 max-w-7xl mx-auto">
+          <div class="relative blog-hero rounded-xl overflow-hidden">
+            <img class="absolute inset-0 w-full h-full object-cover" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/10"></div>
+            <div class="relative min-h-[560px] flex items-end p-6 md:p-12">
+              <div class="max-w-4xl text-white space-y-5">
+                <a href="blog.html" class="inline-flex items-center gap-2 text-sm font-extrabold text-white/90 hover:text-white">
+                  <span class="material-symbols-outlined text-lg">arrow_back</span> All Stories
+                </a>
+                <div class="flex flex-wrap items-center gap-3 text-xs font-extrabold uppercase tracking-wider">
+                  <span class="px-3 py-1 bg-primary text-white rounded-full">${escapeHtml(item.category)}</span>
+                  <span>${escapeHtml(item.readTime)}</span>
+                  <span>•</span>
+                  <span>${escapeHtml(item.date)}</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">${escapeHtml(item.title)}</h1>
+                <p class="text-lg md:text-xl text-white/85 leading-8 max-w-3xl">${escapeHtml(item.desc)}</p>
+                <div class="flex items-center gap-3 pt-2">
+                  <img class="w-12 h-12 rounded-full object-cover border-2 border-white/70" src="${escapeHtml(item.authorImage)}" alt="${escapeHtml(item.author)}">
+                  <div>
+                    <p class="font-extrabold">${escapeHtml(item.author)}</p>
+                    <p class="text-sm text-white/75">${escapeHtml(item.authorRole)}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="px-6 max-w-5xl mx-auto">
+          <article class="article-body text-on-surface-variant text-lg leading-8 py-12">${body}</article>
+        </section>
+        ${related.length ? `<section class="px-6 max-w-7xl mx-auto pt-4">
+          <div class="flex items-end justify-between gap-4 mb-8">
+            <div>
+              <span class="text-xs font-extrabold text-primary uppercase tracking-widest">Keep Reading</span>
+              <h2 class="text-3xl font-extrabold text-on-surface mt-2">Related Stories</h2>
+            </div>
+            <a href="blog.html" class="text-sm font-extrabold text-primary">View all</a>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">${related.slice(0, 3).map(blogCard).join("")}</div>
+        </section>` : ""}`;
+    }
+
+    function renderBlogHub(list) {
+      const featured = list.find(item => item.featured) || list[0];
+      const regular = featured ? list.filter(item => item.id !== featured.id) : list;
+      const categoryButtons = categories.map((category, index) => `
+        <button class="filter-btn px-5 py-2 rounded-full ${index === 0 ? "active" : "bg-surface-container text-on-surface-variant"} font-bold text-sm transition-all active:scale-95" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>
+      `).join("");
+      blogView.innerHTML = `
+        ${featured ? `<section class="px-6 max-w-7xl mx-auto">
+          <a class="group block relative blog-hero rounded-xl overflow-hidden" href="${escapeHtml(normalizeBlog(featured).link)}">
+            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="${escapeHtml(normalizeBlog(featured).image)}" alt="${escapeHtml(normalizeBlog(featured).title)}">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent"></div>
+            <div class="relative min-h-[560px] flex items-end p-6 md:p-12">
+              <div class="glass-card max-w-2xl rounded-xl p-6 md:p-8 shadow-xl">
+                <div class="flex flex-wrap items-center gap-3 mb-4 text-xs font-extrabold">
+                  <span class="px-3 py-1 bg-primary text-white rounded-full">Featured Story</span>
+                  <span class="text-on-surface-variant">${escapeHtml(normalizeBlog(featured).readTime)}</span>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-primary leading-tight mb-4">${escapeHtml(normalizeBlog(featured).title)}</h1>
+                <p class="text-on-surface-variant leading-7 mb-6">${escapeHtml(normalizeBlog(featured).desc)}</p>
+                <span class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-extrabold">Read Story <span class="material-symbols-outlined text-lg">arrow_forward</span></span>
+              </div>
+            </div>
+          </a>
+        </section>` : ""}
+        <section class="px-6 max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-outline-variant">
+            <div class="flex flex-wrap gap-3" id="categoryFilters">${categoryButtons}</div>
+            <div class="relative">
+              <input id="blogSearch" class="pl-10 pr-4 py-3 bg-surface-container border-none rounded-lg focus:ring-2 focus:ring-primary/20 w-full md:w-72 transition-all" placeholder="Search articles..." type="search">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+            </div>
+          </div>
+        </section>
+        <section class="px-6 max-w-7xl mx-auto">
+          <div id="blogsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">${regular.map(blogCard).join("")}</div>
+        </section>`;
+
+      const grid = document.getElementById("blogsGrid");
+      const search = document.getElementById("blogSearch");
+      const filters = [...document.querySelectorAll(".filter-btn")];
+      const applyFilters = () => {
+        const active = document.querySelector(".filter-btn.active")?.dataset.category || "All Stories";
+        const term = search.value.trim().toLowerCase();
+        const filtered = regular.filter(blog => {
+          const item = normalizeBlog(blog);
+          const inCategory = active === "All Stories" || item.category === active;
+          const text = `${item.title} ${item.desc} ${item.category} ${item.author}`.toLowerCase();
+          return inCategory && (!term || text.includes(term));
         });
+        renderInto(grid, filtered, blogCard);
+        if (!filtered.length) grid.innerHTML = `<div class="lg:col-span-3 md:col-span-2 glass-card rounded-xl p-8 text-center"><h2 class="text-2xl font-extrabold text-primary">No matching stories</h2><p class="text-sm text-on-surface-variant mt-3">Try another category or search term.</p></div>`;
+      };
+      filters.forEach(button => button.addEventListener("click", () => {
+        filters.forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        applyFilters();
+      }));
+      search.addEventListener("input", applyFilters);
+    }
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    async function loadBlogs() {
+      let list = [];
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-            authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-            projectId: "ermunai-e-commerce-project",
-            storageBucket: "ermunai-e-commerce-project.appspot.com",
-            messagingSenderId: "365240050790",
-            appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
-            measurementId: "G-CZJZ4HLCMR"
-        };
+      try {
+        const snap = await getDocs(query(collection(db, "blogs"), orderBy("updatedAt", "desc")));
+        list = snap.docs
+          .map(item => ({ id: item.id, ...item.data() }))
+          .filter(blog => (blog.status || "published") === "published");
+      } catch (err) {
+        console.warn("Unable to fetch Supabase blogs:", err);
+      }
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+      const selectedPost = selectedPostKey();
+      if (selectedPost) {
+        const match = list.find(blog => blog.slug === selectedPost || blog.id === selectedPost);
+        if (match) {
+          renderBlogDetail(match, list.filter(blog => blog.id !== match.id));
+          return;
+        }
+        blogView.innerHTML = `<div class="max-w-3xl mx-auto px-6"><div class="glass-card rounded-xl p-8 text-center border border-glass-stroke bg-white/80">
+          <h2 class="text-2xl font-extrabold text-primary">Blog post unavailable</h2>
+          <p class="text-sm text-on-surface-variant mt-3">This post is not published or was removed from the admin panel.</p>
+          <a href="blog.html" class="inline-flex mt-5 text-primary font-bold text-sm">Back to Blogs</a>
+        </div></div>`;
+        return;
+      }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const loginBtn = document.querySelector(".btn-login");
-            const signupBtn = document.querySelector(".btn-signup");
-            const profile = document.querySelector(".profile");
-            const username = document.querySelector(".username");
-            const logoutBtn = document.querySelector(".btn-logout");
+      if (!list.length) {
+        blogView.innerHTML = `<div class="max-w-3xl mx-auto px-6"><div class="glass-card rounded-xl p-8 text-center border border-glass-stroke bg-white/80">
+          <h2 class="text-2xl font-extrabold text-primary">No blogs published yet</h2>
+          <p class="text-sm text-on-surface-variant mt-3">Publish a blog from Admin Site Control to show it here.</p>
+        </div></div>`;
+        return;
+      }
 
-            // Listen to Firebase Auth state
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // User is logged in
-                    loginBtn.style.display = "none";
-                    signupBtn.style.display = "none";
-                    profile.style.display = "flex";
-                    username.textContent = user.email; // show email or displayName
-                    localStorage.setItem("user", user.email); // optional
-                } else {
-                    // No user is logged in
-                    loginBtn.style.display = "inline-block";
-                    signupBtn.style.display = "inline-block";
-                    profile.style.display = "none";
-                    localStorage.removeItem("user");
-                }
-            });
+      renderBlogHub(list);
+    }
 
-            logoutBtn.addEventListener("click", async () => {
-                if (confirm("Do you want to log out?")) {
-                    await signOut(auth);
-                    location.reload();
-                }
-            });
-        });
-    </script>
+    function updateCartCount(user) {
+      const cart = readStorefrontCart(user);
+      document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + Number(item.qty || 1), 0);
+    }
+
+    onAuthStateChanged(auth, user => {
+      syncStorefrontAuth(user);
+      updateCartCount(user);
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.reload();
+    });
+
+    loadBlogs();
+  </script>
 </body>
-
 </html>

@@ -1,390 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="scroll-smooth" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>My Cart – Ermunai Organic Farm Foods</title>
-  <!-- simplest: 32x32 PNG -->
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Shopping Cart | Ermunai Organic Farm Foods</title>
+  <meta content="View your organic shopping cart, apply coupon code, calculate GST, shipping charge, and proceed to checkout." name="description"/>
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed-dim": "#78dc77",
+            "surface-container-high": "#eae8e2",
+            "on-error-container": "#93000a",
+            "on-background": "#1b1c19",
+            "surface-container-low": "#f5f3ee",
+            "surface-tint": "#1b6d24",
+            "success-leaf": "#43A047",
+            "tertiary-container": "#85675c",
+            "primary-container": "#2e7d32",
+            "primary-fixed": "#a3f69c",
+            "inverse-primary": "#88d982",
+            "surface-dim": "#dbdad4",
+            "outline-variant": "#bfcaba",
+            "surface-cream": "#FFFDF7",
+            "on-secondary-fixed-variant": "#005313",
+            "secondary-container": "#91f78e",
+            "on-tertiary": "#ffffff",
+            "primary": "#0d631b",
+            "tertiary-fixed": "#ffdbce",
+            "surface-container-highest": "#e4e2dd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed-dim": "#e4beb2",
+            "on-tertiary-container": "#ffeee8",
+            "outline": "#707a6c",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#002204",
+            "on-surface": "#1b1c19",
+            "surface": "#fbf9f3",
+            "inverse-on-surface": "#f2f1eb",
+            "on-tertiary-fixed-variant": "#5b4137",
+            "secondary-fixed": "#94f990",
+            "secondary": "#006e1c",
+            "tertiary": "#6b4f45",
+            "on-primary-container": "#cbffc2",
+            "surface-variant": "#e4e2dd",
+            "on-primary-fixed-variant": "#005312",
+            "background": "#fbf9f3",
+            "surface-bright": "#fbf9f3",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#002204",
+            "on-primary": "#ffffff",
+            "surface-container": "#f0eee8",
+            "glass-stroke": "rgba(46, 125, 50, 0.1)",
+            "on-surface-variant": "#40493d",
+            "primary-fixed-dim": "#88d982",
+            "earth-dark": "#4E342E",
+            "on-tertiary-fixed": "#2b160f",
+            "on-secondary-container": "#00731e",
+            "inverse-surface": "#30312d",
+            "surface-container-lowest": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "64px",
+            "gutter": "32px",
+            "unit": "8px",
+            "margin-mobile": "20px",
+            "stack-md": "40px",
+            "stack-lg": "80px",
+            "container-max": "1280px"
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", sans-serif;
+    .glass-nav {
+      background: rgba(251, 249, 243, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
-
-    body {
-      background: #faf9f7;
-      color: #333;
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
     }
-
-    header {
-      padding: 20px 40px;
-      background: #fff;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    header h2 {
-      font-size: 22px;
-      color: #244021;
-      font-weight: 700;
-    }
-
-    header a {
-      color: green;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    /* ---------------------------------- Layout ---------------------------------- */
-
-    .cart-container {
-      display: flex;
-      gap: 30px;
-      padding: 30px 40px;
-      align-items: flex-start;
-      flex-wrap: wrap;
-    }
-
-    .cart-items {
-      flex: 2;
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      min-width: 300px;
-    }
-
-    /* ---------------------------------- Cart Item ---------------------------------- */
-
-    .cart-item {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      border-bottom: 1px solid #eee;
-      padding: 15px 0;
-      gap: 15px;
-    }
-
-    .cart-item:last-child {
-      border-bottom: none;
-    }
-
-    .cart-item img {
-      width: 120px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-
-    .item-details {
-      flex: 1;
-    }
-
-    .category-tag {
-      display: inline-block;
-      background: #f0f5e6;
-      color: #2f6f31;
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 15px;
-      margin-bottom: 6px;
-    }
-
-    .item-details h3 {
-      font-size: 16px;
-      color: #222;
-      margin-bottom: 4px;
-      font-weight: bold;
-    }
-
-    .item-details p {
-      font-size: 14px;
-      color: #555;
-    }
-
-    /* Quantity section */
-
-    .quantity-line {
-      margin: 6px 0 4px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #444;
-    }
-
-    .quantity-control {
-      display: flex;
-      align-items: center;
-      margin-top: 5px;
-      gap: 10px;
-    }
-
-    .quantity-control button {
-      width: 30px;
-      height: 30px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      background: #f9f9f9;
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-
-    .quantity-control button:hover {
-      background: #eaeaea;
-    }
-
-    .item-price {
-      text-align: right;
-      min-width: 120px;
-    }
-
-    .item-price p {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .item-price h4 {
-      font-size: 18px;
-      color: #2f6f31;
-      font-weight: bold;
-    }
-
-    .remove-btn {
-      cursor: pointer;
-      color: #777;
-      font-size: 18px;
-      margin-left: 10px;
-      transition: 0.2s;
-    }
-
-    .remove-btn:hover {
-      color: crimson;
-    }
-
-    /* ---------------------------------- Order Summary ---------------------------------- */
-
-    .order-summary {
-      flex: 1;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      min-width: 260px;
-      max-width: 360px;
-    }
-
-    .order-summary h3 {
-      font-size: 18px;
-      margin-bottom: 15px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-      font-weight: bold;
-    }
-
-    .summary-item {
-      display: flex;
-      justify-content: space-between;
-      margin: 8px 0;
-      font-size: 15px;
-    }
-
-    .summary-item.total {
-      font-weight: bold;
-      font-size: 18px;
-      color: #2f6f31;
-      border-top: 1px solid #eee;
-      padding-top: 10px;
-    }
-
-    .checkout-btn {
-      width: 100%;
-      background: #2f6f31;
-      color: #fff;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      margin-top: 20px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .checkout-btn:hover {
-      background: #244021;
-    }
-
-    /* ---------------------------------- Responsive ---------------------------------- */
-    @media (max-width: 900px) {
-      .cart-container {
-        padding: 20px;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .cart-item {
-        flex-direction: column;
-        text-align: left;
-      }
-
-      .item-price {
-        text-align: left;
-      }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(46, 125, 50, 0.1);
     }
   </style>
 </head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+  <div id="siteHeader"></div>
 
-<body>
-  <header>
-    <h2>🛒 My Cart</h2>
-    <a href="shop.html">Continue Shopping</a>
-  </header>
+  <main class="pt-24 pb-stack-lg max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop">
+    <!-- Header -->
+    <header class="mb-10 text-left">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-2">Your Shopping Cart</h1>
+      <p class="text-on-surface-variant">Review your organic farm-direct selections before proceeding to checkout.</p>
+    </header>
 
-  <div class="cart-container">
-    <!-- Cart Items -->
-    <div class="cart-items" id="cartItems"></div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+      <!-- Cart Items list Left -->
+      <section class="lg:col-span-8 space-y-4">
+        <div id="cartItems" class="space-y-4"></div>
+        <div id="emptyCart" class="hidden text-center py-16 bg-white/50 border border-glass-stroke rounded-2xl p-6">
+          <span class="material-symbols-outlined text-6xl text-outline-variant mb-4">shopping_cart</span>
+          <h2 class="text-xl font-bold text-on-surface-variant">Your Cart is Empty</h2>
+          <p class="text-xs text-on-surface-variant mt-2 mb-6">Start browsing our premium organic marketplace.</p>
+          <a class="inline-block bg-primary text-white font-bold px-6 py-3 rounded-lg hover:opacity-90 active:scale-95 transition-all text-sm" href="shop.html">Continue Shopping</a>
+        </div>
+      </section>
 
-    <!-- Order Summary -->
-    <div class="order-summary" id="orderSummary">
-      <h3>Order Summary</h3>
+      <!-- Cart Summary Right -->
+      <aside class="lg:col-span-4 space-y-6">
+        <div class="glass-card p-6 rounded-xl space-y-6">
+          <h2 class="text-lg font-bold text-primary border-b border-glass-stroke pb-3 flex items-center gap-2">
+            <span class="material-symbols-outlined">description</span> Order Summary
+          </h2>
 
-      <div class="summary-item"><span>Subtotal</span> <span id="subtotal">₹0</span></div>
-      <div class="summary-item"><span>Tax (5%)</span> <span id="tax">₹0</span></div>
+          <!-- Coupon code -->
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="coupon">Coupon Code</label>
+            <div class="flex gap-2">
+              <input id="coupon" class="flex-1 px-4 py-2 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" value="FARM10" type="text" placeholder="Enter coupon"/>
+              <button id="applyCouponBtn" class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-bold text-xs hover:opacity-90 active:scale-95 transition-all">Verify</button>
+            </div>
+            <p id="couponMsg" class="text-[10px] font-bold text-success-leaf"></p>
+          </div>
 
-      <!-- SHIPPING WILL BE CALCULATED IN checkout.html -->
-      <div class="summary-item"><span>Shipping</span> <span id="shipping">Calculated on next page</span></div>
+          <!-- PIN Code calculator -->
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="pin">Shipping PIN Code</label>
+            <input id="pin" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" placeholder="e.g. 600091" type="text"/>
+            <p class="text-[10px] text-on-surface-variant leading-relaxed">PIN-based rate: Chennai (60xxxx) ₹50 | South (6/5xxxx) ₹70 | Others ₹100. Weights > 500g surcharge applies.</p>
+          </div>
 
-      <div class="summary-item total"><span>Total</span> <span id="total">₹0</span></div>
+          <!-- Summary rows -->
+          <div id="summaryRows" class="space-y-1"></div>
 
-      <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
+          <button id="checkoutBtn" class="w-full bg-primary text-white font-bold py-3.5 px-6 rounded-lg hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 text-sm shadow-md">
+            Proceed to Checkout <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+      </aside>
     </div>
-  </div>
+  </main>
+
+  <div id="siteFooter"></div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-      projectId: "ermunai-e-commerce-project",
-      storageBucket: "ermunai-e-commerce-project.appspot.com",
-      messagingSenderId: "365240050790",
-      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7"
-    };
-
-    const app = initializeApp(firebaseConfig);
+    import { initializeApp } from "./js/supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
+    import { cartItemRow, formatCurrency, getStorefrontCartKey, mountStorefrontHeader, readStorefrontCart, renderInto, summaryRow, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
+    mountStorefrontHeader("siteHeader", { active: "cart" });
+    mountStorefrontFooter("siteFooter");
+const app = initializeApp();
     const auth = getAuth(app);
 
     let currentUser = null;
-    let cartKey = "";
     let cart = [];
+    let cartKey = "";
 
-    function getUserCartKey(user) {
-      return `cart_${user.uid}`;
+    function getWeightInGrams(item) {
+      const value = Number(item.quantityValue || 0);
+      const type = String(item.quantityType || "").toLowerCase();
+      if (!value) return 250; // Fallback default weight: 250g
+      if (type === "g" || type === "ml") return value;
+      if (type === "kg" || type === "l" || type === "lt") return value * 1000;
+      return 250;
+    }
+
+    function computeShipping(pin, items) {
+      if (!pin || !items.length) return 0;
+      const regionCharge = /^60/.test(pin) ? 50 : /^6|^5/.test(pin) ? 70 : 100;
+      const totalWeight = items.reduce((sum, item) => sum + getWeightInGrams(item) * Number(item.qty || 1), 0);
+      const weightExtra = totalWeight > 2000 ? 100 : totalWeight > 1000 ? 60 : totalWeight > 500 ? 30 : 0;
+      return regionCharge + weightExtra;
+    }
+
+    function totals() {
+      const subtotal = cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.qty || 1), 0);
+      const couponInput = document.getElementById("coupon").value.trim().toUpperCase();
+      const discount = couponInput === "FARM10" ? Math.min(35, subtotal) : 0;
+      
+      const pinVal = document.getElementById("pin").value.trim();
+      const shipping = computeShipping(pinVal, cart);
+      const tax = Math.round(subtotal * 0.05);
+      const total = subtotal - discount + shipping + tax;
+      
+      return { subtotal, discount, shipping, tax, total };
     }
 
     function renderCart() {
-      const cartItems = document.getElementById("cartItems");
-      const subtotalEl = document.getElementById("subtotal");
-      const taxEl = document.getElementById("tax");
-      const totalEl = document.getElementById("total");
+      renderInto("cartItems", cart, cartItemRow);
+      document.getElementById("emptyCart").classList.toggle("hidden", cart.length > 0);
+      
+      const t = totals();
+      renderInto("summaryRows", [
+        { label: "Subtotal", value: formatCurrency(t.subtotal) },
+        { label: "Coupon Discount", value: `- ${formatCurrency(t.discount)}` },
+        { label: "Shipping Rate", value: t.shipping ? formatCurrency(t.shipping) : "Enter PIN code" },
+        { label: "GST (5%)", value: formatCurrency(t.tax) },
+        { label: "Total Amount", value: formatCurrency(t.total), total: true }
+      ], summaryRow);
 
-      cartItems.innerHTML = "";
-      let subtotal = 0;
-
-      cart.forEach((item, index) => {
-        const qty = item.qty || 1;
-        const itemTotal = item.price * qty;
-        subtotal += itemTotal;
-        const quantityText = item.quantityValue && item.quantityType ? `${item.quantityValue}${item.quantityType}` : "";
-
-        cartItems.innerHTML += `
-          <div class="cart-item">
-            <img src="${item.image || "https://via.placeholder.com/120x100?text=No+Image"}" alt="${item.name}"/>
-
-            <div class="item-details">
-              <span class="category-tag">${item.category || "Product"}</span>
-
-              <h3>${item.name}</h3>
-              <p>${item.description || ""}</p>
-
-              <div class="quantity-line">
-                Quantity Selected: <strong>${quantityText || "N/A"}</strong>
-              </div>
-
-              <div class="quantity-control">
-                <button onclick="updateQty(${index}, -1)">-</button>
-                <span>${qty}</span>
-                <button onclick="updateQty(${index}, 1)">+</button>
-              </div>
-            </div>
-
-            <div class="item-price">
-              <p>₹${item.price} each</p>
-              <h4>₹${itemTotal}</h4>
-              <i class="fa fa-trash remove-btn" onclick="removeItem(${index})"></i>
-            </div>
-          </div>
-        `;
-      });
-
-      let tax = subtotal * 0.05;
-      let total = subtotal + tax;
-
-      subtotalEl.textContent = "₹" + subtotal;
-      taxEl.textContent = "₹" + Math.round(tax);
-      totalEl.textContent = "₹" + Math.round(total);
+      const couponInput = document.getElementById("coupon").value.trim().toUpperCase();
+      const msgEl = document.getElementById("couponMsg");
+      if (couponInput === "FARM10") {
+        msgEl.textContent = "Coupon Applied: ₹35 discount";
+        msgEl.className = "text-[10px] font-bold text-success-leaf";
+      } else if (couponInput) {
+        msgEl.textContent = "Invalid Coupon Code";
+        msgEl.className = "text-[10px] font-bold text-error";
+      } else {
+        msgEl.textContent = "";
+      }
     }
 
-    function updateQty(index, change) {
-      cart[index].qty = (cart[index].qty || 1) + change;
-      if (cart[index].qty < 1) cart[index].qty = 1;
-      localStorage.setItem(cartKey, JSON.stringify(cart));
+    window.updateQty = (id, delta) => {
+      cart = cart
+        .map(item => item.id === id ? { ...item, qty: Number(item.qty || 1) + delta } : item)
+        .filter(item => Number(item.qty || 0) > 0);
+      writeStorefrontCart(currentUser, cart);
       renderCart();
-    }
+      updateCartCount(currentUser);
+    };
 
-    function removeItem(index) {
-      cart.splice(index, 1);
-      localStorage.setItem(cartKey, JSON.stringify(cart));
+    document.getElementById("coupon").addEventListener("input", renderCart);
+    document.getElementById("pin").addEventListener("input", renderCart);
+    document.getElementById("applyCouponBtn").addEventListener("click", () => {
       renderCart();
-    }
+    });
 
-    window.updateQty = updateQty;
-    window.removeItem = removeItem;
-
-    document.getElementById("checkout-btn").addEventListener("click", () => {
-      if (cart.length === 0) {
-        alert("Your cart is empty!");
+    document.getElementById("checkoutBtn").addEventListener("click", () => {
+      if (!currentUser) {
+        alert("Please login before checkout.");
+        window.location.href = "login.html?redirect=cart.html";
         return;
       }
-      // Proceed to Shipping Calculation Page
+
+      if (!cart.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+      
+      // Store current PIN and coupon in localStorage so checkout can load them
+      const pinVal = document.getElementById("pin").value.trim();
+      const couponInput = document.getElementById("coupon").value.trim().toUpperCase();
+      localStorage.setItem("checkout_pin", pinVal);
+      localStorage.setItem("checkout_coupon", couponInput);
+      
       window.location.href = "checkout.html";
     });
 
-    onAuthStateChanged(auth, (user) => {
+    function updateCartCount(user) {
+      const cartList = readStorefrontCart(user);
+      document.getElementById("cartCount").textContent = cartList.reduce((sum, item) => sum + Number(item.qty || 1), 0);
+    }
+
+    onAuthStateChanged(auth, user => {
+      const authLinks = document.getElementById("authLinks");
+      const userProfile = document.getElementById("userProfile");
+      const dashboardLink = document.getElementById("dashboardLink");
+      
       if (!user) {
         alert("Please login to view your cart.");
         window.location.href = "login.html";
         return;
       }
-
+      
       currentUser = user;
-      cartKey = getUserCartKey(currentUser);
-      cart = JSON.parse(localStorage.getItem(cartKey) || "[]");
+      authLinks.classList.add("hidden");
+      userProfile.classList.remove("hidden");
+      userProfile.classList.add("flex");
+      dashboardLink.classList.remove("hidden");
+      
+      const name = user.displayName || (user.email ? user.email.split("@")[0] : "User");
+      document.getElementById("userAvatar").textContent = name.slice(0, 2).toUpperCase();
+      
+      cartKey = getStorefrontCartKey(currentUser);
+      cart = readStorefrontCart(currentUser);
+      
+      // Pre-fill PIN if previously set
+      const lastPin = localStorage.getItem("checkout_pin") || "";
+      if (lastPin) {
+        document.getElementById("pin").value = lastPin;
+      }
+      
       renderCart();
+      updateCartCount(user);
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.reload();
     });
   </script>
 </body>
-
 </html>
+
+

@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ermunai Admin - Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin-theme.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { display: flex; min-height: 100vh; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    .sidebar { width: 250px; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
+    .sidebar h2 { margin-bottom: 2rem; font-size: 1.25rem; }
+    .nav { list-style: none; width: 100%; }
+    .nav li + li { margin-top: 1rem; }
+    .nav a { display: block; padding: .75rem 1rem; border-radius: var(--admin-radius); }
+    .main { flex: 1; min-width: 0; }
+    header { padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .content { padding: 1.5rem; }
+    .tabs { display: flex; gap: .5rem; overflow-x: auto; margin-bottom: 1rem; }
+    .tab { flex: 0 0 auto; min-height: 42px; border: 1px solid var(--admin-line); background: var(--admin-paper); color: var(--admin-green); border-radius: var(--admin-radius); padding: 0 1rem; font-weight: 900; cursor: pointer; }
+    .tab.active { background: var(--admin-green); color: #fff; }
+    .module { display: none; }
+    .module.active { display: block; }
+    .card { padding: 1rem; margin-bottom: 1rem; }
+    .section-title { color: var(--admin-green); font-size: 1.2rem; font-weight: 900; margin-bottom: 1rem; }
+    .toolbar { display: grid; grid-template-columns: minmax(220px, 1fr) auto auto auto; gap: .75rem; margin-bottom: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+    .wide { grid-column: 1 / -1; }
+    label { display: grid; gap: .35rem; font-weight: 800; color: var(--admin-earth); }
+    input, textarea, select { width: 100%; min-height: 42px; padding: .55rem .7rem; }
+    textarea { min-height: 90px; resize: vertical; }
+    .primary-btn, .ghost-btn, .danger-btn { min-height: 42px; border-radius: var(--admin-radius); padding: 0 1rem; font-weight: 900; cursor: pointer; }
+    .primary-btn { background: var(--admin-green); color: #fff; border: 0; }
+    .ghost-btn { background: var(--admin-paper); color: var(--admin-green); border: 1px solid var(--admin-line); }
+    .danger-btn { background: #ba1a1a; color: #fff; border: 0; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 820px; }
+    th, td { padding: .8rem; border-bottom: 1px solid var(--admin-line); text-align: left; vertical-align: top; }
+    th { background: var(--admin-green); color: #fff; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+    .row-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .status-line { min-height: 24px; color: var(--admin-green); font-weight: 900; margin-top: .75rem; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+    .metric h3 { color: var(--admin-green); font-size: 1.8rem; }
+    .menu-toggle, .sidebar-backdrop { display: none; }
+    @media (max-width: 980px) {
+      body { display: block; }
+      .toolbar, .form-grid, .metric-grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+      .sidebar { position: fixed; inset: 0 auto 0 0; width: min(82vw, 290px); transform: translateX(-105%); transition: transform .25s; z-index: 1000; }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-backdrop.show { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 900; }
+      .menu-toggle { display: inline-flex; min-height: 42px; border: 0; padding: 0 1rem; border-radius: var(--admin-radius); background: var(--admin-green); color: #fff; font-weight: 900; }
+      header, .content { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="admin-brand">
+      <div class="admin-brand-icon"><span class="material-symbols-outlined">eco</span></div>
+      <div>
+        <span class="admin-brand-title">Admin Portal</span>
+        <span class="admin-brand-subtitle">Ermunai Organic</span>
+      </div>
+    </div>
+    <ul class="nav">
+      <li><a href="admin-dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a></li>
+      <li><a href="dashboard-product-page.html"><span class="material-symbols-outlined">inventory_2</span><span>Product Manager</span></a></li>
+      <li><a href="dashboard-order-page.html"><span class="material-symbols-outlined">shopping_bag</span><span>Order Manager</span></a></li>
+      <li><a href="site-control.html"><span class="material-symbols-outlined">tune</span><span>Site Control</span></a></li>
+      <li><a class="active" href="control-center.html"><span class="material-symbols-outlined">admin_panel_settings</span><span>Control Center</span></a></li>
+      <li><a href="daashboard-setting.html"><span class="material-symbols-outlined">settings</span><span>Settings & CMS</span></a></li>
+    </ul>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <strong>Role: Super Admin</strong>
+        <span>ermunaiorganicfarm@gmail.com</span>
+      </div>
+      <button class="sidebar-logout" id="logoutBtn" type="button">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header>
+      <button class="menu-toggle" id="menuToggle" type="button">Menu</button>
+      <div>
+        <h1>Control Center</h1>
+        <p style="color:var(--admin-muted);font-weight:700;">Manage reports, customers, support, and exports.</p>
+      </div>
+      <button class="ghost-btn admin-header-logout" type="button">Logout</button>
+    </header>
+
+    <div class="content">
+      <div class="tabs">
+        <button class="tab active" data-module="reports">Reports</button>
+        <button class="tab" data-module="customers">Customers</button>
+        <button class="tab" data-module="support">Support Tickets</button>
+      </div>
+
+      <section class="module active" id="module-reports">
+        <div class="metric-grid" id="reportMetrics"></div>
+        <div class="card">
+          <div class="section-title">Reports Export</div>
+          <div class="toolbar">
+            <select id="reportType">
+              <option value="orders">Orders Report</option>
+              <option value="products">Products Report</option>
+              <option value="customers">Customers Report</option>
+              <option value="inventory">Inventory Report</option>
+            </select>
+            <button class="ghost-btn" id="exportCsv" type="button">Export CSV</button>
+            <button class="ghost-btn" id="exportExcel" type="button">Export Excel</button>
+            <button class="ghost-btn" id="exportPdf" type="button">Export PDF</button>
+          </div>
+          <div class="table-wrap"><table id="reportTable"></table></div>
+        </div>
+      </section>
+
+      <section class="module" id="module-customers">
+        <div class="card">
+          <div class="section-title">Customer Management</div>
+          <div class="toolbar"><input id="customerSearch" placeholder="Search customers..."><button class="ghost-btn" id="refreshCustomers" type="button">Refresh</button></div>
+          <div class="table-wrap"><table id="customersTable"></table></div>
+        </div>
+      </section>
+
+      <section class="module" id="module-support">
+        <div class="card">
+          <div class="section-title">Support Tickets</div>
+          <form id="ticketForm" class="form-grid">
+            <input type="hidden" id="ticketId">
+            <label>User ID<input id="ticketUserId"></label>
+            <label>Priority<select id="ticketPriority"><option>normal</option><option>high</option><option>urgent</option></select></label>
+            <label>Status<select id="ticketStatus"><option>open</option><option>pending</option><option>resolved</option><option>closed</option></select></label>
+            <label>Subject<input id="ticketSubject" required></label>
+            <label class="wide">Message<textarea id="ticketMessage"></textarea></label>
+            <div class="wide row-actions"><button class="primary-btn" type="submit">Save Ticket</button><button class="ghost-btn" type="button" id="resetTicket">Reset</button></div>
+          </form>
+        </div>
+        <div class="card table-wrap"><table id="ticketsTable"></table></div>
+      </section>
+
+      <div class="status-line" id="statusLine"></div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "./supabase-compat.js";
+    import { getSupabase, collection, getDocs, doc, getDoc, setDoc, addDoc, deleteDoc, orderBy, query } from "./supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./supabase-compat.js";
+const app = initializeApp();
+    const db = getSupabase(app);
+    const auth = getAuth(app);
+    const state = { users: [], orders: [], products: [], tickets: [] };
+    const $ = id => document.getElementById(id);
+
+    function status(message) { $("statusLine").textContent = message; setTimeout(() => $("statusLine").textContent = "", 4500); }
+    function esc(v) { return String(v ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;"); }
+    function money(v) { return `₹${Number(v || 0).toFixed(0)}`; }
+    function toRows(tableId, columns, rows) {
+      $(tableId).innerHTML = `<thead><tr>${columns.map(c => `<th>${c.label}</th>`).join("")}</tr></thead><tbody>${rows.map(row => `<tr>${columns.map(c => `<td>${c.render ? c.render(row) : esc(row[c.key])}</td>`).join("")}</tr>`).join("")}</tbody>`;
+    }
+    async function loadCollection(name, target, sortField = null) {
+      const ref = sortField ? query(collection(db, name), orderBy(sortField, "desc")) : collection(db, name);
+      const snap = await getDocs(ref);
+      state[target] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    }
+    async function loadCollectionSafe(name, target, sortField = null) {
+      try {
+        await loadCollection(name, target, sortField);
+      } catch (error) {
+        console.error(`Failed to load ${name}:`, error);
+        state[target] = state[target] || [];
+      }
+    }
+    async function saveDoc(collectionName, id, data) {
+      if (id) await setDoc(doc(db, collectionName, id), data, { merge: true });
+      else await addDoc(collection(db, collectionName), data);
+    }
+    async function removeDoc(collectionName, id) {
+      if (!confirm("Delete this record?")) return;
+      await deleteDoc(doc(db, collectionName, id));
+      status("Deleted.");
+      await refreshAll();
+    }
+
+    function renderReports() {
+      const revenue = state.orders.reduce((sum, o) => sum + Number(o.totalAmount || o.total || o.amount || 0), 0);
+      const lowStock = state.products.filter(p => Number(p.stock || 0) <= 5).length;
+      $("reportMetrics").innerHTML = [
+        ["Revenue", money(revenue)], ["Orders", state.orders.length], ["Products", state.products.length], ["Low Stock", lowStock]
+      ].map(([label, value]) => `<div class="card metric"><p>${label}</p><h3>${value}</h3></div>`).join("");
+      renderReportTable();
+    }
+    function currentReportRows() {
+      const type = $("reportType").value;
+      if (type === "products") return state.products.map(p => ({ id: p.id, name: p.name, category: p.category, price: p.price, stock: p.stock, status: p.disabled ? "Hidden" : "Active" }));
+      if (type === "customers") return state.users.map(u => ({ id: u.id, email: u.email, role: u.role, status: u.status, rewards: u.rewardsPoints || 0 }));
+      if (type === "inventory") return state.products.map(p => ({ id: p.id, name: p.name, stock: p.stock, lowStock: Number(p.stock || 0) <= 5 ? "Yes" : "No" }));
+      return state.orders.map(o => ({ id: o.id, customer: o.customerName, phone: o.phone, total: o.totalAmount, status: o.status || o.paymentStatus, date: o.datePlaced?.seconds ? new Date(o.datePlaced.seconds * 1000).toLocaleDateString() : "" }));
+    }
+    function renderReportTable() {
+      const rows = currentReportRows();
+      const keys = Object.keys(rows[0] || { message: "No data" });
+      toRows("reportTable", keys.map(key => ({ key, label: key })), rows.length ? rows : [{ message: "No data" }]);
+    }
+    function download(name, content, type) {
+      const blob = new Blob([content], { type });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    function exportCsv() {
+      const rows = currentReportRows();
+      const keys = Object.keys(rows[0] || {});
+      const csv = [keys.join(","), ...rows.map(row => keys.map(k => `"${String(row[k] ?? "").replaceAll('"','""')}"`).join(","))].join("\n");
+      download(`${$("reportType").value}.csv`, csv, "text/csv");
+    }
+    function exportExcel() {
+      download(`${$("reportType").value}.xls`, $("reportTable").outerHTML, "application/vnd.ms-excel");
+    }
+    function exportPdf() {
+      const win = window.open("", "_blank");
+      win.document.write(`<html><head><title>Report</title></head><body>${$("reportTable").outerHTML}<\/body><\/html>`);
+      win.document.close();
+      win.focus();
+      win.print();
+    }
+
+    function renderCustomers() {
+      const search = $("customerSearch").value.toLowerCase();
+      const rows = state.users.filter(u => !search || [u.email, u.displayName, u.phone, u.role].join(" ").toLowerCase().includes(search));
+      toRows("customersTable", [
+        { label: "Email", key: "email" }, { label: "Name", key: "displayName" }, { label: "Role", key: "role" }, { label: "Status", key: "status" },
+        { label: "Actions", render: r => `<div class="row-actions"><button class="ghost-btn" onclick="toggleBlockUser('${r.id}', ${r.blocked ? "false" : "true"})">${r.blocked ? "Unblock" : "Block"}</button></div>` }
+      ], rows);
+    }
+    window.toggleBlockUser = async (id, blocked) => {
+      await setDoc(doc(db, "users", id), { blocked, status: blocked ? "blocked" : "active", updatedAt: new Date().toISOString() }, { merge: true });
+      await refreshAll();
+    };
+
+    function renderTickets() {
+      toRows("ticketsTable", [
+        { label: "Subject", key: "subject" }, { label: "User", key: "userId" }, { label: "Priority", key: "priority" }, { label: "Status", key: "status" },
+        { label: "Actions", render: r => `<div class="row-actions"><button class="ghost-btn" onclick="editTicket('${r.id}')">Edit</button><button class="danger-btn" onclick="deleteRecord('supportTickets','${r.id}')">Delete</button></div>` }
+      ], state.tickets);
+    }
+    window.editTicket = id => {
+      const r = state.tickets.find(x => x.id === id); if (!r) return;
+      $("ticketId").value = r.id; $("ticketUserId").value = r.userId || ""; $("ticketPriority").value = r.priority || "normal"; $("ticketStatus").value = r.status || "open"; $("ticketSubject").value = r.subject || ""; $("ticketMessage").value = r.message || "";
+    };
+    window.deleteRecord = removeDoc;
+
+    async function refreshAll() {
+      status("Loading control center data...");
+      await Promise.all([
+        loadCollectionSafe("users", "users"),
+        loadCollectionSafe("orders", "orders"),
+        loadCollectionSafe("products", "products"),
+        loadCollectionSafe("supportTickets", "tickets", "updatedAt")
+      ]);
+      renderReports();
+      renderCustomers();
+      renderTickets();
+      status("Control center ready.");
+    }
+
+    document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(item => item.classList.remove("active"));
+      document.querySelectorAll(".module").forEach(item => item.classList.remove("active"));
+      tab.classList.add("active");
+      $(`module-${tab.dataset.module}`).classList.add("active");
+    }));
+    $("reportType").addEventListener("change", renderReportTable);
+    $("exportCsv").addEventListener("click", exportCsv);
+    $("exportExcel").addEventListener("click", exportExcel);
+    $("exportPdf").addEventListener("click", exportPdf);
+    $("customerSearch").addEventListener("input", renderCustomers);
+    $("refreshCustomers").addEventListener("click", refreshAll);
+    $("ticketForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      await saveDoc("supportTickets", $("ticketId").value, { userId: $("ticketUserId").value, priority: $("ticketPriority").value, status: $("ticketStatus").value, subject: $("ticketSubject").value, message: $("ticketMessage").value, updatedAt: new Date().toISOString() });
+      e.target.reset(); $("ticketId").value = ""; await refreshAll(); status("Ticket saved.");
+    });
+    ["resetTicket"].forEach(id => $(id).addEventListener("click", () => {
+      const name = id.replace("reset", "").toLowerCase();
+      $(`${name}Form`)?.reset();
+      $(`${name}Id`) && ($(`${name}Id`).value = "");
+    }));
+
+    $("menuToggle").addEventListener("click", () => { $("sidebar").classList.toggle("open"); $("sidebarBackdrop").classList.toggle("show"); });
+    $("sidebarBackdrop").addEventListener("click", () => { $("sidebar").classList.remove("open"); $("sidebarBackdrop").classList.remove("show"); });
+    document.querySelectorAll("#logoutBtn, .admin-header-logout").forEach(button => button.addEventListener("click", async () => { await signOut(auth); window.location.href = "index.html"; }));
+
+    const ADMIN_EMAIL = "ermunaiorganicfarm@gmail.com";
+    const ALLOWED_ROLES = ["Super Admin", "Admin", "Inventory Manager", "Support Staff", "Marketing Team"];
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      const isLegacyAdmin = String(user.email || "").toLowerCase() === ADMIN_EMAIL;
+      if (isLegacyAdmin) {
+        await refreshAll();
+        return;
+      }
+
+      try {
+        const roleSnap = await getDoc(doc(db, "users", user.uid));
+        const role = roleSnap.exists() ? roleSnap.data().role : null;
+        if (!ALLOWED_ROLES.includes(role)) {
+          alert("You do not have access to Control Center.");
+          window.location.href = "admin-dashboard.html";
+          return;
+        }
+        await refreshAll();
+      } catch (err) {
+        console.error(err);
+        alert("Unable to verify administrator role. Please run the Supabase migration and bootstrap script.");
+        window.location.href = "admin-dashboard.html";
+      }
+    });
+  </script>
+</body>
+</html>

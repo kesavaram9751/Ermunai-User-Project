@@ -1,0 +1,533 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Admin Dashboard | Ermunai Organic</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin-theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed-dim": "#78dc77",
+            "surface-container-high": "#eae8e2",
+            "on-error-container": "#93000a",
+            "on-background": "#1b1c19",
+            "surface-container-low": "#f5f3ee",
+            "surface-tint": "#1b6d24",
+            "success-leaf": "#43A047",
+            "tertiary-container": "#85675c",
+            "primary-container": "#2e7d32",
+            "primary-fixed": "#a3f69c",
+            "inverse-primary": "#88d982",
+            "surface-dim": "#dbdad4",
+            "outline-variant": "#bfcaba",
+            "surface-cream": "#FFFDF7",
+            "on-secondary-fixed-variant": "#005313",
+            "secondary-container": "#91f78e",
+            "on-tertiary": "#ffffff",
+            "primary": "#0d631b",
+            "tertiary-fixed": "#ffdbce",
+            "surface-container-highest": "#e4e2dd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed-dim": "#e4beb2",
+            "on-tertiary-container": "#ffeee8",
+            "outline": "#707a6c",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#002204",
+            "on-surface": "#1b1c19",
+            "surface": "#fbf9f3",
+            "inverse-on-surface": "#f2f1eb",
+            "on-tertiary-fixed-variant": "#5b4137",
+            "secondary-fixed": "#94f990",
+            "secondary": "#006e1c",
+            "tertiary": "#6b4f45",
+            "on-primary-container": "#cbffc2",
+            "surface-variant": "#e4e2dd",
+            "on-primary-fixed-variant": "#005312",
+            "background": "#fbf9f3",
+            "surface-bright": "#fbf9f3",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#002204",
+            "on-primary": "#ffffff",
+            "surface-container": "#f0eee8",
+            "glass-stroke": "rgba(46, 125, 50, 0.1)",
+            "on-surface-variant": "#40493d",
+            "primary-fixed-dim": "#88d982",
+            "earth-dark": "#4E342E",
+            "on-tertiary-fixed": "#2b160f",
+            "on-secondary-container": "#00731e",
+            "inverse-surface": "#30312d",
+            "surface-container-lowest": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "64px",
+            "gutter": "32px",
+            "unit": "8px",
+            "margin-mobile": "20px",
+            "stack-md": "40px",
+            "stack-lg": "80px",
+            "container-max": "1280px"
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #fbf9f3;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(46, 125, 50, 0.1);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .admin-dashboard-backdrop {
+      display: none;
+    }
+    .admin-dashboard-sidebar {
+      transition: transform .24s ease;
+    }
+    @media (max-width: 1024px) {
+      .admin-dashboard-sidebar {
+        transform: translateX(-105%);
+        box-shadow: 24px 0 70px rgba(27, 28, 25, .24);
+      }
+      .admin-dashboard-sidebar.open {
+        transform: translateX(0);
+      }
+      .admin-dashboard-backdrop.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 45;
+        background: rgba(27, 28, 25, .45);
+        backdrop-filter: blur(2px);
+      }
+      .admin-dashboard-main {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .admin-dashboard-header {
+        height: auto;
+        min-height: 68px;
+        padding: 12px 16px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      .admin-dashboard-content {
+        padding: 16px !important;
+      }
+      .dashboard-mobile-menu {
+        display: inline-flex !important;
+      }
+    }
+    @media (max-width: 640px) {
+      .admin-dashboard-header h2 {
+        font-size: 1.05rem;
+      }
+      .admin-dashboard-header a {
+        width: 44px;
+        height: 44px;
+        padding: 0 !important;
+        justify-content: center;
+      }
+      .admin-dashboard-header a .storefront-label {
+        display: none;
+      }
+      .admin-dashboard-content .glass-card {
+        padding: 16px !important;
+        border-radius: 12px !important;
+      }
+      .admin-dashboard-content table {
+        min-width: 520px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased overflow-x-hidden">
+
+  <div class="admin-dashboard-backdrop" id="dashboardSidebarBackdrop"></div>
+
+  <!-- Sidebar Navigation Shell -->
+  <aside class="admin-dashboard-sidebar fixed left-0 top-0 h-screen w-64 bg-surface-container-low border-r border-outline-variant/10 flex flex-col z-50" id="dashboardSidebar">
+    <div class="px-6 py-8">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+          <span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">eco</span>
+        </div>
+        <div>
+          <h1 class="text-lg font-extrabold text-primary">Admin Portal</h1>
+          <p class="text-[9px] uppercase tracking-widest text-on-surface-variant/60 font-bold">Ermunai Organic</p>
+        </div>
+      </div>
+    </div>
+    <nav class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-1 py-4">
+      <a class="bg-primary-container text-on-primary-container font-bold rounded-lg px-4 py-3 mx-4 flex items-center gap-3" href="admin-dashboard.html">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="text-sm">Dashboard</span>
+      </a>
+      <a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-4 flex items-center gap-3 transition-all" href="dashboard-product-page.html">
+        <span class="material-symbols-outlined">inventory_2</span>
+        <span class="text-sm">Product Manager</span>
+      </a>
+      <a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-4 flex items-center gap-3 transition-all" href="dashboard-order-page.html">
+        <span class="material-symbols-outlined">shopping_bag</span>
+        <span class="text-sm">Order Manager</span>
+      </a>
+      <a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-4 flex items-center gap-3 transition-all" href="site-control.html">
+        <span class="material-symbols-outlined">tune</span>
+        <span class="text-sm">Site Control</span>
+      </a>
+      <a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-4 flex items-center gap-3 transition-all" href="control-center.html">
+        <span class="material-symbols-outlined">admin_panel_settings</span>
+        <span class="text-sm">Control Center</span>
+      </a>
+      <a class="text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 mx-4 flex items-center gap-3 transition-all" href="daashboard-setting.html">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="text-sm">Settings & CMS</span>
+      </a>
+    </nav>
+    <div class="p-4 mt-auto border-t border-outline-variant/10 space-y-2">
+      <div class="px-4 py-2 bg-surface-container rounded-lg text-xs space-y-1">
+        <p class="font-bold text-on-surface" id="adminUserRole">Role: Admin</p>
+        <p class="text-on-surface-variant truncate" id="adminUserEmail">email@admin.com</p>
+      </div>
+      <button id="logoutBtn" class="w-full text-left text-on-surface-variant hover:bg-error/5 hover:text-error rounded-lg px-4 py-3 flex items-center gap-3 transition-all">
+        <span class="material-symbols-outlined">logout</span>
+        <span class="text-sm font-semibold">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="admin-dashboard-main ml-64 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="admin-dashboard-header h-20 bg-surface/85 backdrop-blur-md sticky top-0 z-40 px-margin-desktop flex items-center justify-between border-b border-glass-stroke gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <button class="dashboard-mobile-menu hidden w-11 h-11 rounded-lg bg-primary text-white items-center justify-center flex-shrink-0" id="dashboardMenuToggle" type="button" aria-label="Open admin menu" aria-expanded="false">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+        <h2 class="text-xl font-bold text-on-surface">Overview Analytics</h2>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://ermunaiorganicfarmfoods.com" target="_blank" class="text-xs font-bold text-primary hover:underline flex items-center gap-1 border border-glass-stroke px-3 py-1.5 rounded-lg bg-white shadow-sm">
+          <span class="material-symbols-outlined text-xs">open_in_new</span> <span class="storefront-label">Visit Storefront</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="admin-dashboard-content p-8 flex-1 space-y-8">
+      
+      <!-- Metric Cards Grid -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6" id="summaryCards"></section>
+
+      <!-- Charts Visualization -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="glass-card p-6 rounded-xl shadow-sm space-y-4">
+          <h3 class="font-bold text-primary">Monthly Sales Revenue (₹)</h3>
+          <div class="h-64"><canvas id="salesChart"></canvas></div>
+        </div>
+        <div class="glass-card p-6 rounded-xl shadow-sm space-y-4">
+          <h3 class="font-bold text-primary">Monthly Orders Count</h3>
+          <div class="h-64"><canvas id="ordersChart"></canvas></div>
+        </div>
+      </section>
+
+      <!-- Tables Grid -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Best Sellers -->
+        <div class="glass-card p-6 rounded-xl shadow-sm space-y-4">
+          <h3 class="font-bold text-primary">Top 10 Selling Products</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-glass-stroke text-on-surface-variant font-bold">
+                  <th class="py-2.5">Product Name</th>
+                  <th class="py-2.5 text-center">Qty Sold</th>
+                  <th class="py-2.5 text-right">Revenue (₹)</th>
+                  <th class="py-2.5 text-right">Stock</th>
+                </tr>
+              </thead>
+              <tbody id="productTable" class="divide-y divide-glass-stroke text-on-surface font-medium"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="glass-card p-6 rounded-xl shadow-sm space-y-4">
+          <h3 class="font-bold text-primary">Recent Orders</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-glass-stroke text-on-surface-variant font-bold">
+                  <th class="py-2.5">Order ID</th>
+                  <th class="py-2.5">Customer</th>
+                  <th class="py-2.5">Status</th>
+                  <th class="py-2.5 text-right">Amount (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTable" class="divide-y divide-glass-stroke text-on-surface font-medium"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "./supabase-compat.js";
+    import { getSupabase, collection, onSnapshot, doc, getDoc } from "./supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./supabase-compat.js";
+const app = initializeApp();
+    const db = getSupabase(app);
+    const auth = getAuth(app);
+
+    const summaryContainer = document.getElementById("summaryCards");
+    const productTable = document.getElementById("productTable");
+    const ordersTable = document.getElementById("ordersTable");
+    const salesCtx = document.getElementById("salesChart").getContext("2d");
+    const ordersCtx = document.getElementById("ordersChart").getContext("2d");
+    const dashboardSidebar = document.getElementById("dashboardSidebar");
+    const dashboardMenuToggle = document.getElementById("dashboardMenuToggle");
+    const dashboardSidebarBackdrop = document.getElementById("dashboardSidebarBackdrop");
+
+    let salesChart = null;
+    let ordersChart = null;
+    const productsMap = new Map();
+
+    function closeDashboardSidebar() {
+      dashboardSidebar?.classList.remove("open");
+      dashboardSidebarBackdrop?.classList.remove("show");
+      dashboardMenuToggle?.setAttribute("aria-expanded", "false");
+    }
+
+    function openDashboardSidebar() {
+      dashboardSidebar?.classList.add("open");
+      dashboardSidebarBackdrop?.classList.add("show");
+      dashboardMenuToggle?.setAttribute("aria-expanded", "true");
+    }
+
+    dashboardMenuToggle?.addEventListener("click", () => {
+      if (dashboardSidebar?.classList.contains("open")) closeDashboardSidebar();
+      else openDashboardSidebar();
+    });
+    dashboardSidebarBackdrop?.addEventListener("click", closeDashboardSidebar);
+    dashboardSidebar?.querySelectorAll("a").forEach(link => link.addEventListener("click", closeDashboardSidebar));
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeDashboardSidebar();
+    });
+
+    function toDate(value) {
+      if (!value) return null;
+      if (typeof value.toDate === "function") return value.toDate();
+      if (value.seconds) return new Date(value.seconds * 1000);
+      return new Date(value);
+    }
+
+    function loadDashboardData() {
+      // 1. Listen products
+      onSnapshot(collection(db, "products"), snap => {
+        productsMap.clear();
+        snap.forEach(doc => {
+          const p = doc.data();
+          const key = p.name || doc.id;
+          productsMap.set(key, { id: doc.id, ...p });
+        });
+        
+        // 2. Listen orders and aggregate
+        listenOrdersAndAggregate();
+      });
+    }
+
+    function listenOrdersAndAggregate() {
+      onSnapshot(collection(db, "orders"), snapshot => {
+        const orders = [];
+        snapshot.forEach(doc => orders.push({ id: doc.id, ...doc.data() }));
+
+        const totalOrders = orders.length;
+        let totalRevenue = 0;
+        const monthlyRevenue = Array(12).fill(0);
+        const monthlyOrders = Array(12).fill(0);
+        const productAgg = new Map();
+
+        orders.forEach(o => {
+          const revenue = parseFloat(o.totalAmount) || parseFloat(o.subtotal) || parseFloat(o.amount) || 0;
+          totalRevenue += revenue;
+
+          const date = toDate(o.datePlaced) || new Date();
+          const m = date.getMonth();
+          monthlyOrders[m] += 1;
+          monthlyRevenue[m] += revenue;
+
+          let itemsArray = [];
+          if (Array.isArray(o.items)) {
+            itemsArray = o.items;
+          } else {
+            Object.keys(o).forEach(k => {
+              if (!isNaN(k)) {
+                itemsArray.push(o[k]);
+              }
+            });
+          }
+
+          itemsArray.forEach(it => {
+            const name = (it.name || "").replace(/(^"+|"+$)/g, "") || "Unknown Product";
+            const qty = Number(it.qty || it.quantity || 1);
+            const productDoc = productsMap.get(name) || {};
+            const price = Number(productDoc.price ?? productDoc.amount ?? it.price ?? 0);
+            const rev = price * qty;
+
+            const entry = productAgg.get(name) || { qty: 0, revenue: 0, stock: productDoc.stock ?? "—" };
+            entry.qty += qty;
+            entry.revenue += rev;
+            entry.stock = productDoc.stock ?? entry.stock;
+            productAgg.set(name, entry);
+          });
+        });
+
+        // Render Summary
+        summaryContainer.innerHTML = `
+          <div class="glass-card p-6 rounded-xl shadow-sm border border-glass-stroke">
+            <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider block">Total Revenue</span>
+            <h3 class="text-2xl font-black text-primary mt-1">₹${totalRevenue.toLocaleString()}</h3>
+          </div>
+          <div class="glass-card p-6 rounded-xl shadow-sm border border-glass-stroke">
+            <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider block">Total Orders</span>
+            <h3 class="text-2xl font-black text-primary mt-1">${totalOrders}</h3>
+          </div>
+          <div class="glass-card p-6 rounded-xl shadow-sm border border-glass-stroke">
+            <span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider block">Total Products</span>
+            <h3 class="text-2xl font-black text-primary mt-1">${productsMap.size}</h3>
+          </div>
+        `;
+
+        // Update Charts
+        const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        salesChart = updateChart(salesChart, salesCtx, 'line', labels, monthlyRevenue, 'Revenue (₹)', '#0d631b');
+        ordersChart = updateChart(ordersChart, ordersCtx, 'bar', labels, monthlyOrders, 'Orders count', '#43A047');
+
+        // Render Best Sellers
+        const topProducts = Array.from(productAgg.entries())
+          .sort((a, b) => b[1].qty - a[1].qty)
+          .slice(0, 10);
+
+        productTable.innerHTML = topProducts.map(([name, entry]) => `
+          <tr class="hover:bg-surface-container-low/50">
+            <td class="py-2.5">${name}</td>
+            <td class="py-2.5 text-center font-bold">${entry.qty}</td>
+            <td class="py-2.5 text-right font-bold">₹${entry.revenue.toLocaleString()}</td>
+            <td class="py-2.5 text-right font-bold ${entry.stock <= 10 ? 'text-error' : ''}">${entry.stock}</td>
+          </tr>
+        `).join("");
+
+        // Render Recent Orders
+        const recentOrders = orders
+          .sort((a, b) => (toDate(b.datePlaced)?.getTime() || 0) - (toDate(a.datePlaced)?.getTime() || 0))
+          .slice(0, 6);
+
+        ordersTable.innerHTML = recentOrders.map(o => `
+          <tr class="hover:bg-surface-container-low/50">
+            <td class="py-2.5 font-bold">#${o.id.substring(0, 12)}</td>
+            <td class="py-2.5">${o.customerName || "Customer"}</td>
+            <td class="py-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${o.status === 'Delivered' ? 'bg-[#d1e7dd] text-[#0f5132]' : 'bg-[#fff3cd] text-[#664d03]'}">${o.status || 'Processing'}</span></td>
+            <td class="py-2.5 text-right font-extrabold text-earth-dark">₹${(o.totalAmount || o.subtotal || o.amount || 0).toLocaleString()}</td>
+          </tr>
+        `).join("");
+      });
+    }
+
+    function updateChart(chartInstance, ctx, type, labels, data, label, color) {
+      if (chartInstance) {
+        chartInstance.data.labels = labels;
+        chartInstance.data.datasets[0].data = data;
+        chartInstance.update();
+        return chartInstance;
+      }
+      return new Chart(ctx, {
+        type: type,
+        data: {
+          labels: labels,
+          datasets: [{
+            label: label,
+            data: data,
+            backgroundColor: color + '30',
+            borderColor: color,
+            borderWidth: 2,
+            fill: type === 'line'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    // Role-based auth protection guard
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      const isLegacyAdmin = String(user.email || "").toLowerCase() === "ermunaiorganicfarm@gmail.com";
+      if (isLegacyAdmin) {
+        document.getElementById("adminUserRole").textContent = "Role: Super Admin";
+        document.getElementById("adminUserEmail").textContent = user.email;
+        loadDashboardData();
+        return;
+      }
+      
+      try {
+        const roleSnap = await getDoc(doc(db, "users", user.uid));
+        const role = roleSnap.exists() ? roleSnap.data().role : null;
+        const allowedRoles = ["Super Admin", "Admin", "Inventory Manager", "Support Staff", "Marketing Team"];
+
+        if (allowedRoles.includes(role)) {
+          document.getElementById("adminUserRole").textContent = `Role: ${role || "Super Admin"}`;
+          document.getElementById("adminUserEmail").textContent = user.email;
+          loadDashboardData();
+        } else {
+          alert("Access Denied: You do not have administrator permissions.");
+          await signOut(auth);
+          window.location.href = "index.html";
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Unable to verify administrator role. Please run the Supabase migration and bootstrap script.");
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      if (confirm("Logout from Admin Portal?")) {
+        await signOut(auth);
+        window.location.reload();
+      }
+    });
+  </script>
+</body>
+</html>

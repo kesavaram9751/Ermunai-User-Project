@@ -1,0 +1,697 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ermunai Admin - Site Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin-theme.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { display: flex; min-height: 100vh; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    .sidebar { width: 250px; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
+    .sidebar h2 { margin-bottom: 2rem; font-size: 1.25rem; }
+    .nav { list-style: none; width: 100%; }
+    .nav li + li { margin-top: 1rem; }
+    .nav a { display: block; padding: .75rem 1rem; border-radius: var(--admin-radius); }
+    .main { flex: 1; min-width: 0; }
+    header { padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .content { padding: 1.5rem; }
+    .tabs { display: flex; gap: .5rem; overflow-x: auto; margin-bottom: 1rem; }
+    .tab { flex: 0 0 auto; min-height: 42px; border: 1px solid var(--admin-line); background: var(--admin-paper); color: var(--admin-green); border-radius: var(--admin-radius); padding: 0 1rem; font-weight: 900; cursor: pointer; }
+    .tab.active { background: var(--admin-green); color: #fff; }
+    .module { display: none; }
+    .module.active { display: block; }
+    .card { padding: 1rem; margin-bottom: 1rem; }
+    .section-title { font-size: 1.25rem; margin-bottom: 1rem; font-weight: 800; color: var(--admin-green); }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+    .wide { grid-column: 1 / -1; }
+    label { display: grid; gap: .35rem; font-weight: 700; color: var(--admin-earth); }
+    input, textarea, select { width: 100%; min-height: 42px; padding: .55rem .7rem; }
+    textarea { min-height: 92px; resize: vertical; }
+    .primary-btn, .ghost-btn, .danger-btn { min-height: 42px; border: 0; border-radius: var(--admin-radius); padding: 0 1rem; font-weight: 900; cursor: pointer; }
+    .primary-btn { background: var(--admin-green); color: #fff; }
+    .ghost-btn { background: var(--admin-paper); color: var(--admin-green); border: 1px solid var(--admin-line); }
+    .danger-btn { background: #ba1a1a; color: #fff; }
+    .row-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .status-line { min-height: 24px; margin-top: .75rem; color: var(--admin-green); font-weight: 800; }
+    .banner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .banner-card { border: 1px solid var(--admin-line); border-radius: 14px; overflow: hidden; background: rgba(255,255,255,.55); }
+    .banner-card img { width: 100%; height: 140px; object-fit: cover; background: #fff; }
+    .banner-card-body { padding: .75rem; display: grid; gap: .5rem; }
+    .banner-card-body p { font-size: .78rem; color: var(--admin-muted); font-weight: 700; word-break: break-all; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 640px; }
+    th, td { padding: .8rem; border-bottom: 1px solid var(--admin-line); text-align: left; vertical-align: top; }
+    th { background: var(--admin-green); color: #fff; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+    .hint { color: var(--admin-muted); font-weight: 700; margin-bottom: .75rem; }
+    .menu-toggle, .sidebar-backdrop { display: none; }
+    .blog-editor-shell { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 1rem; align-items: start; }
+    .blog-editor-main, .blog-editor-side { display: grid; gap: .85rem; }
+    .editor-title { font-size: clamp(1.8rem, 5vw, 3.5rem); line-height: 1.08; font-weight: 900; border: 0; background: transparent; padding: .25rem 0; color: var(--admin-green); }
+    .editor-toolbar { position: sticky; top: .75rem; z-index: 3; display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; padding: .55rem; border: 1px solid var(--admin-line); border-radius: 14px; background: rgba(255,255,255,.92); box-shadow: var(--admin-shadow); }
+    .tool-btn { width: 38px; min-height: 38px; border: 1px solid transparent; border-radius: 10px; background: transparent; color: var(--admin-green); font-weight: 900; cursor: pointer; }
+    .tool-btn:hover { background: rgba(13,99,27,.08); border-color: var(--admin-line); }
+    .blog-content-editor { min-height: 520px; padding: 1.25rem; border: 1px solid var(--admin-line); border-radius: 16px; background: #fff; line-height: 1.8; font-size: 1.05rem; outline: none; overflow-wrap: anywhere; }
+    .blog-content-editor:empty::before { content: "Write the article body here. Use headings, lists, images, and links."; color: var(--admin-muted); font-weight: 700; }
+    .blog-content-editor img { max-width: 100%; border-radius: 12px; margin: 1rem 0; }
+    .side-section { border: 1px solid var(--admin-line); background: rgba(255,255,255,.65); border-radius: 16px; padding: 1rem; display: grid; gap: .75rem; }
+    .side-section h3 { color: var(--admin-green); font-size: 1rem; margin: 0; }
+    .cover-preview { aspect-ratio: 16/10; border-radius: 14px; border: 2px dashed var(--admin-line); background: rgba(255,255,255,.6); overflow: hidden; display: grid; place-items: center; color: var(--admin-muted); font-weight: 900; }
+    .cover-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .blog-preview-card { border: 1px solid var(--admin-line); border-radius: 16px; overflow: hidden; background: #fff; }
+    .blog-preview-card img { width: 100%; height: 150px; object-fit: cover; background: #fff; }
+    .blog-preview-card div { padding: .85rem; display: grid; gap: .35rem; }
+    .blog-preview-card span { color: var(--admin-green); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 900; }
+    .blog-preview-card strong { color: var(--admin-earth); line-height: 1.25; }
+    .blog-preview-card p { color: var(--admin-muted); font-size: .82rem; line-height: 1.5; }
+    .checkbox-row { display: flex; align-items: center; gap: .6rem; font-weight: 800; color: var(--admin-earth); }
+    .checkbox-row input { width: 18px; min-height: 18px; }
+    @media (max-width: 960px) {
+      body { display: block; }
+      .form-grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+      .blog-editor-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; inset: 0 auto 0 0; width: min(82vw, 290px); transform: translateX(-105%); transition: transform .25s; z-index: 1000; }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-backdrop.show { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 900; }
+      .menu-toggle { display: inline-flex; min-height: 42px; border: 0; padding: 0 1rem; border-radius: var(--admin-radius); background: var(--admin-green); color: #fff; font-weight: 900; }
+      header, .content { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="admin-brand">
+      <div class="admin-brand-icon"><span class="material-symbols-outlined">eco</span></div>
+      <div>
+        <span class="admin-brand-title">Admin Portal</span>
+        <span class="admin-brand-subtitle">Ermunai Organic</span>
+      </div>
+    </div>
+    <ul class="nav">
+      <li><a href="admin-dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a></li>
+      <li><a href="dashboard-product-page.html"><span class="material-symbols-outlined">inventory_2</span><span>Product Manager</span></a></li>
+      <li><a href="dashboard-order-page.html"><span class="material-symbols-outlined">shopping_bag</span><span>Order Manager</span></a></li>
+      <li><a class="active" href="site-control.html"><span class="material-symbols-outlined">tune</span><span>Site Control</span></a></li>
+      <li><a href="control-center.html"><span class="material-symbols-outlined">admin_panel_settings</span><span>Control Center</span></a></li>
+      <li><a href="daashboard-setting.html"><span class="material-symbols-outlined">settings</span><span>Settings & CMS</span></a></li>
+    </ul>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <strong>Role: Super Admin</strong>
+        <span>ermunaiorganicfarm@gmail.com</span>
+      </div>
+      <button class="sidebar-logout" id="logoutBtn" type="button">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header>
+      <button class="menu-toggle" id="menuToggle" type="button">Menu</button>
+      <div>
+        <h1>Site Control</h1>
+        <p style="color:var(--admin-muted);font-weight:700;">Upload homepage banners, update footer contact details, and publish blogs.</p>
+      </div>
+      <button class="ghost-btn admin-header-logout" type="button">Logout</button>
+    </header>
+
+    <div class="content">
+      <div class="tabs">
+        <button class="tab active" data-module="banners" type="button">Home Banners</button>
+        <button class="tab" data-module="footer" type="button">Footer Contact</button>
+        <button class="tab" data-module="blogs" type="button">Blog Uploads</button>
+      </div>
+
+      <section class="module active" id="module-banners">
+        <div class="card">
+          <div class="section-title">Home Banner Uploads</div>
+          <p class="hint">Upload banner images for the homepage hero carousel. No text editing needed — images rotate automatically on the public site.</p>
+          <div class="form-grid">
+            <label class="wide">Banner Image<input id="bannerFile" type="file" accept="image/*"></label>
+          </div>
+          <div class="row-actions">
+            <button class="primary-btn" id="uploadBannerBtn" type="button">Upload Banner</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-title">Active Banners</div>
+          <div class="banner-grid" id="bannerGrid"></div>
+        </div>
+      </section>
+
+      <section class="module" id="module-footer">
+        <div class="card">
+          <div class="section-title">Footer Contact Details</div>
+          <p class="hint">This address, phone number, and email appear in the site footer on the public website.</p>
+          <form id="footerForm" class="form-grid">
+            <label>Primary Phone<input id="contactPhone" placeholder="+91 98412 31996"></label>
+            <label>Address<input id="contactAddress" placeholder="Manufacturing Unit: Plot No. 5, 1/328, Sabari Salai, Ayyappan Nagar, Madipakkam, Chennai - 600091."></label>
+            <label class="wide">Contact Email<input id="contactEmail" type="email" placeholder="info@ermunaiorganicfarmfoods.com"></label>
+            <div class="wide row-actions">
+              <button class="primary-btn" type="submit">Save Contact Details</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="module" id="module-blogs">
+        <div class="card">
+          <div class="section-title">Blog Uploads & Article Editor</div>
+          <p class="hint">Create professional blog posts for the public blog hub and article pages. Upload a cover, write the story, set SEO, then publish.</p>
+          <form id="blogForm" class="blog-editor-shell">
+            <input type="hidden" id="blogId">
+            <div class="blog-editor-main">
+              <label>Article Title<input class="editor-title" id="blogTitle" required placeholder="Post title..."></label>
+              <div class="form-grid">
+                <label>Slug<input id="blogSlug" required placeholder="cii-iwn-southern-region-annual-meeting-2026"></label>
+                <label>Short Summary<textarea id="blogExcerpt" rows="3" placeholder="Brief intro shown on cards and SEO previews."></textarea></label>
+              </div>
+              <div class="editor-toolbar" aria-label="Article formatting tools">
+                <button class="tool-btn" type="button" data-command="formatBlock" data-value="h2" title="Heading 2">H2</button>
+                <button class="tool-btn" type="button" data-command="formatBlock" data-value="h3" title="Heading 3">H3</button>
+                <button class="tool-btn" type="button" data-command="bold" title="Bold">B</button>
+                <button class="tool-btn" type="button" data-command="italic" title="Italic"><em>I</em></button>
+                <button class="tool-btn" type="button" data-command="insertUnorderedList" title="Bulleted list">•</button>
+                <button class="tool-btn" type="button" data-command="createLink" title="Insert link">Link</button>
+              </div>
+              <div id="blogContentEditor" class="blog-content-editor" contenteditable="true" aria-label="Article content"></div>
+              <textarea id="blogContent" hidden></textarea>
+              <div class="row-actions">
+                <button class="primary-btn" type="submit">Save Blog</button>
+                <button class="ghost-btn" id="saveDraftBlog" type="button">Save Draft</button>
+                <button class="ghost-btn" id="insertBlogImage" type="button">Insert Image In Story</button>
+                <button class="ghost-btn" id="resetBlog" type="button">Reset Form</button>
+              </div>
+            </div>
+            <aside class="blog-editor-side">
+              <section class="side-section">
+                <h3>Publishing</h3>
+                <label>Status<select id="blogStatus"><option value="draft">Draft</option><option value="published">Published</option></select></label>
+                <label>Publish Date<input id="blogPublishedAt" type="datetime-local"></label>
+                <label class="checkbox-row"><input id="blogFeatured" type="checkbox"> Featured story on blog hub</label>
+              </section>
+              <section class="side-section">
+                <h3>Story Details</h3>
+                <label>Category<select id="blogCategory">
+                  <option>Farm Stories</option>
+                  <option>Healthy Living</option>
+                  <option>Recipe Insights</option>
+                  <option>Sustainability</option>
+                  <option>Events</option>
+                </select></label>
+                <label>Read Time<input id="blogReadTime" placeholder="8 min read"></label>
+                <label>Tags<input id="blogTags" placeholder="Events, Women Leadership, Chennai"></label>
+                <label>Author<input id="blogAuthor" placeholder="Ermunai Organic Team"></label>
+                <label>Author Role<input id="blogAuthorRole" placeholder="Farm Foods Journal"></label>
+                <label>Author Image URL<input id="blogAuthorImage" placeholder="Optional author portrait URL"></label>
+              </section>
+              <section class="side-section">
+                <h3>Featured Media</h3>
+                <div class="cover-preview" id="blogCoverPreview">No cover image</div>
+                <label>Cover Image URL<input id="blogImage" placeholder="Filled automatically after upload"></label>
+                <label>Image Alt Text<input id="blogImageAlt" placeholder="Describe the cover image"></label>
+                <label>Upload Image<input id="blogUpload" type="file" accept="image/*"></label>
+                <button class="ghost-btn" id="uploadBlogImage" type="button">Upload Cover Image</button>
+              </section>
+              <section class="side-section">
+                <h3>SEO Settings</h3>
+                <label>Meta Title<input id="blogSeoTitle" placeholder="Title for Google search"></label>
+                <label>Meta Description<textarea id="blogSeoDescription" rows="3" placeholder="Short search result description"></textarea></label>
+              </section>
+              <section class="side-section">
+                <h3>Card Preview</h3>
+                <div class="blog-preview-card" id="blogPreviewCard"></div>
+                <a class="ghost-btn" id="blogPublicLink" href="../Ermunai-User-Project/blog.html" target="_blank" rel="noopener">Open Public Blog</a>
+              </section>
+            </aside>
+          </form>
+        </div>
+        <div class="card table-wrap">
+          <div class="section-title">Published & Draft Articles</div>
+          <table id="blogsTable"></table>
+        </div>
+      </section>
+
+      <div class="status-line" id="statusLine"></div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "./supabase-compat.js";
+    import { getSupabase, collection, getDocs, doc, getDoc, setDoc, addDoc, deleteDoc, orderBy, query } from "./supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./supabase-compat.js";
+
+    const SUPABASE_URL = "https://svbsrgxqgzuibrrsywix.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_SnnCYLyAFpFHb7yUayFsPg_vMI4qXW7";
+    const STORAGE_BUCKET = "ermunai-product-images";
+    const ADMIN_EMAIL = "ermunaiorganicfarm@gmail.com";
+    const ALLOWED_ROLES = ["Super Admin", "Admin", "Inventory Manager", "Support Staff", "Marketing Team"];
+
+    const app = initializeApp();
+    const db = getSupabase(app);
+    const auth = getAuth(app);
+    let supabase = null;
+    const state = { banners: [], blogs: [], footer: {} };
+    const $ = id => document.getElementById(id);
+
+    function setStatus(message) {
+      $("statusLine").textContent = message;
+      setTimeout(() => { $("statusLine").textContent = ""; }, 4500);
+    }
+
+    function esc(value) {
+      return String(value ?? "").replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    }
+
+    function slugify(value) {
+      return String(value || "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function toDatetimeLocal(value) {
+      if (!value) return "";
+      const date = value?.toDate ? value.toDate() : new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      const offset = date.getTimezoneOffset() * 60000;
+      return new Date(date.getTime() - offset).toISOString().slice(0, 16);
+    }
+
+    function fromDatetimeLocal(value) {
+      return value ? new Date(value).toISOString() : null;
+    }
+
+    function currentBlog() {
+      const id = $("blogId").value;
+      return id ? state.blogs.find(item => item.id === id) : null;
+    }
+
+    function syncEditorToTextarea() {
+      $("blogContent").value = $("blogContentEditor").innerHTML.trim();
+    }
+
+    function syncTextareaToEditor(value = "") {
+      $("blogContentEditor").innerHTML = value || "";
+      syncEditorToTextarea();
+    }
+
+    function updateCoverPreview() {
+      const image = $("blogImage").value.trim();
+      $("blogCoverPreview").innerHTML = image ? `<img src="${esc(image)}" alt="">` : "No cover image";
+      updateBlogPreview();
+    }
+
+    function updatePublicLink() {
+      const slug = $("blogSlug").value.trim();
+      $("blogPublicLink").href = slug ? `../Ermunai-User-Project/blog.html?post=${encodeURIComponent(slug)}` : "../Ermunai-User-Project/blog.html";
+    }
+
+    function updateBlogPreview() {
+      const image = $("blogImage").value.trim() || "../Ermunai-User-Project/images/logo.jpg";
+      const category = $("blogCategory").value || "Farm Stories";
+      const title = $("blogTitle").value.trim() || "Article title preview";
+      const excerpt = $("blogExcerpt").value.trim() || "Short summary preview will appear here.";
+      $("blogPreviewCard").innerHTML = `
+        <img src="${esc(image)}" alt="">
+        <div>
+          <span>${esc(category)} · ${esc($("blogReadTime").value || "5 min read")}</span>
+          <strong>${esc(title)}</strong>
+          <p>${esc(excerpt)}</p>
+        </div>`;
+      updatePublicLink();
+    }
+
+    function resetBlogForm() {
+      $("blogForm").reset();
+      $("blogId").value = "";
+      $("blogStatus").value = "draft";
+      $("blogCategory").value = "Farm Stories";
+      syncTextareaToEditor("");
+      updateCoverPreview();
+      updateBlogPreview();
+      updatePublicLink();
+    }
+
+    async function initSupabase() {
+      if (supabase) return supabase;
+      const mod = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm");
+      supabase = mod.createClient(SUPABASE_URL, SUPABASE_KEY);
+      return supabase;
+    }
+
+    async function uploadImage(file, folder) {
+      if (!file) throw new Error("Choose an image first.");
+      if (!file.type.startsWith("image/")) throw new Error("Only image files are allowed.");
+      if (file.size > 10 * 1024 * 1024) throw new Error("Image must be 3 MB or smaller.");
+      const client = await initSupabase();
+      const safeName = file.name.toLowerCase().replace(/[^a-z0-9.]+/g, "-");
+      const path = `${folder}/${Date.now()}-${safeName}`;
+      const { error } = await client.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: false, contentType: file.type });
+      if (error) throw error;
+      const { data } = client.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+      return data.publicUrl || "";
+    }
+
+    async function saveHomepagePatch(patch) {
+      await setDoc(doc(db, "settings", "homepage"), { ...patch, updatedAt: new Date().toISOString() }, { merge: true });
+    }
+
+    function renderBanners() {
+      const grid = $("bannerGrid");
+      if (!state.banners.length) {
+        grid.innerHTML = `<p class="hint">No banners uploaded yet. Use the upload button above to add your first homepage banner.</p>`;
+        return;
+      }
+      grid.innerHTML = state.banners.map((banner, index) => `
+        <article class="banner-card">
+          <img src="${esc(banner.image)}" alt="Homepage banner ${index + 1}">
+          <div class="banner-card-body">
+            <p>${esc(banner.image)}</p>
+            <button class="danger-btn" type="button" data-remove-banner="${index}">Remove</button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    async function loadBanners() {
+      try {
+        const snap = await getDoc(doc(db, "settings", "homepage"));
+        state.banners = snap.exists() && Array.isArray(snap.data().banners) ? snap.data().banners.filter(b => b?.image) : [];
+      } catch (error) {
+        console.error("Failed to load banners:", error);
+        state.banners = [];
+        setStatus("Could not load banners. Check your Supabase connection.");
+      }
+      renderBanners();
+    }
+
+    async function loadFooter() {
+      try {
+        const snap = await getDoc(doc(db, "settings", "homepage"));
+        const footer = snap.exists() ? snap.data().footer || {} : {};
+        state.footer = footer;
+        $("contactPhone").value = footer.phone || "";
+        $("contactAddress").value = footer.address || "";
+        $("contactEmail").value = footer.email || "";
+      } catch (error) {
+        console.error("Failed to load footer contact:", error);
+        setStatus("Could not load footer contact details.");
+      }
+    }
+
+    async function loadBlogs() {
+      try {
+        const snap = await getDocs(query(collection(db, "blogs"), orderBy("updatedAt", "desc")));
+        state.blogs = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+      } catch (error) {
+        console.error("Failed to load blogs:", error);
+        state.blogs = [];
+        setStatus("Could not load blogs.");
+      }
+      renderBlogs();
+    }
+
+    function renderBlogs() {
+      const columns = [
+        { label: "Title", key: "title" },
+        { label: "Category", render: row => esc(row.category || "Farm Stories") },
+        { label: "Status", key: "status" },
+        { label: "Featured", render: row => row.featured ? "Yes" : "No" },
+        { label: "Updated", render: row => esc((row.updatedAt || "").slice(0, 10)) },
+        {
+          label: "Actions",
+          render: row => `<div class="row-actions"><a class="ghost-btn" href="../Ermunai-User-Project/blog.html?post=${encodeURIComponent(row.slug || row.id)}" target="_blank" rel="noopener">View</a><button class="ghost-btn" type="button" data-edit-blog="${esc(row.id)}">Edit</button><button class="danger-btn" type="button" data-delete-blog="${esc(row.id)}">Delete</button></div>`
+        }
+      ];
+      $("blogsTable").innerHTML = `
+        <thead><tr>${columns.map(col => `<th>${col.label}</th>`).join("")}</tr></thead>
+        <tbody>${state.blogs.length ? state.blogs.map(row => `
+          <tr>${columns.map(col => `<td>${col.render ? col.render(row) : esc(row[col.key])}</td>`).join("")}</tr>
+        `).join("") : `<tr><td colspan="${columns.length}">No blogs yet. Upload your first blog above.</td></tr>`}</tbody>`;
+    }
+
+    async function saveBlog(data, id) {
+      if (id) await setDoc(doc(db, "blogs", id), data, { merge: true });
+      else await addDoc(collection(db, "blogs"), data);
+    }
+
+    async function refreshAll() {
+      await Promise.all([loadBanners(), loadFooter(), loadBlogs()]);
+      setStatus("Site control ready.");
+    }
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(item => item.classList.remove("active"));
+        document.querySelectorAll(".module").forEach(item => item.classList.remove("active"));
+        tab.classList.add("active");
+        $(`module-${tab.dataset.module}`).classList.add("active");
+      });
+    });
+
+    $("uploadBannerBtn").addEventListener("click", async () => {
+      try {
+        const file = $("bannerFile").files?.[0];
+        setStatus("Uploading banner...");
+        const imageUrl = await uploadImage(file, "banners");
+        state.banners.push({ image: imageUrl, active: true });
+        await saveHomepagePatch({ banners: state.banners });
+        $("bannerFile").value = "";
+        renderBanners();
+        setStatus("Banner uploaded and saved to homepage.");
+      } catch (error) {
+        console.error(error);
+        alert(error.message || "Banner upload failed.");
+      }
+    });
+
+    $("bannerGrid").addEventListener("click", async event => {
+      const button = event.target.closest("[data-remove-banner]");
+      if (!button) return;
+      if (!confirm("Remove this banner from the homepage?")) return;
+      const index = Number(button.dataset.removeBanner);
+      state.banners.splice(index, 1);
+      try {
+        await saveHomepagePatch({ banners: state.banners });
+        renderBanners();
+        setStatus("Banner removed.");
+      } catch (error) {
+        console.error(error);
+        alert("Failed to remove banner: " + (error.message || error));
+      }
+    });
+
+    $("footerForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      try {
+        await saveHomepagePatch({
+          footer: {
+            phone: $("contactPhone").value.trim(),
+            address: $("contactAddress").value.trim(),
+            email: $("contactEmail").value.trim()
+          }
+        });
+        setStatus("Footer contact details saved.");
+      } catch (error) {
+        console.error(error);
+        alert("Failed to save contact details: " + (error.message || error));
+      }
+    });
+
+    $("uploadBlogImage").addEventListener("click", async () => {
+      try {
+        setStatus("Uploading blog image...");
+        const url = await uploadImage($("blogUpload").files?.[0], "blogs");
+        $("blogImage").value = url;
+        $("blogUpload").value = "";
+        updateCoverPreview();
+        setStatus("Blog image uploaded.");
+      } catch (error) {
+        console.error(error);
+        alert(error.message || "Blog image upload failed.");
+      }
+    });
+
+    $("insertBlogImage").addEventListener("click", async () => {
+      try {
+        setStatus("Uploading story image...");
+        const url = await uploadImage($("blogUpload").files?.[0], "blogs");
+        document.execCommand("insertHTML", false, `<figure><img src="${esc(url)}" alt=""><figcaption>Image caption</figcaption></figure>`);
+        $("blogUpload").value = "";
+        syncEditorToTextarea();
+        setStatus("Story image inserted.");
+      } catch (error) {
+        console.error(error);
+        alert(error.message || "Story image upload failed.");
+      }
+    });
+
+    $("blogTitle").addEventListener("input", () => {
+      if (!$("blogSlug").value) $("blogSlug").value = slugify($("blogTitle").value);
+      updateBlogPreview();
+    });
+
+    ["blogSlug", "blogImage", "blogExcerpt", "blogCategory", "blogReadTime", "blogAuthor", "blogAuthorRole", "blogAuthorImage"].forEach(id => {
+      $(id).addEventListener("input", updateBlogPreview);
+      $(id).addEventListener("change", updateBlogPreview);
+    });
+    $("blogImage").addEventListener("input", updateCoverPreview);
+    $("blogContentEditor").addEventListener("input", syncEditorToTextarea);
+
+    document.querySelectorAll(".tool-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        const command = button.dataset.command;
+        let value = button.dataset.value || null;
+        if (command === "createLink") {
+          value = prompt("Paste the link URL");
+          if (!value) return;
+        }
+        document.execCommand(command, false, value);
+        $("blogContentEditor").focus();
+        syncEditorToTextarea();
+      });
+    });
+
+    $("blogForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      try {
+        syncEditorToTextarea();
+        const existing = currentBlog();
+        const explicitPublishedAt = fromDatetimeLocal($("blogPublishedAt").value);
+        const status = $("blogStatus").value;
+        const payload = {
+          title: $("blogTitle").value.trim(),
+          slug: slugify($("blogSlug").value.trim() || $("blogTitle").value.trim()),
+          image: $("blogImage").value.trim(),
+          imageAlt: $("blogImageAlt").value.trim(),
+          status,
+          featured: $("blogFeatured").checked,
+          category: $("blogCategory").value,
+          readTime: $("blogReadTime").value.trim() || "5 min read",
+          tags: $("blogTags").value.split(",").map(tag => tag.trim()).filter(Boolean),
+          author: $("blogAuthor").value.trim() || "Ermunai Organic Team",
+          authorRole: $("blogAuthorRole").value.trim() || "Farm Foods Journal",
+          authorImage: $("blogAuthorImage").value.trim(),
+          excerpt: $("blogExcerpt").value.trim(),
+          content: $("blogContent").value.trim(),
+          seoTitle: $("blogSeoTitle").value.trim(),
+          seoDescription: $("blogSeoDescription").value.trim(),
+          updatedAt: new Date().toISOString(),
+          publishedAt: status === "published" ? (explicitPublishedAt || existing?.publishedAt || new Date().toISOString()) : null
+        };
+        await saveBlog(payload, $("blogId").value || null);
+        resetBlogForm();
+        await loadBlogs();
+        setStatus("Blog saved.");
+      } catch (error) {
+        console.error(error);
+        alert("Failed to save blog: " + (error.message || error));
+      }
+    });
+
+    $("saveDraftBlog").addEventListener("click", () => {
+      $("blogStatus").value = "draft";
+      $("blogForm").requestSubmit();
+    });
+
+    $("resetBlog").addEventListener("click", () => {
+      resetBlogForm();
+    });
+
+    $("blogsTable").addEventListener("click", async event => {
+      const editBtn = event.target.closest("[data-edit-blog]");
+      if (editBtn) {
+        const blog = state.blogs.find(item => item.id === editBtn.dataset.editBlog);
+        if (!blog) return;
+        $("blogId").value = blog.id;
+        $("blogTitle").value = blog.title || "";
+        $("blogSlug").value = blog.slug || "";
+        $("blogImage").value = blog.image || "";
+        $("blogImageAlt").value = blog.imageAlt || "";
+        $("blogStatus").value = blog.status || "draft";
+        $("blogPublishedAt").value = toDatetimeLocal(blog.publishedAt);
+        $("blogFeatured").checked = !!blog.featured;
+        $("blogCategory").value = blog.category || "Farm Stories";
+        $("blogReadTime").value = blog.readTime || "";
+        $("blogTags").value = Array.isArray(blog.tags) ? blog.tags.join(", ") : (blog.tags || "");
+        $("blogAuthor").value = blog.author || "";
+        $("blogAuthorRole").value = blog.authorRole || "";
+        $("blogAuthorImage").value = blog.authorImage || "";
+        $("blogExcerpt").value = blog.excerpt || "";
+        $("blogSeoTitle").value = blog.seoTitle || "";
+        $("blogSeoDescription").value = blog.seoDescription || "";
+        syncTextareaToEditor(blog.content || "");
+        updateCoverPreview();
+        updateBlogPreview();
+        document.querySelector('[data-module="blogs"]').click();
+        setStatus("Blog loaded for editing.");
+        return;
+      }
+
+      const deleteBtn = event.target.closest("[data-delete-blog]");
+      if (!deleteBtn) return;
+      if (!confirm("Delete this blog post?")) return;
+      try {
+        await deleteDoc(doc(db, "blogs", deleteBtn.dataset.deleteBlog));
+        await loadBlogs();
+        setStatus("Blog deleted.");
+      } catch (error) {
+        console.error(error);
+        alert("Failed to delete blog: " + (error.message || error));
+      }
+    });
+
+    $("menuToggle").addEventListener("click", () => {
+      $("sidebar").classList.toggle("open");
+      $("sidebarBackdrop").classList.toggle("show");
+    });
+    $("sidebarBackdrop").addEventListener("click", () => {
+      $("sidebar").classList.remove("open");
+      $("sidebarBackdrop").classList.remove("show");
+    });
+    document.querySelectorAll("#logoutBtn, .admin-header-logout").forEach(button => button.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    }));
+
+    resetBlogForm();
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      const isLegacyAdmin = String(user.email || "").toLowerCase() === ADMIN_EMAIL;
+      if (isLegacyAdmin) {
+        await initSupabase();
+        await refreshAll();
+        return;
+      }
+
+      try {
+        const roleSnap = await getDoc(doc(db, "users", user.uid));
+        const role = roleSnap.exists() ? roleSnap.data().role : null;
+        if (!ALLOWED_ROLES.includes(role)) {
+          alert("You do not have access to Site Control.");
+          window.location.href = "admin-dashboard.html";
+          return;
+        }
+        await initSupabase();
+        await refreshAll();
+      } catch (err) {
+        console.error(err);
+        alert("Unable to verify administrator role. Please run the Supabase migration and bootstrap script.");
+        window.location.href = "admin-dashboard.html";
+      }
+    });
+  </script>
+</body>
+</html>

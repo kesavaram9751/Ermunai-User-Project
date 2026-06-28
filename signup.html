@@ -1,204 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="scroll-smooth" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Create Account</title>
-  <!-- simplest: 32x32 PNG -->
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Create Account | Ermunai Organic</title>
+  <meta content="Create your account at Ermunai Organic marketplace to purchase organic millets, instant ready mixes, and earn rewards." name="description"/>
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
-  <link rel="stylesheet" href="user-create-acc.css" />
-  <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
-    /* Body */
-    body {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #a8edea, #fed6e3);
-      padding: 20px;
-    }
-
-    /* Container */
-    .wrap {
-      background: white;
-      padding: 40px 50px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      width: 100%;
-      max-width: 400px;
-      transition: transform 0.3s ease;
-    }
-
-    .wrap:hover {
-      transform: translateY(-5px);
-    }
-
-    /* Heading */
-    h2 {
-      margin-bottom: 20px;
-      color: #333;
-      font-size: 26px;
-      letter-spacing: 1px;
-    }
-
-    /* Input fields */
-    input {
-      width: 100%;
-      padding: 12px 14px;
-      margin: 10px 0;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-      font-size: 15px;
-      transition: border-color 0.3s;
-    }
-
-    input:focus {
-      border-color: #4caf50;
-    }
-
-    /* Button */
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
-    }
-
-    button:hover {
-      background-color: #43a047;
-      transform: scale(1.03);
-    }
-
-    /* Login link */
-    p {
-      margin-top: 15px;
-      color: #555;
-      font-size: 14px;
-    }
-
-    p a {
-      color: #4caf50;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    p a:hover {
-      text-decoration: underline;
-    }
-
-    /* Message */
-    .msg {
-      margin-top: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      min-height: 20px;
-    }
-
-    /* Responsive Media Queries */
-    @media (max-width: 480px) {
-      .wrap {
-        padding: 30px 20px;
-        width: 100%;
-      }
-
-      h2 {
-        font-size: 22px;
-      }
-
-      input,
-      button {
-        font-size: 15px;
-        padding: 10px;
-      }
-
-      p {
-        font-size: 13px;
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#0d631b",
+            "success-leaf": "#43A047",
+            "surface": "#fbf9f3",
+            "on-surface": "#1b1c19",
+            "on-surface-variant": "#40493d",
+            "outline-variant": "#bfcaba",
+            "earth-dark": "#4E342E",
+            "glass-stroke": "rgba(46, 125, 50, 0.1)"
+          }
+        }
       }
     }
-  </style>
+  </script>
 </head>
+<body class="bg-surface text-on-surface flex min-h-screen items-center justify-center p-4 selection:bg-primary/20 antialiased">
+  
+  <div class="w-full max-w-md p-8 bg-white/70 backdrop-blur-md rounded-2xl border border-glass-stroke shadow-xl space-y-6">
+    <div class="text-center space-y-2">
+      <a href="index.html" class="inline-flex items-center gap-2">
+        <img class="w-12 h-12 rounded-full border border-glass-stroke" src="./images/logo.jpg" alt="Logo"/>
+      </a>
+      <h2 class="text-2xl font-extrabold text-primary">Create Account</h2>
+      <p class="text-xs text-on-surface-variant">Sign up to claim your 100 welcome Reward Points!</p>
+    </div>
 
-<body>
-  <div class="wrap">
-    <h2>Create Account</h2>
-    <form id="signupForm"> <input type="email" id="email" placeholder="Email" required /> <input type="password"
-        id="password" placeholder="Password (min 6 chars)" required /> <button type="submit">Sign Up</button> </form>
-    <p>Already have an account? <a href="login.html">Login</a></p>
-    <p id="msg" class="msg"></p>
-  </div> <!-- Page logic -->
-  <!-- Page logic -->
+    <form id="signupForm" class="space-y-4">
+      <div class="space-y-1">
+        <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="email">Email Address</label>
+        <input type="email" id="email" required class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" placeholder="you@example.com"/>
+      </div>
+      <div class="space-y-1">
+        <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="password">Password</label>
+        <input type="password" id="password" required class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" placeholder="Minimum 6 characters"/>
+      </div>
+      <button type="submit" id="submitBtn" class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:opacity-90 active:scale-95 transition-all text-sm shadow-md flex items-center justify-center gap-2">
+        Register <span class="material-symbols-outlined text-sm">person_add</span>
+      </button>
+    </form>
+
+    <div class="text-center text-xs space-y-2">
+      <p class="text-on-surface-variant font-medium">Already have an account? <a class="text-primary font-bold hover:underline" href="login.html">Login</a></p>
+      <p id="msg" class="font-bold text-success-leaf"></p>
+    </div>
+  </div>
+
+  <div id="siteFooter"></div>
+
   <script type="module">
-    // Firebase v9 modular imports
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyCbfdG2XU302FuZx0MapVTRmb3Qtaa-hA8",
-      authDomain: "ermunai-e-commerce-project.firebaseapp.com",
-      projectId: "ermunai-e-commerce-project",
-      storageBucket: "ermunai-e-commerce-project.appspot.com",
-      messagingSenderId: "365240050790",
-      appId: "1:365240050790:web:2d4867d6ab4f93a661f9a7",
-      measurementId: "G-CZJZ4HLCMR"
-    };
-
-    // Init Firebase
-    const app = initializeApp(firebaseConfig);
+    import { initializeApp } from "./js/supabase-compat.js";
+    import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "./js/supabase-compat.js";
+    import { getSupabase, doc, setDoc } from "./js/supabase-compat.js";
+const app = initializeApp();
     const auth = getAuth(app);
-
-    // If already logged in, go to home
-    onAuthStateChanged(auth, (user) => {
-      if (user) window.location.href = "index.html";
-    });
+    const db = getSupabase(app);
 
     const form = document.getElementById("signupForm");
     const msg = document.getElementById("msg");
+    const submitBtn = document.getElementById("submitBtn");
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = "index.html";
+      }
+    });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       msg.textContent = "";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Creating your account...";
 
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
 
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Write default profile details to user document
+        await setDoc(doc(db, "users", user.uid), {
+          role: "Customer",
+          email: user.email,
+          rewardPoints: 100,
+          referralCount: 0,
+          wishlist: [],
+          createdAt: new Date().toISOString()
+        });
+
         localStorage.setItem("user", email);
+        msg.textContent = "Account created successfully! Redirecting...";
+        msg.className = "font-bold text-success-leaf text-xs";
 
-
-        msg.textContent = "Account created ✅ Redirecting…";
-        msg.style.color = "green";
-
-        setTimeout(() => (window.location.href = "index.html"), 800);
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 800);
       } catch (err) {
-        msg.textContent = err.message;
-        msg.style.color = "crimson";
+        msg.textContent = err.message.replace("Supabase: ", "");
+        msg.className = "font-bold text-error text-xs";
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `Register <span class="material-symbols-outlined text-sm">person_add</span>`;
       }
     });
   </script>
-
+  <script type="module">
+    import { mountStorefrontFooter } from "./js/ermunai-components.js";
+    mountStorefrontFooter("siteFooter");
+  </script>
 </body>
-
 </html>

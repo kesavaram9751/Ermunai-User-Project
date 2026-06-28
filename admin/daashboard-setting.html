@@ -1,0 +1,576 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Erumunai Organic Farm — Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin-theme.css">
+
+  <style>
+    :root {
+      --primary: #4a7c59;
+      --accent: #f0ad4e;
+      --text: #333;
+      --bg: #f7f7f7;
+      --white: #fff;
+      --radius: 8px;
+      --transition: 0.3s ease;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: var(--radius);
+      background: var(--primary);
+      color: var(--white);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 42px;
+    }
+
+    .menu-toggle span,
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 999px;
+      position: relative;
+    }
+
+    .menu-toggle span::before {
+      position: absolute;
+      top: -6px;
+    }
+
+    .menu-toggle span::after {
+      position: absolute;
+      top: 6px;
+    }
+
+    .sidebar-backdrop {
+      display: none;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 2rem;
+      font-size: 1.25rem;
+    }
+
+    .nav {
+      list-style: none;
+      width: 100%;
+    }
+
+    .nav li+li {
+      margin-top: 1rem;
+    }
+
+    .nav a {
+      display: block;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: var(--accent);
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--white);
+      padding: 1rem 2rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    header .logo {
+      height: 60px;
+      width: auto;
+    }
+
+    header h1 {
+      flex-grow: 1;
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .logoutBtn {
+      background: #ff5f5f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      cursor: pointer;
+    }
+
+    .logoutBtn:hover {
+      background: #e65050;
+    }
+
+    .content {
+      padding: 2rem;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    form {
+      background: var(--white);
+      padding: 1rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    label {
+      display: block;
+      margin: 0.5rem 0 0.25rem;
+      font-weight: 500;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+    }
+
+    .save-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+    }
+
+    .save-btn:hover {
+      background: var(--accent);
+      color: var(--text);
+    }
+
+    .banner-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .banner-item {
+      background: var(--white);
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+      width: 200px;
+    }
+
+    .banner-item img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-bottom: 0.5rem;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    footer i {
+      font-size: 1.2rem;
+      transition: transform var(--transition);
+    }
+
+    footer i:hover {
+      transform: scale(1.2);
+      color: var(--accent);
+    }
+
+    @media (max-width: 800px) {
+      body {
+        display: block;
+        height: auto;
+      }
+
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: min(82vw, 290px);
+        max-width: 290px;
+        padding: 1.25rem 1rem;
+        align-items: center;
+        transform: translateX(-105%);
+        transition: transform var(--transition);
+        z-index: 1200;
+        box-shadow: 8px 0 24px rgba(0, 0, 0, 0.18);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-backdrop.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1100;
+      }
+
+      .sidebar h2 {
+        margin-bottom: 1.25rem;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+
+      .nav {
+        display: block;
+        overflow: visible;
+        padding-bottom: 0;
+      }
+
+      .nav li+li {
+        margin-top: 0.75rem;
+      }
+
+      .nav a {
+        white-space: normal;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+      }
+
+      .main {
+        min-width: 0;
+      }
+
+      header {
+        padding: 0.85rem 1rem;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      header .logo {
+        height: 54px;
+      }
+
+      header h1 {
+        font-size: 1.25rem;
+      }
+
+      .content {
+        padding: 1rem;
+      }
+
+      .banner-item {
+        width: calc(50% - 0.5rem);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .sidebar {
+        width: min(86vw, 280px);
+        padding: 1rem 0.85rem;
+      }
+
+      header h1 {
+        flex-basis: auto;
+        order: 0;
+        font-size: 1.12rem;
+      }
+
+      .logoutBtn {
+        margin-left: auto;
+        padding: 0.45rem 0.7rem;
+      }
+
+      .content {
+        padding: 0.8rem;
+      }
+
+      .section-title {
+        font-size: 1.2rem;
+      }
+
+      form {
+        padding: 0.85rem;
+      }
+
+      input,
+      select {
+        min-height: 42px;
+        font-size: 16px;
+      }
+
+      .save-btn {
+        width: 100%;
+        min-height: 42px;
+      }
+
+      .banner-item {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <aside class="sidebar">
+    <div class="admin-brand">
+      <div class="admin-brand-icon"><span class="material-symbols-outlined">eco</span></div>
+      <div>
+        <span class="admin-brand-title">Admin Portal</span>
+        <span class="admin-brand-subtitle">Ermunai Organic</span>
+      </div>
+    </div>
+    <ul class="nav">
+        <li><a href="admin-dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a></li>
+        <li><a href="dashboard-product-page.html"><span class="material-symbols-outlined">inventory_2</span><span>Product Manager</span></a></li>
+        <li><a href="dashboard-order-page.html"><span class="material-symbols-outlined">shopping_bag</span><span>Order Manager</span></a></li>
+        <li><a href="site-control.html"><span class="material-symbols-outlined">tune</span><span>Site Control</span></a></li>
+        <li><a href="control-center.html"><span class="material-symbols-outlined">admin_panel_settings</span><span>Control Center</span></a></li>
+        <li><a href="daashboard-setting.html" class="active"><span class="material-symbols-outlined">settings</span><span>Settings & CMS</span></a></li>
+    </ul>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <strong>Role: Super Admin</strong>
+        <span>ermunaiorganicfarm@gmail.com</span>
+      </div>
+      <button class="sidebar-logout logoutBtn" type="button">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <header>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+      </button>
+      <img src="logo.jpg" alt="Erumunai Logo" class="logo" />
+      <h1>Settings</h1>
+      <button class="logoutBtn admin-header-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </header>
+
+    <div class="content">
+      <!-- Notifications -->
+      <div class="section-title">Order Notifications</div>
+      <form id="notificationForm">
+        <label>Admin Email</label>
+        <input type="email" id="adminEmail" placeholder="admin@example.com" required />
+
+        <label>WhatsApp Number</label>
+        <input type="text" id="adminWhatsapp" placeholder="+91XXXXXXXXXX" />
+
+        <button type="submit" class="save-btn">Save Notification Settings</button>
+      </form>
+    </div>
+
+    <footer>
+      <a href="https://wa.me/919840752833" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://instagram.com/ermunaifarm" target="_blank"><i class="fab fa-instagram"></i></a>
+      <span><i class="fas fa-envelope"></i> info@ermunai.com</span>
+      <span><i class="fas fa-phone"></i> +91 98407 52833</span>
+    </footer>
+  </div>
+  <!-- Supabase + Logic -->
+  <script type="module">
+    import { initializeApp } from "./supabase-compat.js";
+    import { getSupabase, doc, getDoc, setDoc } from "./supabase-compat.js";
+    import { getAuth, onAuthStateChanged, signOut } from "./supabase-compat.js";
+
+    // Supabase Config
+const app = initializeApp();
+    const db = getSupabase(app);
+    const auth = getAuth(app);
+
+    const sidebar = document.querySelector(".sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+
+    function closeSidebar() {
+      sidebar.classList.remove("open");
+      sidebarBackdrop.classList.remove("show");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+
+    function openSidebar() {
+      sidebar.classList.add("open");
+      sidebarBackdrop.classList.add("show");
+      menuToggle.setAttribute("aria-expanded", "true");
+    }
+
+    menuToggle.addEventListener("click", () => {
+      if (sidebar.classList.contains("open")) closeSidebar();
+      else openSidebar();
+    });
+
+    sidebarBackdrop.addEventListener("click", closeSidebar);
+    document.querySelectorAll(".nav a").forEach(link => link.addEventListener("click", closeSidebar));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeSidebar();
+    });
+
+    // ✅ Load saved settings when page opens
+    async function loadSettings() {
+      try {
+        const ref = doc(db, "settings", "notifications"); // path to doc
+        const snapshot = await getDoc(ref); // fetch doc data
+
+        if (snapshot.exists()) {
+          const data = snapshot.data(); // { email: "...", whatsapp: "..." }
+          document.getElementById("adminEmail").value = data.email || "";
+          document.getElementById("adminWhatsapp").value = data.whatsapp || "";
+        }
+      } catch (err) {
+        console.error("Failed to load settings:", err);
+      }
+    }
+
+    // Save Notification Settings
+    document.getElementById("notificationForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("adminEmail").value.trim();
+      const whatsapp = document.getElementById("adminWhatsapp").value.trim();
+
+      try {
+        await setDoc(doc(db, "settings", "notifications"), { email, whatsapp });
+        alert("Notification settings saved!");
+      } catch (err) {
+        console.error("Failed to save settings:", err);
+        alert("Error saving settings: " + err.message);
+      }
+    };
+
+    // Role-based auth protection guard
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      if (String(user.email || "").toLowerCase() === "ermunaiorganicfarm@gmail.com") {
+        await loadSettings();
+        return;
+      }
+      
+      try {
+        const roleSnap = await getDoc(doc(db, "users", user.uid));
+        const role = roleSnap.exists() ? roleSnap.data().role : null;
+        const allowedRoles = ["Super Admin", "Admin", "Support Staff", "Marketing Team"];
+
+        if (allowedRoles.includes(role)) {
+          await loadSettings();
+        } else {
+          alert("Access Denied: You do not have administrator permissions.");
+          await signOut(auth);
+          window.location.href = "index.html";
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Unable to verify administrator role. Please run the Supabase migration and bootstrap script.");
+      }
+    });
+
+    // Logout button
+    document.querySelectorAll(".logoutBtn").forEach(logoutBtn => logoutBtn.addEventListener("click", async () => {
+      if (confirm("Logout from Settings?")) {
+        try {
+          await signOut(auth);
+          window.location.reload();
+        } catch (e) {
+          console.error("Sign out error:", e);
+        }
+      }
+    }));
+  </script>
+</body>
+
+</html>
+

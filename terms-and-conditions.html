@@ -35,9 +35,143 @@
       text-decoration: none;
     }
   </style>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./css/ermunai-marketplace.css">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed-dim": "#78dc77",
+            "surface-container-high": "#eae8e2",
+            "on-error-container": "#93000a",
+            "on-background": "#1b1c19",
+            "surface-container-low": "#f5f3ee",
+            "surface-tint": "#1b6d24",
+            "success-leaf": "#43A047",
+            "tertiary-container": "#85675c",
+            "primary-container": "#2e7d32",
+            "primary-fixed": "#a3f69c",
+            "inverse-primary": "#88d982",
+            "surface-dim": "#dbdad4",
+            "outline-variant": "#bfcaba",
+            "surface-cream": "#FFFDF7",
+            "on-secondary-fixed-variant": "#005313",
+            "secondary-container": "#91f78e",
+            "on-tertiary": "#ffffff",
+            "primary": "#0d631b",
+            "tertiary-fixed": "#ffdbce",
+            "surface-container-highest": "#e4e2dd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed-dim": "#e4beb2",
+            "on-tertiary-container": "#ffeee8",
+            "outline": "#707a6c",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#002204",
+            "on-surface": "#1b1c19",
+            "surface": "#fbf9f3",
+            "inverse-on-surface": "#f2f1eb",
+            "on-tertiary-fixed-variant": "#5b4137",
+            "secondary-fixed": "#94f990",
+            "secondary": "#006e1c",
+            "tertiary": "#6b4f45",
+            "on-primary-container": "#cbffc2",
+            "surface-variant": "#e4e2dd",
+            "on-primary-fixed-variant": "#005312",
+            "background": "#fbf9f3",
+            "surface-bright": "#fbf9f3",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#002204",
+            "on-primary": "#ffffff",
+            "surface-container": "#f0eee8",
+            "glass-stroke": "rgba(46, 125, 50, 0.1)",
+            "on-surface-variant": "#40493d",
+            "primary-fixed-dim": "#88d982",
+            "earth-dark": "#4E342E",
+            "on-tertiary-fixed": "#2b160f",
+            "on-secondary-container": "#00731e",
+            "inverse-surface": "#30312d",
+            "surface-container-lowest": "#ffffff"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          spacing: {
+            "margin-desktop": "64px",
+            gutter: "32px",
+            unit: "8px",
+            "margin-mobile": "20px",
+            "stack-md": "40px",
+            "stack-lg": "80px",
+            "container-max": "1280px"
+          }
+        }
+      }
+    }
+  </script>
+  <style data-policy-layout>
+    body {
+      background: #fbf9f3 !important;
+      color: #1b1c19 !important;
+      font-family: "Plus Jakarta Sans", Arial, sans-serif !important;
+      padding-top: 96px;
+    }
+
+    body > .container {
+      width: min(100% - 40px, 1000px);
+      margin: 48px auto 64px !important;
+      background: #fffdf7 !important;
+      border: 1px solid rgba(46, 125, 50, 0.12);
+      border-radius: 16px !important;
+      box-shadow: 0 20px 55px rgba(27, 28, 25, 0.08) !important;
+      padding: clamp(28px, 5vw, 56px) !important;
+    }
+
+    body > .container h1,
+    body > .container h2,
+    body > .container h3 {
+      color: #0d631b !important;
+      letter-spacing: 0 !important;
+    }
+
+    body > .container h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+
+    body > .container h2 {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      border-bottom-color: rgba(46, 125, 50, 0.14) !important;
+    }
+
+    body > .container p,
+    body > .container li {
+      color: #40493d !important;
+      font-size: 1rem;
+    }
+
+    body > .container a {
+      color: #0d631b !important;
+      font-weight: 700;
+    }
+
+    @media (max-width: 640px) {
+      body { padding-top: 82px; }
+      body > .container { width: min(100% - 28px, 1000px); margin-top: 28px !important; }
+    }
+  </style>
 </head>
 
-<body>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+  <div id="siteHeader"></div>
   <div class="container">
     <h1>Terms and Conditions</h1>
     <p>Welcome to <strong>Ermunai Organic Farm Foods</strong>. By using our website (<a
@@ -73,10 +207,18 @@
 
     <h2>9. Contact</h2>
     <p>For any questions, contact us at:<br>
-      📧 <a href="mailto:ermunaiorganicfarm@gmail.com">ermunaiorganicfarm@gmail.com</a><br>
-      📞 +91 9841231996 / +91 9840752833
+      Email: <a href="mailto:ermunaiorganicfarm@gmail.com">ermunaiorganicfarm@gmail.com</a><br>
+      Phone: +91 9841231996 / +91 9840752833
     </p>
   </div>
+
+  <div id="siteFooter"></div>
+
+  <script type="module">
+    import { mountStorefrontHeader, mountStorefrontFooter } from "./js/ermunai-components.js";
+    mountStorefrontHeader("siteHeader");
+    mountStorefrontFooter("siteFooter");
+  </script>
 </body>
 
 </html>
