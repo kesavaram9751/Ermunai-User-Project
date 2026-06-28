@@ -213,6 +213,38 @@
       border: 1px solid rgba(46, 125, 50, .12);
       box-shadow: 0 18px 40px rgba(13, 99, 27, .08);
     }
+    #freshArrivals {
+      overflow: visible;
+    }
+    .fresh-arrivals-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      align-items: start;
+      overflow: visible;
+    }
+    @media (min-width: 1024px) {
+      .fresh-arrivals-layout {
+        grid-template-columns: minmax(320px, .9fr) minmax(0, 1.45fr);
+        align-items: stretch;
+      }
+      .fresh-arrivals-sidebar {
+        align-self: stretch;
+        position: relative;
+        overflow: visible;
+      }
+      .fresh-arrivals-panel {
+        position: sticky;
+        top: 112px;
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .fresh-arrivals-grid {
+        align-content: start;
+      }
+    }
     .section-kicker {
       color: #0d631b;
       font-size: .72rem;
@@ -403,15 +435,17 @@
       </div>
     </section>
 
-    <section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-[.9fr_1.4fr] gap-gutter items-start">
-        <div class="commerce-card rounded-xl p-8 lg:sticky lg:top-28">
-          <span class="section-kicker">New & offer shelf</span>
-          <h2 class="text-3xl font-black text-primary mt-2">Fresh arrivals from your catalog</h2>
-          <p class="text-on-surface-variant mt-3 leading-7">Use this section for discounts, new launches, or seasonal products. It stays empty until products are added from admin.</p>
-          <a href="shop.html" class="mt-6 inline-flex items-center gap-2 bg-primary text-white rounded-lg px-6 py-3 font-extrabold">Explore shop <span class="material-symbols-outlined text-lg">arrow_forward</span></a>
+    <section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto" id="freshArrivals">
+      <div class="fresh-arrivals-layout">
+        <div class="fresh-arrivals-sidebar">
+          <div class="commerce-card rounded-xl p-8 fresh-arrivals-panel">
+            <span class="section-kicker">New & offer shelf</span>
+            <h2 class="text-3xl font-black text-primary mt-2">Fresh arrivals from your catalog</h2>
+            <p class="text-on-surface-variant mt-3 leading-7">Use this section for discounts, new launches, or seasonal products. It stays empty until products are added from admin.</p>
+            <a href="shop.html" class="mt-6 inline-flex items-center gap-2 bg-primary text-white rounded-lg px-6 py-3 font-extrabold">Explore shop <span class="material-symbols-outlined text-lg">arrow_forward</span></a>
+          </div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter" id="offerProducts"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter fresh-arrivals-grid" id="offerProducts"></div>
       </div>
     </section>
 
@@ -527,6 +561,7 @@ const app = initializeApp();
       { title: "Ready to Serve", tag: "Serve Fast", image: "./images/readytoserve.jpg", alt: "Ready to serve foods", category: "readytoserve" },
       { title: "Herbal Products", tag: "Wellness", image: "./images/herbal.jpg", alt: "Herbal products", category: "herbal" }
     ];
+    const requiredCategories = categories.map(item => ({ ...item }));
 
     function resolvePublicImage(url) {
       if (!url) return "";
@@ -641,7 +676,14 @@ const app = initializeApp();
       }
 
       if (Array.isArray(settings.categories) && settings.categories.length) {
-        categories = settings.categories.map(item => ({ ...item, image: resolvePublicImage(item.image) }));
+        const savedCategories = settings.categories.map(item => ({ ...item, image: resolvePublicImage(item.image) }));
+        const savedKeys = new Set(savedCategories.map(item => item.category).filter(Boolean));
+        categories = [
+          ...savedCategories,
+          ...requiredCategories
+            .filter(item => !savedKeys.has(item.category))
+            .map(item => ({ ...item, image: resolvePublicImage(item.image) }))
+        ];
       }
       if (data.seo.title) document.title = data.seo.title;
       const metaDescription = document.querySelector('meta[name="description"]');
@@ -727,6 +769,11 @@ const app = initializeApp();
         const products = snap.docs
           .map(doc => normalizeProduct({ id: doc.id, ...doc.data() }))
           .filter(product => !product.disabled);
+        products.sort((a, b) => {
+          const bTime = Date.parse(b.createdAt || b.updatedAt || "") || 0;
+          const aTime = Date.parse(a.createdAt || a.updatedAt || "") || 0;
+          return bTime - aTime;
+        });
         window.homeProducts = products;
 
         if (!products.length) {
@@ -745,7 +792,12 @@ const app = initializeApp();
         
         // Render Offer Products
         const offersList = products.filter(p => p.offer || p.discount > 0).slice(0, 4);
-        renderInto("offerProducts", offersList.length ? offersList : products.slice(4, 8), product => productCard(product, { addAction: `addHomeProductToCart('${product.id}')` }));
+        const offerIds = new Set(offersList.map(product => product.id));
+        const freshArrivalsList = [
+          ...offersList,
+          ...products.filter(product => !offerIds.has(product.id))
+        ].slice(0, 2);
+        renderInto("offerProducts", freshArrivalsList, product => productCard(product, { addAction: `addHomeProductToCart('${product.id}')` }));
       } catch (error) {
         console.warn("Homepage products unavailable:", error);
         window.homeProducts = [];
