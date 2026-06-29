@@ -571,7 +571,8 @@ const app = initializeApp();
     }
 
     function setText(id, value) {
-      if (value) document.getElementById(id).textContent = value;
+      const element = document.getElementById(id);
+      if (element && value) element.textContent = value;
     }
 
     function setLink(id, href, text) {
@@ -590,6 +591,42 @@ const app = initializeApp();
     let heroBannerIndex = 0;
     let heroFallback = defaultHomepage.hero;
 
+    function getHeroBannerImage(banner, fallbackHero = heroFallback) {
+      return resolvePublicImage(banner?.image || fallbackHero?.image || "");
+    }
+
+    function normalizeHeroBanner(banner, fallbackHero = heroFallback) {
+      const image = getHeroBannerImage(banner, fallbackHero);
+      if (!image) return null;
+      return {
+        eyebrow: banner?.eyebrow || fallbackHero.eyebrow,
+        title: banner?.title || fallbackHero.title,
+        subtitle: banner?.subtitle || fallbackHero.subtitle,
+        buttonHref: banner?.buttonHref || fallbackHero.primaryHref,
+        buttonText: banner?.buttonText || fallbackHero.primaryText,
+        image
+      };
+    }
+
+    function getActiveHeroBanners(settings = {}, fallbackHero = heroFallback) {
+      const uploadedBanners = Array.isArray(settings.banners)
+        ? settings.banners.filter(banner => banner && banner.active !== false)
+        : [];
+      const normalized = uploadedBanners
+        .map(banner => normalizeHeroBanner(banner, fallbackHero))
+        .filter(Boolean);
+      if (!normalized.length) {
+        const fallbackBanner = normalizeHeroBanner(fallbackHero, fallbackHero);
+        if (fallbackBanner) normalized.push(fallbackBanner);
+      }
+      const seenImages = new Set();
+      return normalized.filter(banner => {
+        if (seenImages.has(banner.image)) return false;
+        seenImages.add(banner.image);
+        return true;
+      });
+    }
+
     function renderHeroDots() {
       const dots = document.getElementById("heroDots");
       if (!dots) return;
@@ -604,7 +641,7 @@ const app = initializeApp();
       setText("heroTitle", banner.title || fallbackHero.title);
       setText("heroSubtitle", banner.subtitle || fallbackHero.subtitle);
       setLink("primaryCta", banner.buttonHref || fallbackHero.primaryHref, banner.buttonText || fallbackHero.primaryText);
-      const image = resolvePublicImage(banner.image || fallbackHero.image);
+      const image = getHeroBannerImage(banner, fallbackHero);
       if (image && heroImage) {
         if (animate) heroImage.classList.add("is-changing");
         window.setTimeout(() => {
@@ -622,12 +659,46 @@ const app = initializeApp();
       if (restart) startHeroCarousel(fallbackHero);
     }
 
-    function startHeroCarousel(fallbackHero) {
-      if (heroBannerTimer) clearInterval(heroBannerTimer);
+    function preloadNextHeroBanner() {
       if (heroBanners.length <= 1) return;
-      heroBannerTimer = setInterval(() => {
+      const nextBanner = heroBanners[(heroBannerIndex + 1) % heroBanners.length];
+      const nextImage = getHeroBannerImage(nextBanner, heroFallback);
+      if (!nextImage) return;
+      const img = new Image();
+      img.src = nextImage;
+    }
+
+    function startHeroCarousel(fallbackHero) {
+      if (heroBannerTimer) window.clearTimeout(heroBannerTimer);
+      if (heroBanners.length <= 1) return;
+      preloadNextHeroBanner();
+      heroBannerTimer = window.setTimeout(() => {
         showHeroBanner(heroBannerIndex + 1, fallbackHero, false);
-      }, 5500);
+        startHeroCarousel(fallbackHero);
+      }, 3500);
+    }
+
+    async function loadStorageHeroBanners() {
+      try {
+        const { data, error } = await db.storage
+          .from("ermunai-product-images")
+          .list("banners", {
+            limit: 30,
+            sortBy: { column: "created_at", order: "desc" }
+          });
+        if (error) throw error;
+        return (data || [])
+          .filter(item => item && item.name && !item.name.endsWith("/"))
+          .map(item => {
+            const path = `banners/${item.name}`;
+            const { data: publicData } = db.storage.from("ermunai-product-images").getPublicUrl(path);
+            return { image: publicData?.publicUrl || "", active: true };
+          })
+          .filter(banner => banner.image);
+      } catch (error) {
+        console.warn("Homepage storage banners unavailable:", error);
+        return [];
+      }
     }
 
     function applyHomepageSettings(settings = {}) {
@@ -651,10 +722,10 @@ const app = initializeApp();
       const heroImage = resolvePublicImage(data.hero.image);
       if (heroImage) document.getElementById("heroImage").style.backgroundImage = `url('${heroImage}')`;
 
-      if (heroBannerTimer) clearInterval(heroBannerTimer);
-      heroBanners = Array.isArray(settings.banners)
-        ? settings.banners.filter(banner => banner && banner.active !== false && (banner.title || banner.image))
-        : [];
+      if (heroBannerTimer) window.clearTimeout(heroBannerTimer);
+      heroBanners = getActiveHeroBanners(settings, data.hero);
+      window.debugHeroBanners = heroBanners;
+      console.info(`Homepage hero banners loaded: ${heroBanners.length}`, heroBanners.map(banner => banner.image));
       const controls = document.getElementById("heroCarouselControls");
       controls?.classList.toggle("hidden", heroBanners.length <= 1);
       if (heroBanners.length) {
@@ -703,7 +774,7 @@ const app = initializeApp();
       showHeroBanner(Number(button.dataset.heroIndex), heroFallback);
     });
     document.querySelector(".home-hero")?.addEventListener("mouseenter", () => {
-      if (heroBannerTimer) clearInterval(heroBannerTimer);
+      if (heroBannerTimer) window.clearTimeout(heroBannerTimer);
     });
     document.querySelector(".home-hero")?.addEventListener("mouseleave", () => {
       if (heroBanners.length > 1) startHeroCarousel(heroFallback);
@@ -735,12 +806,18 @@ const app = initializeApp();
     }
 
     async function loadHomepageSettings() {
+      let settings = {};
       try {
         const snap = await getDoc(doc(db, "settings", "homepage"));
-        if (snap.exists()) applyHomepageSettings(snap.data());
+        settings = snap.exists() ? (snap.data() || {}) : {};
       } catch (error) {
         console.warn("Homepage settings unavailable, using defaults:", error);
       }
+      if (!Array.isArray(settings.banners) || settings.banners.filter(banner => banner?.image).length === 0) {
+        const storageBanners = await loadStorageHeroBanners();
+        if (storageBanners.length) settings = { ...settings, banners: storageBanners };
+      }
+      applyHomepageSettings(settings);
       renderInto("featuredCategories", categories, categoryCard);
       await loadHomepageBlogs();
     }

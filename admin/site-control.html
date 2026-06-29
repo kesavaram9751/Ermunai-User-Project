@@ -135,6 +135,7 @@
         <div class="card">
           <div class="section-title">Home Banner Uploads</div>
           <p class="hint">Upload banner images for the homepage hero carousel. No text editing needed — images rotate automatically on the public site.</p>
+          <p class="hint">Use JPG, PNG, or WebP under 2 MB for the most reliable upload. Larger images require Supabase Storage policies to be enabled.</p>
           <div class="form-grid">
             <label class="wide">Banner Image<input id="bannerFile" type="file" accept="image/*"></label>
           </div>
@@ -341,20 +342,38 @@
 
     async function initSupabase() {
       if (supabase) return supabase;
-      const mod = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm");
-      supabase = mod.createClient(SUPABASE_URL, SUPABASE_KEY);
+      supabase = db;
       return supabase;
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error || new Error("Could not read image file."));
+        reader.readAsDataURL(file);
+      });
     }
 
     async function uploadImage(file, folder) {
       if (!file) throw new Error("Choose an image first.");
       if (!file.type.startsWith("image/")) throw new Error("Only image files are allowed.");
-      if (file.size > 10 * 1024 * 1024) throw new Error("Image must be 3 MB or smaller.");
+      if (file.size > 10 * 1024 * 1024) throw new Error("Image must be 10 MB or smaller.");
       const client = await initSupabase();
+      const { data: sessionData } = await client.auth.getSession();
+      if (!sessionData?.session) throw new Error("Your admin session expired. Please login again, then upload the banner.");
       const safeName = file.name.toLowerCase().replace(/[^a-z0-9.]+/g, "-");
-      const path = `${folder}/${Date.now()}-${safeName}`;
-      const { error } = await client.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: false, contentType: file.type });
-      if (error) throw error;
+      const randomId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
+      const path = `${folder}/${Date.now()}-${randomId}-${safeName}`;
+      const { error } = await client.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: true, contentType: file.type });
+      if (error) {
+        console.warn("Supabase storage upload failed:", error);
+        if (folder === "banners" && file.size <= 2 * 1024 * 1024) {
+          setStatus("Storage upload failed, saving banner directly...");
+          return readFileAsDataUrl(file);
+        }
+        throw new Error((error.message || "Supabase storage upload failed.") + " Run the Supabase storage policies if this keeps happening.");
+      }
       const { data } = client.storage.from(STORAGE_BUCKET).getPublicUrl(path);
       return data.publicUrl || "";
     }
@@ -369,10 +388,12 @@
         grid.innerHTML = `<p class="hint">No banners uploaded yet. Use the upload button above to add your first homepage banner.</p>`;
         return;
       }
+      const activeCount = state.banners.filter(banner => banner && banner.active !== false && banner.image).length;
       grid.innerHTML = state.banners.map((banner, index) => `
         <article class="banner-card">
           <img src="${esc(banner.image)}" alt="Homepage banner ${index + 1}">
           <div class="banner-card-body">
+            <strong>${banner.active === false ? "Hidden" : "Active"} banner ${index + 1} of ${activeCount}</strong>
             <p>${esc(banner.image)}</p>
             <button class="danger-btn" type="button" data-remove-banner="${index}">Remove</button>
           </div>
@@ -457,18 +478,25 @@
     });
 
     $("uploadBannerBtn").addEventListener("click", async () => {
+      const button = $("uploadBannerBtn");
       try {
         const file = $("bannerFile").files?.[0];
         setStatus("Uploading banner...");
+        button.disabled = true;
+        button.textContent = "Uploading...";
         const imageUrl = await uploadImage(file, "banners");
-        state.banners.push({ image: imageUrl, active: true });
+        state.banners.push({ id: crypto.randomUUID(), image: imageUrl, active: true, updatedAt: new Date().toISOString() });
         await saveHomepagePatch({ banners: state.banners });
         $("bannerFile").value = "";
         renderBanners();
         setStatus("Banner uploaded and saved to homepage.");
       } catch (error) {
         console.error(error);
-        alert(error.message || "Banner upload failed.");
+        setStatus("Banner upload failed.");
+        alert("Banner upload failed: " + (error.message || error));
+      } finally {
+        button.disabled = false;
+        button.textContent = "Upload Banner";
       }
     });
 
