@@ -1,8 +1,10 @@
 Options -MultiViews
 RewriteEngine On
 
+# Direct Hostinger fallback for the admin dashboard clean URL.
+RewriteRule ^admin/admin-dashboard/?$ admin/admin-dashboard.html [L]
+
 # Allow extensionless URLs like /admin/admin-dashboard to serve /admin/admin-dashboard.html.
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.+?)/?$ $1.html [L]
-
