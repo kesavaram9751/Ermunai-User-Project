@@ -882,6 +882,22 @@
                     <input type="number" id="productStock" required min="0" />
                     <label>Description</label>
                     <textarea id="productDescription" rows="4"></textarea>
+                    <label><input type="checkbox" id="productDescriptionReviewed" /> Description checked for unsupported claims and approved for publication</label>
+                    <label for="productQuantityValue">Pack size</label>
+                    <input type="number" id="productQuantityValue" min="0.01" step="any" />
+                    <label for="productQuantityType">Pack unit (for example g, kg, or ml)</label>
+                    <input id="productQuantityType" />
+                    <label for="productIngredients">Ingredients</label>
+                    <textarea id="productIngredients" rows="2"></textarea>
+                    <label for="productPreparation">Preparation or directions</label>
+                    <textarea id="productPreparation" rows="2"></textarea>
+                    <label for="productAllergens">Allergen information</label>
+                    <textarea id="productAllergens" rows="2"></textarea>
+                    <label for="productStorage">Storage</label>
+                    <input id="productStorage" />
+                    <label for="productShelfLife">Shelf life</label>
+                    <input id="productShelfLife" />
+                    <label><input type="checkbox" id="productFeatured" /> Feature on homepage</label>
                     <label>Category</label>
                     <select id="productCategory" required>
                         <option value="readyToCookMixes">Ready-to-Cook Instant Mixes</option>
@@ -926,6 +942,9 @@
         const closeModalBtn = document.getElementById("closeModal");
         const addProductBtn = document.getElementById("addProductBtn");
         const productForm = document.getElementById("productForm");
+        document.getElementById("productDescription").addEventListener("input", () => {
+            document.getElementById("productDescriptionReviewed").checked = false;
+        });
         const logoutBtn = document.getElementById("logoutBtn");
         const imagePreview = document.getElementById("imagePreview");
         const imagePreviewGrid = document.getElementById("imagePreviewGrid");
@@ -1245,6 +1264,15 @@
                 discount: parseFloat(document.getElementById("productDiscount").value) || 0,
                 stock: parseInt(document.getElementById("productStock").value) || 0,
                 description: document.getElementById("productDescription").value || "",
+                descriptionReviewed: document.getElementById("productDescriptionReviewed").checked,
+                quantityValue: document.getElementById("productQuantityValue").valueAsNumber || null,
+                quantityType: document.getElementById("productQuantityType").value.trim(),
+                ingredients: document.getElementById("productIngredients").value.trim(),
+                preparation: document.getElementById("productPreparation").value.trim(),
+                allergens: document.getElementById("productAllergens").value.trim(),
+                storage: document.getElementById("productStorage").value.trim(),
+                shelfLife: document.getElementById("productShelfLife").value.trim(),
+                featured: document.getElementById("productFeatured").checked,
                 category: document.getElementById("productCategory").value,
                 categoryLabel: categoryLabels[document.getElementById("productCategory").value] || document.getElementById("productCategory").value,
                 disabled: !!document.getElementById("productDisabled").checked,
@@ -1354,6 +1382,15 @@
                         document.getElementById("productDiscount").value = p.discount || 0;
                         document.getElementById("productStock").value = p.stock || 0;
                         document.getElementById("productDescription").value = p.description || "";
+                        document.getElementById("productDescriptionReviewed").checked = !!p.descriptionReviewed;
+                        document.getElementById("productQuantityValue").value = p.quantityValue ?? "";
+                        document.getElementById("productQuantityType").value = p.quantityType ?? "";
+                        document.getElementById("productIngredients").value = p.ingredients ?? "";
+                        document.getElementById("productPreparation").value = p.preparation ?? "";
+                        document.getElementById("productAllergens").value = p.allergens ?? "";
+                        document.getElementById("productStorage").value = p.storage ?? "";
+                        document.getElementById("productShelfLife").value = p.shelfLife ?? "";
+                        document.getElementById("productFeatured").checked = !!p.featured;
                         document.getElementById("productCategory").value = normalizeCategory(p.category) || "readyToCookMixes";
                         document.getElementById("productDisabled").checked = !!p.disabled;
                         editingExistingImageUrls = getProductImages(p);

@@ -190,12 +190,12 @@ export function mountStorefrontFooter(target = "siteFooter", options = {}) {
   if (!element) return;
 
   const year = options.year || new Date().getFullYear();
-  const phone = options.phone || "+91 98412 31996 / +91 98407 52833";
+  const phone = options.phone || "+91 98412 31996";
   const email = options.email || "info@ermunaiorganicfarmfoods.com";
   const address = options.address || "Manufacturing Unit: Plot No. 5, 1/328, Sabari Salai, Ayyappan Nagar, Madipakkam, Chennai - 600091.";
   const gstin = options.gstin || "33AKAPR8721K1ZZ";
   const fssai = options.fssai || "12425008002307";
-  const whatsappNumber = String(options.whatsappNumber || "919841231996").replace(/\D/g, "");
+  const whatsappNumber = String(options.whatsappNumber || "919840752833").replace(/\D/g, "");
   const whatsappMessage = encodeURIComponent(options.whatsappMessage || "Hello Ermunai Organic, I need help with your products.");
 
   element.innerHTML = `
@@ -237,7 +237,8 @@ export function mountStorefrontFooter(target = "siteFooter", options = {}) {
             <h3 class="text-2xl font-bold text-primary mb-6">Ermunai Organic Farm & Foods</h3>
             <p class="text-sm text-on-surface-variant mb-6 leading-relaxed" id="footerAddress">${escapeHtml(address)}</p>
             <div class="space-y-3 text-sm text-on-surface-variant">
-              <p><strong class="text-primary">Phone:</strong> <span id="footerPhone">${escapeHtml(phone)}</span></p>
+              <p><strong class="text-primary">WhatsApp:</strong> <a href="https://wa.me/${whatsappNumber}">+${whatsappNumber}</a></p>
+              <p><strong class="text-primary">Customer Support:</strong> <span id="footerPhone">${escapeHtml(phone)}</span></p>
               <p><strong class="text-primary">Email:</strong> <span id="footerEmail">${escapeHtml(email)}</span></p>
             </div>
           </div>
@@ -365,11 +366,11 @@ export function writeStorefrontCart(user, cart) {
 export function productCard(product, options = {}) {
   const id = product.id || "";
   const name = product.name || "Product";
-  const category = product.categoryLabel || product.category || "Organic";
+  const category = product.categoryLabel || product.category || "Product";
   const price = product.price ?? product.amount ?? 0;
-  const tag = product.tag || (product.featured ? "Featured" : (product.offer ? "Offer" : "Organic"));
+  const tag = product.tag || (product.featured ? "Featured" : (product.offer ? "Offer" : "Product"));
   const stock = Number(product.stock ?? 0);
-  const rating = product.rating || "4.8";
+  const rating = product.rating;
   const oldPrice = Number(product.oldPrice || product.mrp || 0);
   const discount = oldPrice > price && price > 0 ? Math.round(((oldPrice - price) / oldPrice) * 100) : 0;
   const image = getMainProductImage(product);
@@ -399,10 +400,10 @@ export function productCard(product, options = {}) {
             <span class="text-xl font-extrabold text-earth-dark">${formatCurrency(price)}</span>
             ${oldPrice > price ? `<span class="text-xs line-through text-on-surface-variant">${formatCurrency(oldPrice)}</span>` : ""}
           </div>
-          <div class="flex items-center gap-1 text-[#a66d12] text-sm font-bold">
+          ${rating ? `<div class="flex items-center gap-1 text-[#a66d12] text-sm font-bold">
             <span class="material-symbols-outlined text-sm font-fill" style="font-variation-settings: 'FILL' 1;">star</span>
             <span>${escapeHtml(String(rating))}</span>
-          </div>
+          </div>` : ""}
         </div>
         <div class="grid grid-cols-2 gap-2 text-[10px] font-extrabold uppercase tracking-wider">
           <span class="rounded-full bg-primary/10 text-primary px-2.5 py-1">${stock > 0 ? "In Stock" : "Sold Out"}</span>
@@ -410,7 +411,7 @@ export function productCard(product, options = {}) {
         </div>
         <div class="grid grid-cols-5 gap-2 mt-2">
           <button class="col-span-4 bg-primary text-white font-bold py-2.5 px-4 rounded-lg hover:opacity-90 active:scale-95 transition-all text-sm flex items-center justify-center gap-2" type="button" onclick="${addAction}" ${stock <= 0 ? "disabled" : ""}>
-            <span class="material-symbols-outlined text-sm">shopping_cart</span> Add
+            <span class="material-symbols-outlined text-sm">shopping_cart</span> Add to Cart
           </button>
           <button class="col-span-1 border border-outline-variant text-on-surface-variant hover:bg-surface-container-high rounded-lg flex items-center justify-center transition-all active:scale-95" type="button" onclick="${quickAction}" aria-label="Quick view">
             <span class="material-symbols-outlined text-sm">visibility</span>
@@ -426,7 +427,7 @@ export function categoryCard(category) {
     <a href="${link}" class="group relative overflow-hidden rounded-xl h-64 bento-card shadow-md block border border-glass-stroke">
       <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${category.image}" alt="${escapeHtml(category.alt || category.title)}" loading="lazy">
       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
-        <span class="text-white/80 font-semibold text-xs mb-1">${escapeHtml(category.tag || "Organic")}</span>
+        <span class="text-white/80 font-semibold text-xs mb-1">${escapeHtml(category.tag || "Product")}</span>
         <h3 class="text-white text-xl font-bold mb-2">${escapeHtml(category.title)}</h3>
         <span class="text-primary-fixed text-sm font-semibold flex items-center gap-1 group-hover:gap-3 transition-all">
           Explore Category <span class="material-symbols-outlined text-xs">arrow_forward</span>

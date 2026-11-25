@@ -79,8 +79,8 @@
           <div>
             <h3 class="font-bold text-primary text-base">Call Support</h3>
             <p class="text-xs text-on-surface-variant leading-relaxed mt-1">
-              Customer Support: +91 98412 31996<br>
-              WhatsApp Business: +91 98407 52833
+              Customer Support: <a href="tel:+919841231996">+91 98412 31996</a><br>
+              WhatsApp Business: <a href="https://wa.me/919840752833">+91 98407 52833</a>
             </p>
           </div>
         </div>
@@ -90,8 +90,7 @@
           <div>
             <h3 class="font-bold text-primary text-base">Email Us</h3>
             <p class="text-xs text-on-surface-variant leading-relaxed mt-1">
-              info@ermunaiorganicfarmfoods.com<br>
-              ermunaiorganicfarm@gmail.com
+              <a href="mailto:info@ermunaiorganicfarmfoods.com">info@ermunaiorganicfarmfoods.com</a>
             </p>
           </div>
         </div>
@@ -101,7 +100,7 @@
             <span class="material-symbols-outlined text-success-leaf font-fill">chat</span> Quick Order on WhatsApp
           </h3>
           <p class="text-xs text-on-surface-variant">Place retail or bulk orders directly via WhatsApp chat for instant confirmation.</p>
-          <a href="https://wa.me/919841231996" target="_blank" class="w-full bg-success-leaf text-white font-bold py-2.5 rounded-lg text-center hover:opacity-90 active:scale-95 transition-all text-xs block">
+          <a href="https://wa.me/919840752833" target="_blank" class="w-full bg-success-leaf text-white font-bold py-2.5 rounded-lg text-center hover:opacity-90 active:scale-95 transition-all text-xs block">
             Order on WhatsApp
           </a>
         </div>
@@ -170,8 +169,13 @@ const app = initializeApp();
       const subject = document.getElementById("subject").value.trim();
       const message = document.getElementById("message").value.trim();
       
-      const whatsappText = `Hello Ermunai Organic!%0AMy Name: ${fname} ${lname}%0AEmail: ${email}%0APhone: ${phone}%0ASubject: ${subject}%0AMessage: ${message}`;
-      window.open(`https://wa.me/919841231996?text=${whatsappText}`, "_blank");
+      const whatsappText = encodeURIComponent(`Hello Ermunai Organic!
+My Name: ${fname} ${lname}
+Email: ${email}
+Phone: ${phone}
+Subject: ${subject}
+Message: ${message}`);
+      window.open(`https://wa.me/919840752833?text=${whatsappText}`, "_blank", "noopener");
     });
 
     function updateCartCount(user) {

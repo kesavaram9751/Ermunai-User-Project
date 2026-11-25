@@ -162,7 +162,7 @@ values
   "category": "readyToCookMixes",
   "createdAt": "2025-11-02T07:15:03.925Z",
   "createdBy": "HZPJ8t9bhdhgz93Yw2EOGZBaHUV2",
-  "description": "Crafted from our traditional native whole pulses and pure millets, this Adai Mix brings back the taste of ancient South Indian kitchens. Rich in plant protein, fiber, and iron, it's a wholesome, ready-to-cook meal for healthy mornings and hearty dinners. No preservatives, just native nutrition in every bite.",
+  "description": "Ready-to-cook Adai mix made with millets and whole pulses.",
   "disabled": false,
   "discount": 0,
   "image": "https://svbsrgxqgzuibrrsywix.supabase.co/storage/v1/object/public/ermunai-product-images/products/1762067702509-Multi%20Millet%20and%20Multi%20Grain%20Adai%20Mix.jpg",

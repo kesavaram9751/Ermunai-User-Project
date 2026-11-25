@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Shop Organic Products | Ermunai Organic Farm Foods</title>
-  <meta content="Shop Ermunai Organic products with category filters, price range, search, wishlist, comparison, and dynamic product detail pages." name="description"/>
+  <title>Shop Traditional Foods | Ermunai Organic Farm Foods</title>
+  <meta content="Shop products from Ermunai Organic Farm Foods with category filters, price range, search, wishlist, comparison, and dynamic product detail pages." name="description"/>
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
@@ -113,8 +113,8 @@
     <!-- Header Section -->
     <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-stack-md">
       <div class="max-w-2xl">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-2">Artisanal Organic Collection</h1>
-        <p class="text-on-surface-variant">Explore organic millet mixes, traditional idli podis, ready-to-cook foods, and healthy soup mixes crafted for premium wellness.</p>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-primary mb-2">Traditional Foods</h1>
+        <p class="text-on-surface-variant">Explore millet mixes, traditional idli podis, ready-to-cook foods, and soup mixes.</p>
       </div>
       <div class="flex items-center gap-4">
         <select id="sortFilter" class="bg-surface-container-low border border-outline-variant rounded-lg text-sm font-semibold text-on-surface focus:ring-primary focus:border-primary px-4 py-2.5 outline-none cursor-pointer">
@@ -326,8 +326,8 @@ const app = initializeApp();
         ...product,
         category,
         price: Number(product.price ?? product.amount ?? 0),
-        categoryLabel: product.categoryLabel || categoryLabels[category] || category || "Organic",
-        tag: product.tag || (product.featured ? "Featured" : product.offer ? "Offer" : "Organic")
+        categoryLabel: product.categoryLabel || categoryLabels[category] || category || "Product",
+        tag: product.tag || (product.featured ? "Featured" : product.offer ? "Offer" : "Product")
       };
     }
 
@@ -615,7 +615,7 @@ const app = initializeApp();
       `).join("");
 
       compareRatingRow.innerHTML = `<td class="py-3 px-4 font-bold text-on-surface-variant">Rating</td>` + compareList.map(p => `
-        <td class="py-3 px-4 text-[#a66d12] text-center font-bold">★ ${p.rating || "4.8"}</td>
+        <td class="py-3 px-4 text-[#a66d12] text-center font-bold">${p.rating ? `★ ${escapeHtml(String(p.rating))}` : "—"}</td>
       `).join("");
 
       compareStockRow.innerHTML = `<td class="py-3 px-4 font-bold text-on-surface-variant">Stock Status</td>` + compareList.map(p => `
