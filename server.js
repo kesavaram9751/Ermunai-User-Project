@@ -202,12 +202,14 @@ function requireRole(allowedRoles = []) {
 }
 
 function verifyRazorpaySignature({ order_id, payment_id, signature }) {
-  if (!order_id || !payment_id || !signature) return false;
+  if (![order_id, payment_id, signature].every(value => typeof value === "string" && value.length)) return false;
   const expected = crypto
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET || "")
     .update(`${order_id}|${payment_id}`)
     .digest("hex");
-  return expected === signature;
+  const received = Buffer.from(signature);
+  const digest = Buffer.from(expected);
+  return received.length === digest.length && crypto.timingSafeEqual(received, digest);
 }
 
 function isNonEmptyString(value) {
@@ -225,30 +227,11 @@ function parseAmount(value) {
   return Math.round(amount * 100) / 100;
 }
 
-function normalizeCartItems(items) {
-  if (!Array.isArray(items)) return [];
-  return items.slice(0, 50).map(item => ({
-    id: cleanString(item.id || "", 120),
-    name: cleanString(item.name || "Product", 180),
-    quantity: Math.max(1, Math.min(99, Number(item.qty || item.quantity || 1))),
-    price: parseAmount(item.price) || 0,
-    image: cleanString(item.image || "", 500),
-    category: cleanString(item.category || "", 120)
-  })).filter(item => item.name && item.price >= 0);
-}
+const { buildCheckoutQuote, signCheckoutQuote, readCheckoutQuote } = require("./checkout-quote");
+const checkoutSecret = process.env.RAZORPAY_KEY_SECRET;
 
-function computeTotalFromItems(items, shipping = 0, tax = 0, discount = 0) {
-  const subtotal = items.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 1), 0);
-  const safeShipping = parseAmount(shipping) || 0;
-  const safeTax = parseAmount(tax) || 0;
-  const safeDiscount = Math.min(parseAmount(discount) || 0, subtotal);
-  return {
-    subtotal: Math.round(subtotal * 100) / 100,
-    discount: safeDiscount,
-    shipping: safeShipping,
-    tax: safeTax,
-    total: Math.round((subtotal - safeDiscount + safeShipping + safeTax) * 100) / 100
-  };
+function optionalCheckoutAuth(req, res, next) {
+  return req.headers.authorization ? verifySupabaseToken(req, res, next) : next();
 }
 
 app.get("/health", (req, res) => {
@@ -259,80 +242,105 @@ app.get("/public-config", (req, res) => {
   res.json({ razorpayKeyId: process.env.RAZORPAY_PUBLIC_KEY_ID || process.env.RAZORPAY_KEY_ID });
 });
 
-app.post("/create-order", verifySupabaseToken, async (req, res) => {
-  try {
-    const { amount, cart = [] } = req.body;
-    const parsedAmount = parseAmount(amount);
-    if (!parsedAmount) return res.status(400).json({ error: "Valid amount is required" });
-    const normalizedItems = normalizeCartItems(cart);
-    if (!normalizedItems.length) return res.status(400).json({ error: "Cart items are required" });
+function deliveryDetails(customer) {
+  if (!customer || typeof customer !== "object") return null;
+  const fields = { name: 120, phone: 30, address: 300, city: 80, state: 80, pin: 6, email: 254 };
+  const details = Object.fromEntries(Object.entries(fields).map(([key, length]) => [key, cleanString(customer[key], length)]));
+  if (!/^\d{6}$/.test(customer.pin || "") || !["name", "phone", "address", "city", "state"].every(key => details[key])) return null;
+  return details;
+}
 
+function deliveryFingerprint(details) {
+  return crypto.createHmac("sha256", checkoutSecret).update("delivery:" + JSON.stringify(details)).digest("hex");
+}
+
+app.post("/create-order", optionalCheckoutAuth, async (req, res) => {
+  try {
+    const { cart, customer, coupon, deliveryOption } = req.body || {};
+    const delivery = deliveryDetails(customer);
+    if (!delivery) return res.status(400).json({ error: "Valid delivery details are required." });
+    if (!Array.isArray(cart) || !cart.length || cart.length > 50 ||
+        !cart.every(item => typeof item?.id === "string" && item.id.length <= 120)) {
+      return res.status(400).json({ error: "Your cart is invalid. Please refresh it and try again." });
+    }
+    const ids = [...new Set(cart.map(item => item.id))];
+    const catalog = (await Promise.all(ids.map(id => getById("products", id)))).filter(Boolean);
+    const quote = buildCheckoutQuote(cart, catalog, { pin: delivery.pin, coupon, deliveryOption });
+    if (!quote) return res.status(400).json({ error: "Check your PIN code and product availability, then try again." });
+    const uid = req.user?.uid || null;
     const order = await razorpay.orders.create({
-      amount: Math.round(parsedAmount * 100),
+      amount: Math.round(quote.total * 100),
       currency: "INR",
-      receipt: `receipt_${Date.now()}`,
-      notes: { source: "ermunai-web", uid: req.user.uid, cartItems: String(normalizedItems.length) }
+      receipt: `receipt_${Date.now()}_${crypto.randomBytes(6).toString("hex")}`,
+      notes: { source: "ermunai-web", uid: uid || "guest", cartItems: String(quote.items.length) }
     });
-    res.json(order);
+    const checkoutToken = signCheckoutQuote({
+      ...quote, orderId: order.id, uid, deliveryFingerprint: deliveryFingerprint(delivery),
+      deliveryOption: deliveryOption === "express" ? "express" : "standard", expiresAt: Date.now() + 86400000
+    }, checkoutSecret);
+    res.json({ id: order.id, amount: order.amount, discount: quote.discount, shipping: quote.shipping,
+      tax: quote.tax, subtotal: quote.subtotal, total: quote.total, checkoutToken });
   } catch (error) {
-    console.error("Razorpay order creation error:", error.error || error.message || error);
-    res.status(500).json({ error: "Error creating order", details: error.error?.description || error.message || error });
+    console.error("Razorpay order creation error:", error.error || error.message);
+    res.status(500).json({ error: "Error creating order. Please try again." });
   }
 });
 
-app.post("/save-order", verifySupabaseToken, async (req, res) => {
+app.post("/save-order", optionalCheckoutAuth, async (req, res) => {
   try {
-    const { orderData } = req.body;
-    if (!orderData) return res.status(400).json({ error: "Missing orderData" });
-
-    const { items = [], shipping, total, tax, discount, customer = {}, payment_id, order_id, signature } = orderData;
-    if (!verifyRazorpaySignature({ order_id, payment_id, signature })) {
-      return res.status(400).json({ error: "Invalid payment signature." });
+    const { orderData, checkoutToken } = req.body || {};
+    const quote = readCheckoutQuote(checkoutToken, checkoutSecret);
+    const { customer = {}, payment_id, order_id, signature } = orderData || {};
+    const uid = req.user?.uid || null;
+    if (!quote || quote.orderId !== order_id || quote.uid !== uid ||
+        !verifyRazorpaySignature({ order_id, payment_id, signature })) {
+      return res.status(400).json({ error: "Invalid checkout or payment verification." });
     }
-
-    const normalizedItems = normalizeCartItems(items);
-    if (!normalizedItems.length) return res.status(400).json({ error: "Order must include at least one item." });
-
-    const computed = computeTotalFromItems(normalizedItems, shipping, tax, discount);
-    const requestedTotal = parseAmount(total);
-    if (!requestedTotal || Math.abs(computed.total - requestedTotal) > 2) {
-      return res.status(400).json({ error: "Amount mismatch. Please refresh your cart and try again." });
+    const delivery = deliveryDetails(customer);
+    if (!delivery || deliveryFingerprint(delivery) !== quote.deliveryFingerprint) {
+      return res.status(400).json({ error: "Valid delivery details are required." });
     }
-
-    const docId = isNonEmptyString(order_id) ? order_id : (isNonEmptyString(payment_id) ? payment_id : crypto.randomUUID());
+    const docId = order_id;
     const existingPayment = await getById("payments", payment_id);
     if (existingPayment?.status === "Paid") {
+      if (existingPayment.orderId === docId && existingPayment.userid === uid) {
+        return res.json({ success: true, id: docId });
+      }
       return res.status(409).json({ error: "Payment has already been recorded." });
     }
 
     const payment = await razorpay.payments.fetch(payment_id);
-    const paidAmount = Number(payment.amount || 0) / 100;
-    if (payment.order_id !== order_id || payment.status !== "captured" || Math.abs(paidAmount - requestedTotal) > 2) {
+    const requestedTotal = quote.total;
+    if (payment.order_id !== order_id || payment.status !== "captured" || payment.currency !== "INR" ||
+        Number(payment.amount) !== Math.round(requestedTotal * 100)) {
       return res.status(400).json({ error: "Payment verification failed. Please contact support." });
     }
 
     const formattedOrder = {
-      userid: req.user.uid,
-      customerName: cleanString(customer.name, 120),
-      phone: cleanString(customer.phone, 30),
-      address: `${cleanString(customer.address, 300)}${customer.city ? ", " + cleanString(customer.city, 80) : ""}${customer.state ? ", " + cleanString(customer.state, 80) : ""}${customer.pin ? " - " + cleanString(customer.pin, 12) : ""}`.trim(),
+      userid: uid,
+      guest: uid === null,
+      customerEmail: delivery.email,
+      customerName: delivery.name,
+      phone: delivery.phone,
+      address: `${delivery.address}, ${delivery.city}, ${delivery.state} - ${delivery.pin}`,
+      deliveryOption: quote.deliveryOption,
       totalAmount: requestedTotal,
-      subtotal: computed.subtotal,
-      discount: computed.discount,
-      shipping: computed.shipping,
-      tax: computed.tax,
+      subtotal: quote.subtotal,
+      discount: quote.discount,
+      shipping: quote.shipping,
+      tax: quote.tax,
       paymentId: payment_id,
       orderId: order_id,
       paymentStatus: "Paid",
       status: "Processing",
       datePlaced: new Date().toISOString(),
-      items: normalizedItems,
+      items: quote.items,
       razorpaySignature: signature || null
     };
 
     await upsertById("orders", docId, formattedOrder);
     await upsertById("payments", payment_id, {
-      userid: req.user.uid,
+      userid: uid,
       orderId: docId,
       razorpayOrderId: order_id,
       razorpayPaymentId: payment_id,
@@ -402,4 +410,31 @@ app.post("/admin/refund-request", verifySupabaseToken, requireRole(["Super Admin
 });
 
 const PORT = process.env.PORT || 5000;
+const { createStorefrontSeo } = require("./seo-storefront");
+app.use(createStorefrontSeo({
+  supabaseUrl: SUPABASE_URL,
+  publicKey: process.env.SUPABASE_ANON_KEY || "sb_publishable_SnnCYLyAFpFHb7yUayFsPg_vMI4qXW7"
+}));
+
+const storefrontFiles = new Set([
+  "robots.txt", "google850a8c5c908f6843.html", "login.html", "signup.html", "cart.html",
+  "checkout.html", "purchase.html", "thankyou.html"
+]);
+app.use((req, res, next) => {
+  const file = req.path.slice(1);
+  if (!storefrontFiles.has(file)) return next();
+  if (!["robots.txt", "google850a8c5c908f6843.html"].includes(file)) {
+    res.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  return res.sendFile(file, { root: __dirname });
+});
+for (const directory of ["css", "js", "images", "admin"]) {
+  app.use("/" + directory, express.static(require("node:path").join(__dirname, directory), {
+    maxAge: directory === "images" ? "1d" : 0,
+    setHeaders(res) {
+      if (directory === "admin") res.setHeader("X-Robots-Tag", "noindex, nofollow");
+    }
+  }));
+}
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

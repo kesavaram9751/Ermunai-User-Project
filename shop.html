@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+  <title>Shop Millet Mixes &amp; Traditional Foods | Ermunai Organic Farm Foods</title>
+  <meta name="description" content="Browse ready-to-cook millet mixes, traditional idli podis, instant soups and ready-to-serve foods.">
+  <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/shop">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Shop Millet Mixes &amp; Traditional Foods | Ermunai Organic Farm Foods">
+  <meta property="og:description" content="Browse ready-to-cook millet mixes, traditional idli podis, instant soups and ready-to-serve foods.">
+  <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/shop">
+  <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Shop Traditional Foods | Ermunai Organic Farm Foods</title>
-  <meta content="Shop products from Ermunai Organic Farm Foods with category filters, price range, search, wishlist, comparison, and dynamic product detail pages." name="description"/>
+
+
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
@@ -174,6 +183,10 @@
                 <input class="category-checkbox rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox" value="herbal"/>
                 <span>Herbal Products</span>
               </label>
+              <label class="flex items-center gap-3 text-sm text-on-surface cursor-pointer">
+                <input class="category-checkbox rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox" value="combo"/>
+                <span>Combo Offers</span>
+              </label>
             </div>
           </section>
           <!-- Price Range -->
@@ -274,10 +287,11 @@
   <div id="siteFooter"></div>
 
   <script type="module">
+    import { trackStorefront } from "./js/storefront-analytics.js";
     import { initializeApp } from "./js/supabase-compat.js";
     import { getSupabase, collection, getDocs, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "./js/supabase-compat.js";
     import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
-    import { formatCurrency, getMainProductImage, getStorefrontCartKey, mountStorefrontHeader, productCard, readStorefrontCart, renderInto, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
+    import { formatCurrency, getMainProductImage, mountStorefrontHeader, productCard, readStorefrontCart, renderInto, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
     mountStorefrontHeader("siteHeader", { active: "shop" });
     mountStorefrontFooter("siteFooter");
 const app = initializeApp();
@@ -307,6 +321,7 @@ const app = initializeApp();
     const categoryLabels = {
       readyToCookMixes: "Ready-to-cook",
       readytoserve: "Ready to Serve",
+      combo: "Combo Offers",
       readyToServe: "Ready to Serve",
       "ready-to-serve": "Ready to Serve",
       instantSoup: "Instant Soups",
@@ -334,11 +349,16 @@ const app = initializeApp();
     async function loadProducts() {
       try {
         const snap = await getDocs(collection(db, "products"));
+        document.getElementById("crawlableStorefront")?.remove();
         products = snap.docs.map(doc => normalizeProduct({ id: doc.id, ...doc.data() })).filter(product => !product.disabled);
       } catch (error) {
         console.warn("Products unavailable:", error);
         products = [];
       }
+      const priceRange = document.getElementById("maxPriceRange");
+      const catalogMax = products.reduce((max, product) => Math.max(max, Math.ceil(product.price || 0)), Number(priceRange.max));
+      priceRange.max = String(catalogMax);
+      priceRange.value = priceRange.max;
       applyUrlCategory();
       applyFilters();
       openQuickFromUrl();
@@ -346,7 +366,7 @@ const app = initializeApp();
 
     function applyUrlCategory() {
       const params = new URLSearchParams(location.search);
-      const category = params.get("category");
+      const category = window.storefrontSeo?.category || params.get("category");
       const search = params.get("search");
       if (search) document.getElementById("searchInput").value = search;
       if (category) {
@@ -458,7 +478,8 @@ const app = initializeApp();
     document.getElementById("resetFilters").addEventListener("click", () => {
       searchInput.value = "";
       document.getElementById("sortFilter").value = "popular";
-      document.getElementById("maxPriceRange").value = 1000;
+      const priceRange = document.getElementById("maxPriceRange");
+      priceRange.value = priceRange.max;
       selectedCategories = ["all"];
       document.querySelectorAll(".category-checkbox").forEach(box => {
         box.checked = (box.value === "all");
@@ -473,17 +494,8 @@ const app = initializeApp();
 
     // Add to cart helper
     window.addProductToCart = (id) => {
-      if (!currentUser) {
-        window.location.href = "login.html";
-        return;
-      }
       const product = products.find(p => p.id === id);
-      if (!product) return;
-      const key = getStorefrontCartKey(currentUser);
-      if (!key) {
-        window.location.href = "login.html";
-        return;
-      }
+      if (!product || product.stock <= 0) return;
       const cart = readStorefrontCart(currentUser);
       const existing = cart.find(item => item.id === id);
       if (existing) {
@@ -495,10 +507,13 @@ const app = initializeApp();
           price: product.price,
           image: getMainProductImage(product),
           qty: 1,
+          quantityValue: product.quantityValue,
+          quantityType: product.quantityType,
           category: product.categoryLabel
         });
       }
       writeStorefrontCart(currentUser, cart);
+      void trackStorefront("add_to_cart", [{ ...product, qty: 1 }], { value: Number(product.price) || 0 });
       updateCartCount(currentUser);
     };
 

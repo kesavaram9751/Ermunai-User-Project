@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Ermunai Organic Farm Foods | Where Heritage Meets Health</title>
-  <meta content="Shop traditional rice and millet mixes, idli podis, and soups from Ermunai Organic Farm Foods." name="description"/>
+  <link rel="preload" as="image" href="./images/banner2.webp" fetchpriority="high">
+  <title>Traditional South Indian Food Online | Ermunai Organic Farm Foods</title>
+  <meta name="description" content="Shop millet mixes, idli podis and instant soups from Ermunai Organic Farm Foods in Chennai.">
   <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Ermunai Organic Farm Foods | Where Heritage Meets Health">
-  <meta property="og:description" content="Shop traditional rice and millet mixes, idli podis, and soups from Ermunai Organic Farm Foods.">
-  <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.jpg">
+  <meta property="og:title" content="Traditional South Indian Food Online | Ermunai Organic Farm Foods">
+  <meta property="og:description" content="Shop millet mixes, idli podis and instant soups from Ermunai Organic Farm Foods in Chennai.">
   <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/">
+  <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.jpg">
   <meta name="twitter:card" content="summary_large_image">
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
   <script type="application/ld+json">
     {
@@ -37,94 +39,20 @@
           "url": "https://ermunaiorganicfarmfoods.com/",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://ermunaiorganicfarmfoods.com/shop.html?search={search_term_string}",
+            "target": "https://ermunaiorganicfarmfoods.com/shop?search={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         }
       ]
     }
   </script>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./css/home-utilities.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..800&amp;display=swap" rel="stylesheet"/></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&amp;icon_names=arrow_forward,chevron_left,chevron_right,eco,grid_view,inventory_2,logout,menu,payments,schedule,search,shopping_cart,star,visibility&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&amp;icon_names=arrow_forward,chevron_left,chevron_right,eco,grid_view,inventory_2,logout,menu,payments,schedule,search,shopping_cart,star,visibility&amp;display=swap" rel="stylesheet"/></noscript>
   <link rel="stylesheet" href="./css/ermunai-marketplace.css">
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          "colors": {
-            "secondary-fixed-dim": "#78dc77",
-            "surface-container-high": "#eae8e2",
-            "on-error-container": "#93000a",
-            "on-background": "#1b1c19",
-            "surface-container-low": "#f5f3ee",
-            "surface-tint": "#1b6d24",
-            "success-leaf": "#43A047",
-            "tertiary-container": "#85675c",
-            "primary-container": "#2e7d32",
-            "primary-fixed": "#a3f69c",
-            "inverse-primary": "#88d982",
-            "surface-dim": "#dbdad4",
-            "outline-variant": "#bfcaba",
-            "surface-cream": "#FFFDF7",
-            "on-secondary-fixed-variant": "#005313",
-            "secondary-container": "#91f78e",
-            "on-tertiary": "#ffffff",
-            "primary": "#0d631b",
-            "tertiary-fixed": "#ffdbce",
-            "surface-container-highest": "#e4e2dd",
-            "on-secondary": "#ffffff",
-            "tertiary-fixed-dim": "#e4beb2",
-            "on-tertiary-container": "#ffeee8",
-            "outline": "#707a6c",
-            "on-error": "#ffffff",
-            "error-container": "#ffdad6",
-            "on-secondary-fixed": "#002204",
-            "on-surface": "#1b1c19",
-            "surface": "#fbf9f3",
-            "inverse-on-surface": "#f2f1eb",
-            "on-tertiary-fixed-variant": "#5b4137",
-            "secondary-fixed": "#94f990",
-            "secondary": "#006e1c",
-            "tertiary": "#6b4f45",
-            "on-primary-container": "#cbffc2",
-            "surface-variant": "#e4e2dd",
-            "on-primary-fixed-variant": "#005312",
-            "background": "#fbf9f3",
-            "surface-bright": "#fbf9f3",
-            "error": "#ba1a1a",
-            "on-primary-fixed": "#002204",
-            "on-primary": "#ffffff",
-            "surface-container": "#f0eee8",
-            "glass-stroke": "rgba(46, 125, 50, 0.1)",
-            "on-surface-variant": "#40493d",
-            "primary-fixed-dim": "#88d982",
-            "earth-dark": "#4E342E",
-            "on-tertiary-fixed": "#2b160f",
-            "on-secondary-container": "#00731e",
-            "inverse-surface": "#30312d",
-            "surface-container-lowest": "#ffffff"
-          },
-          "borderRadius": {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-          "spacing": {
-            "margin-desktop": "64px",
-            "gutter": "32px",
-            "unit": "8px",
-            "margin-mobile": "20px",
-            "stack-md": "40px",
-            "stack-lg": "80px",
-            "container-max": "1280px"
-          }
-        }
-      }
-    }
-  </script>
+
   <style>
     html,
     body {
@@ -335,11 +263,11 @@
 
   <main class="pt-[72px]">
     <section class="home-hero">
-      <div id="heroImage" class="hero-media" style="background-image: url('./images/banner2.png')"></div>
+      <div id="heroImage" class="hero-media" style="background-image: url('./images/banner2.webp')"></div>
       <div class="home-hero-content relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full pb-10 md:pb-14">
         <div class="home-hero-copy max-w-3xl text-white pt-12 md:pt-24">
-          <span id="heroEyebrow" class="inline-flex items-center rounded-full bg-white/90 text-primary px-4 py-2 font-extrabold text-xs uppercase tracking-widest mb-5">Premium farm direct</span>
-          <h1 id="heroTitle" class="text-4xl md:text-[72px] font-black leading-[.98] tracking-tight max-w-3xl">Where Heritage Meets Health</h1>
+          <span id="heroEyebrow" class="inline-flex items-center rounded-full bg-white/90 text-primary px-4 py-2 font-extrabold text-xs uppercase tracking-widest mb-5">Where Heritage Meets Health</span>
+          <h1 id="heroTitle" class="text-4xl md:text-[72px] font-black leading-[.98] tracking-tight max-w-3xl">Traditional South Indian Food Online</h1>
           <p id="heroSubtitle" class="mt-6 text-base md:text-xl text-white/90 leading-8 max-w-2xl">Traditional rice and millet mixes, podis, and soups made for everyday kitchens.</p>
           <div class="hero-actions flex flex-wrap gap-3 mt-8">
             <a id="primaryCta" href="shop.html" class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary text-white px-7 py-4 font-extrabold shadow-xl hover:bg-primary-container active:scale-95 transition-all">
@@ -368,6 +296,7 @@
           <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=idliPodi">Idli Podi's</a>
           <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=instant">Instant Products</a>
           <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=readytoserve">Ready to Serve</a>
+          <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=combo">Combo Offers</a>
           <a class="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-extrabold text-primary shadow-sm" href="shop.html?category=herbal">Herbal Products</a>
         </div>
       </div>
@@ -446,8 +375,8 @@
             </div>
           </div>
           <div class="grid grid-cols-2 gap-4">
-            <img class="rounded-xl aspect-[4/5] object-cover shadow-2xl mt-10" src="./images/heritage_millets.png" alt="Millets">
-            <img class="rounded-xl aspect-[4/5] object-cover shadow-2xl" src="./images/readytocook.jpg" alt="Ready to cook mixes">
+            <img class="rounded-xl aspect-[4/5] object-cover shadow-2xl mt-10" loading="lazy" decoding="async" src="./images/heritage_millets.webp" alt="Millets">
+            <img class="rounded-xl aspect-[4/5] object-cover shadow-2xl" loading="lazy" decoding="async" src="./images/readytocook.jpg" alt="Ready to cook mixes">
           </div>
         </div>
       </div>
@@ -479,15 +408,27 @@
         </form>
       </div>
     </section> -->
+    <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+      <h2 class="text-3xl font-black text-primary mb-5">Frequently Asked Questions</h2>
+      <details class="commerce-card rounded-lg p-4 mb-3">
+        <summary class="font-bold cursor-pointer">What foods can I order online?</summary>
+        <p class="mt-2">Browse <a class="underline" href="shop.html">the shop</a> for millet mixes, traditional idli podis, instant soups, and ready-to-serve foods.</p>
+      </details>
+      <details class="commerce-card rounded-lg p-4">
+        <summary class="font-bold cursor-pointer">How do I check delivery times and charges?</summary>
+        <p class="mt-2">Delivery typically takes 3–7 business days depending on location. Enter your PIN code at checkout to see shipping charges, or read the <a class="underline" href="shipping-policy.html">shipping policy</a>.</p>
+      </details>
+    </section>
   </main>
 
   <div id="siteFooter"></div>
 
   <script type="module">
+    import { trackStorefront } from "./js/storefront-analytics.js";
     import { initializeApp } from "./js/supabase-compat.js";
     import { getSupabase, collection, addDoc, getDocs, query, limit, orderBy, doc, getDoc } from "./js/supabase-compat.js";
     import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
-    import { blogCard, categoryCard, getMainProductImage, getStorefrontCartKey, mountStorefrontHeader, productCard, readStorefrontCart, renderInto, mountStorefrontFooter, syncStorefrontAuth, writeStorefrontCart} from "./js/ermunai-components.js";
+    import { blogCard, categoryCard, getMainProductImage, mountStorefrontHeader, productCard, readStorefrontCart, renderInto, mountStorefrontFooter, syncStorefrontAuth, writeStorefrontCart} from "./js/ermunai-components.js";
     mountStorefrontHeader("siteHeader", { active: "home" });
     mountStorefrontFooter("siteFooter");
 const app = initializeApp();
@@ -496,10 +437,10 @@ const app = initializeApp();
 
     const defaultHomepage = {
       hero: {
-        eyebrow: "PREMIUM FARM DIRECT",
-        title: "Where Heritage Meets Health",
+        eyebrow: "Where Heritage Meets Health",
+        title: "Traditional South Indian Food Online",
         subtitle: "Traditional rice and millet mixes, podis, and soups made for everyday kitchens.",
-        image: "./images/banner2.png",
+        image: "./images/banner2.webp",
         primaryText: "Shop the Harvest",
         primaryHref: "shop.html",
         secondaryText: "Our Story",
@@ -510,7 +451,7 @@ const app = initializeApp();
         text: "Join 5,000+ health-conscious families receiving weekly farm updates and exclusive harvest offers."
       },
       seo: {
-        title: "Ermunai Organic Farm Foods | Where Heritage Meets Health",
+        title: "Traditional South Indian Food Online | Ermunai Organic Farm Foods",
         description: "Shop traditional rice and millet mixes, idli podis, and soups from Ermunai Organic Farm Foods."
       },
       footer: {
@@ -524,7 +465,7 @@ const app = initializeApp();
       { title: "Ready-to-Cook Mixes", tag: "11+ Varieties", image: "./images/readytocook.jpg", alt: "Ready to cook mixes", category: "readyToCookMixes" },
       { title: "Instant Soup Mix", tag: "Comfort Bowls", image: "./images/soupmix.jpg", alt: "Instant soup mixes", category: "instantSoup" },
       { title: "Idli Podi", tag: "Traditional", image: "./images/idlipodi.jpg", alt: "Idli podi", category: "idliPodi" },
-      { title: "Instant Products", tag: "Quick Meals", image: "./images/instant.png", alt: "Instant products", category: "instant" },
+      { title: "Instant Products", tag: "Quick Meals", image: "./images/instant.webp", alt: "Instant products", category: "instant" },
       { title: "Ready to Serve", tag: "Serve Fast", image: "./images/readytoserve.jpg", alt: "Ready to serve foods", category: "readytoserve" },
       { title: "Herbal Products", tag: "Wellness", image: "./images/herbal.jpg", alt: "Herbal products", category: "herbal" }
     ];
@@ -582,10 +523,10 @@ const app = initializeApp();
       const normalized = uploadedBanners
         .map(banner => normalizeHeroBanner(banner, fallbackHero))
         .filter(Boolean);
-      if (!normalized.length) {
-        const fallbackBanner = normalizeHeroBanner(fallbackHero, fallbackHero);
-        if (fallbackBanner) normalized.push(fallbackBanner);
-      }
+      const firstSlide = normalizeHeroBanner(defaultHomepage.hero, defaultHomepage.hero);
+      const configuredSlide = normalizeHeroBanner(fallbackHero, fallbackHero);
+      if (configuredSlide) normalized.push(configuredSlide);
+      if (firstSlide) normalized.unshift(firstSlide);
       const seenImages = new Set();
       return normalized.filter(banner => {
         if (seenImages.has(banner.image)) return false;
@@ -604,7 +545,7 @@ const app = initializeApp();
 
     function applyHeroBanner(banner, fallbackHero, animate = true) {
       const heroImage = document.getElementById("heroImage");
-      setText("heroEyebrow", banner.eyebrow || fallbackHero.eyebrow);
+      setText("heroEyebrow", fallbackHero.eyebrow);
       setText("heroTitle", fallbackHero.title);
       setText("heroSubtitle", fallbackHero.subtitle);
       setLink("primaryCta", banner.buttonHref || fallbackHero.primaryHref, banner.buttonText || fallbackHero.primaryText);
@@ -635,14 +576,14 @@ const app = initializeApp();
       img.src = nextImage;
     }
 
-    function startHeroCarousel(fallbackHero) {
+    function startHeroCarousel(fallbackHero, delay = 3500) {
       if (heroBannerTimer) window.clearTimeout(heroBannerTimer);
       if (heroBanners.length <= 1) return;
-      preloadNextHeroBanner();
+      if (delay === 3500) preloadNextHeroBanner();
       heroBannerTimer = window.setTimeout(() => {
         showHeroBanner(heroBannerIndex + 1, fallbackHero, false);
         startHeroCarousel(fallbackHero);
-      }, 3500);
+      }, delay);
     }
 
     async function loadStorageHeroBanners() {
@@ -672,7 +613,7 @@ const app = initializeApp();
       const data = {
         ...defaultHomepage,
         ...settings,
-        hero: { ...defaultHomepage.hero, ...(settings.hero || {}), title: defaultHomepage.hero.title, subtitle: defaultHomepage.hero.subtitle },
+        hero: { ...defaultHomepage.hero, ...(settings.hero || {}), eyebrow: defaultHomepage.hero.eyebrow, title: defaultHomepage.hero.title, subtitle: defaultHomepage.hero.subtitle },
         newsletter: { ...defaultHomepage.newsletter, ...(settings.newsletter || {}) },
         seo: defaultHomepage.seo
       };
@@ -686,9 +627,6 @@ const app = initializeApp();
       setLink("primaryCta", data.hero.primaryHref, data.hero.primaryText);
       setLink("secondaryCta", data.hero.secondaryHref, data.hero.secondaryText);
 
-      const heroImage = resolvePublicImage(data.hero.image);
-      if (heroImage) document.getElementById("heroImage").style.backgroundImage = `url('${heroImage}')`;
-
       if (heroBannerTimer) window.clearTimeout(heroBannerTimer);
       heroBanners = getActiveHeroBanners(settings, data.hero);
       window.debugHeroBanners = heroBanners;
@@ -697,8 +635,8 @@ const app = initializeApp();
       controls?.classList.toggle("hidden", heroBanners.length <= 1);
       if (heroBanners.length) {
         heroBannerIndex = 0;
-        applyHeroBanner(heroBanners[heroBannerIndex], data.hero, false);
-        startHeroCarousel(data.hero);
+        renderHeroDots();
+        startHeroCarousel(data.hero, 8000);
       } else {
         renderHeroDots();
       }
@@ -713,9 +651,9 @@ const app = initializeApp();
             .map(item => ({ ...item, image: resolvePublicImage(item.image) }))
         ];
       }
-      if (data.seo.title) document.title = data.seo.title;
+      if (!window.storefrontSeo?.managed && data.seo.title) document.title = data.seo.title;
       const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription && data.seo.description) metaDescription.content = data.seo.description;
+      if (!window.storefrontSeo?.managed && metaDescription && data.seo.description) metaDescription.content = data.seo.description;
 
       const footer = { ...defaultHomepage.footer, ...(settings.footer || {}) };
       if (footer.address) setText("footerAddress", footer.address);
@@ -819,6 +757,7 @@ const app = initializeApp();
           return;
         }
         
+        document.getElementById("crawlableStorefront")?.remove();
         const featured = products.filter(product => product.featured || product.tag === "Best Seller");
         const otherProducts = products.filter(product => !featured.includes(product));
         const featuredProducts = [...featured, ...otherProducts].slice(0, 4);
@@ -839,17 +778,8 @@ const app = initializeApp();
 
     window.addHomeProductToCart = (id) => {
       const user = auth.currentUser;
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
       const product = (window.homeProducts || []).find(item => item.id === id);
       if (!product || product.stock <= 0) return;
-      const key = getStorefrontCartKey(user);
-      if (!key) {
-        window.location.href = "login.html";
-        return;
-      }
       const cart = readStorefrontCart(user);
       const existing = cart.find(item => item.id === id);
       if (existing) {
@@ -867,6 +797,7 @@ const app = initializeApp();
         });
       }
       writeStorefrontCart(user, cart);
+      void trackStorefront("add_to_cart", [{ ...product, qty: 1 }], { value: Number(product.price) || 0 });
       updateCartCount(user);
     };
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+  <meta name="robots" content="noindex, nofollow">
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>My Account | Ermunai Organic Farm Foods</title>
@@ -253,7 +254,7 @@
 <script type="module">
     import { initializeApp, getSupabase, getAuth, getCurrentUser, onAuthStateChanged, signOut,
       doc, getDoc, setDoc, getDocs, collection, query, where, addDoc } from "./js/supabase-compat.js";
-    import { formatCurrency, getStorefrontCartKey, mountStorefrontHeader, readStorefrontCart, renderInto, statusChip, productCard, syncStorefrontAuth, getMainProductImage, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
+    import { formatCurrency, mountStorefrontHeader, readStorefrontCart, renderInto, statusChip, productCard, syncStorefrontAuth, getMainProductImage, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
 
     const API_BASE_URL = (location.hostname === "127.0.0.1" || location.hostname === "localhost")
       ? "http://localhost:5000"
@@ -498,8 +499,7 @@
     window.goToProduct = (id) => { window.location.href = `product.html?id=${encodeURIComponent(id)}`; };
 
     window.addToCart = (id) => {
-      const key = getStorefrontCartKey(currentUser);
-      if (!key) {
+      if (!currentUser) {
         showAuthGate();
         return;
       }

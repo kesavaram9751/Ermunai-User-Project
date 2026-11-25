@@ -128,6 +128,7 @@
       <div class="tabs">
         <button class="tab active" data-module="banners" type="button">Home Banners</button>
         <button class="tab" data-module="footer" type="button">Footer Contact</button>
+        <button class="tab" data-module="seo" type="button">SEO Management</button>
         <button class="tab" data-module="blogs" type="button">Blog Uploads</button>
       </div>
 
@@ -239,6 +240,35 @@
         <div class="card table-wrap">
           <div class="section-title">Published & Draft Articles</div>
           <table id="blogsTable"></table>
+        </div>
+      </section>
+
+      <section class="module" id="module-seo">
+        <div class="card">
+          <h2 class="section-title">SEO Management</h2>
+          <form id="seoForm" class="form-grid">
+            <label class="wide">Page or catalog entry<select id="seoEntry"></select></label>
+            <label>Meta title <output id="seoTitleCount">0 / 60</output><input name="title" maxlength="60"></label>
+            <label>Meta description <output id="seoDescriptionCount">0 / 160</output><textarea name="description" maxlength="160"></textarea></label>
+            <label>Focus keyword<input name="keyword"></label>
+            <label>Product or article URL slug<input name="slug" pattern="[a-z0-9]+(-[a-z0-9]+)*"></label>
+            <label>Canonical URL<input name="canonical" type="url" placeholder="https://ermunaiorganicfarmfoods.com/"></label>
+            <label>Social sharing title<input name="ogTitle"></label>
+            <label>Social sharing description<textarea name="ogDescription"></textarea></label>
+            <label>Social sharing image URL<input name="image" type="url"></label>
+            <label>Product image alt text<input name="alt"></label>
+            <label><input type="checkbox" name="index" checked> Allow search engine indexing</label>
+            <label>Google Search Console verification value<input name="verification" pattern="[A-Za-z0-9_-]+"></label>
+            <label>Google Analytics measurement ID<input name="analytics" pattern="G-[A-Z0-9]+"></label>
+            <label class="wide">Redirects from retired local paths (JSON object)<textarea name="redirects" placeholder='{"/old-page":"/shop"}'></textarea></label>
+            <div class="wide">
+              <h3>Search preview</h3>
+              <p id="seoPreviewUrl"></p>
+              <strong id="seoPreviewTitle"></strong>
+              <p id="seoPreviewDescription"></p>
+            </div>
+            <button class="btn primary" type="submit">Save SEO settings</button>
+          </form>
         </div>
       </section>
 
@@ -690,6 +720,122 @@
     }));
 
     resetBlogForm();
+
+    const seoForm = $("seoForm");
+    const seoEntry = $("seoEntry");
+    const seoFields = [...seoForm.querySelectorAll("[name]")];
+    const seoSave = seoForm.querySelector('[type="submit"]');
+    const productEntries = new Map();
+    const blogEntries = new Map();
+    function renderSeoPreview() {
+      const values = new FormData(seoForm);
+      const title = values.get("title") || "";
+      const description = values.get("description") || "";
+      $("seoTitleCount").textContent = title.length + " / 60";
+      $("seoDescriptionCount").textContent = description.length + " / 160";
+      const product = productEntries.get(seoEntry.value);
+      const blog = blogEntries.get(seoEntry.value);
+      const slug = String(values.get("slug") || product?.name || "").toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const route = seoEntry.value.startsWith("/") ? seoEntry.value
+        : product ? "/product/" + (slug || "item") + "--" + encodeURIComponent(product.id)
+        : blog ? "/blog/" + encodeURIComponent(values.get("slug") || blog.slug || blog.id) : "";
+      $("seoPreviewUrl").textContent = values.get("canonical") ||
+        (route ? "https://ermunaiorganicfarmfoods.com" + route : "");
+      $("seoPreviewTitle").textContent = title ||
+        (product ? "Buy " + product.name + " Online | Ermunai Organic Farm Foods"
+          : blog ? blog.title + " | Ermunai Organic Farm Foods" : "Generated storefront title");
+      $("seoPreviewDescription").textContent = description ||
+        (product ? ("Shop " + product.name + ". Find price, pack details and delivery information.").slice(0, 160)
+          : "The storefront will generate a description when no override is saved.");
+    }
+
+    async function loadSeoEntry() {
+      const key = seoEntry.value;
+      seoSave.disabled = true;
+      const snapshot = await getDoc(doc(db, "settings", "seo." + key));
+      if (seoEntry.value !== key) return;
+      const data = snapshot.data() || {};
+      for (const field of seoFields) {
+        const scope = field.name === "redirects" ? key === "redirects"
+          : ["verification", "analytics"].includes(field.name) ? key === "global"
+          : key !== "redirects" && (key !== "global" || field.name === "image") &&
+            (!["slug", "alt"].includes(field.name) || key.startsWith("product:") ||
+              (field.name === "slug" && key.startsWith("blog:")));
+        field.disabled = !scope;
+        field.closest("label").hidden = !scope;
+        if (field.type === "checkbox") field.checked = data.index !== false;
+        else field.value = field.name === "redirects" && snapshot.exists()
+          ? JSON.stringify(data, null, 2) : data[field.name] || "";
+      }
+      renderSeoPreview();
+      seoSave.disabled = false;
+    }
+
+    async function loadSeoOptions() {
+      const [products, blogs] = await Promise.all([
+        getDocs(collection(db, "products")), getDocs(collection(db, "blogs"))
+      ]);
+      const paths = ["/", "/shop", "/about-us", "/contact-us", "/blog", "/certifications",
+        "/privacy-policy.html", "/terms-and-conditions.html", "/shipping-policy.html", "/cancellation-and-refund-policy.html",
+        ...["ready-to-cook-mixes", "instant-soup-mixes", "idli-podi", "instant-foods", "ready-to-serve", "herbal-products", "combo-offers"]
+          .map(slug => "/category/" + slug)];
+      for (const item of products.docs) productEntries.set("product:" + item.id, { ...item.data(), id: item.id });
+      for (const item of blogs.docs) blogEntries.set("blog:" + item.id, { ...item.data(), id: item.id });
+      seoEntry.replaceChildren(new Option("Global settings", "global"), new Option("Redirects", "redirects"),
+        ...paths.map(path => new Option(path === "/" ? "Homepage" : path, path)),
+        ...products.docs.map(item => new Option("Product · " + item.data().name, "product:" + item.id)),
+        ...blogs.docs.map(item => new Option("Article · " + item.data().title, "blog:" + item.id)));
+      await loadSeoEntry();
+    }
+
+    document.querySelector('[data-module="seo"]').addEventListener("click", () => {
+      if (!seoEntry.options.length) loadSeoOptions().catch(() => setStatus("Could not load SEO settings."));
+    });
+    seoEntry.addEventListener("change", () => loadSeoEntry().catch(() => setStatus("Could not load this entry.")));
+    seoForm.addEventListener("input", renderSeoPreview);
+    seoForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      const key = seoEntry.value;
+      if (!key) return;
+      const data = Object.fromEntries(seoFields.filter(field => !field.disabled).map(field =>
+        [field.name, field.type === "checkbox" ? field.checked : field.value.trim()]));
+      try {
+        let payload = data;
+        if (key === "redirects") {
+          payload = JSON.parse(data.redirects || "{}");
+          if (!payload || Array.isArray(payload) || typeof payload !== "object" ||
+              Object.entries(payload).some(([source, target]) => !/^\/[a-z0-9][a-z0-9./_-]*$/i.test(source) || source.split("/").includes("..") ||
+                typeof target !== "string" || !/^\/(?:[a-z0-9][a-z0-9./_-]*)?$/i.test(target) ||
+                Object.hasOwn(payload, target) || target.split("/").includes(".."))) {
+            throw new Error("Enter valid local redirect paths.");
+          }
+        }
+        for (const name of ["canonical", "image"]) {
+          if (payload[name] && !payload[name].startsWith("https://")) throw new Error("Enter HTTPS URLs.");
+        }
+        if (payload.index !== false && Boolean(payload.title) !== Boolean(payload.description)) {
+          throw new Error("Provide both metadata overrides or leave both blank to use generated metadata.");
+        }
+        if (key.startsWith("blog:") && payload.slug) {
+          const entries = await getDocs(collection(db, "settings"));
+          const usedByBlog = [...blogEntries].some(([entry, blog]) => entry !== key &&
+            (blog.slug || blog.id) === payload.slug);
+          const usedBySettings = entries.docs.some(item => item.id !== "seo." + key && item.id.startsWith("seo.blog:") &&
+            (item.data().slug === payload.slug || item.data().oldSlugs?.includes(payload.slug)));
+          if (usedByBlog || usedBySettings) throw new Error("This article slug is already in use.");
+        }
+        if (key.startsWith("blog:")) {
+          const previous = (await getDoc(doc(db, "settings", "seo." + key))).data() || {};
+          payload.oldSlugs = [...new Set([...(previous.oldSlugs || []), previous.slug].filter(Boolean))]
+            .filter(slug => slug !== payload.slug);
+        }
+        await setDoc(doc(db, "settings", "seo." + key), payload);
+        setStatus("SEO settings saved.");
+      } catch (error) {
+        setStatus(error.message || "Could not save SEO settings.");
+      }
+    });
 
     onAuthStateChanged(auth, async user => {
       if (!user) {

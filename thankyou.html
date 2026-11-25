@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+  <meta name="robots" content="noindex, nofollow">
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Order Placed Successfully! | Ermunai Organic</title>
@@ -39,7 +40,7 @@
     <div class="space-y-2">
       <h1 class="text-3xl font-extrabold text-primary">Order Placed Successfully!</h1>
       <p class="text-sm text-on-surface-variant leading-relaxed">
-        Thank you for purchasing from <span class="font-bold text-primary">Ermunai Organic Farm Foods</span>! We have received your payment, and your organic staples are being packed.
+        Thank you for purchasing from <span class="font-bold text-primary">Ermunai Organic Farm Foods</span>! We have received your payment, and your order is being prepared.
       </p>
     </div>
 
@@ -53,7 +54,7 @@
       <a href="shop.html" class="bg-primary text-white font-bold px-6 py-3 rounded-lg hover:opacity-90 active:scale-95 transition-all text-sm shadow-md">
         Continue Shopping
       </a>
-      <a href="purchase.html" class="border-2 border-primary text-primary font-bold px-6 py-3 rounded-lg hover:bg-primary/5 active:scale-95 transition-all text-sm">
+      <a id="orderHistoryLink" href="purchase.html" class="border-2 border-primary text-primary font-bold px-6 py-3 rounded-lg hover:bg-primary/5 active:scale-95 transition-all text-sm">
         View Order History
       </a>
     </div>
@@ -74,6 +75,7 @@
     // Extract order ID from url params
     window.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(location.search);
+      if (params.get("guest") === "1") document.getElementById("orderHistoryLink").classList.add("hidden");
       const orderId = params.get("order");
       if (orderId) {
         document.getElementById("orderIdText").textContent = orderId;

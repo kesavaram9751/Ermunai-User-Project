@@ -1,6 +1,12 @@
 Options -MultiViews
 RewriteEngine On
 
+# Keep public Apache requests on the preferred HTTPS hostname.
+RewriteCond %{HTTP_HOST} ^www\.ermunaiorganicfarmfoods\.com$ [NC,OR]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} ^(?:www\.)?ermunaiorganicfarmfoods\.com$ [NC]
+RewriteRule ^ https://ermunaiorganicfarmfoods.com%{REQUEST_URI} [R=301,L,NE]
+
 # Direct Hostinger fallback for the admin dashboard clean URL.
 RewriteRule ^admin/admin-dashboard/?$ admin/admin-dashboard.html [L]
 
@@ -8,3 +14,17 @@ RewriteRule ^admin/admin-dashboard/?$ admin/admin-dashboard.html [L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.+?)/?$ $1.html [L]
+
+# Public static aliases remain available on Apache-only deployments.
+RewriteRule ^about-us/?$ about.html [L]
+RewriteRule ^contact-us/?$ contact.html [L]
+RewriteRule ^certifications/?$ feedback.html [L]
+
+<IfModule mod_headers.c>
+  <FilesMatch "^(login|signup|cart|checkout|purchase|thankyou)\.html$">
+    Header set X-Robots-Tag "noindex, nofollow"
+  </FilesMatch>
+  <FilesMatch "\.(webp|avif|jpe?g|png)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>

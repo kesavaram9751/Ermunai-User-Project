@@ -599,7 +599,7 @@ const app = initializeApp();
 
           tr.innerHTML = `
             <td data-label="Order ID">${docSnap.id}</td>
-            <td data-label="Customer">${o.customerName || 'N/A'}${customerUid ? ' (ID:' + customerUid.slice(0, 8) + '...)' : ''}</td>
+            <td data-label="Customer">${o.customerName || 'N/A'}${customerUid ? ' (ID:' + customerUid.slice(0, 8) + '...)' : o.guest ? ' (Guest)' : ''}</td>
             <td data-label="Phone">${o.phone || 'N/A'}</td>
             <td data-label="Address">${o.address || 'N/A'}</td>
             <td data-label="Payment / Total">${paymentBreakdown}</td>

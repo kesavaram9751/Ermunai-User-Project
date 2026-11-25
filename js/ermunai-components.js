@@ -259,6 +259,7 @@ export function mountStorefrontFooter(target = "siteFooter", options = {}) {
               <li><a class="hover:text-primary transition-colors" href="shop.html?category=idliPodi">Idli Podi's</a></li>
               <li><a class="hover:text-primary transition-colors" href="shop.html?category=instant">Instant Products</a></li>
               <li><a class="hover:text-primary transition-colors" href="shop.html?category=readytoserve">Ready to Serve</a></li>
+              <li><a class="hover:text-primary transition-colors" href="shop.html?category=combo">Combo Offers</a></li>
               <li><a class="hover:text-primary transition-colors" href="shop.html?category=herbal">Herbal Products</a></li>
             </ul>
           </div>
@@ -315,7 +316,6 @@ export function syncStorefrontAuth(user) {
   if (!authLinks || !userProfile) return;
 
   if (user) {
-    localStorage.removeItem("cart_guest");
     localStorage.removeItem("cart_undefined");
     authLinks.classList.add("hidden");
     userProfile.classList.remove("hidden");
@@ -342,12 +342,11 @@ export function getStorefrontUserId(user) {
 
 export function getStorefrontCartKey(user) {
   const userId = getStorefrontUserId(user);
-  return userId ? `cart_${userId}` : "";
+  return userId ? `cart_${userId}` : "cart_guest";
 }
 
 export function readStorefrontCart(user) {
   const key = getStorefrontCartKey(user);
-  if (!key) return [];
   try {
     const cart = JSON.parse(localStorage.getItem(key) || "[]");
     return Array.isArray(cart) ? cart : [];
@@ -358,7 +357,6 @@ export function readStorefrontCart(user) {
 
 export function writeStorefrontCart(user, cart) {
   const key = getStorefrontCartKey(user);
-  if (!key) throw new Error("Login required before using cart.");
   localStorage.setItem(key, JSON.stringify(Array.isArray(cart) ? cart : []));
   return key;
 }
@@ -375,6 +373,10 @@ export function productCard(product, options = {}) {
   const discount = oldPrice > price && price > 0 ? Math.round(((oldPrice - price) / oldPrice) * 100) : 0;
   const image = getMainProductImage(product);
   const addAction = options.addAction || `addToCart('${id}')`;
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "item";
+  const href = window.storefrontSeo?.managed
+    ? "/product/" + slug + "--" + encodeURIComponent(id)
+    : "product.html?id=" + encodeURIComponent(id);
   const quickAction = options.quickAction || `window.location.href='product.html?id=${encodeURIComponent(id)}'`;
   
   return `
@@ -393,7 +395,7 @@ export function productCard(product, options = {}) {
       <div class="p-5 flex flex-col gap-3">
         <div>
           <span class="text-xs font-bold text-primary uppercase tracking-widest">${escapeHtml(category)}</span>
-          <h3 class="text-headline-md font-bold text-on-surface hover:text-primary transition-colors cursor-pointer line-clamp-1 mt-1" onclick="${quickAction}">${escapeHtml(name)}</h3>
+          <h3 class="text-headline-md font-bold text-on-surface hover:text-primary transition-colors cursor-pointer line-clamp-1 mt-1" ><a href="${escapeHtml(href)}">${escapeHtml(name)}</a></h3>
         </div>
         <div class="flex items-center justify-between">
           <div class="flex items-baseline gap-2">
@@ -444,7 +446,7 @@ export function formatBlogDate(value) {
 
 export function blogPostLink(blog) {
   const key = blog.slug || blog.id;
-  return key ? `blog.html?post=${encodeURIComponent(key)}` : "blog.html";
+  return key ? (window.storefrontSeo?.managed ? `/blog/${encodeURIComponent(key)}` : `blog.html?post=${encodeURIComponent(key)}`) : "blog.html";
 }
 
 export function normalizeBlog(blog) {

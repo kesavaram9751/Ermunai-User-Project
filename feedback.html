@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+  <title>Certifications &amp; Customer Feedback | Ermunai Organic Farm Foods</title>
+  <meta name="description" content="View Ermunai Organic Farm Foods business credentials and customer feedback.">
+  <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/certifications">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Certifications &amp; Customer Feedback | Ermunai Organic Farm Foods">
+  <meta property="og:description" content="View Ermunai Organic Farm Foods business credentials and customer feedback.">
+  <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/certifications">
+  <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Certifications & Feedback | Ermunai Organic</title>
-  <meta content="View business credentials, customer testimonials, and leave reviews for Ermunai Organic Farm Foods." name="description"/>
+
+
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
@@ -129,6 +138,7 @@
   <div id="siteFooter"></div>
 
   <script type="module">
+    import "./js/storefront-analytics.js";
     import { initializeApp } from "./js/supabase-compat.js";
     import { getSupabase, collection, addDoc, getDocs, query, limit } from "./js/supabase-compat.js";
     import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
@@ -141,12 +151,6 @@ const app = initializeApp();
 
     let currentUser = null;
 
-    const fallbackReviews = [
-      { name: "Meera Krishnan", rating: 5, text: "The Red Sorghum Rava Dosa is absolutely delicious! My kids loved it and it's so healthy.", date: "12/05/2026" },
-      { name: "Suresh Kumar", rating: 4, text: "Excellent garlic paruppu podi. Authentic taste, goes great with idlis and hot ghee.", date: "05/05/2026" },
-      { name: "Devi Prasad", rating: 5, text: "Quick shipping within Chennai and premium packaging. Will order Pongal mix next time.", date: "28/04/2026" }
-    ];
-
     async function loadReviews() {
       const list = document.getElementById("reviewsList");
       list.innerHTML = "<p class='text-xs text-on-surface-variant'>Loading reviews...</p>";
@@ -155,38 +159,30 @@ const app = initializeApp();
         const snap = await getDocs(collection(db, "reviews"));
         const reviews = snap.docs.map(doc => ({
           name: doc.data().name,
-          rating: doc.data().rating,
+          rating: Math.max(0, Math.min(5, Math.round(Number(doc.data().rating) || 0))),
           text: doc.data().text,
           date: doc.data().createdAt ? new Date(doc.data().createdAt).toLocaleDateString() : "Recently"
         }));
         
-        const finalReviews = reviews.length ? reviews : fallbackReviews;
-        list.innerHTML = finalReviews.map(r => `
+        if (!reviews.length) {
+          list.textContent = "No reviews yet.";
+          return;
+        }
+        list.innerHTML = reviews.map(r => `
           <div class="py-4 space-y-2">
             <div class="flex justify-between items-center text-xs">
               <span class="font-bold text-on-surface text-sm">${escapeHtml(r.name)}</span>
               <span class="text-outline font-semibold">${r.date}</span>
             </div>
             <div class="text-[#a66d12] text-xs font-bold">
-              ${'★'.repeat(Number(r.rating || 5))}${'☆'.repeat(5 - Number(r.rating || 5))}
+              ${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}
             </div>
             <p class="text-xs text-on-surface-variant leading-relaxed">${escapeHtml(r.text)}</p>
           </div>
         `).join("");
       } catch (err) {
         console.warn("Reviews load error:", err);
-        list.innerHTML = fallbackReviews.map(r => `
-          <div class="py-4 space-y-2">
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-on-surface text-sm">${escapeHtml(r.name)}</span>
-              <span class="text-outline font-semibold">${r.date}</span>
-            </div>
-            <div class="text-[#a66d12] text-xs font-bold">
-              ${'★'.repeat(Number(r.rating))}${'☆'.repeat(5 - Number(r.rating))}
-            </div>
-            <p class="text-xs text-on-surface-variant leading-relaxed">${escapeHtml(r.text)}</p>
-          </div>
-        `).join("");
+        list.textContent = "Reviews are temporarily unavailable.";
       }
     }
 

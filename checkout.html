@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+  <meta name="robots" content="noindex, nofollow">
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Checkout | Ermunai Organic Farm Foods</title>
@@ -133,7 +134,11 @@
             </div>
             <div class="space-y-1">
               <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="pin">PIN Code</label>
-              <input id="pin" name="pin" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" required type="text" placeholder="600091"/>
+              <input id="pin" name="pin" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm" required type="text" inputmode="numeric" pattern="[0-9]{6}" placeholder="600091"/>
+            </div>
+            <div class="md:col-span-2 space-y-1">
+              <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="email">Email (optional)</label>
+              <input id="email" name="email" class="w-full px-4 py-2.5 border border-outline-variant rounded-lg text-sm" type="email" autocomplete="email"/>
             </div>
             <div class="md:col-span-2 space-y-1">
               <label class="block text-xs font-bold text-primary uppercase tracking-widest" for="address">Delivery Address</label>
@@ -190,6 +195,7 @@
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script type="module">
+    import { trackStorefront } from "./js/storefront-analytics.js";
     import { initializeApp } from "./js/supabase-compat.js";
     import { getSupabase, doc, getDoc, setDoc } from "./js/supabase-compat.js";
     import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
@@ -199,9 +205,9 @@
 
     const PRODUCTION_API_BASE_URL = "https://ermunai-user-project.onrender.com";
     const API_BASE_URLS = (location.hostname === "127.0.0.1" || location.hostname === "localhost")
-      ? [PRODUCTION_API_BASE_URL, "http://localhost:5000"]
+      ? ["http://localhost:5000"]
       : [PRODUCTION_API_BASE_URL];
-const app = initializeApp();
+    const app = initializeApp();
     const db = getSupabase(app);
     const auth = getAuth(app);
 
@@ -278,7 +284,10 @@ const app = initializeApp();
           <span class="font-extrabold text-earth-dark">${formatCurrency(Number(item.price || 0) * Number(item.qty || 1))}</span>
         </div>`);
 
-      // Render summary
+      renderSummary();
+    }
+
+    function renderSummary() {
       renderInto("summaryRows", [
         { label: "Subtotal", value: formatCurrency(subtotal) },
         { label: "Discount Code", value: `- ${formatCurrency(discount)}` },
@@ -299,6 +308,7 @@ const app = initializeApp();
         customer: {
           name: form.name.value.trim(),
           phone: form.phone.value.trim(),
+          email: form.email.value.trim(),
           address: form.address.value.trim(),
           pin: form.pin.value.trim(),
           city: form.city.value.trim(),
@@ -308,9 +318,10 @@ const app = initializeApp();
       };
     }
 
-    async function logFailedPayment(orderId, reason) {
+    async function logFailedPayment(user, orderId, reason) {
+      if (!user) return;
       try {
-        const idToken = await currentUser.getIdToken(true);
+        const idToken = await user.getIdToken(true);
         await apiFetch("/payment-failed", {
           method: "POST",
           headers: {
@@ -334,8 +345,17 @@ const app = initializeApp();
       }
     }
 
+    let retryOrderSave = null;
+
+    async function checkoutHeaders(user) {
+      const headers = { "Content-Type": "application/json" };
+      if (user) headers.Authorization = "Bearer " + await user.getIdToken(true);
+      return headers;
+    }
+
     async function payNow() {
       if (isProcessing) return;
+      if (retryOrderSave) return retryOrderSave();
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
@@ -351,95 +371,96 @@ const app = initializeApp();
 
       updateTotals();
       const order = buildOrder();
+      const checkoutUser = currentUser;
+      const orderCartKey = cartKey;
+      void trackStorefront("begin_checkout", order.items, { value: order.subtotal });
       let razorpayOrderId = "";
 
       try {
-        const idToken = await currentUser.getIdToken(true);
         const createResp = await apiFetch("/create-order", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + idToken
-          },
-          body: JSON.stringify({ amount: order.total, cart: order.items })
+          headers: await checkoutHeaders(checkoutUser),
+          body: JSON.stringify({
+            cart: order.items, customer: order.customer, deliveryOption: order.deliveryOption,
+            coupon: localStorage.getItem("checkout_coupon") || ""
+          })
         });
 
         const razorpayOrder = await createResp.json();
         if (!createResp.ok) throw new Error(razorpayOrder.error || "Unable to create Razorpay order");
         razorpayOrderId = razorpayOrder.id;
+        ({ subtotal, discount, shipping, tax, total } = razorpayOrder);
+        renderSummary();
         if (!razorpayKeyId) await loadPublicConfig();
         if (!razorpayKeyId) throw new Error("Payment configuration is unavailable. Please try again later.");
 
         const options = {
           key: razorpayKeyId,
-          amount: Math.round(order.total * 100),
+          amount: razorpayOrder.amount,
           currency: "INR",
           name: "Ermunai Organic Farm Foods",
-          description: "Organic Marketplace Order",
+          description: "Ermunai Store Order",
           order_id: razorpayOrderId,
-          handler: async function (response) {
-            btnPay.textContent = "Verifying signature and saving order...";
-            try {
-              const freshToken = await currentUser.getIdToken(true);
-              
-              // Address saving back to User profile doc in Supabase
-              const userDocRef = doc(db, "users", currentUser.uid);
-              await setDoc(userDocRef, {
-                displayName: order.customer.name,
-                phone: order.customer.phone,
-                address: order.customer.address,
-                city: order.customer.city,
-                state: order.customer.state,
-                pin: order.customer.pin,
-                updatedAt: new Date().toISOString()
-              }, { merge: true });
+          handler(response) {
+            retryOrderSave = async () => {
+              isProcessing = true;
+              btnPay.disabled = true;
+              btnPay.textContent = "Verifying payment and saving order...";
+              try {
+                const saveResp = await apiFetch("/save-order", {
+                  method: "POST",
+                  headers: await checkoutHeaders(checkoutUser),
+                  body: JSON.stringify({
+                    checkoutToken: razorpayOrder.checkoutToken,
+                    orderData: {
+                      customer: order.customer,
+                      payment_id: response.razorpay_payment_id,
+                      order_id: response.razorpay_order_id,
+                      signature: response.razorpay_signature
+                    }
+                  })
+                });
+                const result = await saveResp.json();
+                if (!saveResp.ok) throw new Error(result.error || "Unable to save order.");
 
-              const saveResp = await apiFetch("/save-order", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": "Bearer " + freshToken
-                },
-                body: JSON.stringify({
-                  orderData: {
-                    ...order,
-                    payment_id: response.razorpay_payment_id,
-                    order_id: response.razorpay_order_id,
-                    signature: response.razorpay_signature,
-                    status: "Paid",
-                    date: new Date().toISOString()
-                  }
-                })
-              });
-              
-              const saveResult = await saveResp.json();
-              if (!saveResp.ok) throw new Error(saveResult.error || "Verification success but save crashed");
-              
-              // Clear cart local storage
-              localStorage.removeItem(cartKey);
-              localStorage.removeItem("checkout_pin");
-              localStorage.removeItem("checkout_coupon");
-              
-              window.location.href = `thankyou.html?order=${encodeURIComponent(saveResult.id || response.razorpay_order_id)}`;
-            } catch (saveErr) {
-              console.error("Order save crashed:", saveErr);
-              alert("Signature verification success, but we failed to save the order details. Please contact customer support with payment reference ID: " + response.razorpay_payment_id);
-              isProcessing = false;
-              btnPay.disabled = false;
-              btnPay.textContent = "Retry Order Save";
-            }
+                if (checkoutUser) {
+                  const { email, name, ...address } = order.customer;
+                  await setDoc(doc(db, "users", checkoutUser.uid), {
+                    ...address, displayName: name, updatedAt: new Date().toISOString()
+                  }, { merge: true }).catch(error => console.warn("Unable to save delivery profile:", error));
+                }
+                const transactionId = String(result.id || response.razorpay_order_id);
+                void trackStorefront("purchase", order.items, {
+                  transaction_id: transactionId, value: razorpayOrder.subtotal - razorpayOrder.discount,
+                  tax: razorpayOrder.tax, shipping: razorpayOrder.shipping
+                });
+                localStorage.removeItem(orderCartKey);
+                localStorage.removeItem("checkout_pin");
+                localStorage.removeItem("checkout_coupon");
+                const confirmation = new URLSearchParams({ order: transactionId });
+                if (!checkoutUser) confirmation.set("guest", "1");
+                window.location.href = "thankyou.html?" + confirmation;
+              } catch (error) {
+                console.error("Order save failed:", error);
+                alert("Your payment was submitted. Retry saving your order or contact support with reference " + response.razorpay_payment_id + ".");
+                isProcessing = false;
+                btnPay.disabled = false;
+                btnPay.textContent = "Retry Order Save";
+              }
+            };
+            void retryOrderSave();
           },
           prefill: {
             name: order.customer.name,
             contact: order.customer.phone,
-            email: currentUser.email || ""
+            email: order.customer.email
           },
           modal: {
             ondismiss() {
               isProcessing = false;
               btnPay.disabled = false;
               btnPay.textContent = "Pay with Razorpay";
-              logFailedPayment(razorpayOrderId, "Payment popup closed by customer");
+              logFailedPayment(checkoutUser, razorpayOrderId, "Payment popup closed by customer");
             }
           },
           theme: { color: "#0d631b" }
@@ -453,7 +474,7 @@ const app = initializeApp();
         btnPay.disabled = false;
         btnPay.textContent = "Pay with Razorpay";
         if (razorpayOrderId) {
-          logFailedPayment(razorpayOrderId, error.message || "Order creation failure");
+          logFailedPayment(checkoutUser, razorpayOrderId, error.message || "Order creation failure");
         }
       }
     }
@@ -559,15 +580,8 @@ const app = initializeApp();
     // Monitor Auth state
     onAuthStateChanged(auth, async user => {
       syncStorefrontAuth(user);
-      if (!user) {
-        window.location.replace("login.html?redirect=cart.html");
-        return;
-      }
       currentUser = user;
-      const name = user.displayName || (user.email ? user.email.split("@")[0] : "User");
-      const userAvatar = document.getElementById("userAvatar");
-      if (userAvatar) userAvatar.textContent = name.slice(0, 2).toUpperCase();
-      
+      form.email.value = user?.email || "";
       cartKey = getStorefrontCartKey(currentUser);
       cart = readStorefrontCart(currentUser);
       const cartCount = document.getElementById("cartCount");
@@ -586,7 +600,7 @@ const app = initializeApp();
       }
 
       // Fetch user profile from Supabase to populate address form
-      try {
+      if (user) try {
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {

@@ -112,13 +112,18 @@
           </div>
         </div>
         <div class="relative rounded-2xl overflow-hidden aspect-[4/3] bg-surface-container-high border border-glass-stroke">
-          <img id="storyImage" class="w-full h-full object-cover" src="./images/heritage_millets.png" alt="Farm story"/>
+          <img id="storyImage" loading="lazy" decoding="async" class="w-full h-full object-cover" src="./images/heritage_millets.webp" alt="Farm story"/>
           <div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/70 to-transparent">
             <p class="text-white font-extrabold text-xl md:text-2xl max-w-md">"Food should feel honest from field to family."</p>
             <p class="text-white/80 text-xs font-bold uppercase tracking-widest mt-3">Ermunai Organic</p>
           </div>
         </div>
       </div>
+    </section>
+
+    <section id="productReviews" class="hidden max-w-7xl mx-auto px-5 md:px-8 py-8">
+      <h2 class="text-2xl font-extrabold mb-4">Customer Reviews</h2>
+      <div id="productReviewsList"></div>
     </section>
 
     <section class="max-w-7xl mx-auto px-5 md:px-8 py-16">
@@ -130,10 +135,11 @@
   <div id="siteFooter"></div>
 
   <script type="module">
+    import { trackStorefront } from "./js/storefront-analytics.js";
     import { initializeApp } from "./js/supabase-compat.js";
     import { getSupabase, collection, getDocs, doc, getDoc, query, where, limit } from "./js/supabase-compat.js";
     import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
-    import { escapeHtml, formatCurrency, getMainProductImage, getProductImages, getStorefrontCartKey, mountStorefrontHeader, productCard, readStorefrontCart, renderInto, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
+    import { escapeHtml, formatCurrency, getMainProductImage, getProductImages, mountStorefrontHeader, productCard, readStorefrontCart, renderInto, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
 
     mountStorefrontHeader("siteHeader", { active: "shop" });
     mountStorefrontFooter("siteFooter");
@@ -184,7 +190,7 @@ const app = initializeApp();
     }
 
     function renderProductSeo() {
-      if (!product) return;
+      if (!product || window.storefrontSeo?.managed) return;
       const url = new URL(location.href);
       const image = new URL(getMainProductImage(product), location.href).href;
       const description = publicDescription() || "Product from Ermunai Organic Farm Foods.";
@@ -264,8 +270,11 @@ const app = initializeApp();
       const images = getProductImages(product);
       const variants = Array.isArray(product.variants) ? product.variants.filter(v => v.name || v.weight || v.price) : [];
       if (variants.length && !selectedVariant) selectedVariant = variants[0];
-      document.title = `${product.name} | Ermunai Organic Farm Foods`;
-      document.querySelector('meta[name="description"]').content = publicDescription() || "Product from Ermunai Organic Farm Foods.";
+      if (!window.storefrontSeo?.managed) {
+        document.title = `${product.name} | Ermunai Organic Farm Foods`;
+        document.querySelector('meta[name="description"]').content = publicDescription() || "Product from Ermunai Organic Farm Foods.";
+      }
+      document.getElementById("crawlableStorefront")?.remove();
       renderProductSeo();
       document.getElementById("productStatus").classList.add("hidden");
       document.getElementById("productLayout").classList.remove("hidden");
@@ -284,8 +293,8 @@ const app = initializeApp();
         document.getElementById(id).classList.toggle("opacity-50", outOfStock);
       }
       document.getElementById("mainImage").src = getMainProductImage(product);
-      document.getElementById("mainImage").alt = product.name;
-      document.getElementById("storyImage").src = images[1] || images[0] || "./images/heritage_millets.png";
+      document.getElementById("mainImage").alt = window.storefrontSeo?.alt || product.name;
+      document.getElementById("storyImage").src = images[1] || images[0] || "./images/heritage_millets.webp";
       document.getElementById("oldPrice").classList.toggle("hidden", !product.oldPrice || product.oldPrice <= currentPrice());
       setText("oldPrice", formatCurrency(product.oldPrice));
 
@@ -324,10 +333,6 @@ const app = initializeApp();
       renderInto("relatedGrid", list, item => productCard(item, { addAction: `addProductToCart('${item.id}')` }));
     }
 
-    function getCartKey() {
-      return getStorefrontCartKey(currentUser);
-    }
-
     function getRecentlyViewedKey() {
       return currentUser ? `recently_viewed_${currentUser.uid}` : "";
     }
@@ -360,14 +365,6 @@ const app = initializeApp();
     window.addProductToCart = (id = product?.id) => {
       const targetProduct = id === product?.id ? product : products.find(item => item.id === id);
       if (!targetProduct || Number(targetProduct.stock || 0) <= 0) return;
-      if (!currentUser) {
-        window.location.href = "login.html";
-        return;
-      }
-      if (!getCartKey()) {
-        window.location.href = "login.html";
-        return;
-      }
       const cart = readStorefrontCart(currentUser);
       const variantName = id === product?.id ? (selectedVariant?.name || selectedVariant?.weight || "") : "";
       const existing = cart.find(item => item.id === targetProduct.id && (item.variantName || "") === variantName);
@@ -385,11 +382,25 @@ const app = initializeApp();
         variantName
       });
       writeStorefrontCart(currentUser, cart);
+      void trackStorefront("add_to_cart", [{ ...targetProduct, price: id === product?.id ? currentPrice() : targetProduct.price, qty: addedQuantity }]);
       updateCartCount();
     };
 
+    async function loadProductReviews(id) {
+      const snapshot = await getDocs(query(collection(db, "reviews"), where("productId", "==", id), limit(10)));
+      const reviews = snapshot.docs.map(doc => doc.data())
+        .filter(review => Number.isInteger(review.rating) && review.rating >= 1 && review.rating <= 5 && review.text);
+      renderInto("productReviewsList", reviews, review => `
+        <article class="border-t border-glass-stroke py-3">
+          <p class="font-bold">${escapeHtml(review.name || "Customer")} · ${review.rating}/5</p>
+          <p>${escapeHtml(review.text)}</p>
+        </article>
+      `);
+      document.getElementById("productReviews").classList.toggle("hidden", !reviews.length);
+    }
+
     async function loadProduct() {
-      const id = new URLSearchParams(location.search).get("id");
+      const id = window.storefrontSeo?.productId || new URLSearchParams(location.search).get("id");
       try {
         const snap = await getDocs(collection(db, "products"));
         products = snap.docs.map(item => normalizeProduct({ id: item.id, ...item.data() })).filter(item => !item.disabled);
@@ -397,7 +408,7 @@ const app = initializeApp();
         console.warn("Products unavailable:", error);
         products = [];
       }
-      product = products.find(item => item.id === id) || products[0];
+      product = id ? products.find(item => item.id === id) : products[0];
       if (id) {
         try {
           const productSnap = await getDoc(doc(db, "products", id));
@@ -414,7 +425,9 @@ const app = initializeApp();
         return;
       }
       renderProduct();
+      void trackStorefront("view_item", [{ ...product, price: currentPrice() }], { value: currentPrice() });
       renderRelated();
+      void loadProductReviews(product.id).catch(error => console.warn("Product reviews unavailable:", error));
       recordRecentlyViewed();
     }
 
@@ -443,7 +456,7 @@ const app = initializeApp();
     document.getElementById("addToCartBtn").addEventListener("click", () => window.addProductToCart(product.id));
     document.getElementById("buyNowBtn").addEventListener("click", () => {
       window.addProductToCart(product.id);
-      if (currentUser) window.location.href = "checkout.html";
+      if (product?.stock > 0) window.location.href = "checkout.html";
     });
 
     onAuthStateChanged(auth, user => {

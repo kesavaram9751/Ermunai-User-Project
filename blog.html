@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+  <title>Millet Recipes &amp; Traditional Food Blog | Ermunai Organic Farm Foods</title>
+  <meta name="description" content="Explore recipes, ingredient guides and food stories from Ermunai Organic Farm Foods.">
+  <link rel="canonical" href="https://ermunaiorganicfarmfoods.com/blog">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Millet Recipes &amp; Traditional Food Blog | Ermunai Organic Farm Foods">
+  <meta property="og:description" content="Explore recipes, ingredient guides and food stories from Ermunai Organic Farm Foods.">
+  <meta property="og:url" content="https://ermunaiorganicfarmfoods.com/blog">
+  <meta property="og:image" content="https://ermunaiorganicfarmfoods.com/images/logo.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Blogs & Farm Stories | Ermunai Organic</title>
-  <meta content="Insights on organic farming, startup stories, and recipes from Ermunai Organic Farm Foods." name="description"/>
+
+
   <link rel="icon" href="./images/logo.jpg" sizes="32x32" type="image/png">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
@@ -70,6 +79,7 @@
   <div id="siteFooter"></div>
 
   <script type="module">
+    import "./js/storefront-analytics.js";
     import { initializeApp } from "./js/supabase-compat.js";
     import { getSupabase, collection, getDocs, query, orderBy } from "./js/supabase-compat.js";
     import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
@@ -86,6 +96,7 @@
     const categories = ["All Stories", "Farm Stories", "Healthy Living", "Recipe Insights", "Sustainability", "Events"];
 
     function selectedPostKey() {
+      if (window.storefrontSeo?.blogId) return window.storefrontSeo.blogId;
       const queryKey = new URLSearchParams(window.location.search).get("post");
       if (queryKey) return queryKey;
       const pathKey = window.location.pathname.split("/").filter(Boolean).pop();
@@ -125,6 +136,7 @@
     }
 
     function updateBlogMeta(blog) {
+      if (window.storefrontSeo?.managed) return;
       const item = normalizeBlog(blog);
       const url = new URL(window.location.href);
       document.title = `${item.title} | Ermunai Organic Farm Foods`;
@@ -268,12 +280,13 @@
       if (selectedPost) {
         const match = list.find(blog => blog.slug === selectedPost || blog.id === selectedPost);
         if (match) {
+          document.getElementById("crawlableStorefront")?.remove();
           renderBlogDetail(match, list.filter(blog => blog.id !== match.id));
           return;
         }
         blogView.innerHTML = `<div class="max-w-3xl mx-auto px-6"><div class="glass-card rounded-xl p-8 text-center border border-glass-stroke bg-white/80">
           <h2 class="text-2xl font-extrabold text-primary">Blog post unavailable</h2>
-          <p class="text-sm text-on-surface-variant mt-3">This post is not published or was removed from the admin panel.</p>
+          <p class="text-sm text-on-surface-variant mt-3">Explore the latest recipes and stories from Ermunai.</p>
           <a href="blog.html" class="inline-flex mt-5 text-primary font-bold text-sm">Back to Blogs</a>
         </div></div>`;
         return;
@@ -282,12 +295,13 @@
       if (!list.length) {
         blogView.innerHTML = `<div class="max-w-3xl mx-auto px-6"><div class="glass-card rounded-xl p-8 text-center border border-glass-stroke bg-white/80">
           <h2 class="text-2xl font-extrabold text-primary">No blogs published yet</h2>
-          <p class="text-sm text-on-surface-variant mt-3">Publish a blog from Admin Site Control to show it here.</p>
+          <p class="text-sm text-on-surface-variant mt-3">Check back for recipes and food stories.</p>
         </div></div>`;
         return;
       }
 
       renderBlogHub(list);
+      if (list.length) document.getElementById("crawlableStorefront")?.remove();
     }
 
     function updateCartCount(user) {

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+  <meta name="robots" content="noindex, nofollow">
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Shopping Cart | Ermunai Organic Farm Foods</title>
@@ -165,7 +166,7 @@
   <script type="module">
     import { initializeApp } from "./js/supabase-compat.js";
     import { getAuth, onAuthStateChanged, signOut } from "./js/supabase-compat.js";
-    import { cartItemRow, formatCurrency, getStorefrontCartKey, mountStorefrontHeader, readStorefrontCart, renderInto, summaryRow, mountStorefrontFooter, writeStorefrontCart} from "./js/ermunai-components.js";
+    import { cartItemRow, formatCurrency, mountStorefrontHeader, readStorefrontCart, renderInto, summaryRow, mountStorefrontFooter, syncStorefrontAuth, writeStorefrontCart} from "./js/ermunai-components.js";
     mountStorefrontHeader("siteHeader", { active: "cart" });
     mountStorefrontFooter("siteFooter");
 const app = initializeApp();
@@ -173,7 +174,6 @@ const app = initializeApp();
 
     let currentUser = null;
     let cart = [];
-    let cartKey = "";
 
     function getWeightInGrams(item) {
       const value = Number(item.quantityValue || 0);
@@ -247,12 +247,6 @@ const app = initializeApp();
     });
 
     document.getElementById("checkoutBtn").addEventListener("click", () => {
-      if (!currentUser) {
-        alert("Please login before checkout.");
-        window.location.href = "login.html?redirect=cart.html";
-        return;
-      }
-
       if (!cart.length) {
         alert("Your cart is empty.");
         return;
@@ -273,26 +267,8 @@ const app = initializeApp();
     }
 
     onAuthStateChanged(auth, user => {
-      const authLinks = document.getElementById("authLinks");
-      const userProfile = document.getElementById("userProfile");
-      const dashboardLink = document.getElementById("dashboardLink");
-      
-      if (!user) {
-        alert("Please login to view your cart.");
-        window.location.href = "login.html";
-        return;
-      }
-      
       currentUser = user;
-      authLinks.classList.add("hidden");
-      userProfile.classList.remove("hidden");
-      userProfile.classList.add("flex");
-      dashboardLink.classList.remove("hidden");
-      
-      const name = user.displayName || (user.email ? user.email.split("@")[0] : "User");
-      document.getElementById("userAvatar").textContent = name.slice(0, 2).toUpperCase();
-      
-      cartKey = getStorefrontCartKey(currentUser);
+      syncStorefrontAuth(user);
       cart = readStorefrontCart(currentUser);
       
       // Pre-fill PIN if previously set
